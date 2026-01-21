@@ -202,25 +202,88 @@ App 端做一个 `RemoteEndpointPolicy`：
 
 ---
 
-# 6. UI / 交互设计建议（更贴合 iOS 26 / macOS 26 设计语言）
+# 6. UI / 交互设计（Liquid Glass 设计语言）
 
-## 6.1 信息架构（推荐）
+> **完整 UI 设计规范见：** [TrendLens UI Design System.md](TrendLens%20UI%20Design%20System.md)
 
-- **首页（All）**：全平台综合视图（你定义的“真实热点”主入口）
-- **平台页（Platform）**：按平台查看热榜（对照用）
+## 6.1 设计理念
+
+采用 **Liquid Glass（液态玻璃）** 美学，强调透明、层次、流动、光影效果。核心设计目标：
+
+- 让用户感受到"透过镜头看热点"的体验
+- 信息密度高但不拥挤
+- 轻量、优雅、现代
+
+## 6.2 信息架构
+
+- **首页（Feed/All）**：全平台综合视图（打破信息茧房的主入口）
+- **平台页（Platform Tabs）**：按平台查看热榜（对照用）
 - **对比页（Compare）**：
   - 交集：多个平台同时出现的热点
-  - 差集：只在某个平台热的内容（体现“平台偏好”）
+  - 差集：只在某个平台热的内容（体现"平台偏好"）
 - **搜索/收藏（Search & Save）**：收藏热点、历史回看
 - **设置（Settings）**：刷新策略、过滤词、排序方式、数据源说明、隐私说明
 
-## 6.2 交互细节（提升质感）
+## 6.3 核心组件
+
+详细设计规范见 [UI Design System - 第 8 章](TrendLens%20UI%20Design%20System.md#8-组件设计规范)。
+
+- **TrendCard**：热点卡片（圆角 16pt，Material 背景，包含平台徽章、热度指示器、排名变化）
+- **PlatformBadge**：平台徽章（32pt 圆形，平台色背景）
+- **HeatIndicator**：热度指示器（数字 + 图标 / 进度条 / 小型曲线）
+- **RankChangeIndicator**：排名变化（↑ 绿色 / ↓ 红色 / NEW 蓝色）
+- **EmptyStateView**：空状态（图标 + 提示文字）
+- **ErrorView**：错误态（图标 + 错误信息 + 重试按钮）
+- **LoadingView**：加载态（Skeleton / Shimmer 效果）
+
+## 6.4 热度曲线功能（新增特性）
+
+**核心价值：** 让用户直观感受"热点的兴起与衰落"，而非仅看到静态数字。
+
+详细设计规范见 [UI Design System - 第 9 章](TrendLens%20UI%20Design%20System.md#9-热度曲线设计新增功能)。
+
+### 6.4.1 小型曲线（卡片内嵌）
+
+- 尺寸：80pt × 32pt
+- 位置：卡片右下角，热度数字下方
+- 样式：平滑折线，根据热度映射颜色（灰/橙/红）
+- 交互：点击卡片 → 展开详情页
+
+### 6.4.2 完整曲线（详情页）
+
+- 尺寸：全屏宽 × 200pt
+- 样式：渐变填充区域 + 虚线网格背景
+- 交互：拖动显示精确数据点，捏合缩放时间范围
+- 数据采样：高热话题每 10 分钟，普通话题每 30 分钟
+
+### 6.4.3 数据模型
+
+```swift
+struct HeatDataPoint: Codable, Sendable {
+    let timestamp: Date
+    let heatValue: Int
+}
+
+// TrendTopic 扩展
+extension TrendTopic {
+    var heatHistory: [HeatDataPoint] // 热度历史数据
+}
+```
+
+### 6.4.4 技术实现
+
+- 使用 **Swift Charts**（iOS 26 原生支持）
+- 平滑曲线：Catmull-Rom 插值
+- 动画：`trim(from:to:)` 绘制动画（0.8 秒）
+
+## 6.5 交互细节
 
 - Skeleton / Shimmer 加载态
-- “上次更新：xx:xx” + “数据有效期”
+- "上次更新：xx:xx" + "数据有效期"
 - 下拉刷新 + 轻微触觉反馈
-- 卡片上标注：平台徽标、排名变化（↑↓）
-- 对比页提供：平台选择器（chips）
+- 卡片点击：轻微缩放（0.98） + 阴影增强
+- 卡片长按：快捷菜单（收藏/分享/屏蔽）
+- 对比页：平台选择器（chips）
 - 深色模式、动态字体、VoiceOver
 
 ---
@@ -243,7 +306,33 @@ App 端做一个 `RemoteEndpointPolicy`：
 - 基础导航结构（TabView / NavigationSplitView）
 - Design System 基础定义
 
+**当前状态：** ✅ 已完成
+
 **当前进度：** 见 [TrendLens Progress.md](TrendLens%20Progress.md#阶段-0项目基建)
+
+## 阶段 0.5：UI 设计深化（新增）
+
+**目标：** 在进入 MVP 开发前，完善 UI 设计系统，提升视觉质量。
+
+**主要交付物：**
+
+- **UI 设计白皮书**：Liquid Glass 设计语言完整规范
+- **核心 UI 组件库**：
+  - TrendCard（热点卡片）
+  - PlatformBadge（平台徽章）
+  - HeatIndicator（热度指示器）
+  - RankChangeIndicator（排名变化）
+  - EmptyStateView / ErrorView / LoadingView
+- **热度曲线功能**：
+  - HeatDataPoint 数据模型
+  - HeatCurveView（小型曲线）
+  - HeatCurveDetailView（完整曲线）
+  - 曲线动画与交互
+  - TrendTopic 扩展（支持 heatHistory）
+
+**当前状态：** 🚧 进行中
+
+**当前进度：** 见 [TrendLens Progress.md](TrendLens%20Progress.md#阶段-05ui-设计深化新增)
 
 ## 阶段 1：MVP（纯本地 Mock 数据）
 
@@ -251,12 +340,12 @@ App 端做一个 `RemoteEndpointPolicy`：
 
 **主要交付物：**
 
-- SwiftData 模型（Snapshot/Topic/UserPrefs）
-- 首页（All）+ 平台页（Platform）
-- 下拉刷新（先刷新本地 mock）
-- 收藏/屏蔽词（本地状态）
-- 过滤与排序
-- 空状态、错误态、离线态
+- SwiftData 模型完善（Snapshot/Topic + heatHistory/UserPrefs）
+- Mock 数据生成（6 个平台 × 50 条话题 + TOP 10 热度曲线）
+- Feed 页面完整 UI（平台 Tab + 热榜列表 + 详情页）
+- Compare 页面（平台选择器 + 交集/差集展示）
+- 交互功能（下拉刷新 + 收藏 + 屏蔽词）
+- 状态管理（空态 / 错误态 / 加载态）
 
 **当前进度：** 见 [TrendLens Progress.md](TrendLens%20Progress.md#阶段-1mvp本地-mock)
 

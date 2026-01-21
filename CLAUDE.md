@@ -377,6 +377,9 @@ final class FeedViewModel {
 | 模块职责 | Technical Architecture.md | 第5章 |
 | 缓存策略 | Technical Architecture.md | 第6章 |
 | 编码规范 | Technical Architecture.md | 第8章 |
+| UI 设计规范 | UI Design System.md | 全文 |
+| 组件设计 | UI Design System.md | 第8章 |
+| 热度曲线设计 | UI Design System.md | 第9章 |
 | 测试策略 | Testing Guide.md | 全文 |
 | 阶段定义 | Development Plan.md | 第7章 |
 | 当前任务 | TrendLens Progress.md | 全文 |
@@ -429,5 +432,6 @@ final class FeedViewModel {
 
 - [TrendLens Development Plan.md](TrendLens%20Development%20Plan.md) - 产品路线图、BaaS 策略、开发阶段
 - [TrendLens Technical Architecture.md](TrendLens%20Technical%20Architecture.md) - 技术规范权威文档（架构、技术栈、模块职责、并发模型、编码规范）
+- [TrendLens UI Design System.md](TrendLens%20UI%20Design%20System.md) - UI 视觉设计规范与交互模式白皮书（Liquid Glass 设计语言、组件库、热度曲线设计）
 - [TrendLens Testing Guide.md](TrendLens%20Testing%20Guide.md) - 测试策略、覆盖率要求
-- [TrendLens Progress.md](TrendLens Progress.md) - 当前待办与进展追踪
+- [TrendLens Progress.md](TrendLens%20Progress.md) - 当前待办与进展追踪

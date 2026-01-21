@@ -10,9 +10,15 @@ import SwiftData
 
 @main
 struct TrendLensApp: App {
+    @State private var showingSplash = true
+
+    // MARK: - SwiftData ModelContainer
+
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self
+            TrendTopic.self,
+            TrendSnapshot.self,
+            UserPreference.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -23,9 +29,26 @@ struct TrendLensApp: App {
         }
     }()
 
+    // MARK: - Scene
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ZStack {
+                if showingSplash {
+                    SplashView()
+                        .transition(.opacity)
+                } else {
+                    MainNavigationView()
+                        .transition(.opacity)
+                }
+            }
+            .animation(.easeInOut(duration: 0.5), value: showingSplash)
+            .onAppear {
+                // 启动页显示 2 秒后切换到主界面
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    showingSplash = false
+                }
+            }
         }
         .modelContainer(sharedModelContainer)
     }
