@@ -34,12 +34,14 @@ TrendLensUITests/
 ## 2. Page Object 模式
 
 ### 2.1 设计原则
+
 - 每个页面封装为一个类
 - 元素查找逻辑集中管理
 - 提供语义化的操作方法
 - 支持链式调用
 
 ### 2.2 Page 结构
+
 ```
 BasePage:
   - app: XCUIApplication
@@ -53,6 +55,7 @@ FeedPage(BasePage):
 ```
 
 ### 2.3 组件封装
+
 ```
 TabBar: goToFeed(), goToCompare(), goToSearch(), goToSettings()
 TopicCard: title, rank, favoriteButton, tap(), toggleFavorite()
@@ -63,6 +66,7 @@ TopicCard: title, rank, favoriteButton, tap(), toggleFavorite()
 ## 3. Accessibility Identifiers
 
 在 App 代码中定义并使用：
+
 ```
 Feed: FeedView, TopicList, EmptyStateView, PlatformTab_{name}
 Topic: TopicTitle, TopicRank, FavoriteButton
@@ -75,6 +79,7 @@ Search: SearchView, SearchField, SearchResults
 ## 4. 启动配置
 
 ### 4.1 Launch Arguments
+
 ```
 -UITesting        # 测试模式
 -UseMockData      # 使用 Mock 数据
@@ -84,6 +89,7 @@ Search: SearchView, SearchField, SearchResults
 ```
 
 ### 4.2 App 端支持
+
 ```swift
 if ProcessInfo.processInfo.arguments.contains("-UITesting") {
     // 禁用动画
@@ -96,6 +102,7 @@ if ProcessInfo.processInfo.arguments.contains("-UITesting") {
 ## 5. 测试场景
 
 ### 5.1 优先级
+
 | P0（必须） | P1（重要） | P2（可选） |
 |------------|------------|------------|
 | 首页加载显示 | 空状态展示 | 设置生效验证 |
@@ -105,6 +112,7 @@ if ProcessInfo.processInfo.arguments.contains("-UITesting") {
 | 对比页交集显示 | | |
 
 ### 5.2 核心流程测试
+
 ```
 启动 → 查看热榜 → 下拉刷新 → 点击热点 → 查看详情
     → 切换到对比 → 选择平台 → 查看交集
@@ -116,12 +124,14 @@ if ProcessInfo.processInfo.arguments.contains("-UITesting") {
 ## 6. 测试规范
 
 ### 6.1 命名
+
 ```
 test_[页面]_[操作]_[预期结果]
 // 例: test_feedPage_pullToRefresh_updatesTopicList
 ```
 
 ### 6.2 结构
+
 ```swift
 func test_feedPage_scenario() {
     // Given - 前置条件
@@ -136,11 +146,13 @@ func test_feedPage_scenario() {
 ```
 
 ### 6.3 等待策略
+
 - `element.waitForExistence(timeout:)`
 - `element.waitForDisappearance(timeout:)`
 - 避免 `Thread.sleep`，使用 Predicate 等待
 
 ### 6.4 截图
+
 关键步骤调用 `takeScreenshot(name:)` 用于调试和视觉回归
 
 ---

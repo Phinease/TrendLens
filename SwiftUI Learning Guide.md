@@ -294,6 +294,7 @@ view.gesture(
 ### 4.6 Metal Shader 效果
 
 SwiftUI 支持自定义 Metal Shader 实现高级视觉效果：
+
 - 涟漪效果 (Ripple)
 - 色彩偏移
 - 波浪扭曲
@@ -360,6 +361,7 @@ SwiftUI 支持自定义 Metal Shader 实现高级视觉效果：
 ### 6.3 优秀 App 参考
 
 研究这些 App 的设计语言：
+
 - **Apple 自家应用** - 照片、天气、地图、健康
 - **Ice Cubes** - 开源 Mastodon 客户端，SwiftUI 典范
 - **Things 3** - 任务管理，极简交互

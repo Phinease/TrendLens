@@ -11,31 +11,12 @@
 - **跨端体验**：支持 iOS / iPadOS / macOS，统一设计语言
 - **个性化**：收藏、屏蔽词、自定义排序
 
-## 技术栈
+## 技术亮点
 
-- **UI**: SwiftUI (iOS 26 / iPadOS 26 / macOS 26)
-- **状态管理**: Observation (@Observable) + MVVM
-- **本地存储**: SwiftData
-- **网络**: URLSession + async/await
-- **后端**: Supabase (开发阶段) / 国内 BaaS (生产阶段)
-- **可视化**: Swift Charts
-- **小组件**: WidgetKit
-
-## 架构设计
-
-采用 **Clean Architecture + MVVM** 分层架构：
-
-```
-┌─────────────────────────────────────────────────┐
-│  Presentation: SwiftUI Views + ViewModels       │
-├─────────────────────────────────────────────────┤
-│  Domain: UseCases + Entities + Repository Proto │
-├─────────────────────────────────────────────────┤
-│  Data: Repository Impl + Local/Remote DataSource│
-├─────────────────────────────────────────────────┤
-│  Infrastructure: Network + Logging + Background │
-└─────────────────────────────────────────────────┘
-```
+- 原生 SwiftUI（iOS 26 / iPadOS 26 / macOS 26）
+- Clean Architecture + MVVM 分层架构
+- 后端可替换设计（CDN + 可选 BaaS）
+- 离线优先，支持缓存与同步
 
 ## 开发计划
 
@@ -61,25 +42,29 @@
 ## 快速开始
 
 1. 克隆仓库
+
 ```bash
 git clone https://github.com/YourUsername/TrendLens.git
 ```
 
-2. 打开项目
+1. 打开项目
+
 ```bash
 cd TrendLens
 open TrendLens.xcodeproj
 ```
 
-3. 选择目标设备并运行
+1. 选择目标设备并运行
 
-## 文档索引
+## 文档导航
 
-| 文档 | 说明 |
-|------|------|
-| `TrendLens Development Plan.md` | 产品规划、开发阶段、BaaS 策略 |
-| `TrendLens Technical Architecture.md` | 技术架构、目录结构、编码规范 |
-| `TrendLens Module Reference.md` | 各模块职责、能力、边界定义 |
-| `TrendLens Testing Guide.md` | 测试策略、覆盖率要求、运行方法 |
-| `TrendLensTests Architecture.md` | 单元测试目录结构与规范 |
-| `TrendLensUITests Architecture.md` | UI 测试 Page Object 与规范 |
+**产品与规划：**
+
+- [TrendLens Development Plan.md](TrendLens%20Development%20Plan.md) - 产品规划、开发阶段、BaaS 策略
+- [TrendLens Progress.md](TrendLens%20Progress.md) - 当前开发进度与待办任务
+
+**技术文档：**
+
+- [TrendLens Technical Architecture.md](TrendLens%20Technical%20Architecture.md) - 技术架构权威文档
+- [TrendLens Testing Guide.md](TrendLens%20Testing%20Guide.md) - 测试策略与规范
+- [CLAUDE.md](CLAUDE.md) - Claude Code 工作指引

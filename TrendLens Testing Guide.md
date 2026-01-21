@@ -60,10 +60,12 @@
 ## 5. 运行方法
 
 ### Xcode
+
 - `Cmd + U`：运行所有测试
 - `Ctrl + Opt + Cmd + U`：运行上次失败的测试
 
 ### 命令行
+
 ```bash
 # 单元测试
 xcodebuild test -project TrendLens.xcodeproj -scheme TrendLens \
@@ -82,16 +84,19 @@ xcodebuild test ... -enableCodeCoverage YES
 ## 6. 测试规范
 
 ### 命名
+
 ```
 test_[被测方法]_[条件]_[预期结果]
 ```
 
 ### 结构（AAA）
+
 ```
 Arrange → Act → Assert
 ```
 
 ### Mock 策略
+
 | 被测对象 | Mock 对象 |
 |----------|-----------|
 | UseCase | MockRepository |
@@ -104,18 +109,22 @@ Arrange → Act → Assert
 ## 7. 必测场景
 
 ### Domain
+
 - Entity 计算属性
 - UseCase 业务逻辑、边界条件
 
 ### Data
+
 - Repository 缓存策略（有效/过期/网络失败）
 - Mapper 转换正确性
 
 ### Presentation
+
 - ViewModel 状态变化
 - 错误处理
 
 ### UI
+
 - 首页加载、刷新
 - 核心用户流程
 - 错误/空状态
