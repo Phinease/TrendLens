@@ -44,6 +44,19 @@
 **目标：** 在进入 MVP 开发前，完善 UI 设计系统，提升视觉质量。
 
 - [x] UI 设计白皮书创建（TrendLens UI Design System.md）
+- [x] 用户交互设计方案（TrendLens User Interaction Design.md）
+  - [x] 交互分类体系（↕️ ↔️ 👆 👆⏱️ 🤏 🔄）
+  - [x] 页面级交互地图（Feed/Compare/Detail/Search）
+  - [x] 手势交互详细设计（含阈值和动画参数）
+  - [x] 卡片翻转交互（对比模式 3D 翻转）
+  - [x] 导航交互设计（Floating TabBar）
+  - [x] 触觉反馈矩阵
+  - [x] 手势冲突处理策略
+  - [x] 交互状态流程图
+  - [x] 平台差异化交互（iPhone/iPad/Mac）
+  - [x] 动画参数库
+  - [x] 无障碍交互支持
+  - [x] 开发实现清单
 - [ ] UI 组件库实现：
   - [ ] TrendCard（热点卡片组件）
   - [ ] PlatformBadge（平台徽章组件）
