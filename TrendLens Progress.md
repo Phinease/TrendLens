@@ -3,8 +3,9 @@
 > **文档定位：** 当前开发进度与任务追踪（唯一权威来源）
 > **阶段定义参考：** [TrendLens Development Plan.md](TrendLens%20Development%20Plan.md) 第 7 章
 >
-> **当前阶段：** 阶段 0.5 - UI 设计深化 ✅ 已完成
+> **当前阶段：** 阶段 1 - MVP（本地 SwiftData + Mock 数据生成）📋 准备开始
 > **最后更新：** 2026-01-22
+> **代码结构参考：** [TrendLensTests Architecture.md](TrendLensTests%20Architecture.md) 第 7 章
 
 ---
 
@@ -85,121 +86,276 @@
 
 所有 UI 组件已实现，固定 Mock 数据已填入。可进入阶段 1。
 
-## 阶段 1：MVP（本地 Mock）
+## 阶段 1：MVP（本地 SwiftData + Mock 数据生成）
 
-**目标：** 移除固定数据，改用 SwiftData 和专业 Mock 数据生成；完善交互功能。
+**目标：** 将 MockData 集成到 SwiftData，完成完整数据流，实现所有功能页面。
 
-- [ ] 移除 MockData.swift 固定数据
-- [ ] SwiftData 模型完善：
-  - [ ] TrendSnapshot（已有，需扩展）
-  - [ ] TrendTopic（已有，需增加 heatHistory SwiftData 支持）
-  - [ ] UserPreference（已有）
-- [ ] SwiftData Mock 数据填充：
-  - [ ] 生成 6 个平台的模拟 Snapshot
-  - [ ] 每个平台 50 条热点话题
-  - [ ] 为 TOP 10 话题生成模拟热度曲线数据
-- [ ] Compare 页面：
-  - [ ] 平台选择器（Chips）
-  - [ ] 交集/差集计算逻辑
-  - [ ] 对比结果展示
-- [ ] Search 页面：
-  - [ ] 搜索输入框
-  - [ ] 搜索结果列表
-  - [ ] 搜索历史
-- [ ] Settings 页面：
-  - [ ] 屏蔽词管理
-  - [ ] 主题切换
-  - [ ] 关于页面
-- [ ] 交互功能：
-  - [ ] 下拉刷新（Mock 数据重新生成）
-  - [ ] 收藏功能（点击卡片内心形图标，持久化）
-  - [ ] 屏蔽词功能（Settings 页面配置）
+**评估说明：** 基于代码探索（2026-01-22），当前状态：
+- ✅ Domain 层完全实现（Entities, UseCases, Repository 协议）
+- ✅ ViewModels 全部实现（FeedViewModel, CompareViewModel, SearchViewModel, SettingsViewModel）
+- ✅ FeedView UI 完全实现（使用固定 MockData）
+- ✅ UI 组件库完整（9 个 Prismatic Flow 组件）
+- ⚠️ LocalTrendingDataSource.saveSnapshot() 未实现（FIXME 标记）
+- ⚠️ FeedView 直接使用 MockData，未连接 ViewModel
+- 📋 Compare/Search/Settings 是占位符
 
-## 阶段 2：静态 JSON + CDN
+### 1.1 数据层完善
 
-- [ ] RemoteDataSource 实现
-- [ ] ETag/If-None-Match 支持
-- [ ] 缓存策略：validUntil + TTL
-- [ ] 多区域端点配置
+- [ ] 实现 LocalTrendingDataSource.saveSnapshot()
+  - [ ] 将 TrendSnapshotEntity 转换为 SwiftData Model
+  - [ ] 批量保存 TrendSnapshot + TrendTopic 关联
+  - [ ] 处理 heatHistory 持久化（转换为 JSON 或关联表）
+- [ ] 创建 MockDataGenerator（替代固定 MockData）
+  - [ ] generateSnapshot(platform:) 方法
+  - [ ] 随机生成话题标题、热度值、排名变化
+  - [ ] 动态生成热度曲线数据
+  - [ ] 支持重新生成（模拟刷新）
+- [ ] 实现首次启动数据填充
+  - [ ] 在 DependencyContainer 或 App 启动时检查数据库是否为空
+  - [ ] 为 6 个平台各生成 1 个初始 Snapshot（每个 10-20 条话题）
+  - [ ] 保存到 SwiftData
+- [ ] 完善错误处理和日志记录
 
-## 阶段 3：云端刷新程序
+### 1.2 FeedView 数据流整合
 
-- [ ] 定时任务框架
-- [ ] Snapshot 生成与上传
-- [ ] 监控与告警
+- [ ] 连接 FeedViewModel
+  - [ ] 替换 MockData 为 ViewModel 状态
+  - [ ] displayedTopics 从 ViewModel 获取
+  - [ ] 页面加载时调用 fetchTopics()
+- [ ] 实现下拉刷新
+  - [ ] 调用 MockDataGenerator 重新生成数据
+  - [ ] 保存新 Snapshot 到 SwiftData
+  - [ ] 更新 UI 显示
+- [ ] 实现收藏功能
+  - [ ] 卡片内心形图标点击事件
+  - [ ] 调用 ViewModel.toggleFavorite()
+  - [ ] 视觉反馈（动画、触觉）
+- [ ] 实现屏蔽词过滤
+  - [ ] 从 UserPreference 读取屏蔽词
+  - [ ] 在 FetchTrendingUseCase 中过滤话题
+  - [ ] 过滤后话题不显示在列表中
+- [ ] 错误状态和空状态处理
+  - [ ] 使用 ErrorView 显示错误
+  - [ ] 使用 EmptyStateView 显示无数据
+  - [ ] 使用 LoadingView 显示加载中
 
-## 阶段 4：用户体系（可选）
+### 1.3 CompareView 完整实现
 
-- [ ] BaaS 用户鉴权
-- [ ] 云端偏好同步
-- [ ] 匿名用户迁移
+- [ ] 平台选择器 UI
+  - [ ] 使用 Chip 风格多选组件
+  - [ ] 支持选择 2-6 个平台
+  - [ ] 选中态视觉反馈
+- [ ] 交集/差集计算
+  - [ ] 调用 CompareViewModel.findIntersection()
+  - [ ] 调用 CompareViewModel.findUnique()
+  - [ ] 显示相似度阈值说明（Levenshtein 距离）
+- [ ] 对比结果展示
+  - [ ] 交集区域：使用 TrendCard 展示
+  - [ ] 平台独有区域：按平台分组显示
+  - [ ] 支持点击查看详情（复用 TopicDetailSheet）
+- [ ] 加载和错误状态
 
-## 阶段 5：质量与发布
+### 1.4 SearchView 完整实现
 
-- [ ] 单元测试覆盖率 ≥ 65%
-- [ ] UI 测试核心流程
+- [ ] 搜索输入框
+  - [ ] 使用 TextField 组件
+  - [ ] 搜索图标、清除按钮
+  - [ ] 实时搜索（debounce 300ms）或手动搜索
+- [ ] 搜索结果列表
+  - [ ] 使用 TrendCard 组件展示结果
+  - [ ] 按热度排序
+  - [ ] 支持平台筛选
+- [ ] 搜索历史（可选）
+  - [ ] 保存最近 10 条搜索记录
+  - [ ] 点击历史记录快速搜索
+  - [ ] 支持清除历史
+- [ ] 空状态和错误处理
+
+### 1.5 SettingsView 完整实现
+
+- [ ] 订阅平台管理页面
+  - [ ] 展示 6 个平台列表
+  - [ ] Toggle 开关控制订阅状态
+  - [ ] 保存到 UserPreference
+  - [ ] 影响 Feed 页面显示内容
+- [ ] 屏蔽词管理页面
+  - [ ] 展示当前屏蔽词列表
+  - [ ] 添加屏蔽词（TextField + 添加按钮）
+  - [ ] 删除屏蔽词（滑动删除或编辑模式）
+  - [ ] 实时生效（重新加载 Feed 数据）
+- [ ] 刷新设置页面
+  - [ ] 刷新间隔选择（15分钟/30分钟/1小时/手动）
+  - [ ] 后台刷新开关
+  - [ ] 说明文本
+- [ ] 关于页面
+  - [ ] App 版本信息
+  - [ ] 开发者信息
+  - [ ] 隐私政策、用户协议（占位）
+  - [ ] 致谢信息
+
+### 1.6 交互完善
+
+- [ ] 全局收藏功能
+  - [ ] FeedView 收藏图标交互
+  - [ ] CompareView 收藏支持
+  - [ ] SearchView 收藏支持
+  - [ ] 收藏状态同步
+  - [ ] 触觉反馈和动画
+- [ ] 屏蔽词功能生效
+  - [ ] Settings 配置后立即过滤
+  - [ ] Feed 页面自动重新加载
+  - [ ] 屏蔽词匹配逻辑（标题包含）
+- [ ] 下拉刷新统一体验
+  - [ ] Feed 页面
+  - [ ] Compare 页面
+  - [ ] Search 页面（刷新搜索结果）
+- [ ] 错误提示优化
+  - [ ] 使用 ErrorView 统一样式
+  - [ ] 提供重试按钮
+  - [ ] 错误信息本地化
+
+### 1.7 测试和调试
+
+- [ ] 三端编译验证
+  - [ ] iPhone 17 Pro Simulator
+  - [ ] iPad Pro 13-inch M5 Simulator
+  - [ ] macOS 运行
+- [ ] 功能测试
+  - [ ] 数据流完整性（ViewModel → UseCase → Repository → DataSource）
+  - [ ] SwiftData 读写正确性
+  - [ ] 收藏功能持久化
+  - [ ] 屏蔽词过滤准确性
+- [ ] UI 测试
+  - [ ] 各页面导航正常
+  - [ ] 动画流畅
+  - [ ] 错误状态展示正确
+
+## 阶段 2：远程数据 + CDN 集成
+
+**目标：** 连接真实后端数据源，完成网络层集成。
+
+- [ ] 配置 CDN 端点
+  - [ ] 确定 CDN 提供商（Cloudflare / AWS CloudFront / 国内 CDN）
+  - [ ] 配置静态 JSON 文件存储路径
+  - [ ] 设置多区域回退（国内/国外）
+  - [ ] RemoteTrendingDataSource 配置真实 baseURL
+- [ ] ETag 缓存优化
+  - [ ] 验证 NetworkClient 的 If-None-Match 支持
+  - [ ] 测试 304 响应处理
+  - [ ] 验证缓存命中率
+- [ ] 数据刷新策略
+  - [ ] validUntil 时间配置（建议 15-30 分钟）
+  - [ ] 手动刷新触发网络请求
+  - [ ] 自动刷新间隔配置
+- [ ] 错误处理和降级
+  - [ ] 网络失败时使用过期缓存
+  - [ ] 显示数据时效性标识
+  - [ ] 离线模式提示
 - [ ] 性能优化
+  - [ ] 并行请求多平台数据（TaskGroup）
+  - [ ] 请求超时配置优化
+  - [ ] 流量监控
+
+## 阶段 3：后台刷新 + 通知
+
+**目标：** 实现后台数据刷新和可选的推送通知。
+
+- [ ] BGTaskScheduler 集成
+  - [ ] 注册后台刷新任务
+  - [ ] 实现定时刷新逻辑（系统调度）
+  - [ ] 测试后台刷新可靠性
+- [ ] 本地通知（可选）
+  - [ ] 热点突发提醒（热度突增 > 阈值）
+  - [ ] 收藏话题更新提醒
+  - [ ] 通知权限请求
+- [ ] 电量和流量优化
+  - [ ] 后台刷新频率限制
+  - [ ] Wi-Fi 下刷新选项
+  - [ ] 低电量模式适配
+
+## 阶段 4：云端刷新程序
+
+**目标：** 搭建服务端定时抓取和 JSON 生成服务。
+
+- [ ] 爬虫程序开发
+  - [ ] 微博热搜爬虫
+  - [ ] 小红书热榜爬虫
+  - [ ] B站热门爬虫
+  - [ ] 抖音热点爬虫
+  - [ ] X Trending Topics API
+  - [ ] 知乎热榜爬虫
+- [ ] Snapshot 生成器
+  - [ ] 数据清洗和标准化
+  - [ ] 热度值归一化
+  - [ ] 排名变化计算
+  - [ ] 生成 TrendSnapshotDTO JSON
+- [ ] 定时任务调度
+  - [ ] 每平台 10-15 分钟刷新一次
+  - [ ] 错误重试机制
+  - [ ] 失败告警
+- [ ] JSON 上传到 CDN
+  - [ ] 按平台分文件（weibo.json, xiaohongshu.json, ...）
+  - [ ] 设置正确的 ETag 和 Cache-Control 头
+  - [ ] 多区域同步
+- [ ] 监控和日志
+  - [ ] 抓取成功率监控
+  - [ ] 数据质量检查
+  - [ ] 异常告警
+
+## 阶段 5：用户体系（可选）
+
+**目标：** 引入用户账号系统，支持云端数据同步。
+
+- [ ] BaaS 选型和集成
+  - [ ] 国内：Leancloud / Supabase 替代 / 自建
+  - [ ] 用户鉴权（匿名/邮箱/第三方登录）
+  - [ ] 数据库设计（UserProfile, Favorites, Preferences）
+- [ ] 云端偏好同步
+  - [ ] 收藏话题云端保存
+  - [ ] 屏蔽词云端保存
+  - [ ] 订阅平台云端保存
+  - [ ] 多设备同步
+- [ ] 匿名用户迁移
+  - [ ] 本地数据导出
+  - [ ] 登录后自动合并
+  - [ ] 冲突解决策略
+- [ ] 隐私和安全
+  - [ ] 用户协议和隐私政策
+  - [ ] 数据加密传输
+  - [ ] 用户数据删除功能
+
+## 阶段 6：质量与发布
+
+**目标：** 完善测试、优化性能、准备发布。
+
+- [ ] 单元测试
+  - [ ] Domain 层覆盖率 ≥ 90%
+  - [ ] Data 层覆盖率 ≥ 80%
+  - [ ] Presentation 层覆盖率 ≥ 75%
+  - [ ] 测试报告生成
+- [ ] UI 测试
+  - [ ] 核心流程自动化测试
+  - [ ] 各平台适配测试（iPhone/iPad/Mac）
+  - [ ] 深色模式测试
+  - [ ] 无障碍测试
+- [ ] 性能优化
+  - [ ] 启动时间优化（< 2s）
+  - [ ] 列表滚动流畅度（60fps）
+  - [ ] 内存占用优化
+  - [ ] 网络请求优化
 - [ ] 隐私合规
+  - [ ] App Privacy Policy 完善
+  - [ ] App Store 隐私标签准备
+  - [ ] GDPR 合规检查（如需）
+- [ ] 发布准备
+  - [ ] App Store 截图和预览视频
+  - [ ] 应用描述和关键词优化
+  - [ ] App Icon 最终版
+  - [ ] TestFlight 内测
+  - [ ] App Store Connect 提交
 
 ---
 
-## 新增文件清单（阶段 0.5）
+## 术语参考
 
-### 数据模型
-- `TrendLens/Core/Domain/Entities/HeatDataPoint.swift` - 热度数据点模型
-
-### UI 组件
-- `TrendLens/UIComponents/PlatformBadge.swift` - 平台徽章 + 渐变光带
-- `TrendLens/UIComponents/HeatIndicator.swift` - 热度指示器 + 能量条
-- `TrendLens/UIComponents/RankChangeIndicator.swift` - 排名变化指示器 + 排名徽章
-- `TrendLens/UIComponents/TrendCard.swift` - Morphic 变形卡片
-- `TrendLens/UIComponents/HeatCurveView.swift` - 热度曲线（完整版 + 迷你版）
-- `TrendLens/UIComponents/EmptyStateView.swift` - 空状态视图
-- `TrendLens/UIComponents/ErrorView.swift` - 错误状态视图 + 内联横幅
-- `TrendLens/UIComponents/LoadingView.swift` - 加载状态 + 骨架屏
-
-### 临时数据（阶段 1 将移除）
-- `TrendLens/Core/Data/MockData.swift` - 固定 Mock 数据
-
-### 修改文件
-- `TrendLens/UIComponents/DesignSystem.swift` - 扩展 Prismatic Flow 设计系统
-- `TrendLens/Core/Domain/Entities/TrendTopic.swift` - 扩展 TrendTopicEntity
-- `TrendLens/Features/Feed/Views/FeedView.swift` - 完整 Feed UI 实现
-
----
-
-## 文档整改任务
-
-### 立即整改（优先级极高）
-
-- [x] 重命名 TODO.md 为 TrendLens Progress.md
-- [x] 修改 Development Plan.md 第7章（删除具体任务，改为引用 Progress.md）
-- [x] 统一架构分层定义到 Technical Architecture.md
-- [x] 删除 PROJECT_STRUCTURE.md
-- [x] 删除 TrendLens Module Reference.md（内容已合并到 Technical Architecture）
-
-### 深度整合（优先级高）
-
-- [x] 统一技术细节到 Technical Architecture.md（技术栈、缓存策略、并发规范）
-- [x] 在每份文档开头添加职责说明
-- [x] 更新 README.md（用户视角，功能与规划）
-
-### 建立维护机制（优先级中）
-
-- [x] 更新 CLAUDE.md 文档维护规范（添加信息归属速查表）
-- [ ] 添加文档一致性检查脚本（可选）
-
----
-
-## 术语对照
-
-| 文档术语 | 说明 |
-|----------|------|
-| Feed / 首页 / All | 全平台热榜聚合页 |
-| Compare / 对比页 | 交集/差集分析页 |
-| Topic | 热点话题实体 |
-| Snapshot | 某时刻某平台的完整热榜快照 |
-| Platform | 平台枚举（weibo, xiaohongshu, bilibili, douyin, x, zhihu） |
-| Morphic Card | 变形卡片（非对称圆角 + 渐变光带） |
-| Heat Spectrum | 热度光谱（8 级颜色映射） |
-| Prismatic Flow | 棱镜流设计系统 |
+所有项目术语定义见 [TrendLens Technical Architecture.md](TrendLens%20Technical%20Architecture.md) 第 10 章。

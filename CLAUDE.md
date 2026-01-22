@@ -17,50 +17,9 @@ TrendLens 是一款跨平台热搜聚合应用，面向 iOS 26 / iPadOS 26 / mac
 
 ---
 
-## 构建与开发命令
+## 构建与测试
 
-### 构建运行
-
-```bash
-# Xcode 打开项目
-open TrendLens.xcodeproj
-
-# 命令行构建
-xcodebuild -project TrendLens.xcodeproj -scheme TrendLens \
-  -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
-```
-
-### 测试
-
-```bash
-# 运行所有测试
-xcodebuild test -project TrendLens.xcodeproj -scheme TrendLens \
-  -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
-
-# 仅运行单元测试
-xcodebuild test -project TrendLens.xcodeproj -scheme TrendLens \
-  -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
-  -only-testing:TrendLensTests
-
-# 仅运行 UI 测试
-xcodebuild test -project TrendLens.xcodeproj -scheme TrendLens \
-  -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
-  -only-testing:TrendLensUITests
-
-# 生成代码覆盖率报告
-xcodebuild test -project TrendLens.xcodeproj -scheme TrendLens \
-  -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
-  -enableCodeCoverage YES
-```
-
-**Xcode 快捷键：**
-
-- `Cmd + B`：构建
-- `Cmd + R`：运行
-- `Cmd + U`：运行所有测试
-- `Ctrl + Opt + Cmd + U`：重新运行上次失败的测试
-
-详细测试策略与覆盖率要求见 [TrendLens Testing Guide.md](TrendLens%20Testing%20Guide.md)。
+所有构建、测试命令、Xcode 快捷键、代码示例详见 [TrendLens Developer Guide.md](TrendLens%20Developer%20Guide.md)。
 
 ---
 
@@ -165,120 +124,18 @@ View → ViewModel → UseCase → Repository → DataSource
 
 ---
 
-## 依赖注入
+## 编码与测试规范
 
-使用 `DependencyContainer` 单例：
+- **编码规范**：见 [Technical Architecture.md](TrendLens%20Technical%20Architecture.md) 第 8 章
+- **测试策略**：见 [Testing Guide.md](TrendLens%20Testing%20Guide.md)
+- **代码示例**：见 [Developer Guide.md](TrendLens%20Developer%20Guide.md)
 
-```swift
-// 创建 ViewModel
-let feedVM = DependencyContainer.shared.makeFeedViewModel()
+**核心要点**：
 
-// 测试时使用 Mock
-let mockRepo = MockTrendingRepository()
-let useCase = FetchTrendingUseCase(repository: mockRepo)
-```
-
-**禁止**在 Views/ViewModels 中直接实例化依赖，必须通过 DI 容器。
-
----
-
-## 状态管理
-
-使用 `@Observable` 宏（而非 `ObservableObject`）：
-
-```swift
-@Observable
-final class FeedViewModel {
-    private(set) var items: [TrendTopic] = []
-    private(set) var isLoading = false
-    private(set) var error: Error?
-
-    // 在 View 中：
-    @State private var viewModel = DependencyContainer.shared.makeFeedViewModel()
-}
-```
-
-**优势：**
-
-- 细粒度属性追踪
-- 无需手动 `@Published` 注解
-- 更好的性能（SwiftUI 仅在特定属性变化时重新渲染）
-
----
-
-## 编码规范
-
-完整编码规范见 [TrendLens Technical Architecture.md](TrendLens%20Technical%20Architecture.md) 第 8 章。
-
-### 命名约定
-
-- 类型：`PascalCase`
-- 变量/函数：`camelCase`
-- 文件名与主类型名一致
-- ViewModel：`[Feature]ViewModel.swift`
-- View：`[Feature]View.swift`
-
-### View 结构顺序
-
-```swift
-// 1. @State 属性
-// 2. @Environment 值
-// 3. 常规属性
-// 4. body
-// 5. 子视图（如抽取）
-// 6. 方法
-```
-
-### ViewModel 结构顺序
-
-```swift
-// 1. Published 状态属性（private(set)）
-// 2. 依赖（private）
-// 3. init
-// 4. 公共方法
-// 5. 私有方法
-```
-
-### 错误处理
-
-- Domain 层定义领域错误类型
-- Repository 层转换框架错误为领域错误
-- ViewModel 通过 `error: Error?` 属性暴露错误
-- View 使用统一的错误 UI 组件展示错误
-
-### 测试规范
-
-详见 [TrendLens Testing Guide.md](TrendLens%20Testing%20Guide.md)。
-
-- 单元/集成测试：使用 Swift Testing（`@Test`, `#expect`）
-- UI/性能测试：使用 XCTest
-- 遵循 AAA 模式：Arrange → Act → Assert
+- 使用 `@Observable` 宏（非 `ObservableObject`）
+- 使用 `DependencyContainer` 创建所有依赖
 - 测试命名：`test_[方法]_[条件]_[预期结果]`
 - 覆盖率目标：Domain 90%, Data 80%, Presentation 75%
-
----
-
-## 平台支持
-
-**最低版本要求：**
-
-- iOS 26.0+
-- iPadOS 26.0+
-- macOS 26.0+ (Tahoe)
-- Xcode 26.0+
-- Swift 6.2
-
-**多平台 UI：**
-
-- iPhone：TabView 导航
-- iPad/Mac：NavigationSplitView + Sidebar
-- 设计语言：Liquid Glass 美学（透明度、层次、材质层）
-
----
-
-## 开发阶段
-
-最新进展见 [TrendLens Development Plan.md](TrendLens%20Development%20Plan.md) 第 7 章和 [TrendLens Progress.md](TrendLens Progress.md)。
 
 ---
 
@@ -334,11 +191,14 @@ final class FeedViewModel {
 
 | 文档 | 职责 | 更新时机 |
 |------|------|----------|
-| [TrendLens Development Plan.md](TrendLens%20Development%20Plan.md) | 产品规划、开发阶段、BaaS 策略 | 阶段完成、架构决策变更 |
-| [TrendLens Technical Architecture.md](TrendLens%20Technical%20Architecture.md) | 技术规范权威文档（架构、技术栈、模块职责、并发模型、编码规范） | 技术栈变更、架构调整、编码规范变化 |
-| [TrendLens Testing Guide.md](TrendLens%20Testing%20Guide.md) | 测试策略、覆盖率要求 | 测试框架变更、质量要求调整 |
-| [TrendLens Progress.md](TrendLens Progress.md) | 当前待办、开发进展追踪（唯一权威） | 每次开发完成后 |
-| [CLAUDE.md](CLAUDE.md)（本文件） | Claude Code 工作指引（引用式） | 文档结构调整、新增关键规范 |
+| [Development Plan.md](TrendLens%20Development%20Plan.md) | 产品规划、开发阶段、BaaS 策略 | 阶段完成、架构决策变更 |
+| [Technical Architecture.md](TrendLens%20Technical%20Architecture.md) | 技术规范（架构、技术栈、并发模型、编码规范） | 技术栈变更、架构调整 |
+| [Developer Guide.md](TrendLens%20Developer%20Guide.md) | 开发操作手册（构建、测试命令、代码示例） | 工具链变更、新增常用模式 |
+| [Testing Guide.md](TrendLens%20Testing%20Guide.md) | 测试策略总览、覆盖率要求 | 测试框架变更、质量要求调整 |
+| [TrendLensTests Architecture.md](TrendLensTests%20Architecture.md) | 单元测试实现细节（从属于 Testing Guide） | 测试架构变化 |
+| [UI Design System.md](TrendLens%20UI%20Design%20System.md) | UI 视觉设计规范、组件设计 | 设计语言变化 |
+| [Progress.md](TrendLens%20Progress.md) | 当前待办、开发进展追踪（唯一权威） | 每次开发完成后 |
+| [CLAUDE.md](CLAUDE.md)（本文件） | Claude Code 工作指引（引用式导航） | 文档结构调整 |
 
 ### 信息归属速查表
 
@@ -351,12 +211,15 @@ final class FeedViewModel {
 | 模块职责 | Technical Architecture.md | 第5章 |
 | 缓存策略 | Technical Architecture.md | 第6章 |
 | 编码规范 | Technical Architecture.md | 第8章 |
+| 构建/测试命令 | Developer Guide.md | 第2-3章 |
+| 代码示例/模式 | Developer Guide.md | 第4-7章 |
 | UI 设计规范 | UI Design System.md | 全文 |
 | 组件设计 | UI Design System.md | 第8章 |
 | 热度曲线设计 | UI Design System.md | 第9章 |
 | 测试策略 | Testing Guide.md | 全文 |
+| 单元测试架构 | TrendLensTests Architecture.md | 全文 |
 | 阶段定义 | Development Plan.md | 第7章 |
-| 当前任务 | TrendLens Progress.md | 全文 |
+| 当前任务 | Progress.md | 全文 |
 | BaaS 策略 | Development Plan.md | 第5章 |
 
 ### 开发完成后的文档更新流程

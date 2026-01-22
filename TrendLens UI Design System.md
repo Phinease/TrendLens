@@ -779,31 +779,9 @@ struct HeatDataPoint: Codable, Sendable, Identifiable {
 - [x] SearchView（占位）
 - [x] SettingsView（占位）
 
-### 15.2 待实现组件（Prismatic Flow）
+### 15.2 待实现组件
 
-**核心组件：**
-
-- [ ] MorphicCard（变形卡片）
-- [ ] PlatformRibbon（平台彩带选择器）
-- [ ] HeatEnergyBar（热度能量条）
-- [ ] HeatPulseCurve（热度脉冲曲线）
-- [ ] FloatingGlassTabBar（悬浮玻璃导航）
-- [ ] RankChangeIndicator（排名变化）
-
-**辅助组件：**
-
-- [ ] PlatformGradientBand（平台渐变光带）
-- [ ] DynamicAmbientBackground（动态背景）
-- [ ] GlowEffect（发光效果修饰符）
-- [ ] PulseAnimation（脉冲动画修饰符）
-- [ ] RippleEffect（涟漪效果）
-- [ ] ParticleEmitter（粒子发射器）
-
-**状态组件：**
-
-- [ ] ShimmerSkeleton（骨架屏）
-- [ ] EmptyStateView（空状态）
-- [ ] ErrorStateView（错误状态）
+待实现的所有组件列表见 [Progress.md](TrendLens%20Progress.md) 的"阶段 1"任务。
 
 ---
 

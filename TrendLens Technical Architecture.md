@@ -176,3 +176,18 @@ Published State (private(set)) → Dependencies → Init → Public Methods
 | macOS | 26.0 (Tahoe) |
 | Xcode | 26.0 |
 | Swift | 6.2 |
+
+---
+
+## 10. 术语表
+
+| 术语 | 说明 |
+|------|------|
+| Feed / 首页 / All | 全平台热榜聚合页 |
+| Compare / 对比页 | 交集/差集分析页 |
+| Topic | 热点话题实体 |
+| Snapshot | 某时刻某平台的完整热榜快照 |
+| Platform | 平台枚举（weibo, xiaohongshu, bilibili, douyin, x, zhihu） |
+| Morphic Card | 变形卡片（非对称圆角 + 渐变光带） |
+| Heat Spectrum | 热度光谱（8 级颜色映射） |
+| Prismatic Flow | 棱镜流设计系统 |
