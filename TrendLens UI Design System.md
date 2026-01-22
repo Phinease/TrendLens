@@ -662,16 +662,19 @@ struct HeatDataPoint: Codable, Sendable, Identifiable {
 ### 11.2 布局适配
 
 **iPhone：**
+
 - 单列卡片流
 - 悬浮玻璃 TabBar
 - 下拉展开筛选器
 
 **iPad：**
+
 - 双/三列瀑布流
 - 侧边栏用渐变背景区分
 - 卡片 hover 有 3D 倾斜
 
 **Mac：**
+
 - 三列布局 + 可调宽度
 - 鼠标悬停效果丰富
 - 键盘快捷键支持
@@ -744,6 +747,7 @@ struct HeatDataPoint: Codable, Sendable, Identifiable {
 ### 14.2 加载状态
 
 **骨架屏 2.0：**
+
 - 渐变闪烁（非灰色块）
 - 形状模拟真实卡片
 - 1.5s 闪烁周期
@@ -778,6 +782,7 @@ struct HeatDataPoint: Codable, Sendable, Identifiable {
 ### 15.2 待实现组件（Prismatic Flow）
 
 **核心组件：**
+
 - [ ] MorphicCard（变形卡片）
 - [ ] PlatformRibbon（平台彩带选择器）
 - [ ] HeatEnergyBar（热度能量条）
@@ -786,6 +791,7 @@ struct HeatDataPoint: Codable, Sendable, Identifiable {
 - [ ] RankChangeIndicator（排名变化）
 
 **辅助组件：**
+
 - [ ] PlatformGradientBand（平台渐变光带）
 - [ ] DynamicAmbientBackground（动态背景）
 - [ ] GlowEffect（发光效果修饰符）
@@ -794,6 +800,7 @@ struct HeatDataPoint: Codable, Sendable, Identifiable {
 - [ ] ParticleEmitter（粒子发射器）
 
 **状态组件：**
+
 - [ ] ShimmerSkeleton（骨架屏）
 - [ ] EmptyStateView（空状态）
 - [ ] ErrorStateView（错误状态）

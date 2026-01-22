@@ -27,7 +27,7 @@ open TrendLens.xcodeproj
 
 # 命令行构建
 xcodebuild -project TrendLens.xcodeproj -scheme TrendLens \
-  -destination 'platform=iOS Simulator,name=iPhone 16 Pro'
+  -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
 ```
 
 ### 测试
@@ -35,21 +35,21 @@ xcodebuild -project TrendLens.xcodeproj -scheme TrendLens \
 ```bash
 # 运行所有测试
 xcodebuild test -project TrendLens.xcodeproj -scheme TrendLens \
-  -destination 'platform=iOS Simulator,name=iPhone 16 Pro'
+  -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
 
 # 仅运行单元测试
 xcodebuild test -project TrendLens.xcodeproj -scheme TrendLens \
-  -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
+  -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
   -only-testing:TrendLensTests
 
 # 仅运行 UI 测试
 xcodebuild test -project TrendLens.xcodeproj -scheme TrendLens \
-  -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
+  -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
   -only-testing:TrendLensUITests
 
 # 生成代码覆盖率报告
 xcodebuild test -project TrendLens.xcodeproj -scheme TrendLens \
-  -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
+  -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
   -enableCodeCoverage YES
 ```
 
@@ -86,7 +86,7 @@ xcodebuild test -project TrendLens.xcodeproj -scheme TrendLens \
 
 ### 目录结构
 
-详细目录结构与各层职责见 [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md)。
+详细目录结构、各层职责与模块边界定义见 [TrendLens Technical Architecture.md](TrendLens%20Technical%20Architecture.md) 第 2 章和第 5 章。
 
 ```
 TrendLens/
@@ -100,8 +100,6 @@ TrendLens/
 ├── Extensions/
 └── Resources/
 ```
-
-模块边界与能力定义见 [TrendLens Module Reference.md](TrendLens%20Module%20Reference.md)。
 
 ---
 
@@ -280,31 +278,7 @@ final class FeedViewModel {
 
 ## 开发阶段
 
-**当前状态：阶段 0（项目基建）**
-
 最新进展见 [TrendLens Development Plan.md](TrendLens%20Development%20Plan.md) 第 7 章和 [TrendLens Progress.md](TrendLens Progress.md)。
-
-**已完成：**
-
-- ✅ Clean Architecture 目录结构
-- ✅ Domain 层完整实现
-- ✅ Data 层框架
-- ✅ Infrastructure 层（NetworkClient 支持 ETag）
-- ✅ 依赖注入容器
-
-**待完成：**
-
-- ⏳ 三端 target 配置（iOS/iPadOS/macOS）
-- ⏳ SwiftData ModelContainer 集成
-- ⏳ 基础导航结构
-
-**下一阶段：阶段 1（MVP 本地 Mock 数据）**
-
-- 本地功能实现
-- SwiftData Mock 数据
-- 核心 UI/UX
-- 收藏/屏蔽词功能
-- 无后端依赖
 
 ---
 
@@ -423,15 +397,3 @@ final class FeedViewModel {
 - ✅ 信息保持单一来源（Single Source of Truth）
 - ✅ 文档间通过引用关联，而非复制粘贴
 - ✅ 定期检查文档一致性
-
----
-
-## 参考文档
-
-详细信息请查阅：
-
-- [TrendLens Development Plan.md](TrendLens%20Development%20Plan.md) - 产品路线图、BaaS 策略、开发阶段
-- [TrendLens Technical Architecture.md](TrendLens%20Technical%20Architecture.md) - 技术规范权威文档（架构、技术栈、模块职责、并发模型、编码规范）
-- [TrendLens UI Design System.md](TrendLens%20UI%20Design%20System.md) - UI 视觉设计规范与交互模式白皮书（Liquid Glass 设计语言、组件库、热度曲线设计）
-- [TrendLens Testing Guide.md](TrendLens%20Testing%20Guide.md) - 测试策略、覆盖率要求
-- [TrendLens Progress.md](TrendLens%20Progress.md) - 当前待办与进展追踪
