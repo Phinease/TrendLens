@@ -188,9 +188,9 @@
 
 **前置条件：** Phase 1 完成
 
-- [ ] **2.1 实现 HeroCard.swift**（焦点卡片）
-  - [ ] 创建文件：`UIComponents/Cards/HeroCard.swift`
-  - [ ] **布局结构：**
+- [x] **2.1 实现 HeroCard.swift**（焦点卡片） ✅ 2026-01-23
+  - [x] 创建文件：`UIComponents/Cards/HeroCard.swift`
+  - [x] **布局结构：**
 
     ```
     排名水印(48pt Bold, opacity 0.2) + 热度Icon
@@ -202,12 +202,30 @@
     PlatformIcon · 时间
     ```
 
-  - [ ] 最小高度 240pt，圆角 24pt
-  - [ ] 背景渐变氛围：基于热度值，使用 `heatColor` 的低饱和度版本（opacity 0.15 → 0.05）
-  - [ ] 内边距 24pt
-  - [ ] `.elevatedShadow()` 强调焦点
-  - [ ] 集成 MiniTrendLine（80×32pt）
-  - [ ] Preview 验证
+  - [x] 最小高度 240pt，圆角 24pt
+  - [x] 背景渐变氛围：基于热度值，使用 `heatColor` 的低饱和度版本（opacity 0.15 → 0.05）
+  - [x] 内边距 24pt
+  - [x] `.elevatedShadow()` 强调焦点
+  - [x] 集成 MiniTrendLine（80×32pt）
+  - [x] Preview 验证（6 平台 × 随机热度 × 有/无摘要）
+
+**验证结果：**
+
+- ✅ 编译成功，无错误无警告
+- ✅ 设计系统检查清单全部通过：
+  - ✅ 背景：热度渐变氛围（LinearGradient opacity 0.15→0.05）
+  - ✅ 圆角：24pt continuous（DesignSystem.CornerRadius.large）
+  - ✅ 内边距：24pt（DesignSystem.Spacing.lg）
+  - ✅ 阴影：.elevatedShadow()（8pt radius, 0.12 opacity）
+  - ✅ 排名：水印式，48pt，opacity 0.2，右上角对齐
+  - ✅ 标题：28pt Bold Rounded，2行截断
+  - ✅ 摘要：17pt Regular，3行截断，.secondary
+  - ✅ 趋势线：80×32pt，MiniTrendLine(size: .hero)
+  - ✅ 热度值颜色：DesignSystem.HeatSpectrum.color(for:)
+  - ✅ 文字颜色：.primary / .secondary / .tertiary（无硬编码）
+  - ✅ 平台Icon：16×16pt，PlatformIcon component
+  - ✅ 排名变化：RankChangeIndicator(style: .compact)
+- ✅ Preview Provider 包含 6 平台 × 随机变化，能正常显示
 
 - [ ] **2.2 重构 FeedView.swift**
   - [ ] **删除** 旧的 TrendCard 相关代码

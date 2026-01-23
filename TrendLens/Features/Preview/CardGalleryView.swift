@@ -153,7 +153,9 @@ struct CardGalleryView: View {
                 .padding(.vertical, DesignSystem.Spacing.md)
             }
             .navigationTitle("Card Gallery")
+            #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
+            #endif
         }
     }
 
