@@ -28,29 +28,12 @@ struct StandardCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            // 前两行 + 右侧热度图
-            HStack(alignment: .top, spacing: DesignSystem.Spacing.md) {
-                // 左侧：排名、标题、摘要
-                VStack(alignment: .leading, spacing: 0) {
-                    // 第一行：排名 | 标题
-                    firstRowView
+            // 第一行：排名 | 标题
+            firstRowView
 
-                    // 第二行：AI 摘要（可选）
-                    if let summary = topic.summary {
-                        summaryRowView(summary)
-                    }
-                }
-
-                Spacer()
-
-                // 右侧：MiniTrendLine（仅当有摘要时显示，自适应宽高）
-                if let _ = topic.summary, !topic.heatHistory.isEmpty {
-                    MiniTrendLine(
-                        dataPoints: topic.heatHistory,
-                        size: .standard
-                    )
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                }
+            // 第二行：AI 摘要（可选）
+            if let summary = topic.summary {
+                summaryRowView(summary)
             }
 
             // 第三行：平台信息 · 时间 · 热度值 · 热度等级 · 排名变化
@@ -90,6 +73,7 @@ struct StandardCard: View {
             .foregroundStyle(.secondary)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.bottom, DesignSystem.Spacing.sm)
+            .padding(.leading, 8)
     }
 
     @ViewBuilder
@@ -97,7 +81,7 @@ struct StandardCard: View {
         HStack(spacing: DesignSystem.Spacing.xs) {
             // 平台图标（左侧添加margin以对齐排名数字）
             PlatformIcon(platform: topic.platform)
-                .padding(.leading, 5)
+                .padding(.leading, 8)
 
             // 分隔符
             Text("·")
