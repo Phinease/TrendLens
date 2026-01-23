@@ -1,0 +1,29 @@
+# IDE
+.vscode/
+.idea/
+*.xcuserstate
+xcuserdata/
+
+# Build
+build/
+DerivedData/
+buildServer.json
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Scripts
+build_and_install.sh
+
+# Dependencies
+.build/
+Packages/
+
+# OS
+.DS_Store
+*.swp
+*~
+
+# Secrets
+.env
+*.pem
