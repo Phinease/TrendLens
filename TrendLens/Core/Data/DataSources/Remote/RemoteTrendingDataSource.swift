@@ -59,7 +59,7 @@ actor RemoteTrendingDataSource {
 // MARK: - DTO (Data Transfer Object)
 
 /// 热榜快照 DTO（从 API 接收的格式）
-struct TrendSnapshotDTO: Codable {
+struct TrendSnapshotDTO: Codable, @unchecked Sendable {
     let id: String
     let platform: String
     let fetchedAt: String
@@ -68,7 +68,7 @@ struct TrendSnapshotDTO: Codable {
     let schemaVersion: Int
     let topics: [TrendTopicDTO]
 
-    func toDomainEntity(etag: String?) -> TrendSnapshotEntity {
+    nonisolated func toDomainEntity(etag: String?) -> TrendSnapshotEntity {
         let dateFormatter = ISO8601DateFormatter()
 
         return TrendSnapshotEntity(
@@ -85,7 +85,7 @@ struct TrendSnapshotDTO: Codable {
 }
 
 /// 热榜话题 DTO
-struct TrendTopicDTO: Codable {
+struct TrendTopicDTO: Codable, @unchecked Sendable {
     let id: String
     let platform: String
     let title: String
@@ -96,7 +96,7 @@ struct TrendTopicDTO: Codable {
     let tags: [String]
     let fetchedAt: String
 
-    func toDomainEntity() -> TrendTopicEntity {
+    nonisolated func toDomainEntity() -> TrendTopicEntity {
         let dateFormatter = ISO8601DateFormatter()
 
         return TrendTopicEntity(

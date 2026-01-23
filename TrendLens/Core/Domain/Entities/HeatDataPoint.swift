@@ -27,7 +27,7 @@ struct HeatDataPoint: Codable, Sendable, Identifiable, Equatable {
 
     // MARK: - Initialization
 
-    init(
+    nonisolated init(
         id: UUID = UUID(),
         timestamp: Date,
         heatValue: Int,
@@ -65,12 +65,12 @@ extension Array where Element == HeatDataPoint {
 
     /// 最新的数据点
     var latest: HeatDataPoint? {
-        max(by: { $0.timestamp < $1.timestamp })
+        self.max(by: { $0.timestamp < $1.timestamp })
     }
 
     /// 最早的数据点
     var earliest: HeatDataPoint? {
-        min(by: { $0.timestamp < $1.timestamp })
+        self.min(by: { $0.timestamp < $1.timestamp })
     }
 
     /// 最高热度

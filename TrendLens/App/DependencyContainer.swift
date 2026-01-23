@@ -52,7 +52,10 @@ final class DependencyContainer {
     // MARK: - Factory Methods - Use Cases
 
     func makeFetchTrendingUseCase() -> FetchTrendingUseCase {
-        FetchTrendingUseCase(repository: makeTrendingRepository())
+        FetchTrendingUseCase(
+            repository: makeTrendingRepository(),
+            preferenceRepository: makeUserPreferenceRepository()
+        )
     }
 
     func makeComparePlatformsUseCase() -> ComparePlatformsUseCase {
@@ -95,5 +98,68 @@ final class DependencyContainer {
 
     var modelContainerForPreview: ModelContainer {
         modelContainer
+    }
+
+    // MARK: - Data Initialization
+
+    /// 初始化数据库（首次启动时填充 Mock 数据）
+    func initializeDataIfNeeded() async {
+        // 检查数据库是否为空
+        let context = modelContainer.mainContext
+        let descriptor = FetchDescriptor<TrendSnapshot>()
+
+        do {
+            let existingSnapshots = try context.fetch(descriptor)
+
+            // 如果数据库为空，填充初始数据
+            if existingSnapshots.isEmpty {
+                print("📦 Database is empty, initializing with mock data...")
+                await fillInitialData()
+            } else {
+                print("✅ Database already contains data, skipping initialization")
+            }
+        } catch {
+            print("❌ Failed to check database: \(error)")
+        }
+    }
+
+    /// 填充初始数据
+    private func fillInitialData() async {
+        let generator = MockDataGenerator()
+
+        do {
+            // 为每个平台生成快照
+            let snapshots = generator.generateAllSnapshots(topicsPerPlatform: 15)
+
+            // 保存到数据库
+            let localDataSource = LocalTrendingDataSource(modelContext: modelContainer.mainContext)
+
+            for snapshot in snapshots {
+                try await localDataSource.saveSnapshot(snapshot)
+                print("✅ Saved snapshot for \(snapshot.platform.displayName)")
+            }
+
+            print("🎉 Initial data filled successfully!")
+        } catch {
+            print("❌ Failed to fill initial data: \(error)")
+        }
+    }
+
+    /// 刷新所有平台数据（用于下拉刷新）
+    func refreshAllData() async {
+        let generator = MockDataGenerator()
+
+        do {
+            let snapshots = generator.generateAllSnapshots(topicsPerPlatform: 15)
+            let localDataSource = LocalTrendingDataSource(modelContext: modelContainer.mainContext)
+
+            for snapshot in snapshots {
+                try await localDataSource.saveSnapshot(snapshot)
+            }
+
+            print("🔄 Data refreshed successfully!")
+        } catch {
+            print("❌ Failed to refresh data: \(error)")
+        }
     }
 }

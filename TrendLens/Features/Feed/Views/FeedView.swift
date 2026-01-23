@@ -12,18 +12,25 @@ struct FeedView: View {
 
     // MARK: - State
 
+    @State private var viewModel = DependencyContainer.shared.makeFeedViewModel()
     @State private var selectedPlatform: Platform? = nil
-    @State private var isLoading: Bool = false
-    @State private var showError: Bool = false
     @State private var selectedTopic: TrendTopicEntity? = nil
 
     // MARK: - Computed Properties
 
     private var displayedTopics: [TrendTopicEntity] {
         if let platform = selectedPlatform {
-            return MockData.topicsForPlatform(platform)
+            return viewModel.topics.filter { $0.platform == platform }
         }
-        return MockData.allTopics
+        return viewModel.topics
+    }
+
+    private var isLoading: Bool {
+        viewModel.isLoading
+    }
+
+    private var hasError: Bool {
+        viewModel.error != nil
     }
 
     // MARK: - Body
@@ -46,10 +53,16 @@ struct FeedView: View {
             .background(Color(nsColor: .windowBackgroundColor))
 #endif
             .refreshable {
-                await simulateRefresh()
+                await refreshData()
             }
             .sheet(item: $selectedTopic) { topic in
                 TopicDetailSheet(topic: topic)
+            }
+            .task {
+                // 页面加载时获取数据
+                if viewModel.topics.isEmpty {
+                    await viewModel.fetchTopics()
+                }
             }
         }
     }
@@ -121,11 +134,18 @@ struct FeedView: View {
         if isLoading {
             SkeletonList(count: 6)
                 .padding(.top, DesignSystem.Spacing.sm)
+        } else if hasError {
+            ErrorView(
+                error: viewModel.error ?? AppError.unknown("加载失败"),
+                retryAction: {
+                    Task { await viewModel.fetchTopics(forceRefresh: true) }
+                }
+            )
         } else if displayedTopics.isEmpty {
             EmptyStateView(
                 state: selectedPlatform.map { .noPlatformData(platform: $0) } ?? .noTrends
             ) {
-                Task { await simulateRefresh() }
+                Task { await viewModel.fetchTopics(forceRefresh: true) }
             }
         } else {
             topicList
@@ -155,17 +175,19 @@ struct FeedView: View {
 
     // MARK: - Actions
 
-    private func simulateRefresh() async {
-        isLoading = true
-        // 模拟网络延迟
-        try? await Task.sleep(for: .seconds(1))
-        isLoading = false
+    private func refreshData() async {
+        // 刷新所有平台数据
+        await DependencyContainer.shared.refreshAllData()
+        // 重新获取数据
+        await viewModel.fetchTopics(forceRefresh: true)
     }
 
     private func toggleFavorite(_ topic: TrendTopicEntity) {
-        // 阶段 0.5：暂不实现实际的收藏逻辑
-        // 阶段 1 将使用 SwiftData 实现
-        print("Toggle favorite for: \(topic.title)")
+        Task {
+            await viewModel.toggleFavorite(topicId: topic.id)
+            // 刷新数据以更新收藏状态
+            await viewModel.fetchTopics()
+        }
     }
 }
 

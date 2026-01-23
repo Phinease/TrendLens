@@ -35,6 +35,12 @@ final class TrendTopic {
     /// 获取时间
     var fetchedAt: Date
 
+    /// 排名变化（新增字段）
+    var rankChange: RankChange
+
+    /// 热度历史数据（新增字段，用于绘制曲线）
+    var heatHistory: [HeatDataPoint]
+
     /// 所属快照
     var snapshot: TrendSnapshot?
 
@@ -49,7 +55,9 @@ final class TrendTopic {
         rank: Int,
         link: String? = nil,
         tags: [String] = [],
-        fetchedAt: Date = Date()
+        fetchedAt: Date = Date(),
+        rankChange: RankChange = .unchanged,
+        heatHistory: [HeatDataPoint] = []
     ) {
         self.id = id
         self.platform = platform
@@ -60,6 +68,8 @@ final class TrendTopic {
         self.link = link
         self.tags = tags
         self.fetchedAt = fetchedAt
+        self.rankChange = rankChange
+        self.heatHistory = heatHistory
     }
 }
 
@@ -68,9 +78,8 @@ final class TrendTopic {
 extension TrendTopic {
 
     /// 转换为领域实体（如果需要与 SwiftData Model 分离）
+    /// 使用保存的 rankChange 和 heatHistory 数据
     func toDomainEntity(
-        rankChange: RankChange = .unchanged,
-        heatHistory: [HeatDataPoint] = [],
         isFavorite: Bool = false
     ) -> TrendTopicEntity {
         TrendTopicEntity(
@@ -144,7 +153,7 @@ struct TrendTopicEntity: Identifiable, Codable, Sendable {
     /// 是否已收藏
     var isFavorite: Bool
 
-    init(
+    nonisolated init(
         id: String,
         platform: Platform,
         title: String,

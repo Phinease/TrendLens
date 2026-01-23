@@ -2,16 +2,18 @@ import Foundation
 
 /// 获取热榜用例
 /// 负责获取和刷新热榜数据
-struct FetchTrendingUseCase: Sendable {
+struct FetchTrendingUseCase {
 
     // MARK: - Dependencies
 
     private let repository: TrendingRepository
+    private let preferenceRepository: UserPreferenceRepository
 
     // MARK: - Initialization
 
-    init(repository: TrendingRepository) {
+    init(repository: TrendingRepository, preferenceRepository: UserPreferenceRepository) {
         self.repository = repository
+        self.preferenceRepository = preferenceRepository
     }
 
     // MARK: - Use Case Methods
@@ -55,7 +57,7 @@ struct FetchTrendingUseCase: Sendable {
         try await repository.fetchAllLatestSnapshots(forceRefresh: forceRefresh)
     }
 
-    /// 获取聚合的热榜话题（去重、排序）
+    /// 获取聚合的热榜话题（去重、排序、过滤屏蔽词）
     /// - Parameters:
     ///   - platforms: 平台列表（nil 表示全部）
     ///   - sortBy: 排序方式
@@ -77,6 +79,9 @@ struct FetchTrendingUseCase: Sendable {
         // 展平所有话题
         var allTopics = snapshots.flatMap { $0.topics }
 
+        // 应用屏蔽词过滤
+        allTopics = try await filterBlockedTopics(allTopics)
+
         // 根据排序方式排序
         switch sortBy {
         case .heat:
@@ -88,5 +93,33 @@ struct FetchTrendingUseCase: Sendable {
         }
 
         return allTopics
+    }
+
+    // MARK: - Private Methods
+
+    /// 过滤包含屏蔽词的话题
+    private func filterBlockedTopics(_ topics: [TrendTopicEntity]) async throws -> [TrendTopicEntity] {
+        let blockedKeywords = try await preferenceRepository.getBlockedKeywords()
+
+        // 如果没有屏蔽词，直接返回
+        guard !blockedKeywords.isEmpty else {
+            return topics
+        }
+
+        // 过滤包含屏蔽词的话题
+        return topics.filter { topic in
+            let titleLower = topic.title.lowercased()
+            let descriptionLower = topic.description?.lowercased() ?? ""
+
+            // 检查标题和描述是否包含屏蔽词
+            for keyword in blockedKeywords {
+                let keywordLower = keyword.lowercased()
+                if titleLower.contains(keywordLower) || descriptionLower.contains(keywordLower) {
+                    return false
+                }
+            }
+
+            return true
+        }
     }
 }

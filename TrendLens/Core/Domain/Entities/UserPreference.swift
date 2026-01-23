@@ -119,4 +119,61 @@ extension UserPreference {
             text.lowercased().contains(keyword.lowercased())
         }
     }
+
+    /// 转换为领域实体
+    func toDomainEntity() -> UserPreferenceEntity {
+        UserPreferenceEntity(
+            id: id,
+            favoriteTopicIds: favoriteTopicIds,
+            blockedKeywords: blockedKeywords,
+            subscribedPlatforms: subscribedPlatforms,
+            refreshInterval: refreshInterval,
+            isBackgroundRefreshEnabled: isBackgroundRefreshEnabled,
+            sortOrder: sortOrder,
+            createdAt: createdAt,
+            updatedAt: updatedAt
+        )
+    }
+}
+
+// MARK: - Pure Domain Entity
+
+/// 纯领域实体（不依赖 SwiftData）
+struct UserPreferenceEntity: Sendable, Identifiable {
+    let id: String
+    var favoriteTopicIds: [String]
+    var blockedKeywords: [String]
+    var subscribedPlatforms: [Platform]
+    var refreshInterval: Int
+    var isBackgroundRefreshEnabled: Bool
+    var sortOrder: SortOrder
+    let createdAt: Date
+    var updatedAt: Date
+
+    /// 检查是否已收藏
+    func isFavorite(topicId: String) -> Bool {
+        favoriteTopicIds.contains(topicId)
+    }
+
+    /// 检查话题是否包含屏蔽词
+    func containsBlockedKeyword(in text: String) -> Bool {
+        blockedKeywords.contains { keyword in
+            text.lowercased().contains(keyword.lowercased())
+        }
+    }
+
+    /// 创建默认偏好设置
+    static var `default`: UserPreferenceEntity {
+        UserPreferenceEntity(
+            id: "default",
+            favoriteTopicIds: [],
+            blockedKeywords: [],
+            subscribedPlatforms: Platform.allCases,
+            refreshInterval: 10,
+            isBackgroundRefreshEnabled: true,
+            sortOrder: .heat,
+            createdAt: Date(),
+            updatedAt: Date()
+        )
+    }
 }

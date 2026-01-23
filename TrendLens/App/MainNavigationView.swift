@@ -153,5 +153,4 @@ enum NavigationTab: String, CaseIterable {
 
 #Preview("iPad") {
     MainNavigationView()
-        .previewDevice(PreviewDevice(rawValue: "iPad Pro (12.9-inch)"))
 }

@@ -8,9 +8,8 @@ final class CompareViewModel {
 
     // MARK: - Published State
 
-    private(set) var intersectionResults: [ComparisonResult] = []
-    private(set) var uniqueResults: [TrendTopicEntity] = []
-    private(set) var selectedPlatforms: Set<Platform> = []
+    private(set) var intersectionTopics: [TrendTopicEntity] = []
+    private(set) var uniqueTopics: [Platform: [TrendTopicEntity]] = [:]
     private(set) var isLoading = false
     private(set) var error: Error?
 
@@ -26,49 +25,41 @@ final class CompareViewModel {
 
     // MARK: - Public Methods
 
-    func findIntersection() async {
-        guard selectedPlatforms.count >= 2 else { return }
+    func comparePlatforms(_ platforms: [Platform]) async {
+        guard platforms.count >= 2 else { return }
 
         isLoading = true
         error = nil
 
         do {
-            intersectionResults = try await comparePlatformsUseCase.findIntersection(
-                in: Array(selectedPlatforms),
+            // 查找交集
+            let intersectionResults = try await comparePlatformsUseCase.findIntersection(
+                in: platforms,
                 similarityThreshold: 0.8
             )
+
+            // 提取交集话题
+            intersectionTopics = intersectionResults.flatMap { result in
+                result.topics
+            }
+
+            // 查找每个平台的独有话题
+            var uniqueDict: [Platform: [TrendTopicEntity]] = [:]
+            for platform in platforms {
+                let otherPlatforms = platforms.filter { $0 != platform }
+                let unique = try await comparePlatformsUseCase.findUnique(
+                    in: platform,
+                    comparedTo: otherPlatforms,
+                    similarityThreshold: 0.8
+                )
+                uniqueDict[platform] = unique
+            }
+            uniqueTopics = uniqueDict
+
         } catch {
             self.error = error
         }
 
         isLoading = false
-    }
-
-    func findUnique(for platform: Platform) async {
-        let otherPlatforms = selectedPlatforms.filter { $0 != platform }
-        guard !otherPlatforms.isEmpty else { return }
-
-        isLoading = true
-        error = nil
-
-        do {
-            uniqueResults = try await comparePlatformsUseCase.findUnique(
-                in: platform,
-                comparedTo: Array(otherPlatforms),
-                similarityThreshold: 0.8
-            )
-        } catch {
-            self.error = error
-        }
-
-        isLoading = false
-    }
-
-    func togglePlatform(_ platform: Platform) {
-        if selectedPlatforms.contains(platform) {
-            selectedPlatforms.remove(platform)
-        } else {
-            selectedPlatforms.insert(platform)
-        }
     }
 }

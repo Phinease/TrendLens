@@ -2,7 +2,9 @@ import Foundation
 import SwiftData
 
 /// 本地用户偏好设置数据源（SwiftData）
-actor LocalUserPreferenceDataSource {
+/// 必须在主线程上运行，因为 ModelContext 不是 Sendable
+@MainActor
+final class LocalUserPreferenceDataSource {
 
     // MARK: - Dependencies
 
@@ -22,11 +24,12 @@ actor LocalUserPreferenceDataSource {
 
     /// 获取用户偏好设置
     func getPreference() throws -> UserPreference {
-        let descriptor = FetchDescriptor<UserPreference>(
-            predicate: #Predicate { $0.id == defaultPreferenceId }
-        )
+        // 获取所有偏好设置（避免 Predicate 捕获外部变量导致的 SwiftData 错误）
+        let descriptor = FetchDescriptor<UserPreference>()
+        let allPreferences = try modelContext.fetch(descriptor)
 
-        if let preference = try modelContext.fetch(descriptor).first {
+        // 在内存中过滤指定 ID 的偏好设置
+        if let preference = allPreferences.first(where: { $0.id == defaultPreferenceId }) {
             return preference
         } else {
             // 创建默认偏好设置

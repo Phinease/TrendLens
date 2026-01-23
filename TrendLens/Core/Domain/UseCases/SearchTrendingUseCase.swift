@@ -1,7 +1,7 @@
 import Foundation
 
 /// 搜索热榜用例
-struct SearchTrendingUseCase: Sendable {
+struct SearchTrendingUseCase {
 
     // MARK: - Dependencies
 

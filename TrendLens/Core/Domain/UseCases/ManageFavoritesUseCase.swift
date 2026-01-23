@@ -1,7 +1,7 @@
 import Foundation
 
 /// 管理收藏用例
-struct ManageFavoritesUseCase: Sendable {
+struct ManageFavoritesUseCase {
 
     // MARK: - Dependencies
 

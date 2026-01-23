@@ -2,7 +2,7 @@ import Foundation
 
 /// 热榜数据仓库协议
 /// 定义热榜数据的获取、缓存和查询接口
-protocol TrendingRepository: Sendable {
+protocol TrendingRepository {
 
     /// 获取指定平台的最新热榜
     /// - Parameters:

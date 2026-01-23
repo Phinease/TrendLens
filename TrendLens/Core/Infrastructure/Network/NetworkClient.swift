@@ -81,7 +81,7 @@ actor NetworkClient {
     ///   - type: 目标类型
     ///   - data: 响应数据
     /// - Returns: 解码后的对象
-    func decode<T: Decodable>(
+    nonisolated func decode<T: Decodable>(
         _ type: T.Type,
         from data: Data
     ) throws -> T {

@@ -9,7 +9,7 @@ final class SearchViewModel {
     // MARK: - Published State
 
     private(set) var searchResults: [TrendTopicEntity] = []
-    private(set) var isSearching = false
+    private(set) var isLoading = false
     private(set) var error: Error?
     var searchQuery: String = ""
 
@@ -25,28 +25,33 @@ final class SearchViewModel {
 
     // MARK: - Public Methods
 
-    func search() async {
-        guard !searchQuery.isEmpty else {
+    func search(query: String, in platforms: [Platform]?) async {
+        print("🔎 [SearchViewModel] search called - query: \(query), platforms: \(platforms?.map { $0.rawValue } ?? ["all"])")
+
+        guard !query.isEmpty else {
             searchResults = []
             return
         }
 
-        isSearching = true
+        isLoading = true
         error = nil
 
         do {
+            print("🔎 [SearchViewModel] Executing search use case...")
             searchResults = try await searchTrendingUseCase.execute(
-                query: searchQuery,
-                in: nil
+                query: query,
+                in: platforms
             )
+            print("🔎 [SearchViewModel] Search completed - found \(searchResults.count) results")
         } catch {
+            print("❌ [SearchViewModel] Search failed - error: \(error)")
             self.error = error
         }
 
-        isSearching = false
+        isLoading = false
     }
 
-    func clearSearch() {
+    func clearResults() {
         searchQuery = ""
         searchResults = []
     }

@@ -43,11 +43,13 @@ struct TrendLensApp: App {
                 }
             }
             .animation(.easeInOut(duration: 0.5), value: showingSplash)
-            .onAppear {
+            .task {
+                // 初始化数据库
+                await DependencyContainer.shared.initializeDataIfNeeded()
+
                 // 启动页显示 2 秒后切换到主界面
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                    showingSplash = false
-                }
+                try? await Task.sleep(for: .seconds(2))
+                showingSplash = false
             }
         }
         .modelContainer(sharedModelContainer)

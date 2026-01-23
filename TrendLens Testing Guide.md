@@ -69,7 +69,7 @@
 ```bash
 # 单元测试
 xcodebuild test -project TrendLens.xcodeproj -scheme TrendLens \
-  -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
+  -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
   -only-testing:TrendLensTests
 
 # UI 测试
@@ -138,7 +138,7 @@ Arrange → Act → Assert
 - name: Run Tests
   run: |
     xcodebuild test -project TrendLens.xcodeproj -scheme TrendLens \
-      -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
+      -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
       -enableCodeCoverage YES
 ```
 

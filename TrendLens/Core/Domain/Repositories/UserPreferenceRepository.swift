@@ -1,15 +1,15 @@
 import Foundation
 
 /// 用户偏好设置仓库协议
-protocol UserPreferenceRepository: Sendable {
+protocol UserPreferenceRepository {
 
     /// 获取用户偏好设置（仅用于内部实现）
     /// - Returns: 用户偏好实体
-    nonisolated func getUserPreference() async throws -> UserPreference
+    func getUserPreference() async throws -> UserPreferenceEntity
 
     /// 更新用户偏好设置（仅用于内部实现）
     /// - Parameter preference: 新的偏好设置
-    nonisolated func updateUserPreference(_ preference: UserPreference) async throws
+    func updateUserPreference(_ preference: UserPreferenceEntity) async throws
 
     /// 添加收藏话题
     /// - Parameter topicId: 话题 ID

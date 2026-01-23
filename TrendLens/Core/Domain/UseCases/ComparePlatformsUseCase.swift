@@ -2,7 +2,7 @@ import Foundation
 
 /// 平台对比用例
 /// 负责计算多个平台热榜的交集和差集
-struct ComparePlatformsUseCase: Sendable {
+struct ComparePlatformsUseCase {
 
     // MARK: - Dependencies
 
@@ -157,7 +157,7 @@ struct ComparePlatformsUseCase: Sendable {
 // MARK: - Supporting Types
 
 /// 对比结果
-struct ComparisonResult: Identifiable, Sendable {
+struct ComparisonResult: Identifiable {
     let id = UUID()
     let title: String
     let topics: [TrendTopicEntity]

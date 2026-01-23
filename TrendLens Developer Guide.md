@@ -334,6 +334,42 @@ var body: some View {
 }
 ```
 
+### 8.4 SwiftData 常见陷阱 ⚠️
+
+#### 陷阱 1：Predicate 捕获外部变量
+
+`#Predicate` 宏**不能捕获任何外部变量**（Swift 6 严格并发模式限制）。
+
+```swift
+// ❌ 错误
+#Predicate { $0.platform == platform }  // 捕获了 platform 变量
+#Predicate { $0.validUntil < now }      // 捕获了 now 变量
+
+// ✅ 正确：两阶段查询
+let all = try modelContext.fetch(FetchDescriptor<Model>())
+let filtered = all.filter { $0.platform == platform }  // 内存过滤
+```
+
+**规则：** Predicate 只能用纯字面量（如 `> 1000`、`== .weibo`），复杂筛选在内存中完成。
+
+#### 陷阱 2：Schema 变更导致迁移失败
+
+**现象：** 添加新字段后运行报错 `Cannot migrate store in-place`
+
+**开发阶段策略：** 直接删除应用重装（无需编写迁移代码）
+
+```bash
+# 方法 1：命令行删除应用
+xcrun simctl uninstall booted Phinease.TrendLens
+
+# 方法 2：重置整个模拟器
+xcrun simctl erase all
+
+# 方法 3：在模拟器中长按图标 → Remove App → Delete App
+```
+
+**生产阶段：** 需实现 `VersionedSchema` 和 `SchemaMigrationPlan`
+
 ---
 
 ## 9. Git 工作流

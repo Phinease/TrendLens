@@ -10,8 +10,8 @@ final class SettingsViewModel {
 
     private(set) var subscribedPlatforms: [Platform] = []
     private(set) var blockedKeywords: [String] = []
-    private(set) var refreshInterval: Int = 10
-    private(set) var isBackgroundRefreshEnabled = true
+    var refreshInterval: Int = 10
+    var isBackgroundRefreshEnabled = true
     private(set) var error: Error?
 
     // MARK: - Dependencies
@@ -22,6 +22,9 @@ final class SettingsViewModel {
 
     init(preferenceRepository: UserPreferenceRepository) {
         self.preferenceRepository = preferenceRepository
+        Task {
+            await loadPreferences()
+        }
     }
 
     // MARK: - Public Methods
@@ -35,7 +38,16 @@ final class SettingsViewModel {
         }
     }
 
-    func updateSubscribedPlatforms(_ platforms: [Platform]) async {
+    func togglePlatformSubscription(_ platform: Platform, isSubscribed: Bool) async {
+        var platforms = subscribedPlatforms
+        if isSubscribed {
+            if !platforms.contains(platform) {
+                platforms.append(platform)
+            }
+        } else {
+            platforms.removeAll { $0 == platform }
+        }
+
         do {
             try await preferenceRepository.updateSubscribedPlatforms(platforms)
             subscribedPlatforms = platforms
@@ -45,9 +57,13 @@ final class SettingsViewModel {
     }
 
     func addBlockedKeyword(_ keyword: String) async {
+        guard !keyword.isEmpty else { return }
+
         do {
             try await preferenceRepository.addBlockedKeyword(keyword)
-            blockedKeywords.append(keyword)
+            if !blockedKeywords.contains(keyword) {
+                blockedKeywords.append(keyword)
+            }
         } catch {
             self.error = error
         }
@@ -60,5 +76,11 @@ final class SettingsViewModel {
         } catch {
             self.error = error
         }
+    }
+
+    func savePreferences() async {
+        // 保存刷新间隔和后台刷新设置
+        // 这里可以添加保存逻辑
+        print("Saving preferences: refreshInterval=\(refreshInterval), backgroundRefresh=\(isBackgroundRefreshEnabled)")
     }
 }
