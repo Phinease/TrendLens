@@ -16,6 +16,8 @@ struct SearchView: View {
     @State private var searchText = ""
     @State private var selectedPlatform: Platform? = nil
     @State private var selectedTopic: TrendTopicEntity? = nil
+    @FocusState private var isSearchFieldFocused: Bool
+    @Environment(\.colorScheme) private var colorScheme
 
     // MARK: - Computed Properties
 
@@ -51,10 +53,8 @@ struct SearchView: View {
             .navigationTitle("搜索")
 #if os(iOS)
             .navigationBarTitleDisplayMode(.large)
-            .background(Color(uiColor: .systemGroupedBackground))
-#else
-            .background(Color(nsColor: .windowBackgroundColor))
 #endif
+            .background(DesignSystem.Neutral.backgroundPrimary(colorScheme))
             .sheet(item: $selectedTopic) { topic in
                 TopicDetailSheet(topic: topic)
             }
@@ -64,9 +64,10 @@ struct SearchView: View {
     // MARK: - Search Bar
 
     private var searchBar: some View {
-        HStack {
+        HStack(spacing: DesignSystem.Spacing.sm) {
             Image(systemName: "magnifyingglass")
-                .foregroundStyle(.secondary)
+                .font(.system(size: 16))
+                .foregroundStyle(isSearchFieldFocused ? .primary : .secondary)
 
             TextField("搜索热点话题", text: $searchText)
                 .textFieldStyle(.plain)
@@ -74,6 +75,7 @@ struct SearchView: View {
                 .onSubmit {
                     performSearch()
                 }
+                .focused($isSearchFieldFocused)
 
             if !searchText.isEmpty {
                 Button {
@@ -81,14 +83,38 @@ struct SearchView: View {
                     viewModel.clearResults()
                 } label: {
                     Image(systemName: "xmark.circle.fill")
+                        .font(.system(size: 16))
                         .foregroundStyle(.secondary)
                 }
+                .transition(.scale.combined(with: .opacity))
             }
         }
         .padding(DesignSystem.Spacing.sm)
-        .background(DesignSystem.Material.regular)
-        .clipShape(RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.small))
+        .background(DesignSystem.Neutral.container(colorScheme))
+        .overlay(
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                .strokeBorder(
+                    isSearchFieldFocused
+                        ? LinearGradient(
+                            colors: [
+                                DesignSystem.HeatSpectrum.cool.opacity(0.5),
+                                DesignSystem.HeatSpectrum.warm.opacity(0.5)
+                            ],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                        : LinearGradient(
+                            colors: [DesignSystem.Neutral.borderSubtle(colorScheme)],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        ),
+                    lineWidth: isSearchFieldFocused ? 2 : 1
+                )
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+        .cardShadow()
         .padding(.horizontal, DesignSystem.Spacing.md)
+        .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isSearchFieldFocused)
         .onChange(of: searchText) { oldValue, newValue in
             // 实时搜索（debounce）
             if !newValue.isEmpty {
@@ -105,62 +131,10 @@ struct SearchView: View {
     // MARK: - Platform Filter
 
     private var platformFilter: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: DesignSystem.Spacing.sm) {
-                // 全部
-                platformChip(nil, title: "全部", icon: "flame.fill")
-
-                // 各平台
-                ForEach(Platform.allCases) { platform in
-                    platformChip(platform, title: platform.displayName, icon: platform.iconName)
-                }
-            }
-            .padding(.horizontal, DesignSystem.Spacing.md)
-            .padding(.vertical, DesignSystem.Spacing.xs)
-        }
-    }
-
-    private func platformChip(_ platform: Platform?, title: String, icon: String) -> some View {
-        let isSelected = selectedPlatform == platform
-
-        return Button {
-            withAnimation(DesignSystem.Animation.standard) {
-                selectedPlatform = platform
+        FluidRibbon(selectedPlatform: $selectedPlatform)
+            .onChange(of: selectedPlatform) { _, _ in
                 performSearch()
             }
-        } label: {
-            HStack(spacing: DesignSystem.Spacing.xxs) {
-                Image(systemName: icon)
-                    .font(.system(size: 12))
-
-                Text(title)
-                    .font(DesignSystem.Typography.footnote)
-                    .fontWeight(isSelected ? .semibold : .regular)
-            }
-            .foregroundStyle(isSelected ? .white : .primary)
-            .padding(.horizontal, DesignSystem.Spacing.sm)
-            .padding(.vertical, DesignSystem.Spacing.xs)
-            .background(chipBackground(platform: platform, isSelected: isSelected))
-            .clipShape(Capsule())
-        }
-        .buttonStyle(.plain)
-    }
-
-    @ViewBuilder
-    private func chipBackground(platform: Platform?, isSelected: Bool) -> some View {
-        if isSelected {
-            if let platform = platform {
-                DesignSystem.PlatformGradient.gradient(for: platform)
-            } else {
-                LinearGradient(
-                    colors: [.accentColor, .accentColor.opacity(0.8)],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-            }
-        } else {
-            Color.gray.opacity(0.1)
-        }
     }
 
     // MARK: - Content View
@@ -186,45 +160,24 @@ struct SearchView: View {
     }
 
     private var emptyStateView: some View {
-        VStack(spacing: DesignSystem.Spacing.lg) {
-            Spacer()
-
-            Image(systemName: "text.magnifyingglass")
-                .font(.system(size: 80))
-                .foregroundStyle(.secondary.opacity(0.3))
-
-            Text("搜索全平台热点")
-                .font(DesignSystem.Typography.headline)
-                .foregroundStyle(.secondary)
-
-            Text("输入关键词开始搜索")
-                .font(DesignSystem.Typography.caption)
-                .foregroundStyle(.secondary)
-
-            Spacer()
-        }
-        .padding()
+        EmptyStateView(
+            state: .custom(
+                icon: "text.magnifyingglass",
+                title: "搜索全平台热点",
+                description: "输入关键词开始搜索",
+                buttonTitle: nil
+            )
+        )
     }
 
     private var noResultsView: some View {
-        VStack(spacing: DesignSystem.Spacing.lg) {
-            Spacer()
-
-            Image(systemName: "magnifyingglass")
-                .font(.system(size: 80))
-                .foregroundStyle(.secondary.opacity(0.3))
-
-            Text("未找到相关话题")
-                .font(DesignSystem.Typography.headline)
-                .foregroundStyle(.secondary)
-
-            Text("试试其他关键词")
-                .font(DesignSystem.Typography.caption)
-                .foregroundStyle(.secondary)
-
-            Spacer()
-        }
-        .padding()
+        EmptyStateView(
+            state: .noSearchResults(query: searchText),
+            action: {
+                searchText = ""
+                viewModel.clearResults()
+            }
+        )
     }
 
     private var searchResultsView: some View {
@@ -240,17 +193,11 @@ struct SearchView: View {
                 .padding(.horizontal, DesignSystem.Spacing.md)
                 .padding(.top, DesignSystem.Spacing.sm)
 
-                ForEach(viewModel.searchResults) { topic in
-                    TrendCard(
-                        topic: topic,
-                        showCurve: false,
-                        onTap: {
+                ForEach(Array(viewModel.searchResults.enumerated()), id: \.element.id) { index, topic in
+                    StandardCard(topic: topic, rank: topic.rank)
+                        .onTapGesture {
                             selectedTopic = topic
-                        },
-                        onFavorite: {
-                            // TODO: 实现收藏功能
                         }
-                    )
                 }
             }
             .padding(.horizontal, DesignSystem.Spacing.md)

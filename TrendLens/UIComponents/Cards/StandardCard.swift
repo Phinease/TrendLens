@@ -31,10 +31,8 @@ struct StandardCard: View {
             // 第一行：排名 | 标题
             firstRowView
 
-            // 第二行：AI 摘要（可选）
-            if let summary = topic.summary {
-                summaryRowView(summary)
-            }
+            // 第二行：AI 摘要
+            summaryRowView(topic.summary)
 
             // 第三行：平台信息 · 时间 · 热度值 · 热度等级 · 排名变化
             leftMetricsView
@@ -184,9 +182,7 @@ struct StandardCard: View {
                     fetchedAt: Date().addingTimeInterval(TimeInterval(-Int.random(in: 0...3600))),
                     rankChange: [.new, .up(5), .down(3), .unchanged].randomElement() ?? .unchanged,
                     heatHistory: generatePreviewHeatHistory(),
-                    summary: Bool.random()
-                        ? "这是一个 AI 生成的话题摘要。该话题在平台上引起广泛讨论，用户参与度高。"
-                        : nil,
+                    summary: "这是一个 AI 生成的话题摘要。该话题在平台上引起广泛讨论，用户参与度高。",
                     isFavorite: false
                 )
 

@@ -26,7 +26,7 @@ struct MainNavigationView: View {
 #endif
     }
 
-    // MARK: - iPhone Layout (TabView)
+    // MARK: - iPhone Layout (TabView with Liquid Glass)
 
     private var iphoneLayout: some View {
         TabView(selection: $selectedTab) {

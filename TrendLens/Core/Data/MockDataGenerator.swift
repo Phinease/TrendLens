@@ -300,11 +300,10 @@ actor MockDataGenerator {
         return descriptions.randomElement() ?? nil
     }
 
-    /// 生成 AI 摘要
-    private nonisolated func generateSummary(for platform: Platform) -> String? {
+    /// 生成 AI 摘要（必需，始终返回）
+    private nonisolated func generateSummary(for platform: Platform) -> String {
         let templates = summaryTemplates[platform] ?? []
-        guard let template = templates.randomElement() else { return nil }
-        return Bool.random() ? template : nil // 50% 概率包含摘要
+        return templates.randomElement() ?? "该话题在平台上引发了广泛讨论，用户参与度高，热度持续攀升。"
     }
 
     /// 生成标签

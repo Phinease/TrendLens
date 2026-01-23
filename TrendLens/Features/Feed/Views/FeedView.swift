@@ -39,9 +39,8 @@ struct FeedView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                // 平台选择器
-                platformSelector
-                    .padding(.top, DesignSystem.Spacing.xs)
+                // FluidRibbon 平台选择器
+                FluidRibbon(selectedPlatform: $selectedPlatform)
 
                 // 内容区域
                 contentView
@@ -66,65 +65,6 @@ struct FeedView: View {
         }
     }
 
-    // MARK: - Platform Selector
-
-    private var platformSelector: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: DesignSystem.Spacing.sm) {
-                // 全部
-                platformChip(nil, title: "全部", icon: "flame.fill")
-
-                // 各平台
-                ForEach(Platform.allCases) { platform in
-                    platformChip(platform, title: platform.displayName, icon: platform.iconName)
-                }
-            }
-            .padding(.horizontal, DesignSystem.Spacing.md)
-            .padding(.vertical, DesignSystem.Spacing.xs)
-        }
-    }
-
-    private func platformChip(_ platform: Platform?, title: String, icon: String) -> some View {
-        let isSelected = selectedPlatform == platform
-
-        return Button {
-            withAnimation(DesignSystem.Animation.standard) {
-                selectedPlatform = platform
-            }
-        } label: {
-            HStack(spacing: DesignSystem.Spacing.xxs) {
-                Image(systemName: icon)
-                    .font(.system(size: 12))
-
-                Text(title)
-                    .font(DesignSystem.Typography.footnote)
-                    .fontWeight(isSelected ? .semibold : .regular)
-            }
-            .foregroundStyle(isSelected ? .white : .primary)
-            .padding(.horizontal, DesignSystem.Spacing.sm)
-            .padding(.vertical, DesignSystem.Spacing.xs)
-            .background(chipBackground(platform: platform, isSelected: isSelected))
-            .clipShape(Capsule())
-        }
-        .buttonStyle(.plain)
-    }
-
-    @ViewBuilder
-    private func chipBackground(platform: Platform?, isSelected: Bool) -> some View {
-        if isSelected {
-            if let platform = platform {
-                DesignSystem.PlatformGradient.gradient(for: platform)
-            } else {
-                LinearGradient(
-                    colors: [.accentColor, .accentColor.opacity(0.8)],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-            }
-        } else {
-            Color.gray.opacity(0.1)
-        }
-    }
 
     // MARK: - Content View
 
@@ -340,9 +280,125 @@ struct TopicDetailSheet: View {
 // MARK: - Preview
 
 #Preview("Feed View") {
-    FeedView()
+    FeedViewPreview()
+}
+
+// Preview 专用视图，使用 Mock 数据
+private struct FeedViewPreview: View {
+    @State private var selectedPlatform: Platform? = nil
+    @State private var selectedTopic: TrendTopicEntity? = nil
+    @Environment(\.colorScheme) private var colorScheme
+
+    private let mockTopics: [TrendTopicEntity] = {
+        let platforms = Platform.allCases
+        return platforms.enumerated().flatMap { platformIndex, platform in
+            (1...10).map { rankIndex in
+                TrendTopicEntity(
+                    id: "\(platform.rawValue)-\(rankIndex)",
+                    platform: platform,
+                    title: "\(platform.displayName) 热点话题 #\(rankIndex)",
+                    description: "这是一个示例话题描述",
+                    heatValue: 1_000_000 - (rankIndex * 50_000),
+                    rank: rankIndex,
+                    link: nil,
+                    tags: ["热点", "示例"],
+                    fetchedAt: Date(),
+                    rankChange: rankIndex % 3 == 0 ? .up(Int.random(in: 1...5)) : (rankIndex % 3 == 1 ? .down(Int.random(in: 1...3)) : .unchanged),
+                    heatHistory: (0..<8).map { i in
+                        HeatDataPoint(
+                            timestamp: Date().addingTimeInterval(TimeInterval(-i * 3600)),
+                            heatValue: 1_000_000 - (rankIndex * 50_000) + Int.random(in: -50_000...50_000),
+                            rank: rankIndex
+                        )
+                    },
+                    summary: "AI 摘要: \(platform.displayName) 的热点话题摘要",
+                    isFavorite: false
+                )
+            }
+        }
+    }()
+
+    private var displayedTopics: [TrendTopicEntity] {
+        if let platform = selectedPlatform {
+            return mockTopics.filter { $0.platform == platform }
+        }
+        return mockTopics
+    }
+
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: 0) {
+                // FluidRibbon 平台选择器
+                FluidRibbon(selectedPlatform: $selectedPlatform)
+
+                // 内容区域
+                topicList
+            }
+            .navigationTitle("热榜")
+#if os(iOS)
+            .navigationBarTitleDisplayMode(.large)
+#endif
+            .background(DesignSystem.Neutral.backgroundPrimary(colorScheme))
+            .sheet(item: $selectedTopic) { topic in
+                TopicDetailSheet(topic: topic)
+            }
+        }
+    }
+
+    private var topicList: some View {
+        ScrollView {
+            LazyVStack(spacing: 0) {
+                ForEach(Array(displayedTopics.enumerated()), id: \.element.id) { index, topic in
+                    let isHeroCard = topic.rank <= 3
+                    let spacing = isHeroCard ? DesignSystem.Spacing.md : DesignSystem.Spacing.sm
+
+                    Group {
+                        if isHeroCard {
+                            HeroCard(topic: topic, rank: topic.rank)
+                                .onTapGesture {
+                                    selectedTopic = topic
+                                }
+                        } else {
+                            StandardCard(topic: topic, rank: topic.rank)
+                                .onTapGesture {
+                                    selectedTopic = topic
+                                }
+                        }
+                    }
+                    .padding(.horizontal, DesignSystem.Spacing.md)
+                    .padding(.vertical, spacing / 2)
+                }
+
+                // 底部留白
+                Spacer()
+                    .frame(height: 80)
+            }
+        }
+    }
 }
 
 #Preview("Topic Detail") {
-    TopicDetailSheet(topic: MockData.sampleTopic)
+    let sampleTopic = TrendTopicEntity(
+        id: "preview-1",
+        platform: .weibo,
+        title: "示例热点话题标题",
+        description: "这是一个示例话题的详细描述",
+        heatValue: 1_500_000,
+        rank: 1,
+        link: nil,
+        tags: ["热点", "示例"],
+        fetchedAt: Date(),
+        rankChange: .up(3),
+        heatHistory: (0..<8).map { i in
+            HeatDataPoint(
+                timestamp: Date().addingTimeInterval(TimeInterval(-i * 7200)),
+                heatValue: 1_500_000 + Int.random(in: -100_000...100_000),
+                rank: max(1, 5 - i / 2)
+            )
+        },
+        summary: "这是一个示例话题的 AI 摘要，用于展示话题详情页面的布局和样式。",
+        isFavorite: false
+    )
+
+    TopicDetailSheet(topic: sampleTopic)
 }

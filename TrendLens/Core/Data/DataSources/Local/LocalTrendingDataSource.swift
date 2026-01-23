@@ -67,7 +67,8 @@ final class LocalTrendingDataSource {
                 tags: topicEntity.tags,
                 fetchedAt: topicEntity.fetchedAt,
                 rankChange: topicEntity.rankChange,
-                heatHistory: topicEntity.heatHistory
+                heatHistory: topicEntity.heatHistory,
+                summary: topicEntity.summary
             )
             // 设置关联
             topic.snapshot = snapshot

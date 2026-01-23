@@ -43,7 +43,11 @@ struct TrendLensApp: App {
                         }
                     }
             } else {
-                FeedView()
+                MainNavigationView()
+                    .task {
+                        // 首次启动时初始化数据
+                        await DependencyContainer.shared.initializeDataIfNeeded()
+                    }
             }
         }
         .modelContainer(sharedModelContainer)

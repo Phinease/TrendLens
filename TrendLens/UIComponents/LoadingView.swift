@@ -128,76 +128,77 @@ struct LoadingView: View {
 // MARK: - Skeleton Views
 
 /// 骨架屏卡片
-/// 用于加载时显示占位内容
+/// 用于加载时显示占位内容，匹配 StandardCard 布局
 struct SkeletonCard: View {
 
     @State private var shimmerOffset: CGFloat = -200
+    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
-        HStack(spacing: 0) {
-            // 左侧光带占位
-            Rectangle()
-                .fill(Color.gray.opacity(0.2))
-                .frame(width: 4)
-
-            VStack(alignment: .leading, spacing: DesignSystem.Spacing.xs) {
-                // 顶部行
-                HStack(spacing: DesignSystem.Spacing.xs) {
-                    // 排名占位
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(Color.gray.opacity(0.2))
-                        .frame(width: 28, height: 28)
-
-                    // 标题占位
-                    RoundedRectangle(cornerRadius: 4)
-                        .fill(Color.gray.opacity(0.2))
-                        .frame(height: 18)
-
-                    Spacer()
-
-                    // 收藏按钮占位
-                    Circle()
-                        .fill(Color.gray.opacity(0.2))
-                        .frame(width: 20, height: 20)
-                }
-
-                // 热度条占位
-                RoundedRectangle(cornerRadius: 2)
+        VStack(alignment: .leading, spacing: DesignSystem.Spacing.sm) {
+            // 第一行：排名 + 标题 + 热度图标
+            HStack(alignment: .top, spacing: DesignSystem.Spacing.sm) {
+                // 排名占位
+                RoundedRectangle(cornerRadius: 4, style: .continuous)
                     .fill(Color.gray.opacity(0.2))
-                    .frame(height: 4)
+                    .frame(width: 32, height: 20)
 
-                // 底部行
-                HStack(spacing: DesignSystem.Spacing.sm) {
-                    // 平台徽章占位
-                    Capsule()
-                        .fill(Color.gray.opacity(0.2))
-                        .frame(width: 50, height: 20)
+                // 标题占位
+                RoundedRectangle(cornerRadius: 4, style: .continuous)
+                    .fill(Color.gray.opacity(0.2))
+                    .frame(height: 20)
 
-                    // 时间占位
-                    RoundedRectangle(cornerRadius: 4)
-                        .fill(Color.gray.opacity(0.2))
-                        .frame(width: 60, height: 14)
+                Spacer(minLength: 8)
 
-                    Spacer()
-
-                    // 排名变化占位
-                    RoundedRectangle(cornerRadius: 4)
-                        .fill(Color.gray.opacity(0.2))
-                        .frame(width: 30, height: 14)
-                }
+                // 热度图标占位
+                Circle()
+                    .fill(Color.gray.opacity(0.2))
+                    .frame(width: 16, height: 16)
             }
-            .padding(DesignSystem.Spacing.md)
+
+            // 第二行：AI 摘要占位
+            VStack(spacing: DesignSystem.Spacing.xxs) {
+                RoundedRectangle(cornerRadius: 4, style: .continuous)
+                    .fill(Color.gray.opacity(0.15))
+                    .frame(height: 16)
+
+                RoundedRectangle(cornerRadius: 4, style: .continuous)
+                    .fill(Color.gray.opacity(0.15))
+                    .frame(width: 220, height: 16)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .padding(.leading, 44) // 对齐标题
+
+            // 第三行：元信息 + 趋势
+            HStack(spacing: DesignSystem.Spacing.xs) {
+                // 平台 Icon 占位
+                RoundedRectangle(cornerRadius: 4, style: .continuous)
+                    .fill(Color.gray.opacity(0.2))
+                    .frame(width: 16, height: 16)
+
+                // 时间占位
+                RoundedRectangle(cornerRadius: 4, style: .continuous)
+                    .fill(Color.gray.opacity(0.15))
+                    .frame(width: 60, height: 12)
+
+                // 热度值占位
+                RoundedRectangle(cornerRadius: 4, style: .continuous)
+                    .fill(Color.gray.opacity(0.15))
+                    .frame(width: 40, height: 12)
+
+                Spacer()
+
+                // 迷你趋势线占位
+                RoundedRectangle(cornerRadius: 2, style: .continuous)
+                    .fill(Color.gray.opacity(0.15))
+                    .frame(width: 32, height: 24)
+            }
+            .padding(.leading, 44) // 对齐标题
         }
-        .frame(minHeight: 88)
-        .background(DesignSystem.Material.regular)
-        .clipShape(
-            UnevenRoundedRectangle(
-                topLeadingRadius: DesignSystem.CornerRadius.Asymmetric.topLeading,
-                bottomLeadingRadius: DesignSystem.CornerRadius.Asymmetric.bottomLeading,
-                bottomTrailingRadius: DesignSystem.CornerRadius.Asymmetric.bottomTrailing,
-                topTrailingRadius: DesignSystem.CornerRadius.Asymmetric.topTrailing
-            )
-        )
+        .padding(DesignSystem.Spacing.md)
+        .background(DesignSystem.Neutral.container(colorScheme))
+        .clipShape(RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.medium, style: .continuous))
+        .cardShadow()
         .overlay(shimmerOverlay)
         .clipped()
     }
@@ -209,7 +210,7 @@ struct SkeletonCard: View {
                     LinearGradient(
                         colors: [
                             .clear,
-                            Color.white.opacity(0.3),
+                            Color.white.opacity(colorScheme == .dark ? 0.1 : 0.3),
                             .clear
                         ],
                         startPoint: .leading,

@@ -95,6 +95,9 @@ struct TrendTopicDTO: Codable, @unchecked Sendable {
     let link: String?
     let tags: [String]
     let fetchedAt: String
+    let summary: String?
+    let rankChange: RankChange?
+    let heatHistory: [HeatDataPoint]?
 
     nonisolated func toDomainEntity() -> TrendTopicEntity {
         let dateFormatter = ISO8601DateFormatter()
@@ -108,7 +111,10 @@ struct TrendTopicDTO: Codable, @unchecked Sendable {
             rank: rank,
             link: link,
             tags: tags,
-            fetchedAt: dateFormatter.date(from: fetchedAt) ?? Date()
+            fetchedAt: dateFormatter.date(from: fetchedAt) ?? Date(),
+            rankChange: rankChange ?? .unchanged,
+            heatHistory: heatHistory ?? [],
+            summary: summary ?? "该话题在平台上引发了广泛讨论，用户参与度高，热度持续攀升。"
         )
     }
 }

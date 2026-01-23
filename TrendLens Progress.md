@@ -59,13 +59,13 @@
 
 ## 当前阶段
 
-### 阶段 3：导航系统升级 🚧
+### 阶段 1.5.5：高级特效与交互 🚧
 
-**目标：** FloatingDock + FluidRibbon 都能正常工作，平台切换顺畅
+**目标：** 发光、脉冲、卡片交互等高级特效完整实现
 
 **设计文档：** [TrendLens New UI Design System.md](TrendLens%20New%20UI%20Design%20System.md)
 
-**前置条件：** Phase 2 完成 ✅
+**前置条件：** Phase 1.5.4 完成 ✅
 
 **开发策略：** 垂直切片式迭代，每个 Phase 都有**立即可视觉验证**的成果。
 
@@ -90,240 +90,40 @@
 
 ## 🎯 垂直切片式开发计划（6 Phase）
 
-### Phase 1.5.1：基础系统 + 第一个可见卡片 ✅ 立即可验证
-
-**交付成果：** 在 Preview / Simulator 中看到一个完整的 StandardCard，样式符合新设计
-
-完成日期：2026-01-23
-
-- [x] **1.1 提前扩展 Mock 数据**（最先做，为后续 Phase 解锁可视化）
-  - [x] 向 `TrendTopicEntity` 添加 `summary: String?` 字段（AI 摘要）
-  - [x] 向 `TrendTopicEntity` 添加 `heatHistory: [HeatDataPoint]` 字段（趋势数据）
-  - [x] 更新 SwiftData Model `TrendTopic`（同步字段）
-  - [x] 更新 `MockDataGenerator.swift`
-    - [x] 为每条话题生成 2-3 行的 AI 摘要文本
-    - [x] 为 Top 10 话题生成 12 个时间点的 heatHistory（模拟 2 小时数据）
-    - [x] 为其他话题生成最少 3 个点的 heatHistory
-  - [x] 验证 Mock 数据格式（无需连接真实后端）
-
-- [x] **1.2 重构 DesignSystem.swift**（建立设计基础）
-  - [x] **删除** 旧的 `PlatformColor` 大面积使用相关定义
-  - [x] 新增中性色基底（在 Assets.xcassets 或代码定义）
-    - [x] `.backgroundPrimary` (浅: #FAFBFC, 深: #0A0E14)
-    - [x] `.backgroundSecondary` (浅: #F3F4F6, 深: #13171F)
-    - [x] `.container` (浅: #FFFFFF, 深: #1A1F2E)
-    - [x] `.containerHover` (半透明变体)
-    - [x] `.borderSubtle` (浅: rgba(0,0,0,0.06), 深: rgba(255,255,255,0.08))
-  - [x] 新增平台 Hint Colors（仅用于 Icon 识别）
-    - [x] 为每个 Platform 添加 `hintColor` 属性（单色，16×16pt Icon 用）
-    - [x] 为每个 Platform 添加 `selectionGradient` 属性（仅用于 2pt 下划线）
-  - [x] 实现 Heat Spectrum 系统
-    - [x] `heatColor(for value: Int) -> Color` 函数（7 级热度 → 色值映射）
-    - [x] `heatEffectLevel(for value: Int) -> HeatEffect` 函数（决定是否发光/脉冲）
-    - [x] `enum HeatEffect { case none, glow(radius), pulse, burst }`
-  - [x] 添加阴影预设 ViewModifier
-    - [x] `.cardShadow()` modifier（6pt，y 4pt，colorScheme 自适配）
-    - [x] `.elevatedShadow()` modifier（16pt，y 8pt，colorScheme 自适配）
-  - [x] 更新间距常量（Spacing enum: xxs/xs/sm/md/lg/xl/xxl）
-  - [x] 更新圆角常量（HeroCard: 24pt, StandardCard: 16pt, Button: 12pt）
-
-- [x] **1.3 实现原子级组件**
-  - [x] **PlatformIcon.swift**
-    - [x] 16×16pt，圆角 4pt，使用 `platform.hintColor` 背景
-    - [x] SF Symbol 图标（10pt，白色）
-    - [x] Preview 验证：展示 6 个平台的 Icon
-  - [x] **RankChangeIndicator.swift**
-    - [x] 4 种状态：up(Int) / down(Int) / new / unchanged
-    - [x] 12pt Icon + 13pt Text，使用语义色（Success/Error/Info）
-    - [x] Preview 验证：展示 4 种状态
-
-- [x] **1.4 实现 MiniTrendLine.swift**
-  - [x] 使用 Swift Charts 绘制
-  - [x] 两个尺寸：80×32pt (Hero) / 32×24pt (Standard)
-  - [x] catmullRom 插值平滑曲线，线宽 1.5pt
-  - [x] 颜色从 `heatColor(for: currentHeat)` 获取
-  - [x] 隐藏坐标轴、网格、Legend
-  - [x] 数据验证（最少 3 点，最多 12 点；超过则均匀抽样）
-  - [x] Preview 验证：不同热度值的不同颜色
-
-- [x] **1.5 实现 StandardCard.swift（完整初版）**
-  - [x] 创建文件：`UIComponents/Cards/StandardCard.swift`
-  - [x] **布局结构：**
-
-    ```
-    第一行：排名(20pt) | 标题(17pt Semibold) | 热度Icon
-    第二行：空白(44pt 缩进) | AI摘要(15pt, 2行截断, Secondary)
-    第三行：空白(44pt 缩进) | PlatformIcon · 时间 · 热度值 · RankIndicator | MiniTrendLine(32×24)
-    ```
-
-  - [x] 背景：`.container` + `.cardShadow()`
-  - [x] 圆角 16pt (continuous)
-  - [x] 内边距 16pt
-  - [x] 集成 PlatformIcon（16×16pt）
-  - [x] 集成 RankChangeIndicator
-  - [x] 集成 MiniTrendLine（32×24pt）
-  - [x] 创建 Preview Provider，展示不同平台/排名变化/热度等状态
-
-- [x] **1.6 创建临时 CardGalleryView（立即可视化）**
-  - [x] 创建：`Features/Preview/CardGalleryView.swift`
-  - [x] 展示 StandardCard 的多个变体：
-    - [x] 6 个不同平台
-    - [x] 4 种排名变化（up/down/new/same）
-    - [x] 3 个不同热度等级（触发不同颜色）
-    - [x] 有/无 AI 摘要的两个版本
-  - [x] 在 `TrendLensApp.swift` 中临时设置为根视图（便于快速检查）
-  - [x] Preview 运行无误
-
-**验收标准：**
-
-- ✅ CardGalleryView 在 Simulator 和 Canvas 中都能正常显示
-- ✅ 深色/浅色模式切换正常，对比度符合设计
-- ✅ MiniTrendLine 颜色随热度值正确变化
-- ✅ 所有子组件 Preview Provider 都能正常运行
-- ✅ 编译无警告
-
----
-
-### Phase 2：Feed 页面集成 ✅ 可用的完整页面
-
-**交付成果：** 打开 App 能看到 Feed 页面显示新卡片，可上下滚动
+### Phase 1.5.1：基础系统 + 第一个可见卡片 ✅
 
 **完成日期：** 2026-01-23
 
-**前置条件：** Phase 1 完成
+**核心交付：** DesignSystem 重构、原子级组件库（PlatformIcon、RankChangeIndicator、MiniTrendLine、StandardCard）
 
-- [x] **2.1 实现 HeroCard.swift**（焦点卡片） ✅ 2026-01-23
-  - [x] 创建文件：`UIComponents/Cards/HeroCard.swift`
-  - [x] **布局结构：**
-
-    ```
-    排名水印(48pt Bold, opacity 0.2) + 热度Icon
-    标题(28pt Bold Rounded, 2行截断)
-    AI摘要(17pt Regular, 3行截断, Secondary)
-    ┌─────────────────────┐
-    │ MiniTrendLine(80×32)│ 热度值 · RankIndicator
-    └─────────────────────┘
-    PlatformIcon · 时间
-    ```
-
-  - [x] 最小高度 240pt，圆角 24pt
-  - [x] 背景渐变氛围：基于热度值，使用 `heatColor` 的低饱和度版本（opacity 0.15 → 0.05）
-  - [x] 内边距 24pt
-  - [x] `.elevatedShadow()` 强调焦点
-  - [x] 集成 MiniTrendLine（80×32pt）
-  - [x] Preview 验证（6 平台 × 随机热度 × 有/无摘要）
-
-**验证结果：**
-
-- ✅ 编译成功，无错误无警告
-- ✅ 设计系统检查清单全部通过：
-  - ✅ 背景：热度渐变氛围（LinearGradient opacity 0.15→0.05）
-  - ✅ 圆角：24pt continuous（DesignSystem.CornerRadius.large）
-  - ✅ 内边距：24pt（DesignSystem.Spacing.lg）
-  - ✅ 阴影：.elevatedShadow()（8pt radius, 0.12 opacity）
-  - ✅ 排名：水印式，48pt，opacity 0.2，右上角对齐
-  - ✅ 标题：28pt Bold Rounded，2行截断
-  - ✅ 摘要：17pt Regular，3行截断，.secondary
-  - ✅ 趋势线：80×32pt，MiniTrendLine(size: .hero)
-  - ✅ 热度值颜色：DesignSystem.HeatSpectrum.color(for:)
-  - ✅ 文字颜色：.primary / .secondary / .tertiary（无硬编码）
-  - ✅ 平台Icon：16×16pt，PlatformIcon component
-  - ✅ 排名变化：RankChangeIndicator(style: .compact)
-- ✅ Preview Provider 包含 6 平台 × 随机变化，能正常显示
-
-- [x] **2.2 重构 FeedView.swift** ✅ 2026-01-23
-  - [x] **删除** 旧的 TrendCard 相关代码
-  - [x] 实现 Hero + Standard 混合布局
-    - [x] Rank 1-3：使用 HeroCard
-    - [x] Rank 4+：使用 StandardCard
-  - [x] 保留原有的数据流和 ViewModel（不改业务逻辑）
-  - [x] 更新列表间距（Hero 间: 16pt, Standard 间: 12pt）
-  - [x] 页面背景改为 `.backgroundPrimary`
-  - [x] 底部留白 80pt（为后续 FloatingDock 预留空间）
-  - [x] 保留现有平台 Tab（暂时保持，Phase 3 升级为 FluidRibbon）
-  - [x] 测试滚动流畅度
-
-- [x] **2.3 临时验证** ✅ 2026-01-23
-  - [x] CardGalleryView 保留（未删除，但不作为主视图）
-  - [x] 在 `TrendLensApp.swift` 恢复为 FeedView + SplashView（1.5s 启动动画）
-  - [x] 编译验证通过，无错误无警告
-
-**验证结果：**
-
-- ✅ 编译成功：xcodebuild build succeeded
-- ✅ HeroCard + StandardCard 混合布局已集成：
-  - ✅ Rank 1-3 显示 HeroCard（高度 240pt，排名水印，趋势线）
-  - ✅ Rank 4+ 显示 StandardCard（紧凑布局）
-  - ✅ Hero 间距 16pt（DesignSystem.Spacing.md）
-  - ✅ Standard 间距 12pt（DesignSystem.Spacing.sm）
-- ✅ 页面背景：使用 DesignSystem.Neutral.backgroundPrimary(colorScheme)（自适配深色/浅色）
-- ✅ 底部留白：80pt（为 FloatingDock 预留空间）
-- ✅ 平台选择 Tab：保留现有功能
-- ✅ 数据流：未修改 ViewModel 逻辑，保持原有业务功能
-- ✅ 启动流程：SplashView（1.5s）→ FeedView
-
-**验收标准：**
-
-- ✅ Feed 页面正常加载（使用 Mock 数据）
-- ✅ Top 3 显示 HeroCard，其余显示 StandardCard
-- ✅ 滚动流畅，60fps（检查 Instruments）
-- ✅ 深色模式正确显示
+**实现细节收纳** → 参见 [TrendLens New UI Design System.md](TrendLens%20New%20UI%20Design%20System.md) 第 3-5 章、第 7.3-7.4 章
 
 ---
 
-### Phase 3：导航系统升级 ✅ 完整交互体验
+### Phase 1.5.2：Feed 页面集成 ✅
 
-**交付成果：** FloatingDock + FluidRibbon 都能正常工作，平台切换顺畅
+**完成日期：** 2026-01-23
 
-**前置条件：** Phase 2 完成
+**核心交付：** HeroCard 实现、FeedView 重构为 Hero+Standard 混合布局
 
-- [ ] **3.1 实现 FluidRibbon.swift**（流体化平台选择器）
-  - [ ] 创建文件：`UIComponents/Navigation/FluidRibbon.swift`
-  - [ ] 高度 48pt，使用 `.thinMaterial` 背景
-  - [ ] 横向滚动 Chip 列表（间距 24pt，内边距 16pt）
-  - [ ] 选中态：
-    - [ ] 文字加粗（Semibold）
-    - [ ] 底部渐变下划线（2pt 高，使用 `platform.selectionGradient`）
-  - [ ] 动画：`matchedGeometryEffect` + spring(0.4, 0.8)
-  - [ ] 支持两种切换方式：
-    - [ ] 点击 Chip 切换
-    - [ ] 页面左右滑动切换（可选，Phase 3 暂不实现）
-  - [ ] Preview 验证
+**实现细节收纳** → 参见 [TrendLens New UI Design System.md](TrendLens%20New%20UI%20Design%20System.md) 第 7.3 章
 
-- [ ] **3.2 更新 FeedView.swift（集成 FluidRibbon）**
-  - [ ] 删除旧的平台 Tab/Chip 组件
-  - [ ] 将 FluidRibbon 作为顶部固定组件
-  - [ ] 绑定 `selectedPlatform` 状态，数据筛选逻辑保持不变
-  - [ ] 测试平台切换
+---
 
-- [ ] **3.3 实现 FloatingDock.swift**（悬浮导航栏）
-  - [ ] 创建文件：`UIComponents/Navigation/FloatingDock.swift`
-  - [ ] 胶囊形状：高度 56pt，圆角 28pt（continuous）
-  - [ ] 背景：`.ultraThinMaterial` + 1pt 边框（`.white.opacity(0.1)`）
-  - [ ] 图标定义（Feed / Compare / Search）：
-    - [ ] 未选中：`flame` / `chart.bar.xaxis` / `magnifyingglass`（24×24pt）
-    - [ ] 选中：`flame.fill` / `chart.bar.xaxis.ascending` / `magnifyingglass.circle.fill`
-  - [ ] 选中指示器：6pt 圆点，位于图标下方中心，matchedGeometryEffect
-  - [ ] 自动隐藏逻辑（监听 ScrollView 的 offset）：
-    - [ ] 向下滚动速度 > 50pt/s 时，Dock 隐藏（offset +20, opacity 0）
-    - [ ] 向上滚动或停止 0.5s 后，Dock 显示（spring 动画）
-    - [ ] 触发到页面顶部或底部时强制显示
-  - [ ] 阴影：`.elevatedShadow()`
-  - [ ] Preview 验证
+### Phase 1.5.3：导航系统升级 ✅
 
-- [ ] **3.4 重构 MainNavigationView.swift**
-  - [ ] 删除标准 TabView
-  - [ ] 使用 FloatingDock 作为导航容器
-  - [ ] 实现页面切换逻辑（Feed / Compare / Search）
-  - [ ] iPad/Mac：保持 NavigationSplitView（如原有）
-  - [ ] 集成自动隐藏功能
+**完成日期：** 2026-01-23
 
-**验收标准：**
+**交付成果：** 官方 TabView + FluidRibbon 完全集成，平台切换顺畅，导航交互流畅
+
+**实现细节收纳** → 参见 [TrendLens New UI Design System.md](TrendLens%20New%20UI%20Design%20System.md) 第 7.2 章、第 8 章
+
+**验收清单：**
 
 - ✅ FluidRibbon 顶部显示，平台切换数据正确筛选
-- ✅ FloatingDock 底部悬浮显示，选中指示器动画流畅
-- ✅ Dock 滚动时自动隐藏，靠近顶部时显示
+- ✅ 官方 TabView 导航流畅，选中指示器动画自然
 - ✅ 三个标签页能正常切换
+- ✅ iPhone/iPad/Mac 编译验证通过
 
 ---
 
@@ -350,6 +150,7 @@
 
 - [ ] **4.3 更新状态组件**
   - [ ] **EmptyStateView.swift**（无数据态）
+
     - [ ] 图标 + 文字居中布局
     - [ ] 使用中性色
     - [ ] 可选：轻微浮动动画

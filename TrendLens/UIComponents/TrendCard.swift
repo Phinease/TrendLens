@@ -252,7 +252,8 @@ struct HeatCurveMini: View {
                     heatValue: 1_500_000,
                     rank: 1,
                     rankChange: .new,
-                    heatHistory: mockHeatHistory()
+                    heatHistory: mockHeatHistory(),
+                    summary: "该事件曝光后迅速登上热搜榜单，成为网友热议的焦点。网民积极参与讨论，评论和转发数量持续增加。"
                 )
             )
 
@@ -265,7 +266,8 @@ struct HeatCurveMini: View {
                     heatValue: 350_000,
                     rank: 2,
                     rankChange: .up(5),
-                    heatHistory: mockHeatHistory()
+                    heatHistory: mockHeatHistory(),
+                    summary: "该游戏大作首日销售量创新高，众多 UP 主制作相关内容，视频播放量持续上升。"
                 )
             )
 
@@ -278,7 +280,8 @@ struct HeatCurveMini: View {
                     heatValue: 85_000,
                     rank: 8,
                     rankChange: .down(2),
-                    heatHistory: mockHeatHistory()
+                    heatHistory: mockHeatHistory(),
+                    summary: "小红书平台上用户积极分享春季穿搭建议，优质笔记频繁出现，内容质量不断提升。"
                 )
             )
 
@@ -291,7 +294,8 @@ struct HeatCurveMini: View {
                     heatValue: 25_000,
                     rank: 15,
                     rankChange: .unchanged,
-                    heatHistory: []
+                    heatHistory: [],
+                    summary: "知乎用户围绕此话题展开多层次讨论，专家答主提供了深入细致的分析和见解。"
                 ),
                 showCurve: false
             )

@@ -32,29 +32,40 @@ struct HeroCard: View {
             heroBackground
 
             // 内容：VStack
-            VStack(alignment: .leading, spacing: 16) {
-                // 顶部行：排名水印 + 热度图标
-                topRowView
+            VStack(alignment: .leading, spacing: 10) {
+                HStack {
+                    // 排名水印
+                    Text("\(rank)")
+                    .font(.system(size: 40, weight: .bold, design: .rounded))
+                    .foregroundStyle(.primary.opacity(0.2))
 
-                // 标题
-                titleView
-
-                // AI 摘要
-                if let summary = topic.summary {
-                    summaryView(summary)
+                    // 标题
+                    Text(topic.title)
+                    .font(.system(size: 25, weight: .bold, design: .rounded))
+                    .lineLimit(2)
+                    .foregroundStyle(.primary)
                 }
-
-                Spacer()
-
-                // 底部行：趋势线 + 热度值 + 排名变化
-                bottomRowView
 
                 // 元信息：平台 · 时间
                 metaView
+                
+                HStack {
+                    // AI 摘要
+                    Text(topic.summary)
+                    .font(.system(size: 17, weight: .regular, design: .default))
+                    .lineLimit(3)
+                    .foregroundStyle(.secondary)
+
+                    Spacer()
+
+                    // 趋势线
+                    MiniTrendLine(dataPoints: topic.heatHistory)
+                    .frame(width: 80, height: 32)
+                }
             }
             .padding(DesignSystem.Spacing.lg)
         }
-        .frame(minHeight: 240)
+        .frame(minHeight: 220)
         .background(DesignSystem.Neutral.container(colorScheme))
         .clipShape(RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.large, style: .continuous))
         .elevatedShadow()
@@ -75,67 +86,6 @@ struct HeroCard: View {
         )
     }
 
-    // MARK: - Top Row
-
-    private var topRowView: some View {
-        HStack(alignment: .top, spacing: 0) {
-            // 排名水印
-            Text("\(rank)")
-                .font(.system(size: 48, weight: .bold, design: .rounded))
-                .foregroundStyle(.primary.opacity(0.2))
-
-            Spacer()
-
-            // 仅高热度显示火焰图标
-            if topic.heatValue > 500_000 {
-                Image(systemName: "flame.fill")
-                    .font(.system(size: 20, weight: .semibold))
-                    .foregroundStyle(DesignSystem.HeatSpectrum.color(for: topic.heatValue))
-            }
-        }
-    }
-
-    // MARK: - Title
-
-    private var titleView: some View {
-        Text(topic.title)
-            .font(.system(size: 28, weight: .bold, design: .rounded))
-            .lineLimit(2)
-            .foregroundStyle(.primary)
-    }
-
-    // MARK: - Summary
-
-    private func summaryView(_ summary: String) -> some View {
-        Text(summary)
-            .font(.system(size: 17, weight: .regular, design: .default))
-            .lineLimit(3)
-            .foregroundStyle(.secondary)
-    }
-
-    // MARK: - Bottom Row
-
-    private var bottomRowView: some View {
-        HStack(alignment: .center, spacing: 12) {
-            // 趋势线
-            MiniTrendLine(
-                dataPoints: topic.heatHistory,
-                size: .hero
-            )
-            .frame(width: 80, height: 32)
-
-            Spacer()
-
-            // 热度值
-            Text(topic.heatValue.formattedHeat)
-                .font(.system(size: 15, weight: .medium, design: .monospaced))
-                .foregroundStyle(DesignSystem.HeatSpectrum.color(for: topic.heatValue))
-
-            // 排名变化指示器
-            RankChangeIndicator(rankChange: topic.rankChange, style: .compact)
-        }
-    }
-
     // MARK: - Meta Info
 
     private var metaView: some View {
@@ -148,6 +98,30 @@ struct HeroCard: View {
             Text(formatTime(topic.fetchedAt))
                 .font(.system(size: 13, weight: .regular, design: .default))
                 .foregroundStyle(.secondary)
+
+            Text("·")
+                .foregroundStyle(.tertiary)
+
+            // 热度值
+            Text(topic.heatValue.formattedHeat)
+                .font(.system(size: 15, weight: .medium, design: .monospaced))
+                .foregroundStyle(DesignSystem.HeatSpectrum.color(for: topic.heatValue))
+
+            Text("·")
+                .foregroundStyle(.tertiary)
+
+            // 排名变化指示器
+            RankChangeIndicator(rankChange: topic.rankChange, style: .compact)
+
+            Text("·")
+                .foregroundStyle(.tertiary)
+
+            // 高热度显示火焰图标
+            if topic.heatValue > 500_000 {
+                Image(systemName: "flame.fill")
+                    .font(.system(size: 20, weight: .semibold))
+                    .foregroundStyle(DesignSystem.HeatSpectrum.color(for: topic.heatValue))
+            }
         }
     }
 
@@ -192,9 +166,7 @@ struct HeroCard: View {
                     fetchedAt: Date().addingTimeInterval(TimeInterval(-Int.random(in: 0...3600))),
                     rankChange: [.new, .up(5), .down(3), .unchanged].randomElement() ?? .unchanged,
                     heatHistory: generatePreviewHeatHistory(),
-                    summary: Bool.random()
-                        ? "这是一个 AI 生成的话题摘要。该话题在平台上引起广泛讨论，用户参与度高。"
-                        : nil,
+                    summary: "这是一个 AI 生成的话题摘要。该话题在平台上引起广泛讨论，用户参与度高。",
                     isFavorite: false
                 )
 

@@ -4,6 +4,15 @@
 > **设计版本：** v3.0 - Ethereal Insight (灵动洞察)
 > **创建日期：** 2026-01-23
 > **技术实现：** 见 TrendLens/UIComponents/
+>
+> **实现状态：**
+>
+> - ✅ 第 3-6 章（色彩系统、字体、间距、材质）：已实现于 DesignSystem.swift
+> - ✅ 第 7.2-7.3 章（FluidRibbon、HeroCard、StandardCard、PlatformIcon、MiniTrendLine）：已实现
+> - ✅ 第 8 章（布局系统）：使用官方 TabView 实现
+> - ⏳ 第 7.4-7.6 章（其他组件、空/加载态、交互）：Phase 4-5 开发中
+>
+> **注意：** 本文档为设计规范，已实现部分以代码为准，未实现部分作为开发指引
 
 ---
 
@@ -376,7 +385,17 @@ ZStack {
 
 ## 7. 核心组件设计
 
-### 7.1 导航系统：Floating Dynamic Dock
+### 7.1 导航系统 ~~Floating Dynamic Dock~~ → 官方 TabView
+
+> **⚠️ 设计变更（2026-01-24）**
+>
+> - **原设计：** Floating Dynamic Dock（自定义悬浮导航）
+> - **最终实现：** 使用官方 SwiftUI TabView
+> - **原因：** 系统原生体验更稳定、触觉反馈更自然、开发成本低
+> - **状态：** 以下 7.1 章节内容仅作设计存档，实际使用标准 TabView
+
+<details>
+<summary>原 Floating Dock 设计规范（已弃用，点击展开）</summary>
 
 **设计目标：** 释放屏幕空间，让内容"通透"到底部。
 
@@ -454,6 +473,8 @@ Circle()
 .opacity(isHidden ? 0 : 1)
 .animation(.easeOut(duration: 0.2), value: isHidden)
 ```
+
+</details>
 
 ---
 
@@ -1004,7 +1025,7 @@ struct SkeletonCard: View {
 | Hero Card 间距 | 16pt |
 | Standard Card 间距 | 12pt |
 | Hero → Standard 转换点 | Rank 4 开始 |
-| 列表底部留白 | 80pt（为 Dock 留空间） |
+| 列表底部留白 | TabView 自动处理（系统原生） |
 
 ### 8.2 iPad / Mac 布局（双列 / 三列）
 
@@ -1204,10 +1225,10 @@ Circle()
 
 | 设备 | 宽度范围 | 布局 | 导航 |
 |------|---------|------|------|
-| iPhone | < 428pt | 单列 | Floating Dock |
-| iPhone 横屏 | 428pt - 768pt | 双列 | 顶部 Tab |
-| iPad | 768pt - 1024pt | 双列 | 顶部 Tab + Sidebar（可选） |
-| Mac | > 1024pt | 三列 | Sidebar + 顶部 Tab |
+| iPhone | < 428pt | 单列 | 底部 TabView |
+| iPhone 横屏 | 428pt - 768pt | 双列 | 底部 TabView |
+| iPad | 768pt - 1024pt | 双列 | 底部 TabView |
+| Mac | > 1024pt | 三列 | 顶部 Tab / Sidebar |
 
 ### 10.2 自适应规则
 
@@ -1395,8 +1416,7 @@ extension View {
 ```
 TrendLens/UIComponents/
 ├── Navigation/
-│   ├── FloatingDock.swift              # 悬浮导航栏
-│   └── FluidRibbon.swift               # 平台选择器
+│   └── FluidRibbon.swift               # 平台选择器（TopBar）
 ├── Cards/
 │   ├── HeroCard.swift                  # 焦点卡片
 │   ├── StandardCard.swift              # 标准卡片
@@ -1423,20 +1443,19 @@ TrendLens/UIComponents/
 
 **Phase 2（进阶组件）：**
 4. FluidRibbon.swift
-5. FloatingDock.swift
-6. MiniTrendLine.swift
-7. RankChangeIndicator.swift
+5. MiniTrendLine.swift
+6. RankChangeIndicator.swift
 
 **Phase 3（高级特性）：**
-8. HeroCard.swift
-9. 卡片滑动操作
-10. 详情页转场动画
-11. 热度特效（发光、脉冲）
+7. HeroCard.swift
+8. 卡片滑动操作
+9. 详情页转场动画
+10. 热度特效（发光、脉冲）
 
 **Phase 4（优化）：**
-12. 骨架屏
-13. 空状态
-14. 响应式布局（iPad/Mac）
+11. 骨架屏
+12. 空状态
+13. 响应式布局（iPad/Mac）
 
 ### 13.4 Mock 数据扩展
 
@@ -1489,7 +1508,7 @@ static let mockTopics: [TrendTopicEntity] = [
 | **平台色用途** | 卡片光带 + 背景氛围 | 仅 Icon + 选中态细线 |
 | **卡片形态** | Morphic Card（非对称圆角） | Hero + Standard（标准圆角） |
 | **信息重心** | 热度可视化（进度条 + 曲线） | AI 摘要 + 迷你趋势线 |
-| **导航** | 标准 TabBar | Floating Dynamic Dock |
+| **导航** | 标准 TabBar | 官方 TabView（系统原生） |
 | **平台选择** | Chip 组（点击） | Fluid Ribbon（滑动 + 点击） |
 | **动效强度** | Pulse/Ripple/Flow/Breathe 全用 | 仅 Breathe + 条件 Pulse |
 
@@ -1504,7 +1523,6 @@ static let mockTopics: [TrendTopicEntity] = [
 | **Standard Card** | 标准卡片，用于 Rank 4+，紧凑布局 |
 | **Platform Hint** | 平台识别色，仅用于小面积点缀 |
 | **Heat Spectrum** | 热度光谱，连续映射热度值到颜色 |
-| **Floating Dock** | 悬浮导航栏，可动态隐藏 |
 | **Fluid Ribbon** | 流体化平台选择器，支持滑动切换 |
 | **Mini Trend Line** | 迷你趋势曲线，仅显示起伏形态 |
 
@@ -1541,6 +1559,21 @@ static let mockTopics: [TrendTopicEntity] = [
 1. 进度条需要"最大值"参照，但热搜无明确上限
 2. 横向对比困难：不同平台热度量级差异大
 3. 数值 + 趋势线更直观、占用空间更小
+
+### ADR-004：为什么弃用 FloatingDock 改用官方 TabView？
+
+**决策：** 从自定义 FloatingDock 改为使用官方 SwiftUI TabView。
+
+**理由：**
+
+1. **系统原生稳定性**：官方控件经过充分测试，生产级别的稳定性
+2. **触觉反馈与动画**：系统自动处理，与其他 iOS 应用一致
+3. **开发成本**：无需自定义手势、自动隐藏逻辑、响应式适配
+4. **可访问性**：VoiceOver 原生支持，无需额外实现
+5. **未来维护**：iOS 26+ 更新时自动受益，无兼容性压力
+6. **深色模式和动态字体**：自动适配，无需手动处理
+
+**折衷：** 失去完全自定义的设计风格，但获得了更好的稳定性和可维护性
 
 ---
 

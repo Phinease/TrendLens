@@ -13,6 +13,7 @@ struct SettingsView: View {
     // MARK: - State
 
     @State private var viewModel = DependencyContainer.shared.makeSettingsViewModel()
+    @Environment(\.colorScheme) private var colorScheme
 
     // MARK: - Body
 
@@ -60,6 +61,7 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("设置")
+            .background(DesignSystem.Neutral.backgroundPrimary(colorScheme))
         }
     }
 }

@@ -296,60 +296,25 @@ extension TrendTopic {
 
 **目标：** 建立 Clean Architecture 分层架构，完成三端项目配置。
 
-**主要交付物：**
+**当前状态：** ✅ 已完成（2026-01-21）
 
-- Clean Architecture 目录结构（App, Features, Core, UIComponents）
-- Domain/Data/Infrastructure 层完整框架
-- 依赖注入容器
-- 三端 target 配置（iOS/iPadOS/macOS）
-- SwiftData ModelContainer 集成
-- 基础导航结构（TabView / NavigationSplitView）
-- Design System 基础定义
+**核心交付：** Clean Architecture 目录结构、三层架构、依赖注入容器、三端配置、基础导航
 
-**当前状态：** ✅ 已完成
+## 阶段 0.5：UI 设计深化
 
-**当前进度：** 见 [TrendLens Progress.md](TrendLens%20Progress.md#阶段-0项目基建)
+**目标：** 完善 UI 设计系统，提升视觉质量。
 
-## 阶段 0.5：UI 设计深化（新增）
+**当前状态：** ✅ 已完成（2026-01-22）
 
-**目标：** 在进入 MVP 开发前，完善 UI 设计系统，提升视觉质量。
-
-**主要交付物：**
-
-- **UI 设计白皮书**：Liquid Glass 设计语言完整规范
-- **核心 UI 组件库**：
-  - TrendCard（热点卡片）
-  - PlatformBadge（平台徽章）
-  - HeatIndicator（热度指示器）
-  - RankChangeIndicator（排名变化）
-  - EmptyStateView / ErrorView / LoadingView
-- **热度曲线功能**：
-  - HeatDataPoint 数据模型
-  - HeatCurveView（小型曲线）
-  - HeatCurveDetailView（完整曲线）
-  - 曲线动画与交互
-  - TrendTopic 扩展（支持 heatHistory）
-
-**当前状态：** 🚧 进行中
-
-**当前进度：** 见 [TrendLens Progress.md](TrendLens%20Progress.md#阶段-05ui-设计深化新增)
+**核心交付：** Prismatic Flow 设计系统、UI 组件库（14 个组件）、热度曲线功能
 
 ## 阶段 1：MVP（纯本地 Mock 数据）
 
 **目标：** 不依赖后端，先把 UI/交互做成"能用且好看"。
 
-**主要交付物：**
+**当前状态：** ✅ 已完成（2026-01-23）
 
-- SwiftData 模型完善（Snapshot/Topic + heatHistory/UserPrefs）
-- Mock 数据生成（6 个平台 × 50 条话题 + TOP 10 热度曲线）
-- Feed 页面完整 UI（平台 Tab + 热榜列表 + 详情页）
-- Compare 页面（平台选择器 + 交集/差集展示）
-- 交互功能（下拉刷新 + 收藏 + 屏蔽词）
-- 状态管理（空态 / 错误态 / 加载态）
-
-**当前状态：** ✅ 已完成
-
-**当前进度：** 见 [TrendLens Progress.md](TrendLens%20Progress.md#阶段-1mvp本地-mock)
+**核心交付：** SwiftData + MockDataGenerator、Feed/Compare/Search/Settings 完整功能、下拉刷新、收藏、屏蔽词
 
 ## 阶段 1.5：UI 系统重构（Ethereal Insight）
 
@@ -381,59 +346,16 @@ extension TrendTopic {
 - 保持代码清洁：避免兼容性冗余
 - 每个 Phase 都能视觉验证：使用 Canvas Preview 或 Simulator 立即看到效果
 
-**主要交付物（6 个 Phase）：**
+**开发策略：** 垂直切片式迭代，每个 Phase 都有立即可验证的成果（6 个 Phase）
 
-### Phase 1：基础系统 + 第一个可见卡片
+- **Phase 1** ✅：基础系统 + StandardCard（中性色、Heat Spectrum、原子组件）
+- **Phase 2** ✅：Feed 页面集成（HeroCard + 混合布局）
+- **Phase 3** 🚧：导航系统升级（FluidRibbon + FloatingDock）
+- **Phase 4**：其他页面统一（Compare/Search + 状态组件 + 响应式）
+- **Phase 5**：高级特效与交互（热度特效 + 卡片交互 + 转场动画）
+- **Phase 6**：三端验证与文档更新（质量检查 + 文档同步）
 
-- 扩展 Mock 数据（添加 summary + heatHistory 字段）
-- DesignSystem.swift 重构（中性色、Heat Spectrum、阴影预设）
-- 原子组件（PlatformIcon、RankChangeIndicator、MiniTrendLine）
-- StandardCard 完整初版
-- CardGalleryView（临时预览组件）
-
-**成果：** 在 Canvas/Simulator 看到完整的卡片样式
-
-### Phase 2：Feed 页面集成
-
-- HeroCard.swift（焦点卡片，Rank 1-3）
-- 重构 FeedView（删除旧 TrendCard，使用新卡片）
-- 混合布局验证（Hero + Standard）
-
-**成果：** 打开 App 能看到 Feed 页面的新卡片列表
-
-### Phase 3：导航系统升级
-
-- FluidRibbon.swift（流体化平台选择器）
-- FloatingDock.swift（悬浮导航栏，自动隐藏）
-- 重构 MainNavigationView
-
-**成果：** 顶部平台切换和底部 Dock 导航都能工作
-
-### Phase 4：其他页面与状态组件
-
-- 重构 CompareView / SearchView（使用新组件）
-- 更新 EmptyStateView / SkeletonCard / ErrorView
-- iPad/Mac 响应式布局
-
-**成果：** 所有页面统一视觉风格
-
-### Phase 5：高级特效与交互
-
-- 热度特效（发光、脉冲、粒子）
-- 卡片交互（点击、滑动、长按）
-- 详情页转场动画
-- 性能优化和代码清理
-
-**成果：** 完整的高级交互体验，代码库干净
-
-### Phase 6：三端验证与文档更新
-
-- 三端编译验证（iPhone / iPad / Mac）
-- 视觉和交互走查
-- 深色模式、无障碍、动态字体检查
-- 文档同步更新
-
-**成果：** UI 重构完成，阶段 1.5 标记完成
+详细进度见 [TrendLens Progress.md](TrendLens%20Progress.md#阶段-15ui-系统重构ethereal-insight)
 
 **当前状态：** 🚧 进行中
 
