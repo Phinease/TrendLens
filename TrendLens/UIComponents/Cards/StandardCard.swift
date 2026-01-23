@@ -27,17 +27,34 @@ struct StandardCard: View {
     // MARK: - Body
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            // 第一行：排名 | 标题 | 热度图标
-            firstRowView
+        HStack(alignment: .top, spacing: DesignSystem.Spacing.md) {
+            // 左侧：三行内容
+            VStack(alignment: .leading, spacing: 0) {
+                // 第一行：排名 | 标题 | 热度图标
+                firstRowView
 
-            // 第二行：AI 摘要（可选）
-            if let summary = topic.summary {
-                summaryRowView(summary)
+                // 第二行：AI 摘要（可选）
+                if let summary = topic.summary {
+                    summaryRowView(summary)
+                }
+
+                // 第三行：平台信息 · 时间 · 热度值 · 热度等级 · 排名变化
+                leftMetricsView
+                    .padding(.top, DesignSystem.Spacing.xs)
             }
 
-            // 第三行：平台信息 · 时间 · 热度值 · 排名变化 | MiniTrendLine
-            thirdRowView
+            // 右侧：MiniTrendLine - 正方形（高度为限制）
+            if !topic.heatHistory.isEmpty {
+                GeometryReader { geometry in
+                    let size = geometry.size.height
+                    MiniTrendLine(
+                        dataPoints: topic.heatHistory,
+                        size: .standard
+                    )
+                    .frame(width: size, height: size)
+                }
+                .frame(height: 44)
+            }
         }
         .padding(DesignSystem.Spacing.md)
         .background(DesignSystem.Neutral.container(colorScheme))
@@ -56,53 +73,22 @@ struct StandardCard: View {
                 .frame(width: 28, alignment: .center)
 
             // 标题 - 17pt Semibold
-            VStack(alignment: .leading, spacing: 0) {
-                Text(topic.title)
-                    .font(.system(size: 17, weight: .semibold, design: .default))
-                    .lineLimit(2)
-                    .foregroundStyle(.primary)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-
-            // 热度图标
-            Image(systemName: "flame.fill")
-                .font(.system(size: 16, weight: .semibold))
-                .foregroundStyle(DesignSystem.HeatSpectrum.color(for: topic.heatValue))
+            Text(topic.title)
+                .font(.system(size: 17, weight: .semibold, design: .default))
+                .lineLimit(2)
+                .foregroundStyle(.primary)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding(.bottom, DesignSystem.Spacing.sm)
     }
 
     private func summaryRowView(_ summary: String) -> some View {
-        VStack(alignment: .leading, spacing: 0) {
-            Text(summary)
-                .font(.system(size: 15, weight: .regular, design: .default))
-                .lineLimit(3)
-                .foregroundStyle(.secondary)
-                .padding(.leading, 44) // 缩进对齐标题
-        }
-        .padding(.bottom, DesignSystem.Spacing.sm)
-    }
-
-    private var thirdRowView: some View {
-        HStack(alignment: .center, spacing: DesignSystem.Spacing.md) {
-            // 左侧：平台图标 · 时间 · 热度值 · 热度等级 · 排名变化
-            leftMetricsView
-
-            Spacer()
-
-            // 右侧：MiniTrendLine - 正方形（高度为限制）
-            if !topic.heatHistory.isEmpty {
-                GeometryReader { geometry in
-                    let size = geometry.size.height
-                    MiniTrendLine(
-                        dataPoints: topic.heatHistory,
-                        size: .standard
-                    )
-                    .frame(width: size, height: size)
-                }
-                .frame(height: 44)
-            }
-        }
+        Text(summary)
+            .font(.system(size: 15, weight: .regular, design: .default))
+            .lineLimit(3)
+            .foregroundStyle(.secondary)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.bottom, DesignSystem.Spacing.sm)
     }
 
     @ViewBuilder
@@ -122,7 +108,7 @@ struct StandardCard: View {
             Text(formatTime(topic.fetchedAt))
                 .font(.system(size: 13, weight: .regular, design: .default))
                 .foregroundStyle(.secondary)
-                .frame(width: 36, alignment: .center)
+                .frame(width: 28, alignment: .center)
 
             // 分隔符
             Text("·")
@@ -142,11 +128,22 @@ struct StandardCard: View {
                 .foregroundStyle(.tertiary)
                 .frame(width: 12, alignment: .center)
 
+            // 热度图标
+            Image(systemName: "flame.fill")
+                .font(.system(size: 13, weight: .semibold))
+                .foregroundStyle(DesignSystem.HeatSpectrum.color(for: topic.heatValue))
+
             // 热度等级指示
             Text(heatLevelLabel)
                 .font(.system(size: 13, weight: .semibold, design: .default))
                 .foregroundStyle(DesignSystem.HeatSpectrum.color(for: topic.heatValue))
                 .frame(width: 16, alignment: .center)
+
+            // 分隔符
+            Text("·")
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundStyle(.tertiary)
+                .frame(width: 12, alignment: .center)
 
             // 排名变化指示器
             RankChangeIndicator(rankChange: topic.rankChange, style: .compact)
