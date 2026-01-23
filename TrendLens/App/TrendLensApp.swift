@@ -33,24 +33,9 @@ struct TrendLensApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ZStack {
-                if showingSplash {
-                    SplashView()
-                        .transition(.opacity)
-                } else {
-                    MainNavigationView()
-                        .transition(.opacity)
-                }
-            }
-            .animation(.easeInOut(duration: 0.5), value: showingSplash)
-            .task {
-                // 初始化数据库
-                await DependencyContainer.shared.initializeDataIfNeeded()
-
-                // 启动页显示 2 秒后切换到主界面
-                try? await Task.sleep(for: .seconds(2))
-                showingSplash = false
-            }
+            // Phase 1.5.1: 临时显示 CardGalleryView 用于卡片验证
+            // Phase 2 时恢复为 MainNavigationView
+            CardGalleryView()
         }
         .modelContainer(sharedModelContainer)
     }

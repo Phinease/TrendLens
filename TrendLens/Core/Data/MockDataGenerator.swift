@@ -162,6 +162,46 @@ actor MockDataGenerator {
         .zhihu: ["AI", "科技", "职场", "建议", "教育", "学术", "纪录片", "推荐", "理财", "金融"]
     ]
 
+    /// AI 摘要模板库
+    private let summaryTemplates: [Platform: [String]] = [
+        .weibo: [
+            "网友热议，转发评论已破百万。话题持续升温，相关讨论频繁出现在热搜榜单。",
+            "相关话题在社交平台引发广泛讨论。用户纷纷发表观点，热度持续攀升。",
+            "该事件发生后迅速登上热搜榜单，成为网友热议的焦点。讨论热烈。",
+            "事件曝光后引发广泛关注。网友表示关切，话题热度保持高位。"
+        ],
+        .xiaohongshu: [
+            "该话题在平台上获得大量关注，用户分享相关内容和经验。优质笔记频出。",
+            "众多用户参与讨论并分享个人见解。话题下汇集了许多有价值的内容分享。",
+            "平台用户积极互动，该话题吸引了众多内容创作者的参与和分享。",
+            "用户热情高涨，相关内容不断更新。话题讨论氛围浓厚，吸引持续关注。"
+        ],
+        .bilibili: [
+            "该话题在UP主中引发热烈讨论。多位创作者推出相关视频，观看量持续上升。",
+            "相关视频获得大量播放和互动。用户在评论区展开深入讨论，热度高涨。",
+            "众多UP主争相制作相关内容。话题视频播放总量已超百万，互动热烈。",
+            "话题相关内容层出不穷，吸引大批用户观看和参与讨论。热度持续。"
+        ],
+        .douyin: [
+            "该话题相关短视频获得海量播放。用户积极参与挑战，相关作品频繁出现。",
+            "短视频平台上相关内容播放量突破千万。网友热情参与，创意作品不断。",
+            "话题挑战在平台爆火，吸引众多用户参与创作和分享。热度居高不下。",
+            "相关视频频频登上热榜。用户响应积极，话题讨论热烈，热度持续攀升。"
+        ],
+        .x: [
+            "The topic has generated significant engagement on the platform with widespread discussion among users.",
+            "Users are actively sharing their perspectives on this trending topic. Discussion volume remains high.",
+            "The topic continues to dominate conversations across the platform. Engagement metrics show strong activity.",
+            "Numerous posts related to this topic are gaining traction. User interaction and debate remain intense."
+        ],
+        .zhihu: [
+            "该问题引发知友们的热烈讨论。多位答主提供了深入的分析和见解。",
+            "知识内容创作者围绕此话题展开讨论，提供了多角度的思考和建议。",
+            "话题相关的问答内容获得广泛关注。用户投票和评论数持续上升。",
+            "众多用户在此话题下分享经验和观点。讨论质量高，互动频繁。"
+        ]
+    ]
+
     // MARK: - Public Methods
 
     /// 生成指定平台的快照
@@ -217,6 +257,7 @@ actor MockDataGenerator {
                 fetchedAt: Date().addingTimeInterval(TimeInterval(-Int.random(in: 0...7200))),
                 rankChange: generateRankChange(for: rank),
                 heatHistory: generateHeatHistory(baseHeat: heatValue, rank: rank),
+                summary: generateSummary(for: platform),
                 isFavorite: false
             )
         }
@@ -257,6 +298,13 @@ actor MockDataGenerator {
             nil
         ]
         return descriptions.randomElement() ?? nil
+    }
+
+    /// 生成 AI 摘要
+    private nonisolated func generateSummary(for platform: Platform) -> String? {
+        let templates = summaryTemplates[platform] ?? []
+        guard let template = templates.randomElement() else { return nil }
+        return Bool.random() ? template : nil // 50% 概率包含摘要
     }
 
     /// 生成标签

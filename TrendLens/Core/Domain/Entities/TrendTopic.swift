@@ -41,6 +41,9 @@ final class TrendTopic {
     /// 热度历史数据（新增字段，用于绘制曲线）
     var heatHistory: [HeatDataPoint]
 
+    /// AI 摘要（可选）
+    var summary: String?
+
     /// 所属快照
     var snapshot: TrendSnapshot?
 
@@ -57,7 +60,8 @@ final class TrendTopic {
         tags: [String] = [],
         fetchedAt: Date = Date(),
         rankChange: RankChange = .unchanged,
-        heatHistory: [HeatDataPoint] = []
+        heatHistory: [HeatDataPoint] = [],
+        summary: String? = nil
     ) {
         self.id = id
         self.platform = platform
@@ -70,6 +74,7 @@ final class TrendTopic {
         self.fetchedAt = fetchedAt
         self.rankChange = rankChange
         self.heatHistory = heatHistory
+        self.summary = summary
     }
 }
 
@@ -94,6 +99,7 @@ extension TrendTopic {
             fetchedAt: fetchedAt,
             rankChange: rankChange,
             heatHistory: heatHistory,
+            summary: summary,
             isFavorite: isFavorite
         )
     }
@@ -150,6 +156,9 @@ struct TrendTopicEntity: Identifiable, Codable, Sendable {
     /// 热度历史数据（用于绘制曲线）
     let heatHistory: [HeatDataPoint]
 
+    /// AI 摘要（可选）
+    let summary: String?
+
     /// 是否已收藏
     var isFavorite: Bool
 
@@ -165,6 +174,7 @@ struct TrendTopicEntity: Identifiable, Codable, Sendable {
         fetchedAt: Date = Date(),
         rankChange: RankChange = .unchanged,
         heatHistory: [HeatDataPoint] = [],
+        summary: String? = nil,
         isFavorite: Bool = false
     ) {
         self.id = id
@@ -178,6 +188,7 @@ struct TrendTopicEntity: Identifiable, Codable, Sendable {
         self.fetchedAt = fetchedAt
         self.rankChange = rankChange
         self.heatHistory = heatHistory
+        self.summary = summary
         self.isFavorite = isFavorite
     }
 }

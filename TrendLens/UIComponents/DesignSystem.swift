@@ -157,6 +157,60 @@ enum DesignSystem {
         static let breathe = SwiftUI.Animation.easeInOut(duration: 3).repeatForever(autoreverses: true)
     }
 
+    // MARK: - Neutral Color Palette
+
+    enum Neutral {
+        /// 浅色模式背景 - 主背景
+        static let backgroundPrimaryLight = Color(hex: "FAFBFC")
+
+        /// 深色模式背景 - 主背景
+        static let backgroundPrimaryDark = Color(hex: "0A0E14")
+
+        /// 浅色模式背景 - 次要背景
+        static let backgroundSecondaryLight = Color(hex: "F3F4F6")
+
+        /// 深色模式背景 - 次要背景
+        static let backgroundSecondaryDark = Color(hex: "13171F")
+
+        /// 浅色模式容器 - 卡片背景
+        static let containerLight = Color(hex: "FFFFFF")
+
+        /// 深色模式容器 - 卡片背景
+        static let containerDark = Color(hex: "1A1F2E")
+
+        /// 浅色模式容器悬停
+        static let containerHoverLight = Color(hex: "F9FAFB")
+
+        /// 深色模式容器悬停
+        static let containerHoverDark = Color(hex: "252B3A")
+
+        /// 浅色模式边框 - 微弱
+        static let borderSubtleLight = Color(hex: "000000").opacity(0.06)
+
+        /// 深色模式边框 - 微弱
+        static let borderSubtleDark = Color(hex: "FFFFFF").opacity(0.08)
+
+        static func backgroundPrimary(_ colorScheme: ColorScheme) -> Color {
+            colorScheme == .dark ? backgroundPrimaryDark : backgroundPrimaryLight
+        }
+
+        static func backgroundSecondary(_ colorScheme: ColorScheme) -> Color {
+            colorScheme == .dark ? backgroundSecondaryDark : backgroundSecondaryLight
+        }
+
+        static func container(_ colorScheme: ColorScheme) -> Color {
+            colorScheme == .dark ? containerDark : containerLight
+        }
+
+        static func containerHover(_ colorScheme: ColorScheme) -> Color {
+            colorScheme == .dark ? containerHoverDark : containerHoverLight
+        }
+
+        static func borderSubtle(_ colorScheme: ColorScheme) -> Color {
+            colorScheme == .dark ? borderSubtleDark : borderSubtleLight
+        }
+    }
+
     // MARK: - Platform Gradient Colors (Prismatic Flow)
 
     enum PlatformGradient {
@@ -293,6 +347,26 @@ enum DesignSystem {
         static func isPhenomenal(for heatValue: Int) -> Bool {
             heatValue >= 1_000_000
         }
+
+        /// 根据热度值获取特效等级
+        static func effectLevel(for heatValue: Int) -> HeatEffect {
+            switch heatValue {
+            case ..<100_000: return .none
+            case 100_000..<200_000: return .glow(radius: 4)
+            case 200_000..<500_000: return .glow(radius: 6)
+            case 500_000..<1_000_000: return .pulse
+            case 1_000_000...: return .burst
+            default: return .none
+            }
+        }
+    }
+
+    /// 热度特效类型
+    enum HeatEffect {
+        case none
+        case glow(radius: CGFloat)
+        case pulse
+        case burst
     }
 
     // MARK: - Semantic Colors
@@ -430,6 +504,16 @@ extension View {
     func shimmer() -> some View {
         self.modifier(ShimmerModifier())
     }
+
+    /// 标准卡片阴影
+    func cardShadow() -> some View {
+        self.modifier(CardShadowModifier())
+    }
+
+    /// 聚焦卡片阴影（更强）
+    func elevatedShadow() -> some View {
+        self.modifier(ElevatedShadowModifier())
+    }
 }
 
 // MARK: - Animation Modifiers
@@ -479,6 +563,28 @@ struct ShimmerModifier: ViewModifier {
                 }
             }
             .clipped()
+    }
+}
+
+/// 卡片阴影修饰符
+struct CardShadowModifier: ViewModifier {
+    @Environment(\.colorScheme) private var colorScheme
+
+    func body(content: Content) -> some View {
+        let shadowColor: Color = colorScheme == .dark ? .white : .black
+        return content
+            .shadow(color: shadowColor.opacity(0.08), radius: 4, y: 2)
+    }
+}
+
+/// 聚焦卡片阴影修饰符
+struct ElevatedShadowModifier: ViewModifier {
+    @Environment(\.colorScheme) private var colorScheme
+
+    func body(content: Content) -> some View {
+        let shadowColor: Color = colorScheme == .dark ? .white : .black
+        return content
+            .shadow(color: shadowColor.opacity(0.12), radius: 8, y: 4)
     }
 }
 
