@@ -33,9 +33,18 @@ struct TrendLensApp: App {
 
     var body: some Scene {
         WindowGroup {
-            // Phase 1.5.1: 临时显示 CardGalleryView 用于卡片验证
-            // Phase 2 时恢复为 MainNavigationView
-            CardGalleryView()
+            if showingSplash {
+                SplashView()
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                            withAnimation {
+                                showingSplash = false
+                            }
+                        }
+                    }
+            } else {
+                FeedView()
+            }
         }
         .modelContainer(sharedModelContainer)
     }

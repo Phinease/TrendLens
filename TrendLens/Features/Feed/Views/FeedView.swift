@@ -15,6 +15,7 @@ struct FeedView: View {
     @State private var viewModel = DependencyContainer.shared.makeFeedViewModel()
     @State private var selectedPlatform: Platform? = nil
     @State private var selectedTopic: TrendTopicEntity? = nil
+    @Environment(\.colorScheme) private var colorScheme
 
     // MARK: - Computed Properties
 
@@ -48,10 +49,8 @@ struct FeedView: View {
             .navigationTitle("热榜")
 #if os(iOS)
             .navigationBarTitleDisplayMode(.large)
-            .background(Color(uiColor: .systemGroupedBackground))
-#else
-            .background(Color(nsColor: .windowBackgroundColor))
 #endif
+            .background(DesignSystem.Neutral.backgroundPrimary(colorScheme))
             .refreshable {
                 await refreshData()
             }
@@ -154,22 +153,32 @@ struct FeedView: View {
 
     private var topicList: some View {
         ScrollView {
-            LazyVStack(spacing: DesignSystem.Spacing.sm) {
-                ForEach(displayedTopics) { topic in
-                    TrendCard(
-                        topic: topic,
-                        showCurve: true,
-                        onTap: {
-                            selectedTopic = topic
-                        },
-                        onFavorite: {
-                            toggleFavorite(topic)
+            LazyVStack(spacing: 0) {
+                ForEach(Array(displayedTopics.enumerated()), id: \.element.id) { index, topic in
+                    let isHeroCard = topic.rank <= 3
+                    let spacing = isHeroCard ? DesignSystem.Spacing.md : DesignSystem.Spacing.sm
+
+                    Group {
+                        if isHeroCard {
+                            HeroCard(topic: topic, rank: topic.rank)
+                                .onTapGesture {
+                                    selectedTopic = topic
+                                }
+                        } else {
+                            StandardCard(topic: topic, rank: topic.rank)
+                                .onTapGesture {
+                                    selectedTopic = topic
+                                }
                         }
-                    )
+                    }
+                    .padding(.horizontal, DesignSystem.Spacing.md)
+                    .padding(.vertical, spacing / 2)
                 }
+
+                // 底部留白，为后续 FloatingDock 预留空间
+                Spacer()
+                    .frame(height: 80)
             }
-            .padding(.horizontal, DesignSystem.Spacing.md)
-            .padding(.vertical, DesignSystem.Spacing.sm)
         }
     }
 
