@@ -34,16 +34,16 @@ struct CardGalleryView: View {
                     // Section 1: 不同平台示例
                     section(title: "Platforms (6 variations)") {
                         VStack(spacing: DesignSystem.Spacing.md) {
-                            ForEach(Platform.allCases, id: \.self) { platform in
+                            ForEach(Array(Platform.allCases.enumerated()), id: \.element) { index, platform in
                                 StandardCard(
                                     topic: generateTopic(
                                         platform: platform,
-                                        rank: Platform.allCases.firstIndex(of: platform) ?? 0 + 1,
+                                        rank: index + 1,
                                         rankChange: .unchanged,
                                         hasSummary: true,
                                         heatValue: 600_000
                                     ),
-                                    rank: Platform.allCases.firstIndex(of: platform) ?? 0 + 1
+                                    rank: index + 1
                                 )
                             }
                         }

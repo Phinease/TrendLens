@@ -165,40 +165,40 @@ actor MockDataGenerator {
     /// AI 摘要模板库
     private let summaryTemplates: [Platform: [String]] = [
         .weibo: [
-            "网友热议，转发评论已破百万。话题持续升温，相关讨论频繁出现在热搜榜单。",
-            "相关话题在社交平台引发广泛讨论。用户纷纷发表观点，热度持续攀升。",
-            "该事件发生后迅速登上热搜榜单，成为网友热议的焦点。讨论热烈。",
-            "事件曝光后引发广泛关注。网友表示关切，话题热度保持高位。"
+            "网友热议，转发评论已破百万。该话题在微博上持续升温，相关讨论频繁出现在热搜榜单，社交媒体上关注度极高。",
+            "相关话题在社交平台引发了广泛讨论，用户纷纷发表自己的观点看法。热度持续攀升，成为社交媒体上的焦点话题。",
+            "该事件发生后迅速登上热搜榜单，成为网友热议的焦点。网民积极参与讨论，评论和转发数量持续增加，讨论热烈进行中。",
+            "事件曝光后引发了广泛的网络关注，网友纷纷表示关切和重视。话题热度保持在高位，引发社会各界的广泛讨论和思考。"
         ],
         .xiaohongshu: [
-            "该话题在平台上获得大量关注，用户分享相关内容和经验。优质笔记频出。",
-            "众多用户参与讨论并分享个人见解。话题下汇集了许多有价值的内容分享。",
-            "平台用户积极互动，该话题吸引了众多内容创作者的参与和分享。",
-            "用户热情高涨，相关内容不断更新。话题讨论氛围浓厚，吸引持续关注。"
+            "该话题在小红书平台上获得了大量关注，用户积极分享相关内容和个人经验。优质笔记频繁出现，内容质量不断提升。",
+            "众多用户在平台上参与讨论并分享个人见解，话题下汇集了许多有价值的内容分享和实用建议。",
+            "小红书平台上的用户积极互动，该话题吸引了众多内容创作者的参与和分享。创意内容不断涌现，讨论声势浩大。",
+            "用户热情高涨，相关内容不断更新。话题讨论氛围浓厚，持续吸引更多人的关注和参与。"
         ],
         .bilibili: [
-            "该话题在UP主中引发热烈讨论。多位创作者推出相关视频，观看量持续上升。",
-            "相关视频获得大量播放和互动。用户在评论区展开深入讨论，热度高涨。",
-            "众多UP主争相制作相关内容。话题视频播放总量已超百万，互动热烈。",
-            "话题相关内容层出不穷，吸引大批用户观看和参与讨论。热度持续。"
+            "该话题在B站UP主中引发了热烈讨论。多位知名创作者推出相关视频，观看量持续上升，互动数据不断刷新。",
+            "相关视频获得了大量播放和用户互动。网友在评论区展开深入讨论，热度高涨，反响十分热烈。",
+            "众多UP主争相制作相关内容来吸引粉丝。话题视频播放总量已超百万，互动热烈，是目前平台的重点关注话题。",
+            "话题相关内容层出不穷，不断有优质作品发布。吸引大批用户观看和参与讨论，热度保持持续上升。"
         ],
         .douyin: [
-            "该话题相关短视频获得海量播放。用户积极参与挑战，相关作品频繁出现。",
-            "短视频平台上相关内容播放量突破千万。网友热情参与，创意作品不断。",
-            "话题挑战在平台爆火，吸引众多用户参与创作和分享。热度居高不下。",
-            "相关视频频频登上热榜。用户响应积极，话题讨论热烈，热度持续攀升。"
+            "该话题相关的短视频在抖音上获得了海量播放。用户积极参与各类挑战，相关作品频繁出现在推荐页面。",
+            "短视频平台上该话题相关内容的播放量已经突破千万。网友热情参与，创意作品不断涌现，吸引越来越多的关注。",
+            "话题挑战在抖音平台爆火，吸引了众多用户积极参与创作和分享。粉丝热情高涨，相关内容快速传播。",
+            "相关短视频频频登上热榜。用户响应积极，话题讨论热烈，热度持续攀升，呈现爆发式增长。"
         ],
         .x: [
-            "The topic has generated significant engagement on the platform with widespread discussion among users.",
-            "Users are actively sharing their perspectives on this trending topic. Discussion volume remains high.",
-            "The topic continues to dominate conversations across the platform. Engagement metrics show strong activity.",
-            "Numerous posts related to this topic are gaining traction. User interaction and debate remain intense."
+            "This topic has generated significant engagement on the platform with widespread discussion among users. Many are sharing diverse perspectives on the subject.",
+            "Users from around the world are actively sharing their perspectives on this trending topic. Discussion volume remains consistently high with growing engagement.",
+            "The topic continues to dominate conversations across the platform. Engagement metrics show strong activity levels with retweeting and commenting increasing.",
+            "Numerous posts related to this topic are gaining traction and visibility. User interaction and debate remain intense with diverse opinions being shared."
         ],
         .zhihu: [
-            "该问题引发知友们的热烈讨论。多位答主提供了深入的分析和见解。",
-            "知识内容创作者围绕此话题展开讨论，提供了多角度的思考和建议。",
-            "话题相关的问答内容获得广泛关注。用户投票和评论数持续上升。",
-            "众多用户在此话题下分享经验和观点。讨论质量高，互动频繁。"
+            "该问题在知乎上引发了知友们的热烈讨论和广泛参与。多位专业答主提供了深入细致的分析和见解，内容质量上乘。",
+            "知识内容创作者围绕此话题展开了多层次的讨论，提供了多角度的思考、分析和建议。既有理论分析也有实践经验。",
+            "话题相关的问答内容在知乎上获得广泛关注和认可。用户的投票和评论数持续上升，话题热度不断提升。",
+            "众多用户在此话题下积极分享个人经验和深入观点。讨论的质量高，互动频繁，已成为知乎平台的热点话题。"
         ]
     ]
 

@@ -76,7 +76,7 @@ struct StandardCard: View {
         VStack(alignment: .leading, spacing: 0) {
             Text(summary)
                 .font(.system(size: 15, weight: .regular, design: .default))
-                .lineLimit(2)
+                .lineLimit(3)
                 .foregroundStyle(.secondary)
                 .padding(.leading, 44) // 缩进对齐标题
         }
@@ -84,19 +84,23 @@ struct StandardCard: View {
     }
 
     private var thirdRowView: some View {
-        HStack(alignment: .center, spacing: DesignSystem.Spacing.sm) {
-            // 左侧：平台图标 · 时间 · 热度值 · 排名变化
+        HStack(alignment: .center, spacing: DesignSystem.Spacing.md) {
+            // 左侧：平台图标 · 时间 · 热度值 · 热度等级 · 排名变化
             leftMetricsView
 
             Spacer()
 
-            // 右侧：MiniTrendLine (32×24)
+            // 右侧：MiniTrendLine - 正方形（高度为限制）
             if !topic.heatHistory.isEmpty {
-                MiniTrendLine(
-                    dataPoints: topic.heatHistory,
-                    size: .standard
-                )
-                .frame(width: 32, height: 24)
+                GeometryReader { geometry in
+                    let size = geometry.size.height
+                    MiniTrendLine(
+                        dataPoints: topic.heatHistory,
+                        size: .standard
+                    )
+                    .frame(width: size, height: size)
+                }
+                .frame(height: 44)
             }
         }
     }
@@ -104,36 +108,60 @@ struct StandardCard: View {
     @ViewBuilder
     private var leftMetricsView: some View {
         HStack(spacing: DesignSystem.Spacing.xs) {
-            // 平台图标
+            // 平台图标（左侧添加margin以对齐排名数字）
             PlatformIcon(platform: topic.platform)
+                .padding(.leading, 5)
 
             // 分隔符
             Text("·")
                 .font(.system(size: 12, weight: .semibold))
                 .foregroundStyle(.tertiary)
+                .frame(width: 12, alignment: .center)
 
             // 时间戳
             Text(formatTime(topic.fetchedAt))
                 .font(.system(size: 13, weight: .regular, design: .default))
                 .foregroundStyle(.secondary)
+                .frame(width: 36, alignment: .center)
 
             // 分隔符
             Text("·")
                 .font(.system(size: 12, weight: .semibold))
                 .foregroundStyle(.tertiary)
+                .frame(width: 12, alignment: .center)
 
             // 热度值
             Text(topic.heatValue.formattedHeat)
                 .font(.system(size: 13, weight: .semibold, design: .monospaced))
                 .foregroundStyle(DesignSystem.HeatSpectrum.color(for: topic.heatValue))
+                .frame(width: 48, alignment: .center)
+
+            // 分隔符
+            Text("·")
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundStyle(.tertiary)
+                .frame(width: 12, alignment: .center)
+
+            // 热度等级指示
+            Text(heatLevelLabel)
+                .font(.system(size: 13, weight: .semibold, design: .default))
+                .foregroundStyle(DesignSystem.HeatSpectrum.color(for: topic.heatValue))
+                .frame(width: 16, alignment: .center)
 
             // 排名变化指示器
             RankChangeIndicator(rankChange: topic.rankChange, style: .compact)
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     // MARK: - Helpers
+
+    private var heatLevelLabel: String {
+        switch topic.heatValue {
+        case ..<50_000: return "低"
+        case 50_000..<500_000: return "中"
+        default: return "高"
+        }
+    }
 
     private func formatTime(_ date: Date) -> String {
         let now = Date()
