@@ -27,34 +27,35 @@ struct StandardCard: View {
     // MARK: - Body
 
     var body: some View {
-        HStack(alignment: .top, spacing: DesignSystem.Spacing.md) {
-            // 左侧：三行内容
-            VStack(alignment: .leading, spacing: 0) {
-                // 第一行：排名 | 标题 | 热度图标
-                firstRowView
+        VStack(alignment: .leading, spacing: 0) {
+            // 前两行 + 右侧热度图
+            HStack(alignment: .top, spacing: DesignSystem.Spacing.md) {
+                // 左侧：排名、标题、摘要
+                VStack(alignment: .leading, spacing: 0) {
+                    // 第一行：排名 | 标题
+                    firstRowView
 
-                // 第二行：AI 摘要（可选）
-                if let summary = topic.summary {
-                    summaryRowView(summary)
+                    // 第二行：AI 摘要（可选）
+                    if let summary = topic.summary {
+                        summaryRowView(summary)
+                    }
                 }
 
-                // 第三行：平台信息 · 时间 · 热度值 · 热度等级 · 排名变化
-                leftMetricsView
-                    .padding(.top, DesignSystem.Spacing.xs)
-            }
+                Spacer()
 
-            // 右侧：MiniTrendLine - 正方形（高度为限制）
-            if !topic.heatHistory.isEmpty {
-                GeometryReader { geometry in
-                    let size = geometry.size.height
+                // 右侧：MiniTrendLine（仅当有摘要时显示，自适应宽高）
+                if let _ = topic.summary, !topic.heatHistory.isEmpty {
                     MiniTrendLine(
                         dataPoints: topic.heatHistory,
                         size: .standard
                     )
-                    .frame(width: size, height: size)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
-                .frame(height: 44)
             }
+
+            // 第三行：平台信息 · 时间 · 热度值 · 热度等级 · 排名变化
+            leftMetricsView
+                .padding(.top, DesignSystem.Spacing.xs)
         }
         .padding(DesignSystem.Spacing.md)
         .background(DesignSystem.Neutral.container(colorScheme))
