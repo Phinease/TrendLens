@@ -347,9 +347,101 @@ extension TrendTopic {
 - 交互功能（下拉刷新 + 收藏 + 屏蔽词）
 - 状态管理（空态 / 错误态 / 加载态）
 
+**当前状态：** ✅ 已完成
+
 **当前进度：** 见 [TrendLens Progress.md](TrendLens%20Progress.md#阶段-1mvp本地-mock)
 
+## 阶段 1.5：UI 系统重构（Ethereal Insight）
+
+**目标：** 基于新设计系统（v3.0 - Ethereal Insight）重构 UI，实现更高级、更克制、更高效的信息体验。
+
+**核心理念：** 垂直切片式迭代开发——每个 Phase 都有立即可视觉验证的成果，而非到最后才发现问题。
+
+**设计背景：**
+
+原有的 Prismatic Flow 设计（v2.0）强调"棱镜、渐变、脉动"，但在实际使用中存在以下问题：
+
+- 色彩过于丰富：平台色被滥用，导致视觉嘈杂
+- 信息效率不足：缺少核心内容摘要，用户需要二次点击
+- 创新性不足：采用标准 iOS 布局，未充分体现产品差异化
+
+新设计系统 **Ethereal Insight** 在保留流动性与深度感的基础上，强调：
+
+- **沉浸式体验**：中性背景 + 内容为中心
+- **信息效率**：AI 摘要优先 + 极简趋势可视化
+- **克制优雅**：平台色仅用于识别，热度色用于趋势
+
+**完整设计规范见：** [TrendLens New UI Design System.md](TrendLens%20New%20UI%20Design%20System.md)
+
+**开发原则：**
+
+本项目处于研发阶段，不考虑兼容旧设计：
+
+- 直接删除旧代码（TrendCard 等），不做适配层
+- 保持代码清洁：避免兼容性冗余
+- 每个 Phase 都能视觉验证：使用 Canvas Preview 或 Simulator 立即看到效果
+
+**主要交付物（6 个 Phase）：**
+
+### Phase 1：基础系统 + 第一个可见卡片
+
+- 扩展 Mock 数据（添加 summary + heatHistory 字段）
+- DesignSystem.swift 重构（中性色、Heat Spectrum、阴影预设）
+- 原子组件（PlatformIcon、RankChangeIndicator、MiniTrendLine）
+- StandardCard 完整初版
+- CardGalleryView（临时预览组件）
+
+**成果：** 在 Canvas/Simulator 看到完整的卡片样式
+
+### Phase 2：Feed 页面集成
+
+- HeroCard.swift（焦点卡片，Rank 1-3）
+- 重构 FeedView（删除旧 TrendCard，使用新卡片）
+- 混合布局验证（Hero + Standard）
+
+**成果：** 打开 App 能看到 Feed 页面的新卡片列表
+
+### Phase 3：导航系统升级
+
+- FluidRibbon.swift（流体化平台选择器）
+- FloatingDock.swift（悬浮导航栏，自动隐藏）
+- 重构 MainNavigationView
+
+**成果：** 顶部平台切换和底部 Dock 导航都能工作
+
+### Phase 4：其他页面与状态组件
+
+- 重构 CompareView / SearchView（使用新组件）
+- 更新 EmptyStateView / SkeletonCard / ErrorView
+- iPad/Mac 响应式布局
+
+**成果：** 所有页面统一视觉风格
+
+### Phase 5：高级特效与交互
+
+- 热度特效（发光、脉冲、粒子）
+- 卡片交互（点击、滑动、长按）
+- 详情页转场动画
+- 性能优化和代码清理
+
+**成果：** 完整的高级交互体验，代码库干净
+
+### Phase 6：三端验证与文档更新
+
+- 三端编译验证（iPhone / iPad / Mac）
+- 视觉和交互走查
+- 深色模式、无障碍、动态字体检查
+- 文档同步更新
+
+**成果：** UI 重构完成，阶段 1.5 标记完成
+
+**当前状态：** 🚧 进行中
+
+**当前进度：** 见 [TrendLens Progress.md](TrendLens%20Progress.md#阶段-15ui-系统重构ethereal-insight)
+
 ## 阶段 2：静态 JSON + CDN（生产级数据方案）
+
+**前置条件：** 阶段 1.5 完成（UI 重构完成后再连接真实数据）
 
 **目标：** 建立生产级的数据分发架构。热榜数据本质是只读的时间序列，静态 JSON + CDN 是**长期生产方案**，而非过渡方案。
 
