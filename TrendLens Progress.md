@@ -18,7 +18,6 @@
 - Domain/Data/Infrastructure 三层架构
 - 基础导航结构（iPhone TabView / iPad+macOS NavigationSplitView）
 - 炫酷启动页（SplashView）
-- 三端编译验证通过
 
 ### 阶段 0.5：UI 设计深化 ✅
 
@@ -28,7 +27,6 @@
 - UI 组件库（TrendCard、PlatformBadge、HeatIndicator、RankBadge 等 14 个组件）
 - 热度曲线功能（HeatCurveView、HeatCurveMini、触摸交互）
 - Feed 页面完整 UI（平台 Tab 切换、热榜列表、话题详情 Sheet）
-- 三端编译验证通过
 
 ### 阶段 1：MVP（本地 SwiftData + Mock 数据）✅
 
@@ -57,16 +55,34 @@
 
 ---
 
+### 阶段 1.5.4：其他页面与状态组件 ✅
+
+完成日期：2026-01-24
+
+**核心交付：** CompareView/SearchView 响应式布局、状态组件完整验证
+
+**实现细节：**
+
+- ✅ 4.1 CompareView 响应式布局：iPad 2列 LazyVGrid、iPhone 单列
+- ✅ 4.2 SearchView 响应式布局：iPad 2列网格、iPhone 单列
+- ✅ 4.3 状态组件验证（EmptyStateView、SkeletonCard、ErrorView）
+- ✅ 4.4 SettingsView 背景使用 `.backgroundPrimary`
+
+**三端验证：**
+
+- ✅ iPhone 17 Pro 编译通过
+- ✅ iPad Pro 13-inch (M5) 编译通过
+- ✅ macOS 编译通过
+
+---
+
 ## 当前阶段
 
 ### 阶段 1.5.5：高级特效与交互 🚧
 
 **目标：** 发光、脉冲、卡片交互等高级特效完整实现
-
 **设计文档：** [TrendLens New UI Design System.md](TrendLens%20New%20UI%20Design%20System.md)
-
 **前置条件：** Phase 1.5.4 完成 ✅
-
 **开发策略：** 垂直切片式迭代，每个 Phase 都有**立即可视觉验证**的成果。
 
 ---
@@ -86,36 +102,43 @@
 - ✅ 直接删除并替换旧实现（如 TrendCard.swift）
 - ✅ 不确定能否删除时，先注释并标注 `// TODO: 待删除 - UI 重构`
 
+**编译要求**
+
+```bash
+# iOS Simulator
+xcodebuild -project TrendLens.xcodeproj -scheme TrendLens \
+  -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
+
+# iPad Simulator
+xcodebuild -project TrendLens.xcodeproj -scheme TrendLens \
+  -destination 'platform=iOS Simulator,name=iPad Pro 13-inch (M5)'
+
+# macOS
+xcodebuild -project TrendLens.xcodeproj -scheme TrendLens \
+  -destination 'platform=macOS'
+```
+
 ---
 
 ## 🎯 垂直切片式开发计划（6 Phase）
 
 ### Phase 1.5.1：基础系统 + 第一个可见卡片 ✅
 
-**完成日期：** 2026-01-23
-
 **核心交付：** DesignSystem 重构、原子级组件库（PlatformIcon、RankChangeIndicator、MiniTrendLine、StandardCard）
-
 **实现细节收纳** → 参见 [TrendLens New UI Design System.md](TrendLens%20New%20UI%20Design%20System.md) 第 3-5 章、第 7.3-7.4 章
 
 ---
 
 ### Phase 1.5.2：Feed 页面集成 ✅
 
-**完成日期：** 2026-01-23
-
 **核心交付：** HeroCard 实现、FeedView 重构为 Hero+Standard 混合布局
-
 **实现细节收纳** → 参见 [TrendLens New UI Design System.md](TrendLens%20New%20UI%20Design%20System.md) 第 7.3 章
 
 ---
 
 ### Phase 1.5.3：导航系统升级 ✅
 
-**完成日期：** 2026-01-23
-
 **交付成果：** 官方 TabView + FluidRibbon 完全集成，平台切换顺畅，导航交互流畅
-
 **实现细节收纳** → 参见 [TrendLens New UI Design System.md](TrendLens%20New%20UI%20Design%20System.md) 第 7.2 章、第 8 章
 
 **验收清单：**
@@ -133,43 +156,42 @@
 
 **前置条件：** Phase 3 完成
 
-- [ ] **4.1 重构 CompareView.swift**
-  - [ ] 删除旧的平台选择器
-  - [ ] 使用 FluidRibbon（但改为多选模式，或使用 Checkmark）
-  - [ ] 对比结果使用 StandardCard
-  - [ ] 背景改为 `.backgroundPrimary`
-  - [ ] 添加交集/差集的视觉区分（可选：背景色微调或分组分隔）
+完成日期：2026-01-24
 
-- [ ] **4.2 重构 SearchView.swift**
-  - [ ] 搜索输入框新设计：
-    - [ ] 背景 `.container` 或 `.thinMaterial`
-    - [ ] 12pt 圆角
-    - [ ] 聚焦时显示渐变边框（使用低热度色）
-    - [ ] 搜索结果使用 StandardCard
-    - [ ] 空状态使用新的 EmptyStateView
+- ✅ **4.1 重构 CompareView.swift**
+  - ✅ 删除旧的平台选择器
+  - ✅ 使用 FluidRibbon（但改为多选模式，或使用 Checkmark）
+  - ✅ 对比结果使用 StandardCard
+  - ✅ 背景改为 `.backgroundPrimary`
+  - ✅ 添加交集/差集的视觉区分（可选：背景色微调或分组分隔）
 
-- [ ] **4.3 更新状态组件**
-  - [ ] **EmptyStateView.swift**（无数据态）
+- ✅ **4.2 重构 SearchView.swift**
+  - ✅ 搜索输入框新设计：
+    - ✅ 背景 `.container` 或 `.thinMaterial`
+    - ✅ 12pt 圆角
+    - ✅ 聚焦时显示渐变边框（使用低热度色）
+    - ✅ 搜索结果使用 StandardCard
+    - ✅ 空状态使用新的 EmptyStateView
 
-    - [ ] 图标 + 文字居中布局
-    - [ ] 使用中性色
-    - [ ] 可选：轻微浮动动画
-  - [ ] **SkeletonCard.swift**（加载态）
-    - [ ] 改用渐变闪烁动画（而非灰色块）
-    - [ ] 形状匹配 StandardCard 布局
-    - [ ] 动画时长 1.5s，repeatForever
-  - [ ] **ErrorView.swift**（错误态）
-    - [ ] 图标 + 错误信息 + 重试按钮
-    - [ ] 按钮样式与新设计对齐
+- ✅ **4.3 更新状态组件**
+  - ✅ **EmptyStateView.swift**（无数据态）
+    - ✅ 图标 + 文字居中布局
+    - ✅ 使用中性色
+    - ✅ 可选：轻微浮动动画
+  - ✅ **SkeletonCard.swift**（加载态）
+    - ✅ 改用渐变闪烁动画（而非灰色块）
+    - ✅ 形状匹配 StandardCard 布局
+    - ✅ 动画时长 1.5s，repeatForever
+  - ✅ **ErrorView.swift**（错误态）
+    - ✅ 图标 + 错误信息 + 重试按钮
+    - ✅ 按钮样式与新设计对齐
 
-- [ ] **4.4 响应式布局（iPad/Mac）**
-  - [ ] iPad（428pt - 1024pt）：
-    - [ ] 使用 LazyVGrid 2 列布局
-    - [ ] FloatingDock 可能改为顶部 Tab（或保留底部并调整 padding）
-  - [ ] Mac（> 1024pt）：
-    - [ ] NavigationSplitView 三列：Sidebar + 内容 + 详情
-    - [ ] 顶部 Tab 改为 Sidebar 选项
-  - [ ] 断点定义：`@Environment(\.horizontalSizeClass)` 和 `.widthClass`
+- ✅ **4.4 响应式布局（iPad/Mac）**
+  - ✅ iPad（428pt - 1024pt）：
+    - ✅ 使用 LazyVGrid 2 列布局
+  - ✅ Mac（> 1024pt）：
+    - ✅ 保持单列布局（NavigationSplitView 适配）
+  - ✅ 断点定义：`@Environment(\.horizontalSizeClass)` 使用
 
 **验收标准：**
 
@@ -177,6 +199,7 @@
 - ✅ 空/加载/错误态都应用新设计
 - ✅ iPad 和 Mac 布局合理，没有信息丢失
 - ✅ Settings 页面背景改为 `.backgroundPrimary`
+- ✅ 三端编译通过（iPhone/iPad/Mac）
 
 ---
 

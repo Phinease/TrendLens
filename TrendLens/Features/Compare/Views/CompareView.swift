@@ -16,6 +16,8 @@ struct CompareView: View {
     @State private var selectedPlatforms: Set<Platform> = []
     @State private var selectedTopic: TrendTopicEntity? = nil
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
 
     // MARK: - Computed Properties
 
@@ -214,20 +216,58 @@ struct CompareView: View {
 
     private var comparisonResultView: some View {
         ScrollView {
-            LazyVStack(spacing: DesignSystem.Spacing.lg) {
-                // 交集话题
-                if !viewModel.intersectionTopics.isEmpty {
-                    intersectionSection
-                }
+            if shouldUseGridLayout {
+                // iPad: 2列卡片布局
+                LazyVGrid(
+                    columns: [
+                        GridItem(.flexible(), spacing: DesignSystem.Spacing.md),
+                        GridItem(.flexible(), spacing: DesignSystem.Spacing.md)
+                    ],
+                    spacing: DesignSystem.Spacing.lg
+                ) {
+                    // 交集话题卡片
+                    ForEach(Array(viewModel.intersectionTopics.enumerated()), id: \.element.id) { index, topic in
+                        StandardCard(topic: topic, rank: index + 1)
+                            .onTapGesture {
+                                selectedTopic = topic
+                            }
+                    }
 
-                // 平台独有话题
-                if !viewModel.uniqueTopics.isEmpty {
-                    uniqueTopicsSection
+                    // 平台独有话题卡片
+                    ForEach(Array(viewModel.uniqueTopics.keys.sorted(by: { $0.displayName < $1.displayName })), id: \.self) { platform in
+                        if let topics = viewModel.uniqueTopics[platform], !topics.isEmpty {
+                            ForEach(Array(topics.prefix(5).enumerated()), id: \.element.id) { index, topic in
+                                StandardCard(topic: topic, rank: topic.rank)
+                                    .onTapGesture {
+                                        selectedTopic = topic
+                                    }
+                            }
+                        }
+                    }
                 }
+                .padding(.horizontal, DesignSystem.Spacing.md)
+                .padding(.vertical, DesignSystem.Spacing.sm)
+            } else {
+                // iPhone: 单列布局
+                LazyVStack(spacing: DesignSystem.Spacing.lg) {
+                    // 交集话题
+                    if !viewModel.intersectionTopics.isEmpty {
+                        intersectionSection
+                    }
+
+                    // 平台独有话题
+                    if !viewModel.uniqueTopics.isEmpty {
+                        uniqueTopicsSection
+                    }
+                }
+                .padding(.horizontal, DesignSystem.Spacing.md)
+                .padding(.vertical, DesignSystem.Spacing.sm)
             }
-            .padding(.horizontal, DesignSystem.Spacing.md)
-            .padding(.vertical, DesignSystem.Spacing.sm)
         }
+    }
+
+    private var shouldUseGridLayout: Bool {
+        horizontalSizeClass == .regular
     }
 
     private var intersectionSection: some View {

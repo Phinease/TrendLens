@@ -18,6 +18,8 @@ struct SearchView: View {
     @State private var selectedTopic: TrendTopicEntity? = nil
     @FocusState private var isSearchFieldFocused: Bool
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
 
     // MARK: - Computed Properties
 
@@ -182,7 +184,7 @@ struct SearchView: View {
 
     private var searchResultsView: some View {
         ScrollView {
-            LazyVStack(spacing: DesignSystem.Spacing.sm) {
+            VStack(alignment: .leading, spacing: DesignSystem.Spacing.md) {
                 HStack {
                     Text("找到 \(viewModel.searchResults.count) 个结果")
                         .font(DesignSystem.Typography.caption)
@@ -193,16 +195,42 @@ struct SearchView: View {
                 .padding(.horizontal, DesignSystem.Spacing.md)
                 .padding(.top, DesignSystem.Spacing.sm)
 
-                ForEach(Array(viewModel.searchResults.enumerated()), id: \.element.id) { index, topic in
-                    StandardCard(topic: topic, rank: topic.rank)
-                        .onTapGesture {
-                            selectedTopic = topic
+                if shouldUseGridLayout {
+                    // iPad/Mac: 2列网格布局
+                    LazyVGrid(
+                        columns: [
+                            GridItem(.flexible(), spacing: DesignSystem.Spacing.sm),
+                            GridItem(.flexible(), spacing: DesignSystem.Spacing.sm)
+                        ],
+                        spacing: DesignSystem.Spacing.sm
+                    ) {
+                        ForEach(Array(viewModel.searchResults.enumerated()), id: \.element.id) { index, topic in
+                            StandardCard(topic: topic, rank: topic.rank)
+                                .onTapGesture {
+                                    selectedTopic = topic
+                                }
                         }
+                    }
+                    .padding(.horizontal, DesignSystem.Spacing.md)
+                } else {
+                    // iPhone: 单列布局
+                    LazyVStack(spacing: DesignSystem.Spacing.sm) {
+                        ForEach(Array(viewModel.searchResults.enumerated()), id: \.element.id) { index, topic in
+                            StandardCard(topic: topic, rank: topic.rank)
+                                .onTapGesture {
+                                    selectedTopic = topic
+                                }
+                        }
+                    }
+                    .padding(.horizontal, DesignSystem.Spacing.md)
                 }
             }
-            .padding(.horizontal, DesignSystem.Spacing.md)
             .padding(.vertical, DesignSystem.Spacing.sm)
         }
+    }
+
+    private var shouldUseGridLayout: Bool {
+        horizontalSizeClass == .regular
     }
 
     // MARK: - Actions
