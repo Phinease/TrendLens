@@ -46,15 +46,13 @@ struct FeedView: View {
 
                 // 内容区域
                 contentView
+                    .animation(.spring(response: 0.4, dampingFraction: 0.8, blendDuration: 2.0), value: displayedTopics.count)
             }
             .navigationTitle("热榜")
 #if os(iOS)
             .navigationBarTitleDisplayMode(.large)
 #endif
             .background(DesignSystem.Neutral.backgroundPrimary(colorScheme))
-            .refreshable {
-                await refreshData()
-            }
             .task {
                 // 页面加载时获取数据
                 if viewModel.topics.isEmpty {
@@ -67,28 +65,29 @@ struct FeedView: View {
 
     // MARK: - Content View
 
+    private var showInitialSkeleton: Bool {
+        isLoading && viewModel.topics.isEmpty
+    }
+
     @ViewBuilder
     private var contentView: some View {
-        if isLoading {
+        if showInitialSkeleton {
             SkeletonList(count: 6)
                 .padding(.top, DesignSystem.Spacing.sm)
         } else if hasError {
             ErrorView(
                 error: viewModel.error ?? AppError.unknown("加载失败"),
-                retryAction: {
-                    Task { await viewModel.fetchTopics(forceRefresh: true) }
-                }
+                retryAction: { Task { await viewModel.fetchTopics(forceRefresh: true) } }
             )
         } else if displayedTopics.isEmpty {
             EmptyStateView(
                 state: selectedPlatform.map { .noPlatformData(platform: $0) } ?? .noTrends
-            ) {
-                Task { await viewModel.fetchTopics(forceRefresh: true) }
-            }
+            ) { Task { await viewModel.fetchTopics(forceRefresh: true) } }
         } else {
             topicList
         }
     }
+
 
     private var topicList: some View {
         ScrollView {
@@ -202,14 +201,16 @@ struct FeedView: View {
                     dragOffset = 0
                 }
         )
+        .refreshable {
+            await refreshData()
+        }
     }
 
     // MARK: - Actions
 
     private func refreshData() async {
-        // 刷新所有平台数据
+        // 刷新数据（动画由 .animation modifier 自动处理）
         await DependencyContainer.shared.refreshAllData()
-        // 重新获取数据
         await viewModel.fetchTopics(forceRefresh: true)
     }
 
@@ -399,7 +400,7 @@ private struct FeedViewPreview: View {
             }
             .navigationTitle("热榜")
 #if os(iOS)
-            .navigationBarTitleDisplayMode(.large)
+            .navigationBarTitleDisplayMode(.inline)
 #endif
             .background(DesignSystem.Neutral.backgroundPrimary(colorScheme))
         }

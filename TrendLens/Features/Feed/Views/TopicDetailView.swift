@@ -19,16 +19,25 @@ struct TopicDetailView: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: DesignSystem.Spacing.lg) {
+            VStack(alignment: .leading, spacing: 0) {
                 // 标题区域
                 headerSection
 
                 Divider()
+                .padding(.vertical, DesignSystem.Spacing.xl)
 
                 // 热度曲线
                 if !topic.heatHistory.isEmpty {
-                    curveSection
+                    HeatCurveView(
+                        dataPoints: topic.heatHistory,
+                        platform: topic.platform,
+                        style: .full
+                    )
+                    .frame(height: 300)
+                    .padding(.vertical, DesignSystem.Spacing.xl)
+
                     Divider()
+                    .padding(.vertical, DesignSystem.Spacing.xl)
                 }
 
                 // 话题信息
@@ -36,7 +45,7 @@ struct TopicDetailView: View {
 
                 // 底部留白
                 Spacer()
-                    .frame(height: DesignSystem.Spacing.xxl)
+                .frame(height: DesignSystem.Spacing.xl)
             }
             .padding(DesignSystem.Spacing.md)
         }
@@ -55,7 +64,7 @@ struct TopicDetailView: View {
     // MARK: - Sections
 
     private var headerSection: some View {
-        VStack(alignment: .leading, spacing: DesignSystem.Spacing.sm) {
+        VStack(alignment: .leading, spacing: DesignSystem.Spacing.md) {
             // 排名和标题
             HStack(alignment: .top, spacing: DesignSystem.Spacing.sm) {
                 RankBadge(rank: topic.rank, platform: topic.platform)
@@ -97,21 +106,16 @@ struct TopicDetailView: View {
 
     private var curveSection: some View {
         VStack(alignment: .leading, spacing: DesignSystem.Spacing.sm) {
-            Text("热度趋势")
-                .font(DesignSystem.Typography.headline)
-                .foregroundStyle(.primary)
+            // Text("热度趋势")
+            //     .font(DesignSystem.Typography.headline)
+            //     .foregroundStyle(.primary)
 
-            HeatCurveView(
-                dataPoints: topic.heatHistory,
-                platform: topic.platform,
-                style: .full
-            )
-            .frame(height: 200)
+            
         }
     }
 
     private var infoSection: some View {
-        VStack(alignment: .leading, spacing: DesignSystem.Spacing.sm) {
+        VStack(alignment: .leading, spacing: DesignSystem.Spacing.md) {
             Text("话题信息")
                 .font(DesignSystem.Typography.headline)
                 .foregroundStyle(.primary)
@@ -134,52 +138,45 @@ struct TopicDetailView: View {
     }
 
     private var tagsSection: some View {
-        VStack(alignment: .leading, spacing: DesignSystem.Spacing.xs) {
+        HStack() {
             Text("标签")
                 .font(DesignSystem.Typography.caption)
                 .foregroundStyle(.secondary)
 
-            FlowLayout(spacing: DesignSystem.Spacing.xs) {
-                ForEach(topic.tags, id: \.self) { tag in
-                    Text("#\(tag)")
-                        .font(DesignSystem.Typography.footnote)
-                        .foregroundStyle(.secondary)
-                        .padding(.horizontal, DesignSystem.Spacing.sm)
-                        .padding(.vertical, DesignSystem.Spacing.xxs)
-                        .background(Color.gray.opacity(0.15))
-                        .clipShape(Capsule())
-                }
+            Spacer()
+
+            // FlowLayout(spacing: DesignSystem.Spacing.xs) {
+            ForEach(topic.tags, id: \.self) { tag in
+                Text("#\(tag)")
+                    .font(DesignSystem.Typography.footnote)
+                    .foregroundStyle(.primary)
+                    .padding(.horizontal, DesignSystem.Spacing.sm)
+                    .padding(.vertical, DesignSystem.Spacing.xxs)
+                    .background(Color.gray.opacity(0.15))
+                    .clipShape(Capsule())
+            // }
             }
         }
-        .padding(.top, DesignSystem.Spacing.xs)
     }
 
     private func linkSection(url: URL) -> some View {
-        VStack(alignment: .leading, spacing: DesignSystem.Spacing.xs) {
+        HStack() {
             Text("原始链接")
                 .font(DesignSystem.Typography.caption)
                 .foregroundStyle(.secondary)
+
+            Spacer()
 
             Link(destination: url) {
                 HStack {
                     Image(systemName: "link")
                         .font(.system(size: 14))
-
                     Text("查看原文")
                         .font(DesignSystem.Typography.body)
-
-                    Spacer()
-
-                    Image(systemName: "arrow.up.right")
-                        .font(.system(size: 12))
                 }
-                .foregroundStyle(.blue)
-                .padding(DesignSystem.Spacing.sm)
-                .background(Color.blue.opacity(0.1))
                 .clipShape(RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.small, style: .continuous))
             }
         }
-        .padding(.top, DesignSystem.Spacing.xs)
     }
 
     private var shareButton: some View {

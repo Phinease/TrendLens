@@ -89,7 +89,7 @@ struct HeatCurveView: View {
     }
 
     private var fullChart: some View {
-        VStack(alignment: .leading, spacing: DesignSystem.Spacing.sm) {
+        VStack(alignment: .leading, spacing: DesignSystem.Spacing.lg) {
             // 标题和选中信息
             headerView
 
@@ -169,14 +169,14 @@ struct HeatCurveView: View {
     // MARK: - Subviews
 
     private var headerView: some View {
-        HStack {
+        HStack(alignment: .top, spacing: DesignSystem.Spacing.xxl) {
             Text("热度趋势")
                 .font(DesignSystem.Typography.headline)
 
             Spacer()
 
-            if let point = selectedPoint {
-                VStack(alignment: .trailing, spacing: 2) {
+            VStack(alignment: .trailing, spacing: 2) {
+                if let point = selectedPoint {
                     Text(point.heatValue.formattedHeat)
                         .font(DesignSystem.Typography.monoLarge)
                         .foregroundStyle(platformColor)
@@ -184,6 +184,12 @@ struct HeatCurveView: View {
                     Text(point.timestamp, style: .time)
                         .font(DesignSystem.Typography.footnote)
                         .foregroundStyle(.secondary)
+                } else {
+                    Text(" ")
+                        .font(DesignSystem.Typography.monoLarge)
+
+                    Text(" ")
+                        .font(DesignSystem.Typography.footnote)
                 }
             }
         }

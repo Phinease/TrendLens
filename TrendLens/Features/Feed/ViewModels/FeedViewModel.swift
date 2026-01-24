@@ -44,7 +44,6 @@ final class FeedViewModel {
         } catch {
             self.error = error
         }
-
         isLoading = false
     }
 

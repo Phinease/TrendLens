@@ -119,7 +119,7 @@ struct HeroCard: View {
             // 高热度显示火焰图标
             if topic.heatValue > 500_000 {
                 Image(systemName: "flame.fill")
-                    .font(.system(size: 20, weight: .semibold))
+                    .font(.system(size: 14, weight: .semibold))
                     .foregroundStyle(DesignSystem.HeatSpectrum.color(for: topic.heatValue))
             }
         }

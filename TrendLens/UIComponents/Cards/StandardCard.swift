@@ -91,7 +91,7 @@ struct StandardCard: View {
             Text(formatTime(topic.fetchedAt))
                 .font(.system(size: 13, weight: .regular, design: .default))
                 .foregroundStyle(.secondary)
-                .frame(width: 28, alignment: .center)
+                .frame(width: 30, alignment: .center)
 
             // 分隔符
             Text("·")
