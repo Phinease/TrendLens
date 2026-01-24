@@ -8,7 +8,7 @@
 import SwiftUI
 
 /// 流体化平台选择器
-/// 支持横向滚动、流畅动画、平台切换
+/// 支持横向滚动、流畅动画、平台切换、左右滑动手势
 struct FluidRibbon: View {
 
     // MARK: - Properties
@@ -21,6 +21,9 @@ struct FluidRibbon: View {
 
     /// 环境变量
     @Environment(\.colorScheme) private var colorScheme
+
+    /// 滑动手势回调（可选）- 用于在父视图中添加滑动手势
+    var onSwipeGesture: ((DragGesture.Value) -> Void)? = nil
 
     // MARK: - Body
 
@@ -59,10 +62,18 @@ struct FluidRibbon: View {
             #endif
         } label: {
             VStack(spacing: 4) {
-                // 文字
-                Text(title)
-                    .font(.system(size: 15, weight: isSelected ? .semibold : .medium))
-                    .foregroundStyle(isSelected ? .primary : .secondary)
+                // 文字 - 选中时使用平台渐变色
+                if isSelected, let platform = platform {
+                    // 平台选中态 - 使用渐变色文字
+                    Text(title)
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundStyle(platform.selectionGradient)
+                } else {
+                    // 未选中或"全部"选项 - 使用标准颜色
+                    Text(title)
+                        .font(.system(size: 15, weight: isSelected ? .semibold : .medium))
+                        .foregroundStyle(isSelected ? .primary : .secondary)
+                }
 
                 // 选中指示器
                 if isSelected {

@@ -4,7 +4,7 @@
 > **阶段定义参考：** [TrendLens Development Plan.md](TrendLens%20Development%20Plan.md) 第 7 章
 >
 > **当前阶段：** 阶段 1.5 - UI 系统重构（Ethereal Insight）
-> **最后更新：** 2026-01-23
+> **最后更新：** 2026-01-24
 
 ---
 
@@ -76,13 +76,44 @@
 
 ---
 
+### 阶段 1.5.5：话题详情页重构 ✅
+
+完成日期：2026-01-24
+
+**核心交付：** TopicDetailView 独立页面化，弃用 Sheet 模态框
+
+**实现细节：**
+
+- ✅ 创建 TopicDetailView.swift 独立组件（Features/Feed/Views/）
+- ✅ 完整显示标题、AI 摘要、描述、热度曲线、标签、链接等信息
+- ✅ 使用标准 NavigationLink 替代 sheet(item:)
+- ✅ 更新 FeedView、SearchView、CompareView 中的导航方式
+- ✅ 使用 FlowLayout 实现标签流式布局
+- ✅ 添加分享功能（UIActivityViewController）
+
+**架构决策（ADR-005）：**
+
+选择标准导航而非 Sheet + matchedGeometryEffect 的原因：
+1. 用户体验一致性（熟悉的左滑返回手势）
+2. 内容容量充足（全屏显示完整信息）
+3. 开发成本低（无需管理复杂动画状态）
+4. 可访问性更好（VoiceOver 自动识别层级）
+5. 多任务兼容（iPad 分屏、Mac Catalyst）
+
+**文档更新：**
+
+- ✅ 更新 TrendLens New UI Design System.md（ADR-005、组件清单）
+- ✅ 更新 TrendLens Technical Architecture.md（目录结构、导航模式）
+
+---
+
 ## 当前阶段
 
-### 阶段 1.5.5：高级特效与交互 🚧
+### 阶段 1.5.6：高级特效与交互 🚧
 
 **目标：** 发光、脉冲、卡片交互等高级特效完整实现
 **设计文档：** [TrendLens New UI Design System.md](TrendLens%20New%20UI%20Design%20System.md)
-**前置条件：** Phase 1.5.4 完成 ✅
+**前置条件：** Phase 1.5.5 完成 ✅
 **开发策略：** 垂直切片式迭代，每个 Phase 都有**立即可视觉验证**的成果。
 
 ---
@@ -150,7 +181,7 @@ xcodebuild -project TrendLens.xcodeproj -scheme TrendLens \
 
 ---
 
-### Phase 4：其他页面与状态组件 ✅ 全局统一体验
+### Phase 1.5.4：其他页面与状态组件 ✅ 全局统一体验
 
 **交付成果：** Compare / Search / Settings 都使用新设计，所有页面统一风格
 
@@ -203,13 +234,34 @@ xcodebuild -project TrendLens.xcodeproj -scheme TrendLens \
 
 ---
 
-### Phase 5：高级特效与交互 ✅ 最终打磨
+### Phase 1.5.5：高级特效与交互 ⏳ 部分完成
 
-**交付成果：** 发光、脉冲、卡片交互等高级特效完整实现
+**交付成果：** 卡片交互、FluidRibbon 优化等功能完整实现（热度特效和性能优化待评审）
 
-**前置条件：** Phase 4 完成
+**前置条件：** Phase 4 完成 ✅
 
-- [ ] **5.1 实现热度特效**
+**完成日期：** 2026-01-24（部分功能）
+
+**已实现功能：**
+
+- ✅ **FluidRibbon 优化**（额外完成）
+  - ✅ 添加左右滑动手势切换平台
+  - ✅ 统一选中文字颜色与下划线颜色（使用平台渐变）
+  - ✅ 触觉反馈和流畅动画
+
+- ✅ **5.2 实现卡片交互**
+  - ✅ 点击反馈：缩放效果 `scaleEffect(0.98)` + 触觉反馈
+  - ✅ 滑动操作（仅 iPhone）：左滑屏蔽、右滑收藏
+  - ✅ 长按快捷菜单：复制标题、分享、屏蔽、收藏、查看详情
+
+- ✅ **5.5 代码清理**
+  - ✅ 删除旧的 `TrendCard.swift` 文件
+  - ✅ 检查 TODO 注释（保留合理的待办标记）
+  - ✅ 三端编译验证通过
+
+**待评审功能：**
+
+- [ ] **5.1 实现热度特效**（重要：尚未评审，请勿开始开发！！！）
   - [ ] 创建 `Modifiers/HeatEffectModifier.swift`
   - [ ] **发光效果**（100k-500k 热度）：
     - [ ] 使用 `.shadow(color: heatColor, radius: 2-4, y: 0)`
@@ -224,52 +276,38 @@ xcodebuild -project TrendLens.xcodeproj -scheme TrendLens \
   - [ ] 集成到 HeroCard（始终检查） 和 StandardCard（高热度检查）
   - [ ] 尊重系统 `accessibilityReduceMotion` 设置
 
-- [ ] **5.2 实现卡片交互**
-  - [ ] 点击反馈：
-    - [ ] 缩放效果 `scaleEffect(0.98)` 时长 0.1s
-    - [ ] 触觉反馈 `.sensoryFeedback(.impact(.light), trigger: isPressed)`
-  - [ ] 滑动操作（仅 iPhone）：
-    - [ ] 左滑屏蔽：swipeActions(edge: .trailing) 红色 destructive
-    - [ ] 右滑收藏：swipeActions(edge: .leading) 蓝色
-    - [ ] 提示文字和图标
-  - [ ] 长按快捷菜单（contextMenu）：
-    - [ ] 复制标题、分享、屏蔽、详情等选项
-
-- [ ] **5.3 实现详情页转场**
-  - [ ] 创建 DetailView（显示完整话题信息）
+- [ ] **5.3 实现详情页转场**（待实现）
+  - [ ] 重构 TopicDetailSheet 为 DetailView
   - [ ] 使用 `@Namespace` 和 `matchedGeometryEffect`
   - [ ] 卡片展开动画：spring(response: 0.4, dampingFraction: 0.8)
   - [ ] 背景模糊过渡：`.background(.ultraThinMaterial)`
   - [ ] 关闭时反向动画
 
-- [ ] **5.4 性能优化**
+- [ ] **5.4 性能优化**（重要：尚未评审，请勿开始开发！！！）
   - [ ] Instruments 检查列表滚动性能（60fps）
   - [ ] 检查内存泄漏（CardGalleryView / DetailView 回收）
   - [ ] 图片加载优化（如有远程资源）
   - [ ] SwiftData 查询优化（确保不阻塞主线程）
 
-- [ ] **5.5 代码清理**
-  - [ ] **搜索并删除所有旧组件文件：**
-    - [ ] `TrendCard.swift`（已被 HeroCard/StandardCard 替代）
-    - [ ] 旧的 `PlatformBadge.swift`（已被 PlatformIcon 替代）
-    - [ ] 旧的 `HeatIndicator.swift`（如果完全替代）
-    - [ ] 旧的 Prismatic Flow 相关组件
-  - [ ] 搜索代码库中所有 `// TODO: 待删除` 注释并完成或删除
-  - [ ] 检查是否有废弃的 import
-  - [ ] 运行 SwiftLint，修复所有警告
 
-**验收标准：**
+**部分验收标准（已完成）：**
 
-- ✅ 高热度卡片（500k+）有可见的脉冲/发光效果
 - ✅ 卡片点击有缩放反馈和触觉反馈
-- ✅ 滑动和长按操作正常工作
-- ✅ 详情页转场动画流畅，无闪烁
+- ✅ 滑动和长按操作正常工作（仅 iPhone）
 - ✅ 代码库无旧 TrendCard 相关文件
-- ✅ 编译无警告，无 Swift Lint 错误
+- ✅ 三端编译通过（iPhone/iPad/Mac）
+- ✅ FluidRibbon 支持左右滑动切换平台
+- ✅ FluidRibbon 文字与下划线颜色统一
+
+**待完成验收标准：**
+
+- ⏸ 高热度卡片（500k+）有可见的脉冲/发光效果（待评审）
+- ⏸ 详情页转场动画流畅，无闪烁（待实现）
+- ⏸ 性能优化完成（待评审）
 
 ---
 
-### Phase 6：三端验证与文档更新 ✅ 最终交付
+### Phase 1.5.6：三端验证与文档更新 ✅ 最终交付
 
 **交付成果：** 所有平台验证通过，文档完全同步，UI 重构完成
 

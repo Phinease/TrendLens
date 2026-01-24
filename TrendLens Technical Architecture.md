@@ -35,12 +35,18 @@ TrendLens/
 ├── App/                    # 入口、依赖注入
 ├── Features/               # 功能模块
 │   ├── Feed/               # 首页热榜（All）
+│   │   ├── Views/
+│   │   │   ├── FeedView.swift
+│   │   │   └── TopicDetailView.swift    # 话题详情页（独立导航页面）
+│   │   ├── ViewModels/
+│   │   │   └── FeedViewModel.swift
+│   │   └── Components/
 │   ├── Compare/            # 对比页（交集/差集）
 │   ├── Search/             # 搜索/收藏
 │   ├── Settings/           # 设置
 │   └── [Feature]/
-│       ├── [Feature]View.swift
-│       ├── [Feature]ViewModel.swift
+│       ├── Views/
+│       ├── ViewModels/
 │       └── Components/
 ├── Core/
 │   ├── Domain/
@@ -53,6 +59,11 @@ TrendLens/
 │   │   └── Mappers/        # DTO ↔ Entity ↔ Model
 │   └── Infrastructure/     # Network, Logging, BackgroundTasks
 ├── UIComponents/           # 可复用组件
+│   ├── Navigation/         # FluidRibbon
+│   ├── Cards/              # HeroCard, StandardCard, PlatformIcon
+│   ├── Charts/             # HeatCurveView, MiniTrendLine
+│   ├── States/             # EmptyStateView, SkeletonCard
+│   └── Modifiers/          # CardStyle, HeatEffectModifier
 ├── Extensions/
 └── Resources/
 ```
@@ -165,6 +176,32 @@ Published State (private(set)) → Dependencies → Init → Public Methods
 ### 错误处理
 
 定义领域错误类型，Repository 层统一转换
+
+### 导航模式
+
+**标准导航栈（推荐）：**
+
+```swift
+// 列表页
+NavigationStack {
+    List(items) { item in
+        NavigationLink(destination: DetailView(item: item)) {
+            ItemRow(item: item)
+        }
+        .buttonStyle(.plain)  // 保持自定义样式
+    }
+}
+```
+
+**使用场景：**
+- 详情页：使用 NavigationLink（如 TopicDetailView）
+- 全屏模态：使用 `.sheet(item:)` 或 `.fullScreenCover(item:)`
+- 临时弹出：使用 `.sheet(item:)` + `.presentationDetents([.medium])`
+
+**最佳实践：**
+- 优先使用系统标准导航（NavigationStack + NavigationLink）
+- 仅在必要时使用自定义转场动画
+- 保持导航层级清晰，避免嵌套超过 3 层
 
 ---
 

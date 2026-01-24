@@ -15,7 +15,6 @@ struct SearchView: View {
     @State private var viewModel = DependencyContainer.shared.makeSearchViewModel()
     @State private var searchText = ""
     @State private var selectedPlatform: Platform? = nil
-    @State private var selectedTopic: TrendTopicEntity? = nil
     @FocusState private var isSearchFieldFocused: Bool
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
@@ -57,9 +56,6 @@ struct SearchView: View {
             .navigationBarTitleDisplayMode(.large)
 #endif
             .background(DesignSystem.Neutral.backgroundPrimary(colorScheme))
-            .sheet(item: $selectedTopic) { topic in
-                TopicDetailSheet(topic: topic)
-            }
         }
     }
 
@@ -205,10 +201,10 @@ struct SearchView: View {
                         spacing: DesignSystem.Spacing.sm
                     ) {
                         ForEach(Array(viewModel.searchResults.enumerated()), id: \.element.id) { index, topic in
-                            StandardCard(topic: topic, rank: topic.rank)
-                                .onTapGesture {
-                                    selectedTopic = topic
-                                }
+                            NavigationLink(destination: TopicDetailView(topic: topic)) {
+                                StandardCard(topic: topic, rank: topic.rank)
+                            }
+                            .buttonStyle(.plain)
                         }
                     }
                     .padding(.horizontal, DesignSystem.Spacing.md)
@@ -216,10 +212,10 @@ struct SearchView: View {
                     // iPhone: 单列布局
                     LazyVStack(spacing: DesignSystem.Spacing.sm) {
                         ForEach(Array(viewModel.searchResults.enumerated()), id: \.element.id) { index, topic in
-                            StandardCard(topic: topic, rank: topic.rank)
-                                .onTapGesture {
-                                    selectedTopic = topic
-                                }
+                            NavigationLink(destination: TopicDetailView(topic: topic)) {
+                                StandardCard(topic: topic, rank: topic.rank)
+                            }
+                            .buttonStyle(.plain)
                         }
                     }
                     .padding(.horizontal, DesignSystem.Spacing.md)

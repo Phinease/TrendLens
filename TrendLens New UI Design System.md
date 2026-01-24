@@ -1144,9 +1144,27 @@ var body: some View {
 - 达到刷新阈值：`.impact(.medium)`
 - 刷新完成：`.notification(.success)`
 
-### 9.3 详情页转场
+### 9.3 详情页导航
 
-**使用 matchedGeometryEffect 实现卡片展开动画：**
+> **⚠️ 实现变更（2026-01-24）**
+>
+> - **设计方案：** 使用 matchedGeometryEffect 实现卡片展开动画
+> - **最终实现：** 使用标准 NavigationLink 导航到独立页面
+> - **原因：** 系统原生导航体验更一致、返回手势更自然、代码维护成本低
+> - **状态：** 以下为原设计存档，实际使用标准 NavigationLink
+
+**实际实现：标准导航链接**
+
+```swift
+// 在 FeedView/SearchView/CompareView 中
+NavigationLink(destination: TopicDetailView(topic: topic)) {
+    StandardCard(topic: topic, rank: topic.rank)
+}
+.buttonStyle(.plain) // 保持卡片原始样式
+```
+
+<details>
+<summary>原 matchedGeometryEffect 设计方案（已弃用，点击展开）</summary>
 
 ```swift
 @Namespace private var namespace
@@ -1167,6 +1185,8 @@ if let selected = selectedTopic {
         .transition(.opacity)
 }
 ```
+
+</details>
 
 ### 9.4 动效时长表
 
@@ -1424,13 +1444,16 @@ TrendLens/UIComponents/
 │   └── RankChangeIndicator.swift       # 排名变化指示器
 ├── Charts/
 │   ├── MiniTrendLine.swift             # 迷你趋势线
-│   └── FullTrendChart.swift            # 详情页完整图表
+│   └── HeatCurveView.swift             # 详情页热度曲线图表
 ├── States/
 │   ├── EmptyStateView.swift            # 空状态
 │   └── SkeletonCard.swift              # 骨架屏
 └── Modifiers/
     ├── CardStyle.swift                 # 卡片样式修饰器
     └── HeatEffectModifier.swift        # 热度特效修饰器
+
+TrendLens/Features/Feed/Views/
+└── TopicDetailView.swift               # 话题详情页（独立导航页面）
 ```
 
 ### 13.3 实现优先级
@@ -1447,10 +1470,10 @@ TrendLens/UIComponents/
 6. RankChangeIndicator.swift
 
 **Phase 3（高级特性）：**
-7. HeroCard.swift
-8. 卡片滑动操作
-9. 详情页转场动画
-10. 热度特效（发光、脉冲）
+7. ✅ HeroCard.swift
+8. ✅ 卡片滑动操作（已在 FeedView 实现）
+9. ✅ 详情页导航（TopicDetailView - 使用标准 NavigationLink）
+10. ⏳ 热度特效（发光、脉冲）
 
 **Phase 4（优化）：**
 11. 骨架屏
@@ -1574,6 +1597,48 @@ static let mockTopics: [TrendTopicEntity] = [
 6. **深色模式和动态字体**：自动适配，无需手动处理
 
 **折衷：** 失去完全自定义的设计风格，但获得了更好的稳定性和可维护性
+
+### ADR-005：为什么详情页使用标准导航而非 Sheet + matchedGeometryEffect？
+
+**决策：** TopicDetailView 作为独立的导航页面，使用 NavigationLink 而非 sheet(item:) 弹出框。
+
+**理由：**
+
+1. **用户体验一致性**
+   - 标准导航栈提供熟悉的返回手势（左滑返回）
+   - 与系统应用（如 Safari、邮件）行为一致
+   - 用户不需要学习新的交互模式
+
+2. **内容容量**
+   - 详情页需要显示完整标题、AI 摘要、描述、热度曲线、标签、链接等
+   - Sheet 高度受限（.medium/.large），大屏设备空间利用不足
+   - 导航页面可以充分利用全屏空间
+
+3. **开发与维护成本**
+   - 无需管理 `@State selectedTopic` 状态
+   - 无需实现 matchedGeometryEffect 复杂动画
+   - 系统自动处理转场动画、手势识别、状态栏适配
+
+4. **可访问性**
+   - VoiceOver 自动识别导航层级
+   - 系统自动处理返回按钮的辅助标签
+   - 动态字体在全屏页面有更好的空间
+
+5. **多任务兼容**
+   - iPad 分屏模式下，导航栈表现更自然
+   - Mac Catalyst 版本中，窗口管理更符合 macOS 习惯
+
+**折衷：** 失去了卡片展开的视觉连续性（matchedGeometryEffect），但获得了更标准、更稳定的用户体验。
+
+**实现细节：**
+
+```swift
+// 在列表中
+NavigationLink(destination: TopicDetailView(topic: topic)) {
+    StandardCard(topic: topic, rank: topic.rank)
+}
+.buttonStyle(.plain) // 保持卡片点击样式，不显示默认的箭头
+```
 
 ---
 

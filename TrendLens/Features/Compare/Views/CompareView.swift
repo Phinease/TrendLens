@@ -14,7 +14,6 @@ struct CompareView: View {
 
     @State private var viewModel = DependencyContainer.shared.makeCompareViewModel()
     @State private var selectedPlatforms: Set<Platform> = []
-    @State private var selectedTopic: TrendTopicEntity? = nil
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.verticalSizeClass) private var verticalSizeClass
@@ -50,9 +49,6 @@ struct CompareView: View {
             .navigationBarTitleDisplayMode(.large)
 #endif
             .background(DesignSystem.Neutral.backgroundPrimary(colorScheme))
-            .sheet(item: $selectedTopic) { topic in
-                TopicDetailSheet(topic: topic)
-            }
             .task {
                 // 页面加载时获取数据
                 if viewModel.intersectionTopics.isEmpty && viewModel.uniqueTopics.isEmpty {
@@ -227,20 +223,20 @@ struct CompareView: View {
                 ) {
                     // 交集话题卡片
                     ForEach(Array(viewModel.intersectionTopics.enumerated()), id: \.element.id) { index, topic in
-                        StandardCard(topic: topic, rank: index + 1)
-                            .onTapGesture {
-                                selectedTopic = topic
-                            }
+                        NavigationLink(destination: TopicDetailView(topic: topic)) {
+                            StandardCard(topic: topic, rank: index + 1)
+                        }
+                        .buttonStyle(.plain)
                     }
 
                     // 平台独有话题卡片
                     ForEach(Array(viewModel.uniqueTopics.keys.sorted(by: { $0.displayName < $1.displayName })), id: \.self) { platform in
                         if let topics = viewModel.uniqueTopics[platform], !topics.isEmpty {
                             ForEach(Array(topics.prefix(5).enumerated()), id: \.element.id) { index, topic in
-                                StandardCard(topic: topic, rank: topic.rank)
-                                    .onTapGesture {
-                                        selectedTopic = topic
-                                    }
+                                NavigationLink(destination: TopicDetailView(topic: topic)) {
+                                    StandardCard(topic: topic, rank: topic.rank)
+                                }
+                                .buttonStyle(.plain)
                             }
                         }
                     }
@@ -291,10 +287,10 @@ struct CompareView: View {
 
             // 卡片列表
             ForEach(Array(viewModel.intersectionTopics.enumerated()), id: \.element.id) { index, topic in
-                StandardCard(topic: topic, rank: index + 1)
-                    .onTapGesture {
-                        selectedTopic = topic
-                    }
+                NavigationLink(destination: TopicDetailView(topic: topic)) {
+                    StandardCard(topic: topic, rank: index + 1)
+                }
+                .buttonStyle(.plain)
             }
         }
         .padding(DesignSystem.Spacing.md)
@@ -367,10 +363,10 @@ struct CompareView: View {
 
             // 话题卡片
             ForEach(Array(topics.prefix(5).enumerated()), id: \.element.id) { index, topic in
-                StandardCard(topic: topic, rank: topic.rank)
-                    .onTapGesture {
-                        selectedTopic = topic
-                    }
+                NavigationLink(destination: TopicDetailView(topic: topic)) {
+                    StandardCard(topic: topic, rank: topic.rank)
+                }
+                .buttonStyle(.plain)
             }
 
             // 更多提示
