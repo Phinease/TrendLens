@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+/// 对比页导航目的地类型
+enum CompareNavigationDestination: Hashable {
+    case topicDetail(TrendTopicEntity)
+    case dataAnalyse(TrendTopicEntity)
+}
+
 /// Compare 页面 - 平台对比分析
 struct CompareView: View {
 
@@ -14,6 +20,7 @@ struct CompareView: View {
 
     @State private var viewModel = DependencyContainer.shared.makeCompareViewModel()
     @State private var selectedPlatforms: Set<Platform> = []
+    @State private var navigationPath = NavigationPath()
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.verticalSizeClass) private var verticalSizeClass
@@ -35,7 +42,7 @@ struct CompareView: View {
     // MARK: - Body
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navigationPath) {
             VStack(spacing: 0) {
                 // 平台选择器
                 platformSelector
@@ -49,6 +56,14 @@ struct CompareView: View {
             .navigationBarTitleDisplayMode(.large)
 #endif
             .background(DesignSystem.Neutral.backgroundPrimary(colorScheme))
+            .navigationDestination(for: CompareNavigationDestination.self) { destination in
+                switch destination {
+                case .topicDetail(let topic):
+                    TopicDetailView(topic: topic)
+                case .dataAnalyse(let topic):
+                    DataAnalyseView(topic: topic)
+                }
+            }
             .task {
                 // 页面加载时获取数据
                 if viewModel.intersectionTopics.isEmpty && viewModel.uniqueTopics.isEmpty {
@@ -223,20 +238,40 @@ struct CompareView: View {
                 ) {
                     // 交集话题卡片
                     ForEach(Array(viewModel.intersectionTopics.enumerated()), id: \.element.id) { index, topic in
-                        NavigationLink(destination: TopicDetailView(topic: topic)) {
-                            StandardCard(topic: topic, rank: index + 1)
+                        StandardCard(
+                            topic: topic,
+                            rank: index + 1,
+                            onDetailTap: {
+                                navigationPath.append(CompareNavigationDestination.topicDetail(topic))
+                            },
+                            onDataTap: {
+                                navigationPath.append(CompareNavigationDestination.dataAnalyse(topic))
+                            }
+                        )
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            navigationPath.append(CompareNavigationDestination.topicDetail(topic))
                         }
-                        .buttonStyle(.plain)
                     }
 
                     // 平台独有话题卡片
                     ForEach(Array(viewModel.uniqueTopics.keys.sorted(by: { $0.displayName < $1.displayName })), id: \.self) { platform in
                         if let topics = viewModel.uniqueTopics[platform], !topics.isEmpty {
                             ForEach(Array(topics.prefix(5).enumerated()), id: \.element.id) { index, topic in
-                                NavigationLink(destination: TopicDetailView(topic: topic)) {
-                                    StandardCard(topic: topic, rank: topic.rank)
+                                StandardCard(
+                                    topic: topic,
+                                    rank: topic.rank,
+                                    onDetailTap: {
+                                        navigationPath.append(CompareNavigationDestination.topicDetail(topic))
+                                    },
+                                    onDataTap: {
+                                        navigationPath.append(CompareNavigationDestination.dataAnalyse(topic))
+                                    }
+                                )
+                                .contentShape(Rectangle())
+                                .onTapGesture {
+                                    navigationPath.append(CompareNavigationDestination.topicDetail(topic))
                                 }
-                                .buttonStyle(.plain)
                             }
                         }
                     }
@@ -287,10 +322,20 @@ struct CompareView: View {
 
             // 卡片列表
             ForEach(Array(viewModel.intersectionTopics.enumerated()), id: \.element.id) { index, topic in
-                NavigationLink(destination: TopicDetailView(topic: topic)) {
-                    StandardCard(topic: topic, rank: index + 1)
+                StandardCard(
+                    topic: topic,
+                    rank: index + 1,
+                    onDetailTap: {
+                        navigationPath.append(CompareNavigationDestination.topicDetail(topic))
+                    },
+                    onDataTap: {
+                        navigationPath.append(CompareNavigationDestination.dataAnalyse(topic))
+                    }
+                )
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    navigationPath.append(CompareNavigationDestination.topicDetail(topic))
                 }
-                .buttonStyle(.plain)
             }
         }
         .padding(DesignSystem.Spacing.md)
@@ -363,10 +408,20 @@ struct CompareView: View {
 
             // 话题卡片
             ForEach(Array(topics.prefix(5).enumerated()), id: \.element.id) { index, topic in
-                NavigationLink(destination: TopicDetailView(topic: topic)) {
-                    StandardCard(topic: topic, rank: topic.rank)
+                StandardCard(
+                    topic: topic,
+                    rank: topic.rank,
+                    onDetailTap: {
+                        navigationPath.append(CompareNavigationDestination.topicDetail(topic))
+                    },
+                    onDataTap: {
+                        navigationPath.append(CompareNavigationDestination.dataAnalyse(topic))
+                    }
+                )
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    navigationPath.append(CompareNavigationDestination.topicDetail(topic))
                 }
-                .buttonStyle(.plain)
             }
 
             // 更多提示

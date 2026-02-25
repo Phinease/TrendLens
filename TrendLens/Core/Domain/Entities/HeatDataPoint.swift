@@ -9,7 +9,7 @@ import Foundation
 
 /// 热度数据点
 /// 用于记录话题在某个时间点的热度值，支持热度曲线绘制
-struct HeatDataPoint: Codable, Sendable, Identifiable, Equatable {
+struct HeatDataPoint: Codable, Sendable, Identifiable, Equatable, Hashable {
 
     // MARK: - Properties
 

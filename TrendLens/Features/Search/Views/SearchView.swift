@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+/// 搜索页导航目的地类型
+enum SearchNavigationDestination: Hashable {
+    case topicDetail(TrendTopicEntity)
+    case dataAnalyse(TrendTopicEntity)
+}
+
 /// Search 页面 - 搜索热点话题
 struct SearchView: View {
 
@@ -15,6 +21,7 @@ struct SearchView: View {
     @State private var viewModel = DependencyContainer.shared.makeSearchViewModel()
     @State private var searchText = ""
     @State private var selectedPlatform: Platform? = nil
+    @State private var navigationPath = NavigationPath()
     @FocusState private var isSearchFieldFocused: Bool
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
@@ -37,7 +44,7 @@ struct SearchView: View {
     // MARK: - Body
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navigationPath) {
             VStack(spacing: 0) {
                 // 搜索框
                 searchBar
@@ -56,6 +63,14 @@ struct SearchView: View {
             .navigationBarTitleDisplayMode(.large)
 #endif
             .background(DesignSystem.Neutral.backgroundPrimary(colorScheme))
+            .navigationDestination(for: SearchNavigationDestination.self) { destination in
+                switch destination {
+                case .topicDetail(let topic):
+                    TopicDetailView(topic: topic)
+                case .dataAnalyse(let topic):
+                    DataAnalyseView(topic: topic)
+                }
+            }
         }
     }
 
@@ -201,10 +216,20 @@ struct SearchView: View {
                         spacing: DesignSystem.Spacing.sm
                     ) {
                         ForEach(Array(viewModel.searchResults.enumerated()), id: \.element.id) { index, topic in
-                            NavigationLink(destination: TopicDetailView(topic: topic)) {
-                                StandardCard(topic: topic, rank: topic.rank)
+                            StandardCard(
+                                topic: topic,
+                                rank: topic.rank,
+                                onDetailTap: {
+                                    navigationPath.append(SearchNavigationDestination.topicDetail(topic))
+                                },
+                                onDataTap: {
+                                    navigationPath.append(SearchNavigationDestination.dataAnalyse(topic))
+                                }
+                            )
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                navigationPath.append(SearchNavigationDestination.topicDetail(topic))
                             }
-                            .buttonStyle(.plain)
                         }
                     }
                     .padding(.horizontal, DesignSystem.Spacing.md)
@@ -212,10 +237,20 @@ struct SearchView: View {
                     // iPhone: 单列布局
                     LazyVStack(spacing: DesignSystem.Spacing.sm) {
                         ForEach(Array(viewModel.searchResults.enumerated()), id: \.element.id) { index, topic in
-                            NavigationLink(destination: TopicDetailView(topic: topic)) {
-                                StandardCard(topic: topic, rank: topic.rank)
+                            StandardCard(
+                                topic: topic,
+                                rank: topic.rank,
+                                onDetailTap: {
+                                    navigationPath.append(SearchNavigationDestination.topicDetail(topic))
+                                },
+                                onDataTap: {
+                                    navigationPath.append(SearchNavigationDestination.dataAnalyse(topic))
+                                }
+                            )
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                navigationPath.append(SearchNavigationDestination.topicDetail(topic))
                             }
-                            .buttonStyle(.plain)
                         }
                     }
                     .padding(.horizontal, DesignSystem.Spacing.md)

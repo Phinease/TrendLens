@@ -1,0 +1,545 @@
+
+<!doctype html>
+<html lang="zh-cn" >
+<head>
+    <meta charset="utf-8" />
+    <title>IT之家滚动新闻</title>
+    <meta name="description" />
+    <meta name="keywords" />
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta name="format-detection" content="telephone=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    
+    <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="https://www.ithome.com/rss/" />
+            <link href="//www.ithome.com/css/site.min.css?v=2.26.23021315" rel="stylesheet" type="text/css" />
+    <link rel="icon" href="//www.ithome.com/favicon.ico" mce_href="//www.ithome.com/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="//www.ithome.com/favicon.ico" />
+    <link rel="apple-touch-icon" href="/img/t.png" />
+    
+        <link href="/css/list.min.css?v=2.23.200814" rel="stylesheet" type="text/css" />
+    
+    <link href="//dat.ruanmei.com/lib/login.min.css" type="text/css" rel="stylesheet">
+        <script src="//img.ithome.com/file/js/ua.min.js?v=2.2.25101501" type="text/javascript"></script>
+    <script src="https://s3.pstatp.com/cdn/expire-1-w/jquery/3.4.0/jquery.min.js"></script>
+    <script>(window.jQuery || document.write("<script src='https:\/\/img.ruanmei.com\/btd\/cdn\/expire-1-w\/jquery\/3.4.0\/jquery.min.js'><\/script>"));</script>
+
+</head>
+<body class="">
+    <div id="top">
+        <div class="bb">
+            <a href="https://www.ithome.com" id="logo"></a>
+            <a href="https://img.ithome.com/app/songs/index.html" id="music" target="_blank"></a>
+            <div class="m-menu"><span></span></div>
+            <div class="fl">
+                <div class="mt sel">
+                    <a href="https://www.ithome.com" class="l">首页</a>
+                </div>
+                <div class="mt"><a href="https://quan.ithome.com" class="l">IT圈</a></div>
+                <div class="mt"><a href="https://www.zuihuimai.com" class="l">最会买</a></div>
+           
+            </div>
+            <div class="fr">
+
+                
+                <div class="mt" id="settings">
+                    <a href="###" class="s">设置</a>
+                    <ul class="mu">
+                        <li>
+                            <span>日夜间</span> <div id="dark-switcher">
+                                <div data-dark="2">随系统</div>
+                                <div data-dark="0">浅色</div>
+                                <div data-dark="1">深色</div>
+                            </div>
+                        </li>
+                        <li>
+                            <span>主题色</span> <div id="nav-color"><div>黑色</div></div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="mt" id="menu-con"><a href="https://dyn.ithome.com/tougao/">投稿</a></div>
+                <div class="mt" id="menu-sub">
+                    <a href="###" class="s">订阅</a>
+                    <ul class="mu">
+                        <li><a href="//www.ithome.com/rss/">RSS订阅</a></li>
+                        <li><a href="#" title="IT之家" rel="sidebar" onclick="addFav();">收藏IT之家</a></li>
+                    </ul>
+                </div>
+                <div class="mt so" id="menu-app">
+                    <a href="https://www.ruanmei.com" class="s">软媒应用</a>
+                    <ul class="mu">
+                        <li><a href="//m.ruanmei.com/" target="_blank">App客户端</a></li>
+                        <li><a href="//yaozhi.ruanmei.com/" target="_blank">要知App</a></li>
+                        <li><a href="//mofang.ruanmei.com/" target="_blank">软媒魔方</a></li>
+                    </ul>
+                </div>
+                <div id="toplogin" class="mt">
+                    <div class="init"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        nightModeHelper.init();
+        var nightMode = nightModeHelper.isNight();
+        var navColor = "";
+        if (document.cookie.indexOf("navColor=red") >= 0) {
+            document.body.className += " red";
+            navColor = "red";
+        }
+    </script>
+
+        <div id="nav" class="bb">
+            <div class="fl">
+                    <div>
+                        <a href="//it.ithome.com" target="_blank">业界</a>
+                        <a href="//mobile.ithome.com/" target="_blank">手机</a>
+                        <a href="//www.ithome.com/pc/" target="_blank">电脑</a>
+                        <a href="//www.ithome.com/labs/" target="_blank">测评</a>
+                        <a href="//www.ithome.com/video/" target="_blank">视频</a>
+                        <a href="//next.ithome.com/" target="_blank">AI</a>
+                        <a href="//www.ithome.com/apple/" target="_blank">苹果</a>
+                        <a href="//iphone.ithome.com/" target="_blank">iPhone</a>
+                        <a href="//hmos.ithome.com/" target="_blank">鸿蒙</a>
+                        <a href="//soft.ithome.com/" target="_blank">软件</a>
+                    </div>
+                    <div>
+                        <a href="//auto.ithome.com" target="_blank">智车</a>
+                        <a href="//digi.ithome.com/" target="_blank">数码</a>
+                        <a href="//www.ithome.com/college/" target="_blank">学院</a>
+                        <a href="//game.ithome.com/" target="_blank">游戏</a>
+                        <a href="//www.ithome.com/live/" target="_blank">直播</a>
+                        <a href="//www.ithome.com/5g/" target="_blank">5G</a>
+                        <a href="//www.ithome.com/microsoft/" target="_blank">微软</a>
+                        <a href="//win10.ithome.com/" target="_blank">Win10</a>
+                        <a href="//win11.ithome.com/" target="_blank">Win11</a>
+                        <a href="//www.ithome.com/zt/" target="_blank">专题</a>
+                    </div>
+            </div>
+            <div class="fr">
+                <div class="search"><input type="search" placeholder="请输入关键词" name="q" autocomplete="off" style="box-sizing: content-box;"><button name="sa">搜索</button></div>
+                <div class="hotkeyword">
+                </div>
+            </div>
+        </div>
+            <div id="tt" class="bb">
+                
+            </div>
+
+
+    
+
+
+
+<div id="list" class="bb clearfix dn">
+    <div class="fl">
+        <div class="nav">
+                <h1>IT之家滚动新闻</h1>
+        </div>
+        <ul class="datel">
+            
+    <li>
+        <a class="c" href="//digi.ithome.com/" data-ot="2026-02-19T22:23:09.1970000+08:00" target="_blank">[数码之家]</a>
+        <a class="t" href="https://lapin.ithome.com/html/digi/922509.htm" target="_blank">马来西亚太平山脉：事必胜无糖气泡水 2.2 元 / 瓶发车（商超 5.5 元）</a>
+        <i>2026-02-19 22:23:09</i>
+    </li>
+    <li>
+        <a class="c" href="//digi.ithome.com/" data-ot="2026-02-19T22:22:49.9730000+08:00" target="_blank">[数码之家]</a>
+        <a class="t" href="https://www.ithome.com/0/922/508.htm" target="_blank">Barnes & Noble 推出 Nook Reading Tablet 8.7 阅读器：8.7 英寸 LCD 屏、联发科 Helio G85 处理器</a>
+        <i>2026-02-19 22:22:49</i>
+    </li>
+    <li>
+        <a class="c" href="//next.ithome.com/" data-ot="2026-02-19T22:18:56.7230000+08:00" target="_blank">[智能时代]</a>
+        <a class="t" href="https://www.ithome.com/0/922/507.htm" target="_blank">特斯拉：xAI Grok 将上线欧洲市场，率先在 9 国推出</a>
+        <i>2026-02-19 22:18:56</i>
+    </li>
+    <li>
+        <a class="c" href="//next.ithome.com/" data-ot="2026-02-19T22:08:05.4630000+08:00" target="_blank">[智能时代]</a>
+        <a class="t" href="https://www.ithome.com/0/922/506.htm" target="_blank">OpenAI 奥尔特曼：AI 确实会影响就业，但有的公司却拿它“洗白”裁员计划</a>
+        <i>2026-02-19 22:08:05</i>
+    </li>
+    <li>
+        <a class="c" href="//it.ithome.com/" data-ot="2026-02-19T22:01:49.1700000+08:00" target="_blank">[IT资讯]</a>
+        <a class="t" href="https://www.ithome.com/0/922/505.htm" target="_blank">逆势而行：AI 搜索企业 Perplexity 停止广告投放</a>
+        <i>2026-02-19 22:01:49</i>
+    </li>
+    <li>
+        <a class="c" href="//it.ithome.com/" data-ot="2026-02-19T21:45:03.4570000+08:00" target="_blank">[IT资讯]</a>
+        <a class="t" href="https://www.ithome.com/0/922/502.htm" target="_blank">消息称三星电子加速平泽 P5 晶圆厂洁净室建设，提升扩产灵活性</a>
+        <i>2026-02-19 21:45:03</i>
+    </li>
+    <li>
+        <a class="c" href="//game.ithome.com/" data-ot="2026-02-19T21:36:17.9600000+08:00" target="_blank">[游戏之家]</a>
+        <a class="t" href="https://www.ithome.com/0/922/501.htm" target="_blank">《最终幻想 7 重制版》Switch 2 版游戏使用“钥匙卡”引争议，总监回应称技术限制为主因</a>
+        <i>2026-02-19 21:36:17</i>
+    </li>
+    <li>
+        <a class="c" href="//it.ithome.com/" data-ot="2026-02-19T21:35:36.0330000+08:00" target="_blank">[IT资讯]</a>
+        <a class="t" href="https://www.ithome.com/0/922/500.htm" target="_blank">Omdia：2026 年 Micro LED 市场有望同比翻倍，首次突破 1 亿美元</a>
+        <i>2026-02-19 21:35:36</i>
+    </li>
+    <li>
+        <a class="c" href="//auto.ithome.com/" data-ot="2026-02-19T21:26:48.4900000+08:00" target="_blank">[智车之家]</a>
+        <a class="t" href="https://www.ithome.com/0/922/499.htm" target="_blank">2026 款奥迪 RS5 发布，630 马力双涡轮 V6 插混系统加持，10.62 万欧元起</a>
+        <i>2026-02-19 21:26:48</i>
+    </li>
+    <li>
+        <a class="c" href="//digi.ithome.com/" data-ot="2026-02-19T21:22:06.9970000+08:00" target="_blank">[数码之家]</a>
+        <a class="t" href="https://lapin.ithome.com/html/digi/922498.htm" target="_blank">海带 / 魔芋爽 / 亲嘴烧等：卫龙零食 11.5 元 / 斤近期新低（商超 32 元）</a>
+        <i>2026-02-19 21:22:06</i>
+    </li>
+    <li>
+        <a class="c" href="//it.ithome.com/" data-ot="2026-02-19T21:21:57.2370000+08:00" target="_blank">[IT资讯]</a>
+        <a class="t" href="https://www.ithome.com/0/922/497.htm" target="_blank">沙特 AI 基金 HUMAIN 参与 xAI 合并前 E 轮融资，投资 30 亿美元</a>
+        <i>2026-02-19 21:21:57</i>
+    </li>
+    <li>
+        <a class="c" href="//it.ithome.com/" data-ot="2026-02-19T21:10:50.5200000+08:00" target="_blank">[IT资讯]</a>
+        <a class="t" href="https://www.ithome.com/0/922/496.htm" target="_blank">印度企业巨头竞相加码 AI 投入：信实宣布 7 年 10 万亿卢比综合性投资</a>
+        <i>2026-02-19 21:10:50</i>
+    </li>
+    <li>
+        <a class="c" href="//digi.ithome.com/" data-ot="2026-02-19T20:59:39.1600000+08:00" target="_blank">[数码之家]</a>
+        <a class="t" href="https://www.ithome.com/0/922/495.htm" target="_blank">AOC 推出“Q27G4ZD”27 英寸显示器，搭 2K 280Hz QD-OLED 面板</a>
+        <i>2026-02-19 20:59:39</i>
+    </li>
+    <li>
+        <a class="c" href="//it.ithome.com/" data-ot="2026-02-19T20:59:05.1800000+08:00" target="_blank">[IT资讯]</a>
+        <a class="t" href="https://www.ithome.com/0/922/494.htm" target="_blank">亚马逊成全球营收最高企业，终结沃尔玛 13 年《财富》500 强霸榜</a>
+        <i>2026-02-19 20:59:05</i>
+    </li>
+    <li>
+        <a class="c" href="//it.ithome.com/" data-ot="2026-02-19T20:56:53.3800000+08:00" target="_blank">[IT资讯]</a>
+        <a class="t" href="https://www.ithome.com/0/922/493.htm" target="_blank">印度、爱尔兰成为最新有意设置社交媒体年龄限制的国家</a>
+        <i>2026-02-19 20:56:53</i>
+    </li>
+    <li>
+        <a class="c" href="//digi.ithome.com/" data-ot="2026-02-19T20:28:13.8970000+08:00" target="_blank">[数码之家]</a>
+        <a class="t" href="https://www.ithome.com/0/922/492.htm" target="_blank">消息称三星为防 Galaxy S26/S27 手机开发泄密，在公司内部通信系统上线“加密聊天”模式</a>
+        <i>2026-02-19 20:28:13</i>
+    </li>
+    <li>
+        <a class="c" href="//it.ithome.com/" data-ot="2026-02-19T20:15:22.0830000+08:00" target="_blank">[IT资讯]</a>
+        <a class="t" href="https://www.ithome.com/0/922/491.htm" target="_blank">我国科学家在光通信及 6G 领域取得新进展，数据传输速率刷新纪录</a>
+        <i>2026-02-19 20:15:22</i>
+    </li>
+    <li>
+        <a class="c" href="//digi.ithome.com/" data-ot="2026-02-19T19:53:19.3570000+08:00" target="_blank">[数码之家]</a>
+        <a class="t" href="https://www.ithome.com/0/922/490.htm" target="_blank">qdc FUSION-II 有线 Hi-Fi 耳机发售：一圈四铁混合单元设计，5379 元起</a>
+        <i>2026-02-19 19:53:19</i>
+    </li>
+    <li>
+        <a class="c" href="//digi.ithome.com/" data-ot="2026-02-19T19:51:03.6830000+08:00" target="_blank">[数码之家]</a>
+        <a class="t" href="https://lapin.ithome.com/html/digi/922489.htm" target="_blank">用过就回不去了：维达多巴胺湿厕纸 27 元 360 片刚需闭眼囤（7.7 分 / 张）</a>
+        <i>2026-02-19 19:51:03</i>
+    </li>
+    <li>
+        <a class="c" href="//auto.ithome.com/" data-ot="2026-02-19T19:50:42.6370000+08:00" target="_blank">[智车之家]</a>
+        <a class="t" href="https://www.ithome.com/0/922/488.htm" target="_blank">吉利、雷诺合资浩思动力推出新型混动发动机，百公里油耗低至 3.3 升</a>
+        <i>2026-02-19 19:50:42</i>
+    </li>
+    <li>
+        <a class="c" href="//next.ithome.com/" data-ot="2026-02-19T19:46:55.7070000+08:00" target="_blank">[智能时代]</a>
+        <a class="t" href="https://www.ithome.com/0/922/487.htm" target="_blank">2026 北京海淀新春科技庙会开幕，集结智元、宇树等 43 项具身机器人展项</a>
+        <i>2026-02-19 19:46:55</i>
+    </li>
+    <li>
+        <a class="c" href="//it.ithome.com/" data-ot="2026-02-19T19:40:32.6430000+08:00" target="_blank">[IT资讯]</a>
+        <a class="t" href="https://www.ithome.com/0/922/486.htm" target="_blank">成交价 57527 元，2026 央视春晚魔法原子同款 MagicPanda 熊猫机器人拍卖落槌</a>
+        <i>2026-02-19 19:40:32</i>
+    </li>
+    <li>
+        <a class="c" href="//digi.ithome.com/" data-ot="2026-02-19T19:30:43.2800000+08:00" target="_blank">[数码之家]</a>
+        <a class="t" href="https://www.ithome.com/0/922/485.htm" target="_blank">微星预告《葬送的芙莉莲》联动，有望推出联名限量款显卡产品</a>
+        <i>2026-02-19 19:30:43</i>
+    </li>
+    <li>
+        <a class="c" href="//soft.ithome.com/" data-ot="2026-02-19T19:27:32.2230000+08:00" target="_blank">[软件之家]</a>
+        <a class="t" href="https://www.ithome.com/0/922/484.htm" target="_blank">Go 语言 1.26 版本正式发布：泛型限制放宽、Green Tea GC 垃圾回收器默认启用</a>
+        <i>2026-02-19 19:27:32</i>
+    </li>
+    <li>
+        <a class="c" href="//it.ithome.com/" data-ot="2026-02-19T19:25:33.3830000+08:00" target="_blank">[IT资讯]</a>
+        <a class="t" href="https://www.ithome.com/0/922/483.htm" target="_blank">法国总统马克龙：限制青少年使用社交媒体将是 G7 的优先事项</a>
+        <i>2026-02-19 19:25:33</i>
+    </li>
+    <li>
+        <a class="c" href="//it.ithome.com/" data-ot="2026-02-19T19:20:20.9470000+08:00" target="_blank">[IT资讯]</a>
+        <a class="t" href="https://www.ithome.com/0/922/482.htm" target="_blank">因监管不力遭黑客入侵，LV、迪奥、蒂芙尼三大奢侈品牌在韩国被罚 360.33 亿韩元</a>
+        <i>2026-02-19 19:20:20</i>
+    </li>
+    <li>
+        <a class="c" href="//it.ithome.com/" data-ot="2026-02-19T19:02:18.1570000+08:00" target="_blank">[IT资讯]</a>
+        <a class="t" href="https://www.ithome.com/0/922/481.htm" target="_blank">今天全社会跨区域人员流动量预计超 3.39 亿人次，创 2026 年春运以来单日新高</a>
+        <i>2026-02-19 19:02:18</i>
+    </li>
+    <li>
+        <a class="c" href="//digi.ithome.com/" data-ot="2026-02-19T18:41:01.1600000+08:00" target="_blank">[数码之家]</a>
+        <a class="t" href="https://lapin.ithome.com/html/digi/922480.htm" target="_blank">门店 699 元 → 108 元：361° 雨屏科技冲锋衣 1.5 折清仓（赠退货宝）</a>
+        <i>2026-02-19 18:41:01</i>
+    </li>
+    <li>
+        <a class="c" href="//digi.ithome.com/" data-ot="2026-02-19T18:40:17.2970000+08:00" target="_blank">[数码之家]</a>
+        <a class="t" href="https://www.ithome.com/0/922/479.htm" target="_blank">消息称 Meta 重启智能手表项目：代号“Malibu 2”机型今年内发布，主打健康监测与 AI 助手功能</a>
+        <i>2026-02-19 18:40:17</i>
+    </li>
+    <li>
+        <a class="c" href="//auto.ithome.com/" data-ot="2026-02-19T18:29:28.2470000+08:00" target="_blank">[智车之家]</a>
+        <a class="t" href="https://www.ithome.com/0/922/478.htm" target="_blank">激光雷达厂商速腾聚创预告首次单季度盈利：预计不少于 6000 万元</a>
+        <i>2026-02-19 18:29:28</i>
+    </li>
+    <li>
+        <a class="c" href="//auto.ithome.com/" data-ot="2026-02-19T18:20:19.7700000+08:00" target="_blank">[智车之家]</a>
+        <a class="t" href="https://www.ithome.com/0/922/477.htm" target="_blank">奔驰预告全新豪华纯电 MPV VLE：能自动泊车、后轮转向</a>
+        <i>2026-02-19 18:20:19</i>
+    </li>
+    <li>
+        <a class="c" href="//it.ithome.com/" data-ot="2026-02-19T17:29:50.1700000+08:00" target="_blank">[IT资讯]</a>
+        <a class="t" href="https://www.ithome.com/0/922/476.htm" target="_blank">扎克伯格：Meta 的目标是让 Instagram 更具“实用价值”，而非用户黏性</a>
+        <i>2026-02-19 17:29:50</i>
+    </li>
+    <li>
+        <a class="c" href="//game.ithome.com/" data-ot="2026-02-19T17:20:10.1730000+08:00" target="_blank">[游戏之家]</a>
+        <a class="t" href="https://www.ithome.com/0/922/475.htm" target="_blank">家居清洁用品制造商花王跨界推出游戏《扫除相爱 LOVE》，将清洁剂拟人化为偶像团体</a>
+        <i>2026-02-19 17:20:10</i>
+    </li>
+    <li>
+        <a class="c" href="//digi.ithome.com/" data-ot="2026-02-19T17:08:10.3570000+08:00" target="_blank">[数码之家]</a>
+        <a class="t" href="https://www.ithome.com/0/922/474.htm" target="_blank">全球最快纯电动遥控四轴无人机诞生：时速高达 661 公里 / 小时</a>
+        <i>2026-02-19 17:08:10</i>
+    </li>
+    <li>
+        <a class="c" href="//it.ithome.com/" data-ot="2026-02-19T17:08:01.5530000+08:00" target="_blank">[IT资讯]</a>
+        <a class="t" href="https://www.ithome.com/0/922/473.htm" target="_blank">谷歌 DeepMind CEO 哈萨比斯预警 AI 严峻风险，呼吁各国加强合作</a>
+        <i>2026-02-19 17:08:01</i>
+    </li>
+    <li>
+        <a class="c" href="//digi.ithome.com/" data-ot="2026-02-19T16:53:12.4130000+08:00" target="_blank">[数码之家]</a>
+        <a class="t" href="https://lapin.ithome.com/html/digi/922472.htm" target="_blank">买 8 根送 7 根：盐津铺子氮气手撕烤脖 15.6 元 15 根百亿补贴（低过多多）</a>
+        <i>2026-02-19 16:55:38</i>
+    </li>
+    <li>
+        <a class="c" href="//discovery.ithome.com/" data-ot="2026-02-19T16:52:43.2770000+08:00" target="_blank">[科学探索]</a>
+        <a class="t" href="https://www.ithome.com/0/922/471.htm" target="_blank">施耐德 CEO 布鲁姆：AI 有望大幅节省电力</a>
+        <i>2026-02-19 16:52:43</i>
+    </li>
+    <li>
+        <a class="c" href="//it.ithome.com/" data-ot="2026-02-19T16:51:55.8230000+08:00" target="_blank">[IT资讯]</a>
+        <a class="t" href="https://www.ithome.com/0/922/470.htm" target="_blank">“2026 年所有法定假日均与周末重合”登热搜，网友称“不调休就很棒”</a>
+        <i>2026-02-19 16:51:55</i>
+    </li>
+    <li>
+        <a class="c" href="//auto.ithome.com/" data-ot="2026-02-19T16:43:17.8930000+08:00" target="_blank">[智车之家]</a>
+        <a class="t" href="https://www.ithome.com/0/922/469.htm" target="_blank">中国消防：高速收费站发放的 CPC 通行卡切勿放在汽车无线充电板上，有起火风险</a>
+        <i>2026-02-19 16:43:17</i>
+    </li>
+    <li>
+        <a class="c" href="//it.ithome.com/" data-ot="2026-02-19T16:27:38.9630000+08:00" target="_blank">[IT资讯]</a>
+        <a class="t" href="https://www.ithome.com/0/922/468.htm" target="_blank">X 平台推出全新沉浸式播放器：押注“视频核心”战略，带来刷短视频新体验</a>
+        <i>2026-02-19 16:27:38</i>
+    </li>
+    <li>
+        <a class="c" href="//digi.ithome.com/" data-ot="2026-02-19T16:24:11.8000000+08:00" target="_blank">[数码之家]</a>
+        <a class="t" href="https://www.ithome.com/0/922/467.htm" target="_blank">vivo V70 手机海外发布：搭骁龙 7 Gen 4，升级 6 系铝合金中框、6500 毫安时电池</a>
+        <i>2026-02-19 16:24:11</i>
+    </li>
+    <li>
+        <a class="c" href="//digi.ithome.com/" data-ot="2026-02-19T16:08:03.4200000+08:00" target="_blank">[数码之家]</a>
+        <a class="t" href="https://www.ithome.com/0/922/466.htm" target="_blank">消息称华为、摩托罗拉将推出迭代小折叠手机，苹果也正在开案</a>
+        <i>2026-02-19 16:08:03</i>
+    </li>
+    <li>
+        <a class="c" href="//it.ithome.com/" data-ot="2026-02-19T15:52:52.6370000+08:00" target="_blank">[IT资讯]</a>
+        <a class="t" href="https://www.ithome.com/0/922/465.htm" target="_blank">与马斯克共事体验如何？X 产品负责人尼基塔 · 比尔坦言“没有一天是轻松的”</a>
+        <i>2026-02-19 15:52:52</i>
+    </li>
+    <li>
+        <a class="c" href="//digi.ithome.com/" data-ot="2026-02-19T15:43:40.0070000+08:00" target="_blank">[数码之家]</a>
+        <a class="t" href="https://www.ithome.com/0/922/464.htm" target="_blank">CounterPoint 发 2025Q4 欧洲手机战报：苹果份额 33% 最高、荣耀增幅 18% 最大</a>
+        <i>2026-02-19 15:43:40</i>
+    </li>
+    <li>
+        <a class="c" href="//digi.ithome.com/" data-ot="2026-02-19T15:39:09.6900000+08:00" target="_blank">[数码之家]</a>
+        <a class="t" href="https://lapin.ithome.com/html/digi/922463.htm" target="_blank">门店 299 元 → 官方 37 元：森马男女卫衣休闲裤 1.2 折起断码清仓</a>
+        <i>2026-02-19 15:50:44</i>
+    </li>
+    <li>
+        <a class="c" href="//game.ithome.com/" data-ot="2026-02-19T15:38:46.1470000+08:00" target="_blank">[游戏之家]</a>
+        <a class="t" href="https://www.ithome.com/0/922/462.htm" target="_blank">科乐美《寂静岭：Townfall》延续 PC / PS5 平台限时独占策略，暂不登陆 Xbox 游戏机</a>
+        <i>2026-02-19 15:38:46</i>
+    </li>
+    <li>
+        <a class="c" href="//next.ithome.com/" data-ot="2026-02-19T15:34:51.3500000+08:00" target="_blank">[智能时代]</a>
+        <a class="t" href="https://www.ithome.com/0/922/461.htm" target="_blank">未来目标 1 吉瓦，OpenAI 与塔塔集团在印度部署 100 兆瓦 AI 数据中心容量</a>
+        <i>2026-02-19 15:34:51</i>
+    </li>
+    <li>
+        <a class="c" href="//it.ithome.com/" data-ot="2026-02-19T15:33:31.8230000+08:00" target="_blank">[IT资讯]</a>
+        <a class="t" href="https://www.ithome.com/0/922/460.htm" target="_blank">彭博社：苹果走出独立行情，股价与纳斯达克 100 指数相关性创 20 年新低</a>
+        <i>2026-02-19 15:33:31</i>
+    </li>
+    <li>
+        <a class="c" href="//it.ithome.com/" data-ot="2026-02-19T15:27:43.8730000+08:00" target="_blank">[IT资讯]</a>
+        <a class="t" href="https://www.ithome.com/0/922/459.htm" target="_blank">2026 年度电影总票房突破 50 亿，《飞驰人生 3》《疯狂动物城 2》《匿杀》位列前三</a>
+        <i>2026-02-19 15:27:43</i>
+    </li>
+    <li>
+        <a class="c" href="//it.ithome.com/" data-ot="2026-02-19T15:16:25.6170000+08:00" target="_blank">[IT资讯]</a>
+        <a class="t" href="https://www.ithome.com/0/922/458.htm" target="_blank">谷歌 Snapseed 修图应用获 3.15 版本重大升级：引入相机功能、新增胶片滤镜</a>
+        <i>2026-02-19 15:16:25</i>
+    </li>
+
+
+        </ul>
+            <a class="more">加载更多...</a>
+    </div>
+    <div class="fr fx">
+        <div id="calendar" class="CalendarWrapper"></div>
+        <div id="rank" class="tab-list">
+        </div>
+    </div>
+</div>
+
+
+
+
+    <div id="fls" class="bb">
+
+
+    <p>
+        <strong>软媒旗下网站：</strong>
+        <a href="//www.ithome.com/" target="_blank">IT之家</a>
+        <a href="//www.zuihuimai.com/" target="_blank">最会买 - 返利返现优惠券</a>
+        <a href="https://iphone.ithome.com/" target="_blank">iPhone之家</a>
+        <a href="//www.win7china.com/" target="_blank">Win7之家</a>
+        <a href="//win10.ithome.com/" target="_blank">Win10之家</a>
+        <a href="https://win11.ithome.com/" target="_blank">Win11之家</a>
+    </p>
+
+    <p>
+        <strong>软媒旗下软件：</strong>
+        <a href="//m.ruanmei.com/" target="_blank">软媒手机APP应用</a>
+        <a href="//mofang.ruanmei.com/" target="_blank">魔方</a>
+        <a href="https://www.zuihuimai.com" target="_blank">最会买</a>
+        <a href="https://yaozhi.ruanmei.com/" target="_blank">要知</a>
+    </p>
+
+
+        
+    </div>
+
+
+    <footer>
+        <div id="lns">
+            <a href="//www.ithome.com/about.htm" target="_blank">关于IT之家</a>
+            |<a href="//www.ruanmei.com/#contact" target="_blank">联系我们</a>
+            |<a href="//www.ruanmei.com/joinus/" target="_blank">加入软媒</a>
+            |<a href="//m.ithome.com/" target="_blank">WAP版</a>
+            |<a href="//www.ithome.com/sitemap/" target="_blank">网站地图</a>
+            |<a href="//www.ithome.com/archiver/" target="_blank">Archiver</a>
+        </div>
+        <div id="fi">
+            <p>IT之家，软媒旗下科技门户网站 - 爱科技，爱这里。</p>
+            <p>Copyright &copy; <a href="//www.ruanmei.com" target="_blank">RuanMei.com</a>, All Rights Reserved.</p>
+            <p>
+                <a href="//www.ruanmei.com/" target="_blank">青岛软媒网络科技有限公司</a>版权所有
+                
+        </div>
+    </footer>
+
+    <script src="//dat.ruanmei.com/lib/login.min.js"></script>
+    <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script>(window.jQuery && window.jQuery.fn && window.jQuery.fn.cookie || document.write("\u003Cscript src=\u0022https:\/\/img.ithome.com\/file\/js\/jquery\/jquery.cookie.js\u0022\u003E\u003C\/script\u003E"));</script>
+    <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+    <script>(window.jQuery && window.jQuery.fn && window.jQuery.fn.lazyload || document.write("\u003Cscript src=\u0022https:\/\/img.ithome.com\/file\/js\/jquery\/jquery.lazyload.js\u0022\u003E\u003C\/script\u003E"));</script>
+    <script src="//img.ithome.com/file/js/jquery/popwin.js?v=2.22.200813"></script>
+        <script src="//img.ithome.com/file/js/v2.3/common.js?t=20240112"></script>
+    <script src="//api.ithome.com/ovs/ovs.js"></script>
+    
+        <script src="//img.ithome.com/file/js/site.min.js?v=2.25.231124"></script>
+
+    
+    <script>
+        
+        $("#tt").load('/block/tt.html?' + new Date().getTime());
+        
+        $("#rank").load('//www.ithome.com/block/rank.html');
+        
+        $(function() { $("img.lazy").lazyload(); });
+
+        var pageIndex = 1;
+
+        $(".more").click(function() {
+            var url = "/category/listpage?page=" + ++pageIndex;
+            $.post({
+                url: url,
+                success: function(result) {
+                    if (result.success) {
+                        if (result.content.count === 0) {
+                            $(".more").hide();
+                        } else {
+                            $("#list .datel").append(result.content.html);
+                            ffix();
+                        }
+                    }
+                }
+            });
+        });
+
+        $(function () { 
+            var url = "/category/GetNewData?date=2026-02-19";
+            $.post({
+                url: url,
+                success: function (result) {
+                    if (result.success) {
+                        $("#list .datel").html(result.content.html);
+                        ffix();
+                    }
+                }
+            });
+        });
+
+    </script>
+    
+    <script language="javascript" type="text/javascript" src="//img.ithome.com/file/js/ajax.js"></script>
+    <script language="javascript" type="text/javascript" src="//img.ithome.com/file/js/calendar.js"></script>
+    <script>
+        var paraSite = "";
+        var paraDate = "2026-02-19";
+        var date = "2026-02-19";
+        var currentdate = paraDate ? paraDate.split("-") : date.split("-");
+        var _LISTPAGE_TIME_ = paraDate ? paraDate.split("-") : date.split("-");
+        var _SERVER_TIME_FULL_ = [2026, 2, 19, 11, 33, 26];
+        var _LISTPAGE_URL_REG_ = "$Y-$M-$D.html";
+        var _LIMIT_START_DATE_ = [2011, 05, 15];
+        //服务器时间
+        var serverDate = (typeof _SERVER_TIME_FULL_ != "undefined") ? new Date(_SERVER_TIME_FULL_[0], _SERVER_TIME_FULL_[1] - 1, _SERVER_TIME_FULL_[2]) : new Date();
+        //页面起始日期
+        var currentDate = (typeof _LISTPAGE_TIME_ != "undefined") ? new Date(_LISTPAGE_TIME_[0], _LISTPAGE_TIME_[1] - 1, _LISTPAGE_TIME_[2]) : new Date();
+        //网站内容起始日期
+        var limitStartDate = (typeof _LIMIT_START_DATE_ != "undefined") ? new Date(_LIMIT_START_DATE_[0], _LIMIT_START_DATE_[1] - 1, _LIMIT_START_DATE_[2]) : new Date(2004, 12 - 1, 1);
+        var _calendar_ = new GCalendar(document.getElementById("calendar"), serverDate, currentDate);
+        //日历容器，服务器时间，日历起始时间
+        if (limitStartDate)
+            _calendar_.limitStartDate = limitStartDate;
+
+        _calendar_.isStatic = true;
+        _calendar_.isStaticPath = _LISTPAGE_URL_REG_; //$Y 4为年 $M 2位月 $D 2位天
+        _calendar_.build();
+    </script>
+
+
+    <div style="display:none">
+        <script>
+            var _hmt = _hmt || [];
+            (function () {
+                var hm = document.createElement("script");
+                hm.src = "https://hm.baidu.com/hm.js?cfebe79b2c367c4b89b285f412bf9867";
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(hm, s);
+            })();
+        </script>
+    </div>
+</body>
+</html>

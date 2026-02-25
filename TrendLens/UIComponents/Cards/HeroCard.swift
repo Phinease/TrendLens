@@ -15,13 +15,22 @@ struct HeroCard: View {
 
     let topic: TrendTopicEntity
     let rank: Int
+    var onDetailTap: (() -> Void)? = nil
+    var onDataTap: (() -> Void)? = nil
     @Environment(\.colorScheme) private var colorScheme
 
     // MARK: - Initialization
 
-    init(topic: TrendTopicEntity, rank: Int) {
+    init(
+        topic: TrendTopicEntity,
+        rank: Int,
+        onDetailTap: (() -> Void)? = nil,
+        onDataTap: (() -> Void)? = nil
+    ) {
         self.topic = topic
         self.rank = rank
+        self.onDetailTap = onDetailTap
+        self.onDataTap = onDataTap
     }
 
     // MARK: - Body
@@ -48,7 +57,7 @@ struct HeroCard: View {
 
                 // 元信息：平台 · 时间
                 metaView
-                
+
                 HStack {
                     // AI 摘要
                     Text(topic.summary)
@@ -62,6 +71,9 @@ struct HeroCard: View {
                     MiniTrendLine(dataPoints: topic.heatHistory)
                     .frame(width: 80, height: 32)
                 }
+
+                // 底部按钮区域
+                actionButtonsRow
             }
             .padding(DesignSystem.Spacing.lg)
         }
@@ -69,6 +81,60 @@ struct HeroCard: View {
         .background(DesignSystem.Neutral.container(colorScheme))
         .clipShape(RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.large, style: .continuous))
         .elevatedShadow()
+    }
+
+    // MARK: - Action Buttons
+
+    private var actionButtonsRow: some View {
+        HStack {
+            Spacer()
+
+            // 详情按钮
+            Button {
+                hapticFeedback()
+                onDetailTap?()
+            } label: {
+                HStack(spacing: 4) {
+                    Image(systemName: "doc.text")
+                        .font(.system(size: 12, weight: .medium))
+                    Text("详情")
+                        .font(.system(size: 13, weight: .medium))
+                }
+                .foregroundStyle(.secondary)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 6)
+                .background(Color.gray.opacity(0.12))
+                .clipShape(Capsule())
+            }
+            .buttonStyle(.plain)
+
+            // 数据按钮
+            Button {
+                hapticFeedback()
+                onDataTap?()
+            } label: {
+                HStack(spacing: 4) {
+                    Image(systemName: "chart.line.uptrend.xyaxis")
+                        .font(.system(size: 12, weight: .medium))
+                    Text("数据")
+                        .font(.system(size: 13, weight: .medium))
+                }
+                .foregroundStyle(.blue)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 6)
+                .background(Color.blue.opacity(0.12))
+                .clipShape(Capsule())
+            }
+            .buttonStyle(.plain)
+        }
+        .padding(.top, DesignSystem.Spacing.xs)
+    }
+
+    private func hapticFeedback() {
+#if os(iOS)
+        let generator = UIImpactFeedbackGenerator(style: .light)
+        generator.impactOccurred()
+#endif
     }
 
     // MARK: - Background

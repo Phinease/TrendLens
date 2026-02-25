@@ -2,208 +2,399 @@
 //  TopicDetailView.swift
 //  TrendLens
 //
-//  Created by Claude on 1/24/26.
+//  Created by Claude on 2/18/26.
 //
 
 import SwiftUI
 
-/// 话题详情页面 - 独立导航页面
+/// 话题详情页面 - 展示新闻内容、图片、评论等
 struct TopicDetailView: View {
 
     // MARK: - Properties
 
     let topic: TrendTopicEntity
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.openURL) private var openURL
+    @State private var isFavorite: Bool
+
+    // MARK: - Initialization
+
+    init(topic: TrendTopicEntity) {
+        self.topic = topic
+        self._isFavorite = State(initialValue: topic.isFavorite)
+    }
 
     // MARK: - Body
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
-                // 标题区域
-                headerSection
+                // 头部：平台 + 时间
+                sourceHeader
+                    .padding(.bottom, DesignSystem.Spacing.md)
+
+                // 标题
+                Text(topic.title)
+                    .font(.system(size: 24, weight: .bold, design: .default))
+                    .foregroundStyle(.primary)
+                    .lineLimit(nil)
+                    .padding(.bottom, DesignSystem.Spacing.lg)
+
+                // 热度信息栏
+                heatInfoBar
+                    .padding(.bottom, DesignSystem.Spacing.lg)
 
                 Divider()
-                .padding(.vertical, DesignSystem.Spacing.xl)
+                    .padding(.bottom, DesignSystem.Spacing.lg)
 
-                // 热度曲线
-                if !topic.heatHistory.isEmpty {
-                    HeatCurveView(
-                        dataPoints: topic.heatHistory,
-                        platform: topic.platform,
-                        style: .full
-                    )
-                    .frame(height: 300)
-                    .padding(.vertical, DesignSystem.Spacing.xl)
-
-                    Divider()
-                    .padding(.vertical, DesignSystem.Spacing.xl)
+                // 图片区域
+                if !topic.imageURLs.isEmpty {
+                    imageGallery
+                        .padding(.bottom, DesignSystem.Spacing.lg)
                 }
 
-                // 话题信息
-                infoSection
+                // 正文内容
+                contentSection
+
+                // 标签
+                if !topic.tags.isEmpty {
+                    tagsSection
+                        .padding(.top, DesignSystem.Spacing.xl)
+                }
+
+                // 评论区
+                if !topic.comments.isEmpty {
+                    commentsSection
+                        .padding(.top, DesignSystem.Spacing.xl)
+                }
 
                 // 底部留白
                 Spacer()
-                .frame(height: DesignSystem.Spacing.xl)
+                    .frame(height: 40)
             }
             .padding(DesignSystem.Spacing.md)
         }
         .background(DesignSystem.Neutral.backgroundPrimary(colorScheme))
-        .navigationTitle("话题详情")
+        .navigationTitle("详情")
 #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
 #endif
         .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                shareButton
+            ToolbarItemGroup(placement: .primaryAction) {
+                // 收藏按钮
+                Button {
+                    toggleFavorite()
+                } label: {
+                    Image(systemName: isFavorite ? "star.fill" : "star")
+                        .foregroundStyle(isFavorite ? .yellow : .primary)
+                }
+
+                // 分享按钮
+                Button {
+                    shareTopic()
+                } label: {
+                    Image(systemName: "square.and.arrow.up")
+                }
+
+                // 打开原文
+                if let link = topic.link, !link.isEmpty, let url = URL(string: link) {
+                    Button {
+                        openURL(url)
+                    } label: {
+                        Image(systemName: "safari")
+                    }
+                }
             }
         }
     }
 
-    // MARK: - Sections
+    // MARK: - Source Header
 
-    private var headerSection: some View {
-        VStack(alignment: .leading, spacing: DesignSystem.Spacing.md) {
-            // 排名和标题
-            HStack(alignment: .top, spacing: DesignSystem.Spacing.sm) {
-                RankBadge(rank: topic.rank, platform: topic.platform)
+    private var sourceHeader: some View {
+        HStack(spacing: DesignSystem.Spacing.sm) {
+            // 平台图标
+            PlatformIcon(platform: topic.platform)
 
-                Text(topic.title)
-                    .font(DesignSystem.Typography.headline)
-                    .foregroundStyle(.primary)
-                    .lineLimit(nil) // 详情页显示完整标题
-            }
-
-            // AI 摘要
-            if !topic.summary.isEmpty {
-                Text(topic.summary)
-                    .font(DesignSystem.Typography.body)
-                    .foregroundStyle(.secondary)
-                    .lineLimit(nil) // 详情页显示完整摘要
-                    .padding(.vertical, DesignSystem.Spacing.xs)
-            }
-
-            // 描述
-            if let description = topic.description, !description.isEmpty {
-                Text(description)
-                    .font(DesignSystem.Typography.body)
-                    .foregroundStyle(.secondary)
-                    .lineLimit(nil)
-            }
-
-            // 平台、热度、排名变化徽章
-            HStack(spacing: DesignSystem.Spacing.sm) {
-                PlatformBadge(platform: topic.platform, style: .full)
-
-                HeatLevelBadge(heatValue: topic.heatValue)
-
-                RankChangeIndicator(rankChange: topic.rankChange, style: .full)
-            }
-            .padding(.top, DesignSystem.Spacing.xs)
-        }
-    }
-
-    private var curveSection: some View {
-        VStack(alignment: .leading, spacing: DesignSystem.Spacing.sm) {
-            // Text("热度趋势")
-            //     .font(DesignSystem.Typography.headline)
-            //     .foregroundStyle(.primary)
-
-            
-        }
-    }
-
-    private var infoSection: some View {
-        VStack(alignment: .leading, spacing: DesignSystem.Spacing.md) {
-            Text("话题信息")
-                .font(DesignSystem.Typography.headline)
+            // 平台名称
+            Text(topic.platform.displayName)
+                .font(.system(size: 15, weight: .medium))
                 .foregroundStyle(.primary)
 
-            infoRow(title: "当前热度", value: topic.heatValue.formattedHeat)
-            infoRow(title: "当前排名", value: "#\(topic.rank)")
-            infoRow(title: "数据来源", value: topic.platform.displayName)
-            infoRow(title: "数据更新", value: topic.fetchedAt.formatted(date: .abbreviated, time: .shortened))
+            Text("·")
+                .foregroundStyle(.tertiary)
 
-            // 标签
-            if !topic.tags.isEmpty {
-                tagsSection
+            // 时间
+            Text(formatDate(topic.fetchedAt))
+                .font(.system(size: 14, weight: .regular))
+                .foregroundStyle(.secondary)
+
+            Spacer()
+        }
+    }
+
+    // MARK: - Heat Info Bar
+
+    private var heatInfoBar: some View {
+        HStack(spacing: DesignSystem.Spacing.md) {
+            // 排名
+            HStack(spacing: 4) {
+                Image(systemName: "number")
+                    .font(.system(size: 13, weight: .medium))
+                    .foregroundStyle(.secondary)
+                Text("\(topic.rank)")
+                    .font(.system(size: 15, weight: .semibold, design: .rounded))
+                    .foregroundStyle(.primary)
             }
 
-            // 链接（如果有）
-            if let link = topic.link, !link.isEmpty, let url = URL(string: link) {
-                linkSection(url: url)
+            // 热度
+            HStack(spacing: 4) {
+                Image(systemName: "flame.fill")
+                    .font(.system(size: 13, weight: .medium))
+                    .foregroundStyle(DesignSystem.HeatSpectrum.color(for: topic.heatValue))
+                Text(topic.heatValue.formattedHeat)
+                    .font(.system(size: 15, weight: .semibold, design: .monospaced))
+                    .foregroundStyle(DesignSystem.HeatSpectrum.color(for: topic.heatValue))
+            }
+
+            // 排名变化
+            RankChangeIndicator(rankChange: topic.rankChange, style: .full)
+
+            Spacer()
+        }
+        .padding(.horizontal, DesignSystem.Spacing.md)
+        .padding(.vertical, DesignSystem.Spacing.sm)
+        .background(DesignSystem.Neutral.container(colorScheme))
+        .clipShape(RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.medium, style: .continuous))
+    }
+
+    // MARK: - Image Gallery
+
+    private var imageGallery: some View {
+        VStack(alignment: .leading, spacing: DesignSystem.Spacing.sm) {
+            if topic.imageURLs.count == 1 {
+                // 单图：大图展示
+                AsyncImage(url: URL(string: topic.imageURLs[0])) { phase in
+                    imagePhaseView(phase: phase)
+                }
+                .frame(maxWidth: .infinity)
+                .frame(height: 220)
+                .clipShape(RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.medium, style: .continuous))
+            } else {
+                // 多图：网格展示
+                LazyVGrid(
+                    columns: [
+                        GridItem(.flexible(), spacing: DesignSystem.Spacing.xs),
+                        GridItem(.flexible(), spacing: DesignSystem.Spacing.xs)
+                    ],
+                    spacing: DesignSystem.Spacing.xs
+                ) {
+                    ForEach(Array(topic.imageURLs.prefix(4).enumerated()), id: \.offset) { index, urlString in
+                        AsyncImage(url: URL(string: urlString)) { phase in
+                            imagePhaseView(phase: phase)
+                        }
+                        .frame(height: 140)
+                        .clipShape(RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.small, style: .continuous))
+                        .overlay {
+                            // 显示更多图片数量
+                            if index == 3 && topic.imageURLs.count > 4 {
+                                RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.small, style: .continuous)
+                                    .fill(.black.opacity(0.5))
+                                Text("+\(topic.imageURLs.count - 4)")
+                                    .font(.system(size: 20, weight: .semibold))
+                                    .foregroundStyle(.white)
+                            }
+                        }
+                    }
+                }
             }
         }
     }
+
+    @ViewBuilder
+    private func imagePhaseView(phase: AsyncImagePhase) -> some View {
+        switch phase {
+        case .empty:
+            Rectangle()
+                .fill(Color.gray.opacity(0.2))
+                .overlay {
+                    ProgressView()
+                }
+        case .success(let image):
+            image
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+        case .failure:
+            Rectangle()
+                .fill(Color.gray.opacity(0.2))
+                .overlay {
+                    Image(systemName: "photo")
+                        .font(.system(size: 30))
+                        .foregroundStyle(.secondary)
+                }
+        @unknown default:
+            Rectangle()
+                .fill(Color.gray.opacity(0.2))
+        }
+    }
+
+    // MARK: - Content Section
+
+    private var contentSection: some View {
+        VStack(alignment: .leading, spacing: DesignSystem.Spacing.lg) {
+            // AI 摘要（核心内容）
+            if !topic.summary.isEmpty {
+                VStack(alignment: .leading, spacing: DesignSystem.Spacing.sm) {
+                    HStack(spacing: 6) {
+                        Image(systemName: "sparkles")
+                            .font(.system(size: 14, weight: .medium))
+                            .foregroundStyle(.purple)
+                        Text("AI 摘要")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundStyle(.purple)
+                    }
+
+                    Text(topic.summary)
+                        .font(.system(size: 16, weight: .regular))
+                        .foregroundStyle(.primary)
+                        .lineSpacing(6)
+                }
+                .padding(DesignSystem.Spacing.md)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(
+                    RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.medium, style: .continuous)
+                        .fill(Color.purple.opacity(0.08))
+                )
+            }
+
+            // 详细内容
+            if let content = topic.content, !content.isEmpty {
+                Text(content)
+                    .font(.system(size: 17, weight: .regular))
+                    .foregroundStyle(.primary)
+                    .lineSpacing(8)
+            }
+
+            // 占位内容（当没有详细内容时）
+            if topic.content == nil || topic.content?.isEmpty == true {
+                if let description = topic.description, !description.isEmpty {
+                    Text(description)
+                        .font(.system(size: 17, weight: .regular))
+                        .foregroundStyle(.primary)
+                        .lineSpacing(8)
+                } else {
+                    placeholderContent
+                }
+            }
+        }
+    }
+
+    // MARK: - Placeholder Content
+
+    private var placeholderContent: some View {
+        VStack(alignment: .leading, spacing: DesignSystem.Spacing.md) {
+            HStack {
+                Image(systemName: "doc.text")
+                    .font(.system(size: 16))
+                    .foregroundStyle(.secondary)
+
+                Text("暂无详细内容")
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundStyle(.secondary)
+            }
+
+            Text("点击右上角「Safari」按钮可在浏览器中查看完整内容。")
+                .font(.system(size: 14, weight: .regular))
+                .foregroundStyle(.tertiary)
+        }
+        .padding(DesignSystem.Spacing.lg)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(DesignSystem.Neutral.container(colorScheme))
+        .clipShape(RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.medium, style: .continuous))
+    }
+
+    // MARK: - Tags Section
 
     private var tagsSection: some View {
-        HStack() {
-            Text("标签")
-                .font(DesignSystem.Typography.caption)
+        VStack(alignment: .leading, spacing: DesignSystem.Spacing.sm) {
+            Text("相关标签")
+                .font(.system(size: 14, weight: .medium))
                 .foregroundStyle(.secondary)
 
-            Spacer()
-
-            // FlowLayout(spacing: DesignSystem.Spacing.xs) {
-            ForEach(topic.tags, id: \.self) { tag in
-                Text("#\(tag)")
-                    .font(DesignSystem.Typography.footnote)
-                    .foregroundStyle(.primary)
-                    .padding(.horizontal, DesignSystem.Spacing.sm)
-                    .padding(.vertical, DesignSystem.Spacing.xxs)
-                    .background(Color.gray.opacity(0.15))
-                    .clipShape(Capsule())
-            // }
-            }
-        }
-    }
-
-    private func linkSection(url: URL) -> some View {
-        HStack() {
-            Text("原始链接")
-                .font(DesignSystem.Typography.caption)
-                .foregroundStyle(.secondary)
-
-            Spacer()
-
-            Link(destination: url) {
-                HStack {
-                    Image(systemName: "link")
-                        .font(.system(size: 14))
-                    Text("查看原文")
-                        .font(DesignSystem.Typography.body)
+            FlowLayout(spacing: DesignSystem.Spacing.xs) {
+                ForEach(topic.tags, id: \.self) { tag in
+                    Text("#\(tag)")
+                        .font(.system(size: 14, weight: .medium))
+                        .foregroundStyle(.primary)
+                        .padding(.horizontal, DesignSystem.Spacing.sm)
+                        .padding(.vertical, DesignSystem.Spacing.xs)
+                        .background(Color.gray.opacity(0.12))
+                        .clipShape(Capsule())
                 }
-                .clipShape(RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.small, style: .continuous))
             }
         }
     }
 
-    private var shareButton: some View {
-        Button {
-            shareTopic()
-        } label: {
-            Image(systemName: "square.and.arrow.up")
+    // MARK: - Comments Section
+
+    private var commentsSection: some View {
+        VStack(alignment: .leading, spacing: DesignSystem.Spacing.md) {
+            // 标题
+            HStack {
+                Image(systemName: "bubble.left.and.bubble.right")
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundStyle(.secondary)
+
+                Text("热门评论")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundStyle(.primary)
+
+                Spacer()
+
+                Text("\(topic.comments.count) 条")
+                    .font(.system(size: 13, weight: .regular))
+                    .foregroundStyle(.secondary)
+            }
+
+            Divider()
+
+            // 评论列表
+            LazyVStack(spacing: DesignSystem.Spacing.md) {
+                ForEach(topic.comments) { comment in
+                    CommentRow(comment: comment)
+                }
+            }
         }
+        .padding(DesignSystem.Spacing.md)
+        .background(DesignSystem.Neutral.container(colorScheme))
+        .clipShape(RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.medium, style: .continuous))
     }
 
-    // MARK: - Helper Views
+    // MARK: - Helpers
 
-    private func infoRow(title: String, value: String) -> some View {
-        HStack {
-            Text(title)
-                .font(DesignSystem.Typography.caption)
-                .foregroundStyle(.secondary)
+    private func formatDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "zh_CN")
 
-            Spacer()
-
-            Text(value)
-                .font(DesignSystem.Typography.mono)
-                .foregroundStyle(.primary)
+        let calendar = Calendar.current
+        if calendar.isDateInToday(date) {
+            formatter.dateFormat = "今天 HH:mm"
+        } else if calendar.isDateInYesterday(date) {
+            formatter.dateFormat = "昨天 HH:mm"
+        } else {
+            formatter.dateFormat = "MM月dd日 HH:mm"
         }
+
+        return formatter.string(from: date)
     }
 
-    // MARK: - Actions
+    private func toggleFavorite() {
+        isFavorite.toggle()
+
+#if os(iOS)
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.success)
+#endif
+    }
 
     private func shareTopic() {
 #if os(iOS)
@@ -220,7 +411,6 @@ struct TopicDetailView: View {
             applicationActivities: nil
         )
 
-        // 获取当前窗口场景
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let rootViewController = windowScene.windows.first?.rootViewController {
             rootViewController.present(activityVC, animated: true)
@@ -229,9 +419,121 @@ struct TopicDetailView: View {
     }
 }
 
-// MARK: - FlowLayout Helper
+// MARK: - Comment Row
 
-/// 简单的流式布局（用于标签显示）
+private struct CommentRow: View {
+    let comment: Comment
+    @Environment(\.colorScheme) private var colorScheme
+    @State private var isLiked: Bool
+
+    init(comment: Comment) {
+        self.comment = comment
+        self._isLiked = State(initialValue: comment.isLiked)
+    }
+
+    var body: some View {
+        HStack(alignment: .top, spacing: DesignSystem.Spacing.sm) {
+            // 头像
+            avatarView
+
+            // 内容
+            VStack(alignment: .leading, spacing: 4) {
+                // 用户名 + 时间
+                HStack {
+                    Text(comment.username)
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundStyle(.primary)
+
+                    Spacer()
+
+                    Text(formatCommentTime(comment.createdAt))
+                        .font(.system(size: 12, weight: .regular))
+                        .foregroundStyle(.tertiary)
+                }
+
+                // 评论内容
+                Text(comment.content)
+                    .font(.system(size: 15, weight: .regular))
+                    .foregroundStyle(.primary)
+                    .lineLimit(nil)
+
+                // 互动区
+                HStack(spacing: DesignSystem.Spacing.md) {
+                    // 点赞
+                    Button {
+                        isLiked.toggle()
+                        hapticFeedback()
+                    } label: {
+                        HStack(spacing: 4) {
+                            Image(systemName: isLiked ? "heart.fill" : "heart")
+                                .font(.system(size: 13, weight: .medium))
+                                .foregroundStyle(isLiked ? .red : .secondary)
+
+                            Text("\(comment.likeCount + (isLiked && !comment.isLiked ? 1 : 0))")
+                                .font(.system(size: 13, weight: .regular))
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                    .buttonStyle(.plain)
+
+                    // 回复
+                    if comment.replyCount > 0 {
+                        HStack(spacing: 4) {
+                            Image(systemName: "bubble.right")
+                                .font(.system(size: 13, weight: .medium))
+                                .foregroundStyle(.secondary)
+
+                            Text("\(comment.replyCount)")
+                                .font(.system(size: 13, weight: .regular))
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+
+                    Spacer()
+                }
+                .padding(.top, 4)
+            }
+        }
+    }
+
+    private var avatarView: some View {
+        ZStack {
+            Circle()
+                .fill(Color(hex: comment.avatarColorHex))
+                .frame(width: 36, height: 36)
+
+            Image(systemName: comment.avatarSymbol)
+                .font(.system(size: 18, weight: .medium))
+                .foregroundStyle(.white)
+        }
+    }
+
+    private func formatCommentTime(_ date: Date) -> String {
+        let now = Date()
+        let components = Calendar.current.dateComponents([.minute, .hour, .day], from: date, to: now)
+
+        if let day = components.day, day > 0 {
+            return "\(day)天前"
+        } else if let hour = components.hour, hour > 0 {
+            return "\(hour)小时前"
+        } else if let minute = components.minute, minute > 0 {
+            return "\(minute)分钟前"
+        } else {
+            return "刚刚"
+        }
+    }
+
+    private func hapticFeedback() {
+#if os(iOS)
+        let generator = UIImpactFeedbackGenerator(style: .light)
+        generator.impactOccurred()
+#endif
+    }
+}
+
+// MARK: - FlowLayout
+
+/// 流式布局（用于标签显示）
 private struct FlowLayout: Layout {
     var spacing: CGFloat = 8
 
@@ -251,7 +553,9 @@ private struct FlowLayout: Layout {
             spacing: spacing
         )
         for (index, subview) in subviews.enumerated() {
-            subview.place(at: result.frames[index].origin, proposal: .unspecified)
+            subview.place(at: CGPoint(x: bounds.minX + result.frames[index].origin.x,
+                                      y: bounds.minY + result.frames[index].origin.y),
+                          proposal: .unspecified)
         }
     }
 
@@ -268,7 +572,6 @@ private struct FlowLayout: Layout {
                 let size = subview.sizeThatFits(.unspecified)
 
                 if x + size.width > maxWidth && x > 0 {
-                    // 换行
                     x = 0
                     y += lineHeight + spacing
                     lineHeight = 0
@@ -286,62 +589,68 @@ private struct FlowLayout: Layout {
 
 // MARK: - Preview
 
-#Preview("Topic Detail - 微博") {
+#Preview("Topic Detail - 完整内容") {
     NavigationStack {
-        TopicDetailView(topic: PreviewData.sampleTopic)
+        TopicDetailView(topic: PreviewData.sampleTopicFull)
     }
 }
 
-#Preview("Topic Detail - Bilibili") {
+#Preview("Topic Detail - 无图片") {
     NavigationStack {
-        TopicDetailView(topic: PreviewData.sampleTopicBilibili)
+        TopicDetailView(topic: PreviewData.sampleTopicNoImages)
     }
 }
 
 // MARK: - Preview Data
 
 private struct PreviewData {
-    static let sampleTopic = TrendTopicEntity(
+    static let sampleTopicFull = TrendTopicEntity(
         id: "preview-1",
         platform: .weibo,
-        title: "示例热点话题标题",
-        description: "这是一个示例话题的详细描述，展示话题的背景信息和相关内容。",
+        title: "示例热点话题标题：这是一个较长的标题用于展示多行效果",
+        description: "这是一个示例话题的详细描述。",
         heatValue: 1_500_000,
         rank: 1,
         link: "https://weibo.com/example",
-        tags: ["热点", "示例", "科技"],
+        tags: ["热点", "示例", "科技", "讨论"],
         fetchedAt: Date(),
         rankChange: .up(3),
-        heatHistory: (0..<12).map { i in
-            HeatDataPoint(
-                timestamp: Date().addingTimeInterval(TimeInterval(-i * 7200)),
-                heatValue: 1_500_000 + Int.random(in: -200_000...200_000),
-                rank: max(1, 5 - i / 2)
-            )
-        },
+        heatHistory: [],
         summary: "AI 摘要：这是一个示例话题的核心摘要，简明扼要地说明这个话题的关键信息和背景。展示详情页面的完整布局和样式。",
-        isFavorite: false
+        isFavorite: false,
+        content: """
+        据最新消息，该事件已引发社会各界广泛关注。多位业内专家表示，这一现象反映了当前社会发展的某些深层趋势。
+
+        从事件发生至今，相关话题在微博上的讨论热度持续攀升。网友们纷纷发表自己的看法，其中不乏深入的分析和独到的见解。
+
+        有评论指出，这一事件的影响可能会持续较长时间。相关部门已经开始关注此事，预计将在近期给出官方回应。
+
+        值得注意的是，此次事件也引发了人们对相关问题的深入思考。许多网友表示，希望看到更多理性的讨论和专业的分析。
+        """,
+        imageURLs: [
+            "https://picsum.photos/seed/1/800/600",
+            "https://picsum.photos/seed/2/800/600",
+            "https://picsum.photos/seed/3/800/600"
+        ],
+        comments: Comment.generateMockComments(count: 8)
     )
 
-    static let sampleTopicBilibili = TrendTopicEntity(
+    static let sampleTopicNoImages = TrendTopicEntity(
         id: "preview-2",
-        platform: .bilibili,
-        title: "Bilibili 示例话题",
+        platform: .zhihu,
+        title: "如何评价这个热门话题？",
         description: nil,
         heatValue: 850_000,
         rank: 5,
-        link: nil,
-        tags: ["动画", "番剧"],
-        fetchedAt: Date(),
+        link: "https://zhihu.com/question/123",
+        tags: ["讨论", "知乎"],
+        fetchedAt: Date().addingTimeInterval(-3600 * 2),
         rankChange: .down(2),
-        heatHistory: (0..<8).map { i in
-            HeatDataPoint(
-                timestamp: Date().addingTimeInterval(TimeInterval(-i * 3600)),
-                heatValue: 850_000 - (i * 50_000),
-                rank: 5 + i
-            )
-        },
-        summary: "这是一个 Bilibili 平台的示例话题摘要。",
-        isFavorite: true
+        heatHistory: [],
+        summary: "这是一个知乎平台的示例话题摘要，展示无图片时的布局效果。",
+        isFavorite: true,
+        content: nil,
+        imageURLs: [],
+        comments: Comment.generateMockComments(count: 5)
     )
 }

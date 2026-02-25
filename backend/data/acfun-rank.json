@@ -1,0 +1,2347 @@
+{
+  "result": 0,
+  "host-name": "hb2-acfun-kce-node139.aliyun",
+  "rankList": [
+    {
+      "groupId": "Ml8wXzE3NzE1MTE4NTk2ODBfNDg2Mg_1&-124&&rlg1",
+      "userId": 76809532,
+      "dougaId": "48270260",
+      "userImg": "https://tx-free-imgs.acfun.cn/newUpload/76809532_3370cc62261e4037aba12ed2e4b57f68.jpg?imageslim",
+      "channelId": 89,
+      "channelName": "美食",
+      "contentId": 48270260,
+      "isFollowing": false,
+      "fansCount": 9269,
+      "contributeTime": 1771471800671,
+      "contentTitle": "特厨探店|一人20吃一桌的—湖南擂茶",
+      "videoCover": "https://tx-free-imgs.acfun.cn/newUpload/76809532_751dd82f1b974953965150f10deb06ac.jpeg?imageslim",
+      "userSignature": "没错这真的是我\n美食没有对错 但应该有要求\n希尔顿、洲际酒店行政总厨\n师承国宴大师-郑秀生先生",
+      "contributionCount": 76,
+      "danmuCount": 0,
+      "userName": "特厨隋坡",
+      "contentType": 2,
+      "duration": 230204,
+      "likeCount": 587,
+      "hasHotComment": true,
+      "commentCountShow": "92",
+      "likeCountShow": "587",
+      "videoList": [
+        {
+          "priority": 0,
+          "sourceStatus": 3,
+          "danmakuGuidePosition": 10000,
+          "danmakuCount": 0,
+          "danmakuCountShow": "0",
+          "sizeType": 2,
+          "durationMillis": 230204,
+          "uploadTime": 1770914155229,
+          "visibleType": 1,
+          "title": "擂茶",
+          "fileName": "擂茶",
+          "id": "38568184"
+        }
+      ],
+      "viewCount": 3687,
+      "commentCount": 92,
+      "stowCount": 60,
+      "bananaCount": 2782,
+      "coverUrl": "https://tx-free-imgs.acfun.cn/newUpload/76809532_751dd82f1b974953965150f10deb06ac.jpeg?imageslim",
+      "createTimeMillis": 1771471800671,
+      "danmakuCount": 0,
+      "isLike": false,
+      "coverCdnUrls": [
+        {
+          "url": "https://tx-free-imgs.acfun.cn/newUpload/76809532_751dd82f1b974953965150f10deb06ac.jpeg?imageslim",
+          "freeTrafficCdn": true
+        },
+        {
+          "url": "https://imgs.aixifan.com/newUpload/76809532_751dd82f1b974953965150f10deb06ac.jpeg?imageslim",
+          "freeTrafficCdn": false
+        }
+      ],
+      "coverImgInfo": {
+        "width": 0,
+        "height": 0,
+        "size": 0,
+        "type": 0,
+        "animated": false,
+        "thumbnailImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/76809532_751dd82f1b974953965150f10deb06ac.jpeg",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "smallSharedImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/76809532_751dd82f1b974953965150f10deb06ac.jpeg",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "expandedImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/76809532_751dd82f1b974953965150f10deb06ac.jpeg",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "originImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/76809532_751dd82f1b974953965150f10deb06ac.jpeg",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "thumbnailImageCdnUrl": "https://imgs.aixifan.com/newUpload/76809532_751dd82f1b974953965150f10deb06ac.jpeg"
+      },
+      "shareUrl": "https://m.acfun.cn/v/?ac=48270260",
+      "picShareUrl": "https://m.acfun.cn/v/?ac=48270260&shareType=pic",
+      "isDislike": false,
+      "viewCountShow": "3687",
+      "shareCountShow": "39",
+      "stowCountShow": "60",
+      "danmakuCountShow": "0",
+      "bananaCountShow": "2782",
+      "giftPeachCountShow": "0",
+      "disableEdit": true,
+      "belongToSpecifyArubamu": false,
+      "commentCountRealValue": 92,
+      "durationMillis": 230204,
+      "recoReason": {
+        "desc": "",
+        "href": "https://www.acfun.cn/rank/list/#cid=-1;range=1;pcid=-3",
+        "tag": "综合榜Top1",
+        "layoutType": 0,
+        "descType": null,
+        "type": 11
+      },
+      "shareCount": 39,
+      "giftPeachCount": 0,
+      "originalDeclare": 1,
+      "commentCountTenThousandShow": "92",
+      "tagList": [
+        { "name": "常德", "id": "121819" },
+        { "name": "美食", "id": "104" },
+        { "name": "隋坡", "id": "1345315" },
+        { "name": "美食探店", "id": "5437" }
+      ],
+      "user": {
+        "action": 3,
+        "href": "76809532",
+        "gender": 1,
+        "headUrl": "https://tx-free-imgs.acfun.cn/newUpload/76809532_3370cc62261e4037aba12ed2e4b57f68.jpg?imageslim",
+        "fanCountValue": 9269,
+        "followingStatus": 1,
+        "avatarFrame": 0,
+        "contributeCount": "76",
+        "sexTrend": 0,
+        "nameColor": 2,
+        "isFollowing": false,
+        "avatarFramePcImg": "",
+        "avatarFrameMobileImg": "",
+        "followingCount": "1",
+        "headCdnUrls": [
+          {
+            "url": "https://tx-free-imgs.acfun.cn/newUpload/76809532_3370cc62261e4037aba12ed2e4b57f68.jpg?imageslim",
+            "freeTrafficCdn": true
+          },
+          {
+            "url": "https://imgs.aixifan.com/newUpload/76809532_3370cc62261e4037aba12ed2e4b57f68.jpg?imageslim",
+            "freeTrafficCdn": false
+          }
+        ],
+        "followingCountValue": 1,
+        "contributeCountValue": 76,
+        "fanCount": "9269",
+        "avatarImage": "",
+        "userHeadImgInfo": {
+          "width": 0,
+          "height": 0,
+          "size": 0,
+          "type": 0,
+          "animated": false,
+          "thumbnailImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/newUpload/76809532_3370cc62261e4037aba12ed2e4b57f68.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "smallSharedImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/newUpload/76809532_3370cc62261e4037aba12ed2e4b57f68.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "expandedImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/newUpload/76809532_3370cc62261e4037aba12ed2e4b57f68.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "originImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/newUpload/76809532_3370cc62261e4037aba12ed2e4b57f68.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "thumbnailImageCdnUrl": "https://imgs.aixifan.com/newUpload/76809532_3370cc62261e4037aba12ed2e4b57f68.jpg"
+        },
+        "isFollowed": false,
+        "socialMedal": {},
+        "name": "特厨隋坡",
+        "signature": "没错这真的是我\n美食没有对错 但应该有要求\n希尔顿、洲际酒店行政总厨\n师承国宴大师-郑秀生先生",
+        "id": "76809532"
+      },
+      "createTime": "11小时前",
+      "title": "特厨探店|一人20吃一桌的—湖南擂茶",
+      "description": null,
+      "status": 2,
+      "channel": {
+        "parentId": 201,
+        "parentName": "生活",
+        "name": "美食",
+        "id": 89
+      },
+      "isFavorite": false,
+      "superUbb": true,
+      "isRewardSupportted": true,
+      "isThrowBanana": false
+    },
+    {
+      "groupId": "Ml8wXzE3NzE1MTE4NTk2ODBfNDg2Mg_2&-124&&rlg1",
+      "userId": 2176158,
+      "dougaId": "48281207",
+      "userImg": "https://tx-free-imgs.acfun.cn/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg?imageslim",
+      "channelId": 206,
+      "channelName": "搞笑",
+      "contentId": 48281207,
+      "isFollowing": false,
+      "fansCount": 297610,
+      "contributeTime": 1771468080662,
+      "contentTitle": "这又是哪个Acer的初恋啊？★手机竖屏1796★",
+      "contentDesc": "审核大大辛苦了！<br/>谢谢每一个投蕉的帅哥美女！香蕉没有来个赞也好啊！<br/>视频来自快手等平台，侵权联系删除！",
+      "videoCover": "https://tx-free-imgs.acfun.cn/newUpload/2176158_4b7be3b110e148c9a63c944c34bb87f7.gif?imageslim",
+      "userSignature": "感谢大家的关注和投蕉，谢谢！！！",
+      "contributionCount": 7677,
+      "danmuCount": 0,
+      "userName": "九星之歌",
+      "contentType": 2,
+      "duration": 371571,
+      "likeCount": 392,
+      "hasHotComment": false,
+      "commentCountShow": "10",
+      "likeCountShow": "392",
+      "videoList": [
+        {
+          "priority": 0,
+          "sourceStatus": 3,
+          "danmakuGuidePosition": 10000,
+          "danmakuCount": 0,
+          "danmakuCountShow": "0",
+          "sizeType": 2,
+          "durationMillis": 371571,
+          "uploadTime": 1771427409136,
+          "visibleType": 1,
+          "title": "蕉换幸运",
+          "fileName": "蕉换幸运",
+          "id": "38580356"
+        },
+        {
+          "priority": 1,
+          "sourceStatus": 3,
+          "danmakuGuidePosition": 10000,
+          "danmakuCount": 0,
+          "danmakuCountShow": "0",
+          "sizeType": 2,
+          "durationMillis": 454369,
+          "uploadTime": 1771427318689,
+          "visibleType": 1,
+          "title": "P2",
+          "fileName": "38.7604667320652863601_记录第一次用工资给家人买礼物（哭成泪人了",
+          "id": "38580348"
+        },
+        {
+          "priority": 2,
+          "sourceStatus": 3,
+          "danmakuGuidePosition": 10000,
+          "danmakuCount": 0,
+          "danmakuCountShow": "0",
+          "sizeType": 2,
+          "durationMillis": 63534,
+          "uploadTime": 1771427300055,
+          "visibleType": 1,
+          "title": "P3",
+          "fileName": "17.7584058837200899365_村里人对春晚的评价#新农人计划2025 #抖",
+          "id": "38580347"
+        }
+      ],
+      "viewCount": 3391,
+      "commentCount": 10,
+      "stowCount": 218,
+      "bananaCount": 631,
+      "coverUrl": "https://tx-free-imgs.acfun.cn/newUpload/2176158_4b7be3b110e148c9a63c944c34bb87f7.gif?imageslim",
+      "createTimeMillis": 1771468080662,
+      "danmakuCount": 0,
+      "isLike": false,
+      "coverCdnUrls": [
+        {
+          "url": "https://tx-free-imgs.acfun.cn/newUpload/2176158_4b7be3b110e148c9a63c944c34bb87f7.gif?imageslim",
+          "freeTrafficCdn": true
+        },
+        {
+          "url": "https://imgs.aixifan.com/newUpload/2176158_4b7be3b110e148c9a63c944c34bb87f7.gif?imageslim",
+          "freeTrafficCdn": false
+        }
+      ],
+      "coverImgInfo": {
+        "width": 0,
+        "height": 0,
+        "size": 0,
+        "type": 0,
+        "animated": false,
+        "thumbnailImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/2176158_4b7be3b110e148c9a63c944c34bb87f7.gif",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "smallSharedImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/2176158_4b7be3b110e148c9a63c944c34bb87f7.gif",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "expandedImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/2176158_4b7be3b110e148c9a63c944c34bb87f7.gif",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "originImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/2176158_4b7be3b110e148c9a63c944c34bb87f7.gif",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "thumbnailImageCdnUrl": "https://imgs.aixifan.com/newUpload/2176158_4b7be3b110e148c9a63c944c34bb87f7.gif"
+      },
+      "shareUrl": "https://m.acfun.cn/v/?ac=48281207",
+      "picShareUrl": "https://m.acfun.cn/v/?ac=48281207&shareType=pic",
+      "isDislike": false,
+      "viewCountShow": "3391",
+      "shareCountShow": "3",
+      "stowCountShow": "218",
+      "danmakuCountShow": "0",
+      "bananaCountShow": "631",
+      "giftPeachCountShow": "0",
+      "disableEdit": true,
+      "belongToSpecifyArubamu": false,
+      "commentCountRealValue": 10,
+      "fansOnlyDesc": "谢谢每一个投蕉的帅哥美女！香蕉没有来个赞也好啊！\n你们是我坚持更新的动力！\n视频来自快手等平台，侵权联系删除！",
+      "durationMillis": 889474,
+      "recoReason": {
+        "desc": "",
+        "href": "https://www.acfun.cn/rank/list/#cid=-1;range=1;pcid=-3",
+        "tag": "综合榜Top2",
+        "layoutType": 0,
+        "descType": null,
+        "type": 11
+      },
+      "shareCount": 3,
+      "giftPeachCount": 0,
+      "originalDeclare": 1,
+      "commentCountTenThousandShow": "10",
+      "tagList": [
+        { "name": "沙雕", "id": "133" },
+        { "name": "逗比", "id": "11263" },
+        { "name": "搞笑", "id": "79" },
+        { "name": "小姐姐", "id": "275" },
+        { "name": "电影", "id": "1617" }
+      ],
+      "user": {
+        "action": 3,
+        "href": "2176158",
+        "gender": -1,
+        "headUrl": "https://tx-free-imgs.acfun.cn/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg?imageslim",
+        "fanCountValue": 297610,
+        "followingStatus": 1,
+        "avatarFrame": 0,
+        "verifiedTypes": [5],
+        "contributeCount": "7677",
+        "comeFrom": "吉林,长春",
+        "sexTrend": -1,
+        "nameColor": 1,
+        "isFollowing": false,
+        "avatarFramePcImg": "",
+        "avatarFrameMobileImg": "",
+        "followingCount": "135",
+        "headCdnUrls": [
+          {
+            "url": "https://tx-free-imgs.acfun.cn/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg?imageslim",
+            "freeTrafficCdn": true
+          },
+          {
+            "url": "https://imgs.aixifan.com/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg?imageslim",
+            "freeTrafficCdn": false
+          }
+        ],
+        "isJoinUpCollege": true,
+        "followingCountValue": 135,
+        "contributeCountValue": 7677,
+        "fanCount": "29.8万",
+        "avatarImage": "",
+        "userHeadImgInfo": {
+          "width": 0,
+          "height": 0,
+          "size": 0,
+          "type": 0,
+          "animated": false,
+          "thumbnailImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "smallSharedImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "expandedImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "originImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "thumbnailImageCdnUrl": "https://imgs.aixifan.com/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg"
+        },
+        "isFollowed": false,
+        "socialMedal": {},
+        "name": "九星之歌",
+        "signature": "感谢大家的关注和投蕉，谢谢！！！",
+        "id": "2176158"
+      },
+      "createTime": "12小时前",
+      "title": "这又是哪个Acer的初恋啊？★手机竖屏1796★",
+      "description": "审核大大辛苦了！<br/>谢谢每一个投蕉的帅哥美女！香蕉没有来个赞也好啊！<br/>视频来自快手等平台，侵权联系删除！",
+      "status": 2,
+      "channel": {
+        "parentId": 60,
+        "parentName": "娱乐",
+        "name": "搞笑",
+        "id": 206
+      },
+      "isFavorite": false,
+      "superUbb": true,
+      "isRewardSupportted": true,
+      "isThrowBanana": false
+    },
+    {
+      "groupId": "Ml8wXzE3NzE1MTE4NTk2ODBfNDg2Mg_3&-124&&rlg1",
+      "userId": 23537620,
+      "dougaId": "48267662",
+      "userImg": "https://tx-free-imgs.acfun.cn/newUpload/23537620_12523e9af76c42eaaa1696936adc37cd.jpg?imageslim",
+      "channelId": 135,
+      "channelName": "综合舞蹈",
+      "contentId": 48267662,
+      "isFollowing": false,
+      "fansCount": 34937,
+      "contributeTime": 1771475401363,
+      "contentTitle": "别急，最后才有惊喜？",
+      "videoCover": "https://tx-free-imgs.acfun.cn/newUpload/23537620_d3206b6c7f274d428c347d23d159a72d.png?imageslim",
+      "userSignature": "才、才不是懒得写签名呢！只是投了蕉蕉才能看到(｀^´)",
+      "contributionCount": 166,
+      "danmuCount": 0,
+      "userName": "雨乃乃-",
+      "contentType": 2,
+      "duration": 60024,
+      "likeCount": 161,
+      "hasHotComment": false,
+      "commentCountShow": "20",
+      "likeCountShow": "161",
+      "videoList": [
+        {
+          "priority": 0,
+          "sourceStatus": 3,
+          "danmakuGuidePosition": 10000,
+          "danmakuCount": 0,
+          "danmakuCountShow": "0",
+          "sizeType": 2,
+          "durationMillis": 60024,
+          "uploadTime": 1770834123393,
+          "visibleType": 1,
+          "title": "noTitle",
+          "fileName": "lv_0_20260204103522.mp4",
+          "id": "38565700"
+        }
+      ],
+      "viewCount": 2161,
+      "commentCount": 20,
+      "stowCount": 87,
+      "bananaCount": 500,
+      "coverUrl": "https://tx-free-imgs.acfun.cn/newUpload/23537620_d3206b6c7f274d428c347d23d159a72d.png?imageslim",
+      "createTimeMillis": 1771475401363,
+      "danmakuCount": 0,
+      "isLike": false,
+      "coverCdnUrls": [
+        {
+          "url": "https://tx-free-imgs.acfun.cn/newUpload/23537620_d3206b6c7f274d428c347d23d159a72d.png?imageslim",
+          "freeTrafficCdn": true
+        },
+        {
+          "url": "https://imgs.aixifan.com/newUpload/23537620_d3206b6c7f274d428c347d23d159a72d.png?imageslim",
+          "freeTrafficCdn": false
+        }
+      ],
+      "coverImgInfo": {
+        "width": 0,
+        "height": 0,
+        "size": 0,
+        "type": 0,
+        "animated": false,
+        "thumbnailImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/23537620_d3206b6c7f274d428c347d23d159a72d.png",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "smallSharedImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/23537620_d3206b6c7f274d428c347d23d159a72d.png",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "expandedImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/23537620_d3206b6c7f274d428c347d23d159a72d.png",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "originImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/23537620_d3206b6c7f274d428c347d23d159a72d.png",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "thumbnailImageCdnUrl": "https://imgs.aixifan.com/newUpload/23537620_d3206b6c7f274d428c347d23d159a72d.png"
+      },
+      "shareUrl": "https://m.acfun.cn/v/?ac=48267662",
+      "picShareUrl": "https://m.acfun.cn/v/?ac=48267662&shareType=pic",
+      "isDislike": false,
+      "viewCountShow": "2161",
+      "shareCountShow": "7",
+      "stowCountShow": "87",
+      "danmakuCountShow": "0",
+      "bananaCountShow": "500",
+      "giftPeachCountShow": "0",
+      "disableEdit": true,
+      "belongToSpecifyArubamu": false,
+      "commentCountRealValue": 20,
+      "fansOnlyDesc": "有这个纯纯欲动吗？",
+      "durationMillis": 60024,
+      "recoReason": {
+        "desc": "",
+        "href": "https://www.acfun.cn/rank/list/#cid=-1;range=1;pcid=-3",
+        "tag": "综合榜Top3",
+        "layoutType": 0,
+        "descType": null,
+        "type": 11
+      },
+      "shareCount": 7,
+      "giftPeachCount": 0,
+      "commentCountTenThousandShow": "20",
+      "tagList": [
+        { "name": "沙雕", "id": "133" },
+        { "name": "画师修炼", "id": "332690" },
+        { "name": "可爱", "id": "575" },
+        { "name": "美少女", "id": "211" },
+        { "name": "爱在A站", "id": "14402" }
+      ],
+      "user": {
+        "action": 3,
+        "href": "23537620",
+        "gender": -1,
+        "headUrl": "https://tx-free-imgs.acfun.cn/newUpload/23537620_12523e9af76c42eaaa1696936adc37cd.jpg?imageslim",
+        "fanCountValue": 34937,
+        "verifiedText": "\n",
+        "followingStatus": 1,
+        "avatarFrame": 0,
+        "verifiedTypes": [5],
+        "contributeCount": "166",
+        "sexTrend": -1,
+        "nameColor": 0,
+        "isFollowing": false,
+        "avatarFramePcImg": "",
+        "avatarFrameMobileImg": "",
+        "followingCount": "18",
+        "headCdnUrls": [
+          {
+            "url": "https://tx-free-imgs.acfun.cn/newUpload/23537620_12523e9af76c42eaaa1696936adc37cd.jpg?imageslim",
+            "freeTrafficCdn": true
+          },
+          {
+            "url": "https://imgs.aixifan.com/newUpload/23537620_12523e9af76c42eaaa1696936adc37cd.jpg?imageslim",
+            "freeTrafficCdn": false
+          }
+        ],
+        "isJoinUpCollege": true,
+        "followingCountValue": 18,
+        "contributeCountValue": 166,
+        "fanCount": "3.5万",
+        "avatarImage": "",
+        "userHeadImgInfo": {
+          "width": 0,
+          "height": 0,
+          "size": 0,
+          "type": 0,
+          "animated": false,
+          "thumbnailImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/newUpload/23537620_12523e9af76c42eaaa1696936adc37cd.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "smallSharedImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/newUpload/23537620_12523e9af76c42eaaa1696936adc37cd.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "expandedImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/newUpload/23537620_12523e9af76c42eaaa1696936adc37cd.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "originImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/newUpload/23537620_12523e9af76c42eaaa1696936adc37cd.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "thumbnailImageCdnUrl": "https://imgs.aixifan.com/newUpload/23537620_12523e9af76c42eaaa1696936adc37cd.jpg"
+        },
+        "isFollowed": false,
+        "socialMedal": {},
+        "name": "雨乃乃-",
+        "signature": "才、才不是懒得写签名呢！只是投了蕉蕉才能看到(｀^´)",
+        "id": "23537620"
+      },
+      "createTime": "10小时前",
+      "title": "别急，最后才有惊喜？",
+      "description": null,
+      "status": 2,
+      "channel": {
+        "parentId": 123,
+        "parentName": "舞蹈·偶像",
+        "name": "综合舞蹈",
+        "id": 135
+      },
+      "isFavorite": false,
+      "superUbb": true,
+      "isRewardSupportted": true,
+      "isThrowBanana": false
+    },
+    {
+      "groupId": "Ml8wXzE3NzE1MTE4NTk2ODBfNDg2Mg_4&-124&&rlg1",
+      "userId": 4425861,
+      "dougaId": "48275330",
+      "userImg": "https://tx-free-imgs.acfun.cn/newUpload/4425861_3e4e850941bb440ca44935fe3e4598a9.png?imageslim",
+      "channelId": 207,
+      "channelName": "虚拟偶像",
+      "contentId": 48275330,
+      "isFollowing": false,
+      "fansCount": 19949,
+      "contributeTime": 1771430400012,
+      "contentTitle": "【2026】小鸽子情人节歌回录播",
+      "contentDesc": "2026年2月14日录播",
+      "videoCover": "https://tx-free-imgs.acfun.cn/newUpload/4425861_30c395eb39c74ddb80715141c4271e20.jpeg?imageslim",
+      "userSignature": "运气比较感人的小鸽子  粉丝群：300255753",
+      "contributionCount": 422,
+      "danmuCount": 0,
+      "userName": "颜音小鸽子",
+      "contentType": 2,
+      "duration": 7374866,
+      "likeCount": 169,
+      "hasHotComment": false,
+      "commentCountShow": "41",
+      "likeCountShow": "169",
+      "videoList": [
+        {
+          "priority": 0,
+          "sourceStatus": 3,
+          "danmakuGuidePosition": 10000,
+          "danmakuCount": 0,
+          "danmakuCountShow": "0",
+          "sizeType": 1,
+          "durationMillis": 7374866,
+          "uploadTime": 1771119788557,
+          "visibleType": 1,
+          "title": "2026-02-14 21-13-35",
+          "fileName": "2026-02-14 21-13-35",
+          "id": "38573541"
+        }
+      ],
+      "viewCount": 1654,
+      "commentCount": 41,
+      "stowCount": 32,
+      "bananaCount": 655,
+      "coverUrl": "https://tx-free-imgs.acfun.cn/newUpload/4425861_30c395eb39c74ddb80715141c4271e20.jpeg?imageslim",
+      "createTimeMillis": 1771430400012,
+      "danmakuCount": 0,
+      "isLike": false,
+      "coverCdnUrls": [
+        {
+          "url": "https://tx-free-imgs.acfun.cn/newUpload/4425861_30c395eb39c74ddb80715141c4271e20.jpeg?imageslim",
+          "freeTrafficCdn": true
+        },
+        {
+          "url": "https://imgs.aixifan.com/newUpload/4425861_30c395eb39c74ddb80715141c4271e20.jpeg?imageslim",
+          "freeTrafficCdn": false
+        }
+      ],
+      "coverImgInfo": {
+        "width": 0,
+        "height": 0,
+        "size": 0,
+        "type": 0,
+        "animated": false,
+        "thumbnailImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/4425861_30c395eb39c74ddb80715141c4271e20.jpeg",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "smallSharedImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/4425861_30c395eb39c74ddb80715141c4271e20.jpeg",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "expandedImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/4425861_30c395eb39c74ddb80715141c4271e20.jpeg",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "originImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/4425861_30c395eb39c74ddb80715141c4271e20.jpeg",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "thumbnailImageCdnUrl": "https://imgs.aixifan.com/newUpload/4425861_30c395eb39c74ddb80715141c4271e20.jpeg"
+      },
+      "shareUrl": "https://m.acfun.cn/v/?ac=48275330",
+      "picShareUrl": "https://m.acfun.cn/v/?ac=48275330&shareType=pic",
+      "isDislike": false,
+      "viewCountShow": "1654",
+      "shareCountShow": "11",
+      "stowCountShow": "32",
+      "danmakuCountShow": "0",
+      "bananaCountShow": "655",
+      "giftPeachCountShow": "0",
+      "disableEdit": true,
+      "belongToSpecifyArubamu": false,
+      "commentCountRealValue": 41,
+      "fansOnlyDesc": "（~0219~颜音2026生日快乐~）",
+      "durationMillis": 7374866,
+      "recoReason": {
+        "desc": "",
+        "href": "https://www.acfun.cn/rank/list/#cid=-1;range=1;pcid=-3",
+        "tag": "综合榜Top4",
+        "layoutType": 0,
+        "descType": null,
+        "type": 11
+      },
+      "shareCount": 11,
+      "giftPeachCount": 0,
+      "originalDeclare": 1,
+      "commentCountTenThousandShow": "41",
+      "tagList": [
+        { "name": "虚拟偶像", "id": "2160" },
+        { "name": "歌回", "id": "36445" },
+        { "name": "音乐", "id": "69" },
+        { "name": "竾颜音", "id": "216933" }
+      ],
+      "user": {
+        "action": 3,
+        "href": "4425861",
+        "gender": 0,
+        "headUrl": "https://tx-free-imgs.acfun.cn/newUpload/4425861_3e4e850941bb440ca44935fe3e4598a9.png?imageslim",
+        "liveId": "typEiZxuYfQ",
+        "fanCountValue": 19949,
+        "verifiedText": "AVI联盟成员\n",
+        "followingStatus": 1,
+        "avatarFrame": 1197,
+        "verifiedTypes": [5, 3],
+        "contributeCount": "422",
+        "sexTrend": -1,
+        "nameColor": 1,
+        "isFollowing": false,
+        "avatarFramePcImg": "https://imgs.aixifan.com/zIQ3OEfaTe-bMJvYn-iyIzU3-qUZVJn-j2Q7Z3.gif",
+        "avatarFrameMobileImg": "https://imgs.aixifan.com/BElwLIOP5Z-qU7vee-V3iIzi-BjyQRv-IrI36j.gif",
+        "followingCount": "172",
+        "headCdnUrls": [
+          {
+            "url": "https://tx-free-imgs.acfun.cn/newUpload/4425861_3e4e850941bb440ca44935fe3e4598a9.png?imageslim",
+            "freeTrafficCdn": true
+          },
+          {
+            "url": "https://imgs.aixifan.com/newUpload/4425861_3e4e850941bb440ca44935fe3e4598a9.png?imageslim",
+            "freeTrafficCdn": false
+          }
+        ],
+        "isJoinUpCollege": true,
+        "followingCountValue": 172,
+        "contributeCountValue": 422,
+        "fanCount": "2.0万",
+        "avatarImage": "https://tx-free-imgs.acfun.cn/zIQ3OEfaTe-bMJvYn-iyIzU3-qUZVJn-j2Q7Z3.gif?imageslim",
+        "userHeadImgInfo": {
+          "width": 0,
+          "height": 0,
+          "size": 0,
+          "type": 0,
+          "animated": false,
+          "thumbnailImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/newUpload/4425861_3e4e850941bb440ca44935fe3e4598a9.png",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "smallSharedImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/newUpload/4425861_3e4e850941bb440ca44935fe3e4598a9.png",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "expandedImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/newUpload/4425861_3e4e850941bb440ca44935fe3e4598a9.png",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "originImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/newUpload/4425861_3e4e850941bb440ca44935fe3e4598a9.png",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "thumbnailImageCdnUrl": "https://imgs.aixifan.com/newUpload/4425861_3e4e850941bb440ca44935fe3e4598a9.png"
+        },
+        "isFollowed": false,
+        "socialMedal": {},
+        "name": "颜音小鸽子",
+        "signature": "运气比较感人的小鸽子  粉丝群：300255753",
+        "id": "4425861"
+      },
+      "createTime": "22小时前",
+      "title": "【2026】小鸽子情人节歌回录播",
+      "description": "2026年2月14日录播",
+      "status": 2,
+      "channel": {
+        "parentId": 1,
+        "parentName": "动画",
+        "name": "虚拟偶像",
+        "id": 207
+      },
+      "isFavorite": false,
+      "superUbb": true,
+      "isRewardSupportted": true,
+      "isThrowBanana": false
+    },
+    {
+      "groupId": "Ml8wXzE3NzE1MTE4NTk2ODBfNDg2Mg_5&-124&&rlg1",
+      "userId": 2176158,
+      "dougaId": "48281211",
+      "userImg": "https://tx-free-imgs.acfun.cn/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg?imageslim",
+      "channelId": 206,
+      "channelName": "搞笑",
+      "contentId": 48281211,
+      "isFollowing": false,
+      "fansCount": 297610,
+      "contributeTime": 1771478880808,
+      "contentTitle": "网络上常见的热门短视频集锦   第三千零一十四期",
+      "contentDesc": "审核大大辛苦了！<br/>谢谢每一个投蕉的帅哥美女！香蕉没有来个赞也好啊！<br/>视频来自快手等平台，侵权联系删除！",
+      "videoCover": "https://tx-free-imgs.acfun.cn/newUpload/2176158_9fab729dc47a4aa58c8268abb80e98ed.gif?imageslim",
+      "userSignature": "感谢大家的关注和投蕉，谢谢！！！",
+      "contributionCount": 7677,
+      "danmuCount": 0,
+      "userName": "九星之歌",
+      "contentType": 2,
+      "duration": 384751,
+      "likeCount": 433,
+      "hasHotComment": false,
+      "commentCountShow": "6",
+      "likeCountShow": "433",
+      "videoList": [
+        {
+          "priority": 0,
+          "sourceStatus": 3,
+          "danmakuGuidePosition": 10000,
+          "danmakuCount": 0,
+          "danmakuCountShow": "0",
+          "sizeType": 1,
+          "durationMillis": 384751,
+          "uploadTime": 1771427490634,
+          "visibleType": 1,
+          "title": "蕉换幸运",
+          "fileName": "蕉换幸运",
+          "id": "38580357"
+        },
+        {
+          "priority": 1,
+          "sourceStatus": 3,
+          "danmakuGuidePosition": 10000,
+          "danmakuCount": 0,
+          "danmakuCountShow": "0",
+          "sizeType": 2,
+          "durationMillis": 131517,
+          "uploadTime": 1771427402787,
+          "visibleType": 1,
+          "title": "P2",
+          "fileName": "63.7600375086164230129_#这是个真实的事情 #原创视频 #残疾人 #",
+          "id": "38580355"
+        },
+        {
+          "priority": 2,
+          "sourceStatus": 3,
+          "danmakuGuidePosition": 10000,
+          "danmakuCount": 0,
+          "danmakuCountShow": "0",
+          "sizeType": 1,
+          "durationMillis": 40078,
+          "uploadTime": 1771427377353,
+          "visibleType": 1,
+          "title": "P3",
+          "fileName": "69.7596691093401051492_你们应该看疲劳了吧，但这是我的日常…… #人",
+          "id": "38580353"
+        }
+      ],
+      "viewCount": 3020,
+      "commentCount": 6,
+      "stowCount": 222,
+      "bananaCount": 588,
+      "coverUrl": "https://tx-free-imgs.acfun.cn/newUpload/2176158_9fab729dc47a4aa58c8268abb80e98ed.gif?imageslim",
+      "createTimeMillis": 1771478880808,
+      "danmakuCount": 0,
+      "isLike": false,
+      "coverCdnUrls": [
+        {
+          "url": "https://tx-free-imgs.acfun.cn/newUpload/2176158_9fab729dc47a4aa58c8268abb80e98ed.gif?imageslim",
+          "freeTrafficCdn": true
+        },
+        {
+          "url": "https://imgs.aixifan.com/newUpload/2176158_9fab729dc47a4aa58c8268abb80e98ed.gif?imageslim",
+          "freeTrafficCdn": false
+        }
+      ],
+      "coverImgInfo": {
+        "width": 0,
+        "height": 0,
+        "size": 0,
+        "type": 0,
+        "animated": false,
+        "thumbnailImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/2176158_9fab729dc47a4aa58c8268abb80e98ed.gif",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "smallSharedImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/2176158_9fab729dc47a4aa58c8268abb80e98ed.gif",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "expandedImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/2176158_9fab729dc47a4aa58c8268abb80e98ed.gif",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "originImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/2176158_9fab729dc47a4aa58c8268abb80e98ed.gif",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "thumbnailImageCdnUrl": "https://imgs.aixifan.com/newUpload/2176158_9fab729dc47a4aa58c8268abb80e98ed.gif"
+      },
+      "shareUrl": "https://m.acfun.cn/v/?ac=48281211",
+      "picShareUrl": "https://m.acfun.cn/v/?ac=48281211&shareType=pic",
+      "isDislike": false,
+      "viewCountShow": "3020",
+      "shareCountShow": "0",
+      "stowCountShow": "222",
+      "danmakuCountShow": "0",
+      "bananaCountShow": "588",
+      "giftPeachCountShow": "0",
+      "disableEdit": true,
+      "belongToSpecifyArubamu": false,
+      "commentCountRealValue": 6,
+      "fansOnlyDesc": "谢谢每一个投蕉的帅哥美女！香蕉没有来个赞也好啊！\n你们是我坚持更新的动力！\n视频来自快手等平台，侵权联系删除！",
+      "durationMillis": 556346,
+      "recoReason": {
+        "desc": "",
+        "href": "https://www.acfun.cn/rank/list/#cid=-1;range=1;pcid=-3",
+        "tag": "综合榜Top5",
+        "layoutType": 0,
+        "descType": null,
+        "type": 11
+      },
+      "shareCount": 0,
+      "giftPeachCount": 0,
+      "originalDeclare": 1,
+      "commentCountTenThousandShow": "6",
+      "tagList": [
+        { "name": "沙雕", "id": "133" },
+        { "name": "逗比", "id": "11263" },
+        { "name": "搞笑", "id": "79" },
+        { "name": "小姐姐", "id": "275" },
+        { "name": "电影", "id": "1617" }
+      ],
+      "user": {
+        "action": 3,
+        "href": "2176158",
+        "gender": -1,
+        "headUrl": "https://tx-free-imgs.acfun.cn/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg?imageslim",
+        "fanCountValue": 297610,
+        "followingStatus": 1,
+        "avatarFrame": 0,
+        "verifiedTypes": [5],
+        "contributeCount": "7677",
+        "comeFrom": "吉林,长春",
+        "sexTrend": -1,
+        "nameColor": 1,
+        "isFollowing": false,
+        "avatarFramePcImg": "",
+        "avatarFrameMobileImg": "",
+        "followingCount": "135",
+        "headCdnUrls": [
+          {
+            "url": "https://tx-free-imgs.acfun.cn/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg?imageslim",
+            "freeTrafficCdn": true
+          },
+          {
+            "url": "https://imgs.aixifan.com/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg?imageslim",
+            "freeTrafficCdn": false
+          }
+        ],
+        "isJoinUpCollege": true,
+        "followingCountValue": 135,
+        "contributeCountValue": 7677,
+        "fanCount": "29.8万",
+        "avatarImage": "",
+        "userHeadImgInfo": {
+          "width": 0,
+          "height": 0,
+          "size": 0,
+          "type": 0,
+          "animated": false,
+          "thumbnailImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "smallSharedImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "expandedImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "originImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "thumbnailImageCdnUrl": "https://imgs.aixifan.com/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg"
+        },
+        "isFollowed": false,
+        "socialMedal": {},
+        "name": "九星之歌",
+        "signature": "感谢大家的关注和投蕉，谢谢！！！",
+        "id": "2176158"
+      },
+      "createTime": "9小时前",
+      "title": "网络上常见的热门短视频集锦   第三千零一十四期",
+      "description": "审核大大辛苦了！<br/>谢谢每一个投蕉的帅哥美女！香蕉没有来个赞也好啊！<br/>视频来自快手等平台，侵权联系删除！",
+      "status": 2,
+      "channel": {
+        "parentId": 60,
+        "parentName": "娱乐",
+        "name": "搞笑",
+        "id": 206
+      },
+      "isFavorite": false,
+      "superUbb": true,
+      "isRewardSupportted": true,
+      "isThrowBanana": false
+    },
+    {
+      "groupId": "Ml8wXzE3NzE1MTE4NTk2ODBfNDg2Mg_6&-124&&rlg1",
+      "userId": 2176158,
+      "dougaId": "48281245",
+      "userImg": "https://tx-free-imgs.acfun.cn/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg?imageslim",
+      "channelId": 206,
+      "channelName": "搞笑",
+      "contentId": 48281245,
+      "isFollowing": false,
+      "fansCount": 297610,
+      "contributeTime": 1771489080747,
+      "contentTitle": "网络上常见的热门短视频集锦   第三千零一十五期",
+      "contentDesc": "审核大大辛苦了！<br/>谢谢每一个投蕉的帅哥美女！香蕉没有来个赞也好啊！<br/>视频来自快手等平台，侵权联系删除！",
+      "videoCover": "https://tx-free-imgs.acfun.cn/newUpload/2176158_5eeaa930bb6d4f7a9ce3b88ed7252825.gif?imageslim",
+      "userSignature": "感谢大家的关注和投蕉，谢谢！！！",
+      "contributionCount": 7677,
+      "danmuCount": 0,
+      "userName": "九星之歌",
+      "contentType": 2,
+      "duration": 370269,
+      "likeCount": 316,
+      "hasHotComment": false,
+      "commentCountShow": "7",
+      "likeCountShow": "316",
+      "videoList": [
+        {
+          "priority": 0,
+          "sourceStatus": 3,
+          "danmakuGuidePosition": 10000,
+          "danmakuCount": 0,
+          "danmakuCountShow": "0",
+          "sizeType": 1,
+          "durationMillis": 370269,
+          "uploadTime": 1771428916326,
+          "visibleType": 1,
+          "title": "蕉换幸运",
+          "fileName": "蕉换幸运",
+          "id": "38580398"
+        },
+        {
+          "priority": 1,
+          "sourceStatus": 3,
+          "danmakuGuidePosition": 10000,
+          "danmakuCount": 0,
+          "danmakuCountShow": "0",
+          "sizeType": 1,
+          "durationMillis": 121625,
+          "uploadTime": 1771428809897,
+          "visibleType": 1,
+          "title": "P2",
+          "fileName": "43.7605127628450970852_这个浙F兄弟你在想啥子？反正我认为你确实是一",
+          "id": "38580390"
+        },
+        {
+          "priority": 2,
+          "sourceStatus": 3,
+          "danmakuGuidePosition": 10000,
+          "danmakuCount": 0,
+          "danmakuCountShow": "0",
+          "sizeType": 2,
+          "durationMillis": 123834,
+          "uploadTime": 1771428814840,
+          "visibleType": 1,
+          "title": "P3",
+          "fileName": "39.7602597976922372517_各位男生永远要记住你才是这个世界的主角。#外",
+          "id": "38580391"
+        }
+      ],
+      "viewCount": 2710,
+      "commentCount": 7,
+      "stowCount": 205,
+      "bananaCount": 505,
+      "coverUrl": "https://tx-free-imgs.acfun.cn/newUpload/2176158_5eeaa930bb6d4f7a9ce3b88ed7252825.gif?imageslim",
+      "createTimeMillis": 1771489080747,
+      "danmakuCount": 0,
+      "isLike": false,
+      "coverCdnUrls": [
+        {
+          "url": "https://tx-free-imgs.acfun.cn/newUpload/2176158_5eeaa930bb6d4f7a9ce3b88ed7252825.gif?imageslim",
+          "freeTrafficCdn": true
+        },
+        {
+          "url": "https://imgs.aixifan.com/newUpload/2176158_5eeaa930bb6d4f7a9ce3b88ed7252825.gif?imageslim",
+          "freeTrafficCdn": false
+        }
+      ],
+      "coverImgInfo": {
+        "width": 0,
+        "height": 0,
+        "size": 0,
+        "type": 0,
+        "animated": false,
+        "thumbnailImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/2176158_5eeaa930bb6d4f7a9ce3b88ed7252825.gif",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "smallSharedImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/2176158_5eeaa930bb6d4f7a9ce3b88ed7252825.gif",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "expandedImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/2176158_5eeaa930bb6d4f7a9ce3b88ed7252825.gif",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "originImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/2176158_5eeaa930bb6d4f7a9ce3b88ed7252825.gif",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "thumbnailImageCdnUrl": "https://imgs.aixifan.com/newUpload/2176158_5eeaa930bb6d4f7a9ce3b88ed7252825.gif"
+      },
+      "shareUrl": "https://m.acfun.cn/v/?ac=48281245",
+      "picShareUrl": "https://m.acfun.cn/v/?ac=48281245&shareType=pic",
+      "isDislike": false,
+      "viewCountShow": "2710",
+      "shareCountShow": "1",
+      "stowCountShow": "205",
+      "danmakuCountShow": "0",
+      "bananaCountShow": "505",
+      "giftPeachCountShow": "0",
+      "disableEdit": true,
+      "belongToSpecifyArubamu": false,
+      "commentCountRealValue": 7,
+      "fansOnlyDesc": "谢谢每一个投蕉的帅哥美女！香蕉没有来个赞也好啊！\n你们是我坚持更新的动力！\n视频来自快手等平台，侵权联系删除！",
+      "durationMillis": 615728,
+      "recoReason": {
+        "desc": "",
+        "href": "https://www.acfun.cn/rank/list/#cid=-1;range=1;pcid=-3",
+        "tag": "综合榜Top6",
+        "layoutType": 0,
+        "descType": null,
+        "type": 11
+      },
+      "shareCount": 1,
+      "giftPeachCount": 0,
+      "originalDeclare": 1,
+      "commentCountTenThousandShow": "7",
+      "tagList": [
+        { "name": "沙雕", "id": "133" },
+        { "name": "逗比", "id": "11263" },
+        { "name": "搞笑", "id": "79" },
+        { "name": "小姐姐", "id": "275" },
+        { "name": "电影", "id": "1617" }
+      ],
+      "user": {
+        "action": 3,
+        "href": "2176158",
+        "gender": -1,
+        "headUrl": "https://tx-free-imgs.acfun.cn/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg?imageslim",
+        "fanCountValue": 297610,
+        "followingStatus": 1,
+        "avatarFrame": 0,
+        "verifiedTypes": [5],
+        "contributeCount": "7677",
+        "comeFrom": "吉林,长春",
+        "sexTrend": -1,
+        "nameColor": 1,
+        "isFollowing": false,
+        "avatarFramePcImg": "",
+        "avatarFrameMobileImg": "",
+        "followingCount": "135",
+        "headCdnUrls": [
+          {
+            "url": "https://tx-free-imgs.acfun.cn/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg?imageslim",
+            "freeTrafficCdn": true
+          },
+          {
+            "url": "https://imgs.aixifan.com/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg?imageslim",
+            "freeTrafficCdn": false
+          }
+        ],
+        "isJoinUpCollege": true,
+        "followingCountValue": 135,
+        "contributeCountValue": 7677,
+        "fanCount": "29.8万",
+        "avatarImage": "",
+        "userHeadImgInfo": {
+          "width": 0,
+          "height": 0,
+          "size": 0,
+          "type": 0,
+          "animated": false,
+          "thumbnailImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "smallSharedImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "expandedImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "originImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "thumbnailImageCdnUrl": "https://imgs.aixifan.com/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg"
+        },
+        "isFollowed": false,
+        "socialMedal": {},
+        "name": "九星之歌",
+        "signature": "感谢大家的关注和投蕉，谢谢！！！",
+        "id": "2176158"
+      },
+      "createTime": "6小时前",
+      "title": "网络上常见的热门短视频集锦   第三千零一十五期",
+      "description": "审核大大辛苦了！<br/>谢谢每一个投蕉的帅哥美女！香蕉没有来个赞也好啊！<br/>视频来自快手等平台，侵权联系删除！",
+      "status": 2,
+      "channel": {
+        "parentId": 60,
+        "parentName": "娱乐",
+        "name": "搞笑",
+        "id": 206
+      },
+      "isFavorite": false,
+      "superUbb": true,
+      "isRewardSupportted": true,
+      "isThrowBanana": false
+    },
+    {
+      "groupId": "Ml8wXzE3NzE1MTE4NTk2ODBfNDg2Mg_7&-124&&rlg1",
+      "userId": 16279345,
+      "dougaId": "48281171",
+      "userImg": "https://tx-free-imgs.acfun.cn/newUpload/16279345_4182ca4c59d3437fab9c35841a4fd794.jpg?imageslim",
+      "channelId": 133,
+      "channelName": "COSPLAY·声优",
+      "contentId": 48281171,
+      "isFollowing": false,
+      "fansCount": 17730,
+      "contributeTime": 1771427150196,
+      "contentTitle": "【夏雅】你不知道吵架的时候不该找对方拍舞吗",
+      "videoCover": "https://tx-free-imgs.acfun.cn/newUpload/16279345_c77425bee694426199da1c3d19a420a6.jpg?imageslim",
+      "userSignature": "耶耶耶耶耶(●&amp;#39;◡&amp;#39;●)\n\n合KANAAAAAAA-D",
+      "contributionCount": 484,
+      "danmuCount": 0,
+      "userName": "咖纳纳纳o",
+      "contentType": 2,
+      "duration": 17533,
+      "likeCount": 179,
+      "hasHotComment": false,
+      "commentCountShow": "18",
+      "likeCountShow": "179",
+      "videoList": [
+        {
+          "priority": 0,
+          "sourceStatus": 3,
+          "danmakuGuidePosition": 10000,
+          "danmakuCount": 0,
+          "danmakuCountShow": "0",
+          "sizeType": 2,
+          "durationMillis": 17533,
+          "uploadTime": 1771426362682,
+          "visibleType": 1,
+          "title": "noTitle",
+          "fileName": "tempExportedVideo.mov",
+          "id": "38580306"
+        }
+      ],
+      "viewCount": 1821,
+      "commentCount": 18,
+      "stowCount": 21,
+      "bananaCount": 460,
+      "coverUrl": "https://tx-free-imgs.acfun.cn/newUpload/16279345_c77425bee694426199da1c3d19a420a6.jpg?imageslim",
+      "createTimeMillis": 1771427150196,
+      "danmakuCount": 0,
+      "isLike": false,
+      "coverCdnUrls": [
+        {
+          "url": "https://tx-free-imgs.acfun.cn/newUpload/16279345_c77425bee694426199da1c3d19a420a6.jpg?imageslim",
+          "freeTrafficCdn": true
+        },
+        {
+          "url": "https://imgs.aixifan.com/newUpload/16279345_c77425bee694426199da1c3d19a420a6.jpg?imageslim",
+          "freeTrafficCdn": false
+        }
+      ],
+      "coverImgInfo": {
+        "width": 0,
+        "height": 0,
+        "size": 0,
+        "type": 0,
+        "animated": false,
+        "thumbnailImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/16279345_c77425bee694426199da1c3d19a420a6.jpg",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "smallSharedImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/16279345_c77425bee694426199da1c3d19a420a6.jpg",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "expandedImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/16279345_c77425bee694426199da1c3d19a420a6.jpg",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "originImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/16279345_c77425bee694426199da1c3d19a420a6.jpg",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "thumbnailImageCdnUrl": "https://imgs.aixifan.com/newUpload/16279345_c77425bee694426199da1c3d19a420a6.jpg"
+      },
+      "shareUrl": "https://m.acfun.cn/v/?ac=48281171",
+      "picShareUrl": "https://m.acfun.cn/v/?ac=48281171&shareType=pic",
+      "isDislike": false,
+      "viewCountShow": "1821",
+      "shareCountShow": "2",
+      "stowCountShow": "21",
+      "danmakuCountShow": "0",
+      "bananaCountShow": "460",
+      "giftPeachCountShow": "0",
+      "disableEdit": true,
+      "belongToSpecifyArubamu": false,
+      "commentCountRealValue": 18,
+      "durationMillis": 17533,
+      "recoReason": {
+        "desc": "",
+        "href": "https://www.acfun.cn/rank/list/#cid=-1;range=1;pcid=-3",
+        "tag": "综合榜Top7",
+        "layoutType": 0,
+        "descType": null,
+        "type": 11
+      },
+      "shareCount": 2,
+      "giftPeachCount": 0,
+      "commentCountTenThousandShow": "18",
+      "user": {
+        "action": 3,
+        "href": "16279345",
+        "gender": -1,
+        "headUrl": "https://tx-free-imgs.acfun.cn/newUpload/16279345_4182ca4c59d3437fab9c35841a4fd794.jpg?imageslim",
+        "fanCountValue": 17730,
+        "followingStatus": 1,
+        "avatarFrame": 0,
+        "verifiedTypes": [5],
+        "contributeCount": "484",
+        "sexTrend": -1,
+        "nameColor": 0,
+        "isFollowing": false,
+        "avatarFramePcImg": "",
+        "avatarFrameMobileImg": "",
+        "followingCount": "2",
+        "headCdnUrls": [
+          {
+            "url": "https://tx-free-imgs.acfun.cn/newUpload/16279345_4182ca4c59d3437fab9c35841a4fd794.jpg?imageslim",
+            "freeTrafficCdn": true
+          },
+          {
+            "url": "https://imgs.aixifan.com/newUpload/16279345_4182ca4c59d3437fab9c35841a4fd794.jpg?imageslim",
+            "freeTrafficCdn": false
+          }
+        ],
+        "isJoinUpCollege": true,
+        "followingCountValue": 2,
+        "contributeCountValue": 484,
+        "fanCount": "1.8万",
+        "avatarImage": "",
+        "userHeadImgInfo": {
+          "width": 0,
+          "height": 0,
+          "size": 0,
+          "type": 0,
+          "animated": false,
+          "thumbnailImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/newUpload/16279345_4182ca4c59d3437fab9c35841a4fd794.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "smallSharedImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/newUpload/16279345_4182ca4c59d3437fab9c35841a4fd794.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "expandedImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/newUpload/16279345_4182ca4c59d3437fab9c35841a4fd794.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "originImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/newUpload/16279345_4182ca4c59d3437fab9c35841a4fd794.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "thumbnailImageCdnUrl": "https://imgs.aixifan.com/newUpload/16279345_4182ca4c59d3437fab9c35841a4fd794.jpg"
+        },
+        "isFollowed": false,
+        "socialMedal": {},
+        "name": "咖纳纳纳o",
+        "signature": "耶耶耶耶耶(●&amp;#39;◡&amp;#39;●)\n\n合KANAAAAAAA-D",
+        "id": "16279345"
+      },
+      "createTime": "23小时前",
+      "title": "【夏雅】你不知道吵架的时候不该找对方拍舞吗",
+      "description": null,
+      "status": 2,
+      "channel": {
+        "parentId": 1,
+        "parentName": "动画",
+        "name": "COSPLAY·声优",
+        "id": 133
+      },
+      "isFavorite": false,
+      "superUbb": true,
+      "isRewardSupportted": true,
+      "isThrowBanana": false
+    },
+    {
+      "groupId": "Ml8wXzE3NzE1MTE4NTk2ODBfNDg2Mg_8&-124&&rlg1",
+      "userId": 2176158,
+      "dougaId": "48281248",
+      "userImg": "https://tx-free-imgs.acfun.cn/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg?imageslim",
+      "channelId": 206,
+      "channelName": "搞笑",
+      "contentId": 48281248,
+      "isFollowing": false,
+      "fansCount": 297610,
+      "contributeTime": 1771504560695,
+      "contentTitle": "只能我去接孩子了！欢乐八点档-1565",
+      "contentDesc": "审核大大辛苦了！<br/>免费的香蕉投一下吧，没有那就点个赞吧，这对我来说很重要，谢谢！！！<br/>谢谢每一个投蕉的帅哥美女！你们是我坚持更新的动力！<br/>视频来自快手等平台，侵权联系删除！",
+      "videoCover": "https://tx-free-imgs.acfun.cn/newUpload/2176158_71919635d231449b8ba767b7d4c781f3.gif?imageslim",
+      "userSignature": "感谢大家的关注和投蕉，谢谢！！！",
+      "contributionCount": 7677,
+      "danmuCount": 0,
+      "userName": "九星之歌",
+      "contentType": 2,
+      "duration": 380646,
+      "likeCount": 191,
+      "hasHotComment": false,
+      "commentCountShow": "4",
+      "likeCountShow": "191",
+      "videoList": [
+        {
+          "priority": 0,
+          "sourceStatus": 3,
+          "danmakuGuidePosition": 10000,
+          "danmakuCount": 0,
+          "danmakuCountShow": "0",
+          "sizeType": 1,
+          "durationMillis": 380646,
+          "uploadTime": 1771428976143,
+          "visibleType": 1,
+          "title": "蕉换幸运",
+          "fileName": "蕉换幸运",
+          "id": "38580400"
+        },
+        {
+          "priority": 1,
+          "sourceStatus": 3,
+          "danmakuGuidePosition": 10000,
+          "danmakuCount": 0,
+          "danmakuCountShow": "0",
+          "sizeType": 1,
+          "durationMillis": 88700,
+          "uploadTime": 1771428864242,
+          "visibleType": 1,
+          "title": "P2",
+          "fileName": "77.7607816672904480997_工，农，兵，三位一体#工农阶级#过年好",
+          "id": "38580394"
+        },
+        {
+          "priority": 2,
+          "sourceStatus": 3,
+          "danmakuGuidePosition": 10000,
+          "danmakuCount": 0,
+          "danmakuCountShow": "0",
+          "sizeType": 1,
+          "durationMillis": 76139,
+          "uploadTime": 1771428864865,
+          "visibleType": 1,
+          "title": "P3",
+          "fileName": "32.7604375150491244153_#汽车 彩礼汽车",
+          "id": "38580395"
+        }
+      ],
+      "viewCount": 1827,
+      "commentCount": 4,
+      "stowCount": 190,
+      "bananaCount": 404,
+      "coverUrl": "https://tx-free-imgs.acfun.cn/newUpload/2176158_71919635d231449b8ba767b7d4c781f3.gif?imageslim",
+      "createTimeMillis": 1771504560695,
+      "danmakuCount": 0,
+      "isLike": false,
+      "coverCdnUrls": [
+        {
+          "url": "https://tx-free-imgs.acfun.cn/newUpload/2176158_71919635d231449b8ba767b7d4c781f3.gif?imageslim",
+          "freeTrafficCdn": true
+        },
+        {
+          "url": "https://imgs.aixifan.com/newUpload/2176158_71919635d231449b8ba767b7d4c781f3.gif?imageslim",
+          "freeTrafficCdn": false
+        }
+      ],
+      "coverImgInfo": {
+        "width": 0,
+        "height": 0,
+        "size": 0,
+        "type": 0,
+        "animated": false,
+        "thumbnailImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/2176158_71919635d231449b8ba767b7d4c781f3.gif",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "smallSharedImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/2176158_71919635d231449b8ba767b7d4c781f3.gif",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "expandedImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/2176158_71919635d231449b8ba767b7d4c781f3.gif",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "originImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/2176158_71919635d231449b8ba767b7d4c781f3.gif",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "thumbnailImageCdnUrl": "https://imgs.aixifan.com/newUpload/2176158_71919635d231449b8ba767b7d4c781f3.gif"
+      },
+      "shareUrl": "https://m.acfun.cn/v/?ac=48281248",
+      "picShareUrl": "https://m.acfun.cn/v/?ac=48281248&shareType=pic",
+      "isDislike": false,
+      "viewCountShow": "1827",
+      "shareCountShow": "1",
+      "stowCountShow": "190",
+      "danmakuCountShow": "0",
+      "bananaCountShow": "404",
+      "giftPeachCountShow": "0",
+      "disableEdit": true,
+      "belongToSpecifyArubamu": false,
+      "commentCountRealValue": 4,
+      "fansOnlyDesc": "免费的香蕉投一下吧，没有那就点个赞吧，这对我来说很重要，谢谢！！！\n视频来自快手等平台，侵权联系删除！",
+      "durationMillis": 545485,
+      "recoReason": {
+        "desc": "",
+        "href": "https://www.acfun.cn/rank/list/#cid=-1;range=1;pcid=-3",
+        "tag": "综合榜Top8",
+        "layoutType": 0,
+        "descType": null,
+        "type": 11
+      },
+      "shareCount": 1,
+      "giftPeachCount": 0,
+      "originalDeclare": 1,
+      "commentCountTenThousandShow": "4",
+      "tagList": [
+        { "name": "沙雕", "id": "133" },
+        { "name": "逗比", "id": "11263" },
+        { "name": "搞笑", "id": "79" },
+        { "name": "小姐姐", "id": "275" },
+        { "name": "电影", "id": "1617" }
+      ],
+      "user": {
+        "action": 3,
+        "href": "2176158",
+        "gender": -1,
+        "headUrl": "https://tx-free-imgs.acfun.cn/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg?imageslim",
+        "fanCountValue": 297610,
+        "followingStatus": 1,
+        "avatarFrame": 0,
+        "verifiedTypes": [5],
+        "contributeCount": "7677",
+        "comeFrom": "吉林,长春",
+        "sexTrend": -1,
+        "nameColor": 1,
+        "isFollowing": false,
+        "avatarFramePcImg": "",
+        "avatarFrameMobileImg": "",
+        "followingCount": "135",
+        "headCdnUrls": [
+          {
+            "url": "https://tx-free-imgs.acfun.cn/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg?imageslim",
+            "freeTrafficCdn": true
+          },
+          {
+            "url": "https://imgs.aixifan.com/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg?imageslim",
+            "freeTrafficCdn": false
+          }
+        ],
+        "isJoinUpCollege": true,
+        "followingCountValue": 135,
+        "contributeCountValue": 7677,
+        "fanCount": "29.8万",
+        "avatarImage": "",
+        "userHeadImgInfo": {
+          "width": 0,
+          "height": 0,
+          "size": 0,
+          "type": 0,
+          "animated": false,
+          "thumbnailImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "smallSharedImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "expandedImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "originImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "thumbnailImageCdnUrl": "https://imgs.aixifan.com/style/image/201907/Pt1GipJtiUHE0rnGckcm5gHzJeTRxjJh.jpg"
+        },
+        "isFollowed": false,
+        "socialMedal": {},
+        "name": "九星之歌",
+        "signature": "感谢大家的关注和投蕉，谢谢！！！",
+        "id": "2176158"
+      },
+      "createTime": "2小时前",
+      "title": "只能我去接孩子了！欢乐八点档-1565",
+      "description": "审核大大辛苦了！<br/>免费的香蕉投一下吧，没有那就点个赞吧，这对我来说很重要，谢谢！！！<br/>谢谢每一个投蕉的帅哥美女！你们是我坚持更新的动力！<br/>视频来自快手等平台，侵权联系删除！",
+      "status": 2,
+      "channel": {
+        "parentId": 60,
+        "parentName": "娱乐",
+        "name": "搞笑",
+        "id": 206
+      },
+      "isFavorite": false,
+      "superUbb": true,
+      "isRewardSupportted": true,
+      "isThrowBanana": false
+    },
+    {
+      "groupId": "Ml8wXzE3NzE1MTE4NTk2ODBfNDg2Mg_9&-124&&rlg1",
+      "userId": 383079,
+      "dougaId": "48282033",
+      "userImg": "https://tx-free-imgs.acfun.cn/FsU70IR9OQ6jbl_VDdWRntwAN4Xz?imageslim",
+      "channelId": 206,
+      "channelName": "搞笑",
+      "contentId": 48282033,
+      "isFollowing": false,
+      "fansCount": 58105,
+      "contributeTime": 1771490784846,
+      "contentTitle": "昏君体验卡【今天有什么好笑的 #2304】",
+      "contentDesc": "：)，谢谢大家，祝你们开心。<br/>wallpaper壁纸：Fading Astronaut 5K (update)<br/>BGM：I Want It That Way",
+      "videoCover": "https://tx-free-imgs.acfun.cn/newUpload/383079_e3f31fdaf6bf4769aa230da73d1831e4.gif?imageslim",
+      "userSignature": "Acfun人均笑点提高器",
+      "contributionCount": 2252,
+      "danmuCount": 0,
+      "userName": "铁菠萝",
+      "contentType": 2,
+      "duration": 450240,
+      "likeCount": 132,
+      "hasHotComment": false,
+      "commentCountShow": "2",
+      "likeCountShow": "132",
+      "videoList": [
+        {
+          "priority": 0,
+          "sourceStatus": 3,
+          "danmakuGuidePosition": 10000,
+          "danmakuCount": 0,
+          "danmakuCountShow": "0",
+          "sizeType": 1,
+          "durationMillis": 450240,
+          "uploadTime": 1771487993954,
+          "visibleType": 1,
+          "title": "蕉 换 开 心 #2304",
+          "fileName": "蕉 换 开 心 #2304",
+          "id": "38581294"
+        },
+        {
+          "priority": 1,
+          "sourceStatus": 3,
+          "danmakuGuidePosition": 10000,
+          "danmakuCount": 0,
+          "danmakuCountShow": "0",
+          "sizeType": 1,
+          "durationMillis": 212500,
+          "uploadTime": 1771487943714,
+          "visibleType": 1,
+          "title": "I Want It That Way",
+          "fileName": "I Want It That Way",
+          "id": "38581291"
+        }
+      ],
+      "viewCount": 1679,
+      "commentCount": 2,
+      "stowCount": 31,
+      "bananaCount": 267,
+      "coverUrl": "https://tx-free-imgs.acfun.cn/newUpload/383079_e3f31fdaf6bf4769aa230da73d1831e4.gif?imageslim",
+      "createTimeMillis": 1771490784846,
+      "danmakuCount": 0,
+      "isLike": false,
+      "coverCdnUrls": [
+        {
+          "url": "https://tx-free-imgs.acfun.cn/newUpload/383079_e3f31fdaf6bf4769aa230da73d1831e4.gif?imageslim",
+          "freeTrafficCdn": true
+        },
+        {
+          "url": "https://imgs.aixifan.com/newUpload/383079_e3f31fdaf6bf4769aa230da73d1831e4.gif?imageslim",
+          "freeTrafficCdn": false
+        }
+      ],
+      "coverImgInfo": {
+        "width": 0,
+        "height": 0,
+        "size": 0,
+        "type": 0,
+        "animated": false,
+        "thumbnailImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/383079_e3f31fdaf6bf4769aa230da73d1831e4.gif",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "smallSharedImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/383079_e3f31fdaf6bf4769aa230da73d1831e4.gif",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "expandedImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/383079_e3f31fdaf6bf4769aa230da73d1831e4.gif",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "originImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/383079_e3f31fdaf6bf4769aa230da73d1831e4.gif",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "thumbnailImageCdnUrl": "https://imgs.aixifan.com/newUpload/383079_e3f31fdaf6bf4769aa230da73d1831e4.gif"
+      },
+      "shareUrl": "https://m.acfun.cn/v/?ac=48282033",
+      "picShareUrl": "https://m.acfun.cn/v/?ac=48282033&shareType=pic",
+      "isDislike": false,
+      "viewCountShow": "1679",
+      "shareCountShow": "3",
+      "stowCountShow": "31",
+      "danmakuCountShow": "0",
+      "bananaCountShow": "267",
+      "giftPeachCountShow": "0",
+      "disableEdit": true,
+      "belongToSpecifyArubamu": false,
+      "commentCountRealValue": 2,
+      "fansOnlyDesc": "更新啦，来投个蕉吧朋友们，点个赞也可以呀~谢谢~",
+      "durationMillis": 662740,
+      "recoReason": {
+        "desc": "",
+        "href": "https://www.acfun.cn/rank/list/#cid=-1;range=1;pcid=-3",
+        "tag": "综合榜Top9",
+        "layoutType": 0,
+        "descType": null,
+        "type": 11
+      },
+      "shareCount": 3,
+      "giftPeachCount": 0,
+      "commentCountTenThousandShow": "2",
+      "tagList": [
+        { "name": "沙雕视频", "id": "17034" },
+        { "name": "沙雕", "id": "133" },
+        { "name": "吐槽", "id": "198" },
+        { "name": "弔图", "id": "659813" },
+        { "name": "搞笑", "id": "79" }
+      ],
+      "user": {
+        "action": 3,
+        "href": "383079",
+        "gender": -1,
+        "headUrl": "https://tx-free-imgs.acfun.cn/FsU70IR9OQ6jbl_VDdWRntwAN4Xz?imageslim",
+        "fanCountValue": 58105,
+        "followingStatus": 1,
+        "avatarFrame": 118,
+        "verifiedTypes": [5],
+        "contributeCount": "2252",
+        "sexTrend": 0,
+        "nameColor": 0,
+        "isFollowing": false,
+        "avatarFramePcImg": "https://imgs.aixifan.com/o_1cvf2r0jvnt2lhi5ng19ug1cp7p.png",
+        "avatarFrameMobileImg": "http://imgs.aixifan.com/o_1cvf33pb4adp1a6q6bbduc1odb3t.png",
+        "followingCount": "39",
+        "headCdnUrls": [
+          {
+            "url": "https://tx-free-imgs.acfun.cn/FsU70IR9OQ6jbl_VDdWRntwAN4Xz?imageslim",
+            "freeTrafficCdn": true
+          },
+          {
+            "url": "https://imgs.aixifan.com/FsU70IR9OQ6jbl_VDdWRntwAN4Xz?imageslim",
+            "freeTrafficCdn": false
+          }
+        ],
+        "isJoinUpCollege": true,
+        "followingCountValue": 39,
+        "contributeCountValue": 2252,
+        "fanCount": "5.8万",
+        "avatarImage": "https://tx-free-imgs.acfun.cn/o_1cvf2r0jvnt2lhi5ng19ug1cp7p.png?imageslim",
+        "userHeadImgInfo": {
+          "width": 0,
+          "height": 0,
+          "size": 0,
+          "type": 0,
+          "animated": false,
+          "thumbnailImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/FsU70IR9OQ6jbl_VDdWRntwAN4Xz",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "smallSharedImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/FsU70IR9OQ6jbl_VDdWRntwAN4Xz",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "expandedImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/FsU70IR9OQ6jbl_VDdWRntwAN4Xz",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "originImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/FsU70IR9OQ6jbl_VDdWRntwAN4Xz",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "thumbnailImageCdnUrl": "https://imgs.aixifan.com/FsU70IR9OQ6jbl_VDdWRntwAN4Xz"
+        },
+        "isFollowed": false,
+        "socialMedal": {},
+        "name": "铁菠萝",
+        "signature": "Acfun人均笑点提高器",
+        "id": "383079"
+      },
+      "createTime": "5小时前",
+      "title": "昏君体验卡【今天有什么好笑的 #2304】",
+      "description": "：)，谢谢大家，祝你们开心。<br/>wallpaper壁纸：Fading Astronaut 5K (update)<br/>BGM：I Want It That Way",
+      "status": 2,
+      "channel": {
+        "parentId": 60,
+        "parentName": "娱乐",
+        "name": "搞笑",
+        "id": 206
+      },
+      "isFavorite": false,
+      "superUbb": true,
+      "isRewardSupportted": true,
+      "isThrowBanana": false
+    },
+    {
+      "groupId": "Ml8wXzE3NzE1MTE4NTk2ODBfNDg2Mg_10&-124&&rlg1",
+      "userId": 878475,
+      "dougaId": "48281322",
+      "userImg": "https://tx-free-imgs.acfun.cn/style/image/201907/huAnYqv5YEw80yLb4GEF7SslYd39AQl3.jpg?imageslim",
+      "channelId": 86,
+      "channelName": "生活日常",
+      "contentId": 48281322,
+      "isFollowing": false,
+      "fansCount": 8850,
+      "contributeTime": 1771434796820,
+      "contentTitle": "为什么初二不发照片?",
+      "videoCover": "https://tx-free-imgs.acfun.cn/newUpload/878475_b716bb1926aa483280d3c081e0dc52f1.jpg?imageslim",
+      "userSignature": "微博:BellaBaby_彤彤 头条号 贝拉Bella",
+      "contributionCount": 83,
+      "danmuCount": 0,
+      "userName": "Bella彤彤",
+      "contentType": 2,
+      "duration": 29445,
+      "likeCount": 225,
+      "hasHotComment": false,
+      "commentCountShow": "45",
+      "likeCountShow": "225",
+      "videoList": [
+        {
+          "priority": 0,
+          "sourceStatus": 3,
+          "danmakuGuidePosition": 10000,
+          "danmakuCount": 0,
+          "danmakuCountShow": "0",
+          "sizeType": 2,
+          "durationMillis": 29445,
+          "uploadTime": 1771433922027,
+          "visibleType": 1,
+          "title": "noTitle",
+          "fileName": "tempExportedVideo.mov",
+          "id": "38580485"
+        }
+      ],
+      "viewCount": 2107,
+      "commentCount": 45,
+      "stowCount": 13,
+      "bananaCount": 902,
+      "coverUrl": "https://tx-free-imgs.acfun.cn/newUpload/878475_b716bb1926aa483280d3c081e0dc52f1.jpg?imageslim",
+      "createTimeMillis": 1771434796820,
+      "danmakuCount": 0,
+      "isLike": false,
+      "coverCdnUrls": [
+        {
+          "url": "https://tx-free-imgs.acfun.cn/newUpload/878475_b716bb1926aa483280d3c081e0dc52f1.jpg?imageslim",
+          "freeTrafficCdn": true
+        },
+        {
+          "url": "https://imgs.aixifan.com/newUpload/878475_b716bb1926aa483280d3c081e0dc52f1.jpg?imageslim",
+          "freeTrafficCdn": false
+        }
+      ],
+      "coverImgInfo": {
+        "width": 0,
+        "height": 0,
+        "size": 0,
+        "type": 0,
+        "animated": false,
+        "thumbnailImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/878475_b716bb1926aa483280d3c081e0dc52f1.jpg",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "smallSharedImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/878475_b716bb1926aa483280d3c081e0dc52f1.jpg",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "expandedImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/878475_b716bb1926aa483280d3c081e0dc52f1.jpg",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "originImage": {
+          "cdnUrls": [
+            {
+              "url": "https://imgs.aixifan.com/newUpload/878475_b716bb1926aa483280d3c081e0dc52f1.jpg",
+              "freeTrafficCdn": false
+            }
+          ]
+        },
+        "thumbnailImageCdnUrl": "https://imgs.aixifan.com/newUpload/878475_b716bb1926aa483280d3c081e0dc52f1.jpg"
+      },
+      "shareUrl": "https://m.acfun.cn/v/?ac=48281322",
+      "picShareUrl": "https://m.acfun.cn/v/?ac=48281322&shareType=pic",
+      "isDislike": false,
+      "viewCountShow": "2107",
+      "shareCountShow": "0",
+      "stowCountShow": "13",
+      "danmakuCountShow": "0",
+      "bananaCountShow": "902",
+      "giftPeachCountShow": "0",
+      "disableEdit": true,
+      "belongToSpecifyArubamu": false,
+      "commentCountRealValue": 45,
+      "fansOnlyDesc": "为什么初二不发照片\n因为初二回娘家这个活动我无法参与\n(嫁不出去啊啊啊)\n参加一下初三老鼠取新娘的活动一下\n(我奶说的今天老鼠迎亲)",
+      "durationMillis": 29445,
+      "recoReason": {
+        "desc": "",
+        "href": "https://www.acfun.cn/rank/list/#cid=-1;range=1;pcid=-3",
+        "tag": "综合榜Top10",
+        "layoutType": 0,
+        "descType": null,
+        "type": 11
+      },
+      "shareCount": 0,
+      "giftPeachCount": 0,
+      "commentCountTenThousandShow": "45",
+      "tagList": [
+        { "name": "新年", "id": "48626" },
+        { "name": "台妹", "id": "72610" },
+        { "name": "贝拉", "id": "28600" }
+      ],
+      "user": {
+        "action": 3,
+        "href": "878475",
+        "gender": 0,
+        "headUrl": "https://tx-free-imgs.acfun.cn/style/image/201907/huAnYqv5YEw80yLb4GEF7SslYd39AQl3.jpg?imageslim",
+        "fanCountValue": 8850,
+        "followingStatus": 1,
+        "avatarFrame": 882,
+        "verifiedTypes": [5],
+        "contributeCount": "83",
+        "sexTrend": -1,
+        "nameColor": 0,
+        "isFollowing": false,
+        "avatarFramePcImg": "https://imgs.aixifan.com/7KoElbJmkJ-YRvqIr-Az2Aza-v6ZFVz-fiArqe.png",
+        "avatarFrameMobileImg": "https://imgs.aixifan.com/JEzgC3zKDO-UFbUF3-zeyiMv-2u6RNv-RreABb.png",
+        "followingCount": "3",
+        "headCdnUrls": [
+          {
+            "url": "https://tx-free-imgs.acfun.cn/style/image/201907/huAnYqv5YEw80yLb4GEF7SslYd39AQl3.jpg?imageslim",
+            "freeTrafficCdn": true
+          },
+          {
+            "url": "https://imgs.aixifan.com/style/image/201907/huAnYqv5YEw80yLb4GEF7SslYd39AQl3.jpg?imageslim",
+            "freeTrafficCdn": false
+          }
+        ],
+        "isJoinUpCollege": true,
+        "followingCountValue": 3,
+        "contributeCountValue": 83,
+        "fanCount": "8850",
+        "avatarImage": "https://tx-free-imgs.acfun.cn/7KoElbJmkJ-YRvqIr-Az2Aza-v6ZFVz-fiArqe.png?imageslim",
+        "userHeadImgInfo": {
+          "width": 0,
+          "height": 0,
+          "size": 0,
+          "type": 0,
+          "animated": false,
+          "thumbnailImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/style/image/201907/huAnYqv5YEw80yLb4GEF7SslYd39AQl3.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "smallSharedImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/style/image/201907/huAnYqv5YEw80yLb4GEF7SslYd39AQl3.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "expandedImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/style/image/201907/huAnYqv5YEw80yLb4GEF7SslYd39AQl3.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "originImage": {
+            "cdnUrls": [
+              {
+                "url": "https://imgs.aixifan.com/style/image/201907/huAnYqv5YEw80yLb4GEF7SslYd39AQl3.jpg",
+                "freeTrafficCdn": false
+              }
+            ]
+          },
+          "thumbnailImageCdnUrl": "https://imgs.aixifan.com/style/image/201907/huAnYqv5YEw80yLb4GEF7SslYd39AQl3.jpg"
+        },
+        "isFollowed": false,
+        "socialMedal": {},
+        "name": "Bella彤彤",
+        "signature": "微博:BellaBaby_彤彤 头条号 贝拉Bella",
+        "id": "878475"
+      },
+      "createTime": "21小时前",
+      "title": "为什么初二不发照片?",
+      "description": null,
+      "status": 2,
+      "channel": {
+        "parentId": 201,
+        "parentName": "生活",
+        "name": "生活日常",
+        "id": 86
+      },
+      "isFavorite": false,
+      "superUbb": true,
+      "isRewardSupportted": true,
+      "isThrowBanana": false
+    }
+  ],
+  "requestId": "Ml8wXzE3NzE1MTE4NTk2ODBfNDg2Mg"
+}

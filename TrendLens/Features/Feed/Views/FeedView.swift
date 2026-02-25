@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+/// 导航目的地类型
+enum FeedNavigationDestination: Hashable {
+    case topicDetail(TrendTopicEntity)
+    case dataAnalyse(TrendTopicEntity)
+}
+
 /// Feed 页面 - 全平台热榜聚合
 struct FeedView: View {
 
@@ -14,6 +20,7 @@ struct FeedView: View {
 
     @State private var viewModel = DependencyContainer.shared.makeFeedViewModel()
     @State private var selectedPlatform: Platform? = nil
+    @State private var navigationPath = NavigationPath()
     @Environment(\.colorScheme) private var colorScheme
 
     // 滑动手势相关
@@ -39,7 +46,7 @@ struct FeedView: View {
     // MARK: - Body
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navigationPath) {
             VStack(spacing: 0) {
                 // FluidRibbon 平台选择器
                 FluidRibbon(selectedPlatform: $selectedPlatform)
@@ -53,6 +60,14 @@ struct FeedView: View {
             .navigationBarTitleDisplayMode(.large)
 #endif
             .background(DesignSystem.Neutral.backgroundPrimary(colorScheme))
+            .navigationDestination(for: FeedNavigationDestination.self) { destination in
+                switch destination {
+                case .topicDetail(let topic):
+                    TopicDetailView(topic: topic)
+                case .dataAnalyse(let topic):
+                    DataAnalyseView(topic: topic)
+                }
+            }
             .task {
                 // 页面加载时获取数据
                 if viewModel.topics.isEmpty {
@@ -96,16 +111,36 @@ struct FeedView: View {
                     let isHeroCard = topic.rank <= 3
                     let spacing = isHeroCard ? DesignSystem.Spacing.md : DesignSystem.Spacing.sm
 
-                    NavigationLink(destination: TopicDetailView(topic: topic)) {
-                        Group {
-                            if isHeroCard {
-                                HeroCard(topic: topic, rank: topic.rank)
-                            } else {
-                                StandardCard(topic: topic, rank: topic.rank)
-                            }
+                    Group {
+                        if isHeroCard {
+                            HeroCard(
+                                topic: topic,
+                                rank: topic.rank,
+                                onDetailTap: {
+                                    navigationPath.append(FeedNavigationDestination.topicDetail(topic))
+                                },
+                                onDataTap: {
+                                    navigationPath.append(FeedNavigationDestination.dataAnalyse(topic))
+                                }
+                            )
+                        } else {
+                            StandardCard(
+                                topic: topic,
+                                rank: topic.rank,
+                                onDetailTap: {
+                                    navigationPath.append(FeedNavigationDestination.topicDetail(topic))
+                                },
+                                onDataTap: {
+                                    navigationPath.append(FeedNavigationDestination.dataAnalyse(topic))
+                                }
+                            )
                         }
                     }
-                    .buttonStyle(.plain) // 保持卡片原始样式
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        // 卡片点击默认进入详情页
+                        navigationPath.append(FeedNavigationDestination.topicDetail(topic))
+                    }
                     .contextMenu {
                         // 收藏/取消收藏
                         Button {
@@ -141,24 +176,6 @@ struct FeedView: View {
                             Label("屏蔽", systemImage: "eye.slash")
                         }
                     }
-#if os(iOS)
-                    // iPhone 滑动操作（仅在 compact 尺寸下启用）
-                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                        Button(role: .destructive) {
-                            blockTopic(topic)
-                        } label: {
-                            Label("屏蔽", systemImage: "eye.slash")
-                        }
-                    }
-                    .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                        Button {
-                            toggleFavorite(topic)
-                        } label: {
-                            Label(topic.isFavorite ? "取消收藏" : "收藏", systemImage: topic.isFavorite ? "star.slash" : "star.fill")
-                        }
-                        .tint(.blue)
-                    }
-#endif
                     .padding(.horizontal, DesignSystem.Spacing.md)
                     .padding(.vertical, spacing / 2)
                 }

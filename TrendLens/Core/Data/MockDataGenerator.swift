@@ -162,6 +162,199 @@ actor MockDataGenerator {
         .zhihu: ["AI", "科技", "职场", "建议", "教育", "学术", "纪录片", "推荐", "理财", "金融"]
     ]
 
+    /// 详细内容模板库
+    private let contentTemplates: [Platform: [String]] = [
+        .weibo: [
+            """
+            据最新消息，该事件已引发社会各界广泛关注。多位业内专家表示，这一现象反映了当前社会发展的某些深层趋势。
+
+            从事件发生至今，相关话题在微博上的讨论热度持续攀升。网友们纷纷发表自己的看法，其中不乏深入的分析和独到的见解。
+
+            有评论指出，这一事件的影响可能会持续较长时间。相关部门已经开始关注此事，预计将在近期给出官方回应。
+
+            值得注意的是，此次事件也引发了人们对相关问题的深入思考。许多网友表示，希望看到更多理性的讨论和专业的分析。
+            """,
+            """
+            今日，该话题冲上热搜榜首，引发了全网热议。据统计，相关微博话题阅读量已突破10亿，讨论人数超过百万。
+
+            事件的起因可以追溯到昨日晚间。当时，一则消息在社交媒体上迅速传播，随即引发了大量网友的关注和转发。
+
+            对此，多位专业人士发表了自己的看法。有人认为这反映了当下社会的某些现象，也有人持不同意见，认为需要更多信息才能做出判断。
+
+            截至目前，相关话题仍在持续发酵中。我们将继续关注事件的后续发展，为大家带来最新的报道和分析。
+            """
+        ],
+        .xiaohongshu: [
+            """
+            姐妹们！今天必须要给大家分享这个超级实用的内容！亲测有效，真的太绝了！
+
+            首先说说背景，其实我之前也是踩了很多坑，试过各种方法都不太理想。直到发现了这个宝藏方法，简直打开了新世界的大门！
+
+            具体操作步骤：
+            1. 第一步很关键，一定要注意细节
+            2. 第二步需要一点耐心，但效果很明显
+            3. 第三步是锦上添花，可以根据个人情况调整
+
+            坚持一周下来，效果真的肉眼可见！已经有好几个朋友问我是怎么做到的了，今天统一分享给大家～
+
+            有问题可以在评论区问我，看到都会回复的！记得点赞收藏哦，下次想看的时候方便找到！
+            """,
+            """
+            分享一下最近的新发现！真的太惊喜了，必须要安利给大家！
+
+            起因是上个月偶然看到一篇笔记推荐，当时抱着试试看的心态入手了，没想到效果超出预期！
+
+            先说优点：
+            - 性价比超高，平价也能有好体验
+            - 使用感很舒服，完全不会有负担
+            - 效果持久，不是那种虚假的表面功夫
+
+            当然也有一些小缺点，但瑕不掩瑜，整体来说还是非常推荐的！
+
+            有需要的姐妹可以参考一下我的经验，避免走弯路！评论区也欢迎大家交流分享～
+            """
+        ],
+        .bilibili: [
+            """
+            大家好，我是UP主。今天给大家带来的是一期深度解析内容，希望对大家有所帮助。
+
+            在开始正文之前，先简单介绍一下背景。这个话题其实已经讨论很久了，但是很多人可能还不太了解其中的细节。
+
+            首先，我们来看看事情的起因。整个事件可以追溯到几个月前，当时...
+
+            接下来是核心分析部分。从专业角度来看，这件事反映了几个重要问题：
+            第一，行业发展的新趋势
+            第二，用户需求的变化
+            第三，技术革新带来的影响
+
+            最后做个总结。总的来说，这是一个值得持续关注的话题。我会继续跟进后续发展，给大家带来更多分析。
+
+            如果觉得内容有帮助，别忘了一键三连支持一下！我们下期再见！
+            """,
+            """
+            【硬核科普】这个话题终于有人讲清楚了！
+
+            前言：相信很多小伙伴对这个话题都很好奇，但网上的信息太杂乱了。今天UP主就来给大家做一个系统的梳理。
+
+            Part 1：基础概念
+            首先我们需要了解一些基本概念，这是理解后面内容的基础...
+
+            Part 2：核心原理
+            理解了基础概念之后，我们来看看核心原理。简单来说...
+
+            Part 3：实际应用
+            理论讲完了，我们来看看实际应用场景...
+
+            Part 4：未来展望
+            最后谈谈未来的发展方向...
+
+            以上就是今天的全部内容，如果有不懂的地方欢迎在评论区讨论！
+            """
+        ],
+        .douyin: [
+            """
+            这条视频必须要发！太让人震惊了！
+
+            事情是这样的，前几天我无意中发现了一个现象，当时就觉得必须要分享给大家。
+
+            你们看，这个细节很多人都没注意到吧？其实背后有很深的含义...
+
+            评论区说说你们的看法，是不是也觉得很有意思？
+
+            关注我，每天分享更多有趣的内容！#热门话题 #涨知识 #必看
+            """,
+            """
+            三分钟带你了解这个热门话题！
+
+            首先，快速了解一下背景...
+            然后，看看网友们是怎么说的...
+            最后，我的个人观点是...
+
+            你们怎么看？评论区告诉我！
+
+            喜欢记得点赞关注，不错过每一个热点！
+            """
+        ],
+        .x: [
+            """
+            THREAD: Here's everything you need to know about this trending topic. Let me break it down for you.
+
+            1/ First, let's understand the context. This has been building up for quite some time, and today it finally reached a tipping point.
+
+            2/ The key factors at play here are: market dynamics, technological advancement, and changing consumer behavior.
+
+            3/ What makes this particularly interesting is the timing. Coming right after recent developments, it signals a potential shift in the industry.
+
+            4/ Experts are weighing in with various perspectives. Some see this as a positive development, while others urge caution.
+
+            5/ Looking ahead, there are several scenarios to consider. The most likely outcome depends on multiple variables.
+
+            6/ In conclusion, this is a story worth following. I'll continue to provide updates as the situation evolves.
+
+            Feel free to share your thoughts in the replies!
+            """,
+            """
+            Breaking down today's biggest story:
+
+            The announcement came earlier today, catching many by surprise. Here's what we know so far:
+
+            - The immediate impact has been significant
+            - Market reactions have been mixed
+            - Industry leaders are responding in various ways
+
+            What does this mean for the average person? In short, expect changes in the coming months.
+
+            More updates to follow. Stay tuned.
+            """
+        ],
+        .zhihu: [
+            """
+            谢邀。这是一个非常好的问题，我来尝试从几个角度进行分析。
+
+            首先，我们需要明确问题的核心是什么。很多人在讨论这个话题时，往往只关注表面现象，而忽略了深层原因。
+
+            从历史角度来看，类似的情况其实并不少见。早在十几年前，就已经出现过类似的讨论...
+
+            从专业角度分析，这个问题涉及到几个关键因素：
+            1. 宏观环境的变化
+            2. 技术发展的推动
+            3. 用户需求的演进
+            4. 市场竞争的加剧
+
+            基于以上分析，我认为可以得出以下结论：
+            - 短期内，现状可能不会有太大变化
+            - 中期来看，会有渐进式的调整
+            - 长期而言，根本性的变革是必然趋势
+
+            当然，以上只是我的个人观点，欢迎大家在评论区交流讨论。如果觉得回答有帮助，请点个赞，谢谢！
+            """,
+            """
+            这个问题我来回答一下，正好是我的研究领域。
+
+            先说结论：这确实是一个值得深入探讨的话题，但很多流行的观点并不完全正确。
+
+            让我来详细解释一下：
+
+            第一部分：现象描述
+            我们经常看到的情况是...但实际上，背后的机制远比表面复杂。
+
+            第二部分：原因分析
+            导致这种情况的原因有很多，主要包括...
+
+            第三部分：数据支撑
+            根据最新的研究数据显示...这与很多人的直觉可能相反。
+
+            第四部分：解决建议
+            针对这个问题，我有几点建议：
+            - 首先，需要正确认识问题的本质
+            - 其次，采取科学的方法论
+            - 最后，保持开放的心态
+
+            希望我的回答对你有所帮助。如有疑问，欢迎进一步讨论。
+            """
+        ]
+    ]
+
     /// AI 摘要模板库
     private let summaryTemplates: [Platform: [String]] = [
         .weibo: [
@@ -252,13 +445,16 @@ actor MockDataGenerator {
                 description: generateDescription(for: platform),
                 heatValue: heatValue,
                 rank: rank,
-                link: nil,
+                link: generateLink(for: platform),
                 tags: generateTags(from: tags),
                 fetchedAt: Date().addingTimeInterval(TimeInterval(-Int.random(in: 0...7200))),
                 rankChange: generateRankChange(for: rank),
                 heatHistory: generateHeatHistory(baseHeat: heatValue, rank: rank),
                 summary: generateSummary(for: platform),
-                isFavorite: false
+                isFavorite: false,
+                content: generateContent(for: platform),
+                imageURLs: generateImageURLs(),
+                comments: Comment.generateMockComments(count: Int.random(in: 5...15))
             )
         }
     }
@@ -298,6 +494,48 @@ actor MockDataGenerator {
             nil
         ]
         return descriptions.randomElement() ?? nil
+    }
+
+    /// 生成详细内容
+    private nonisolated func generateContent(for platform: Platform) -> String? {
+        let templates = contentTemplates[platform] ?? []
+        // 80% 概率生成内容
+        if Int.random(in: 0...100) < 80 {
+            return templates.randomElement()
+        }
+        return nil
+    }
+
+    /// 生成图片 URL 列表
+    private nonisolated func generateImageURLs() -> [String] {
+        // 70% 概率生成图片
+        if Int.random(in: 0...100) < 70 {
+            let count = Int.random(in: 1...4)
+            return (0..<count).map { _ in
+                let width = [640, 800, 1024].randomElement() ?? 800
+                let height = [480, 600, 768].randomElement() ?? 600
+                let seed = Int.random(in: 1...1000)
+                return "https://picsum.photos/seed/\(seed)/\(width)/\(height)"
+            }
+        }
+        return []
+    }
+
+    /// 生成链接
+    private nonisolated func generateLink(for platform: Platform) -> String? {
+        let links: [Platform: [String]] = [
+            .weibo: ["https://weibo.com/detail/", "https://m.weibo.cn/status/"],
+            .xiaohongshu: ["https://www.xiaohongshu.com/explore/"],
+            .bilibili: ["https://www.bilibili.com/video/", "https://b23.tv/"],
+            .douyin: ["https://www.douyin.com/video/"],
+            .x: ["https://twitter.com/i/status/", "https://x.com/i/status/"],
+            .zhihu: ["https://www.zhihu.com/question/", "https://zhuanlan.zhihu.com/p/"]
+        ]
+
+        if let platformLinks = links[platform], let baseURL = platformLinks.randomElement() {
+            return baseURL + UUID().uuidString.replacingOccurrences(of: "-", with: "").prefix(16)
+        }
+        return nil
     }
 
     /// 生成 AI 摘要（必需，始终返回）

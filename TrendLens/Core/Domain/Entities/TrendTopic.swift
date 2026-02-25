@@ -85,7 +85,10 @@ extension TrendTopic {
     /// 转换为领域实体（如果需要与 SwiftData Model 分离）
     /// 使用保存的 rankChange 和 heatHistory 数据
     func toDomainEntity(
-        isFavorite: Bool = false
+        isFavorite: Bool = false,
+        content: String? = nil,
+        imageURLs: [String] = [],
+        comments: [Comment] = []
     ) -> TrendTopicEntity {
         TrendTopicEntity(
             id: id,
@@ -100,7 +103,10 @@ extension TrendTopic {
             rankChange: rankChange,
             heatHistory: heatHistory,
             summary: summary,
-            isFavorite: isFavorite
+            isFavorite: isFavorite,
+            content: content,
+            imageURLs: imageURLs,
+            comments: comments
         )
     }
 }
@@ -108,7 +114,7 @@ extension TrendTopic {
 // MARK: - Rank Change Type
 
 /// 排名变化类型
-enum RankChange: Codable, Sendable, Equatable {
+enum RankChange: Codable, Sendable, Equatable, Hashable {
     /// 新上榜
     case new
     /// 排名上升（包含上升的位数）
@@ -139,7 +145,7 @@ enum RankChange: Codable, Sendable, Equatable {
 // MARK: - Pure Domain Entity (Optional)
 
 /// 纯领域实体（不依赖 SwiftData）
-struct TrendTopicEntity: Identifiable, Codable, Sendable {
+struct TrendTopicEntity: Identifiable, Codable, Sendable, Hashable, Equatable {
     let id: String
     let platform: Platform
     let title: String
@@ -162,6 +168,15 @@ struct TrendTopicEntity: Identifiable, Codable, Sendable {
     /// 是否已收藏
     var isFavorite: Bool
 
+    /// 详细新闻内容（可选）
+    let content: String?
+
+    /// 图片 URL 列表（可选）
+    let imageURLs: [String]
+
+    /// 评论列表（可选）
+    let comments: [Comment]
+
     nonisolated init(
         id: String,
         platform: Platform,
@@ -175,7 +190,10 @@ struct TrendTopicEntity: Identifiable, Codable, Sendable {
         rankChange: RankChange = .unchanged,
         heatHistory: [HeatDataPoint] = [],
         summary: String,
-        isFavorite: Bool = false
+        isFavorite: Bool = false,
+        content: String? = nil,
+        imageURLs: [String] = [],
+        comments: [Comment] = []
     ) {
         self.id = id
         self.platform = platform
@@ -190,5 +208,8 @@ struct TrendTopicEntity: Identifiable, Codable, Sendable {
         self.heatHistory = heatHistory
         self.summary = summary
         self.isFavorite = isFavorite
+        self.content = content
+        self.imageURLs = imageURLs
+        self.comments = comments
     }
 }

@@ -20,6 +20,8 @@ struct HeatCurveView: View {
 
     @State private var selectedPoint: HeatDataPoint?
     @State private var animationProgress: CGFloat = 0
+    @State private var isHorizontalDrag: Bool = false
+    @State private var dragStartLocation: CGPoint?
 
     enum CurveStyle {
         /// 迷你版 - 卡片内嵌 (80 × 36pt)
@@ -148,16 +150,41 @@ struct HeatCurveView: View {
                         .fill(Color.clear)
                         .contentShape(Rectangle())
                         .gesture(
-                            DragGesture(minimumDistance: 0)
+                            DragGesture(minimumDistance: 10)
                                 .onChanged { value in
-                                    handleDrag(at: value.location, proxy: proxy, geometry: geometry)
+                                    // 首次触摸时记录起始位置
+                                    if dragStartLocation == nil {
+                                        dragStartLocation = value.startLocation
+                                    }
+
+                                    // 计算滑动方向
+                                    let horizontalDistance = abs(value.translation.width)
+                                    let verticalDistance = abs(value.translation.height)
+
+                                    // 只有在明显的水平滑动时才处理（水平偏移 > 垂直偏移 * 1.5）
+                                    if horizontalDistance > verticalDistance * 1.5 {
+                                        isHorizontalDrag = true
+                                        handleDrag(at: value.location, proxy: proxy, geometry: geometry)
+                                    }
                                 }
                                 .onEnded { _ in
                                     selectedPoint = nil
+                                    isHorizontalDrag = false
+                                    dragStartLocation = nil
                                 }
                         )
+                        // 同时处理点击选择（单点触摸）
+                        .onTapGesture { location in
+                            handleDrag(at: location, proxy: proxy, geometry: geometry)
+                            // 短暂显示后消失
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                selectedPoint = nil
+                            }
+                        }
                 }
             }
+            // 允许 ScrollView 优先处理垂直滑动
+            .allowsHitTesting(true)
             .frame(height: 200)
             .padding(.horizontal, DesignSystem.Spacing.xs)
 

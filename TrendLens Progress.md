@@ -3,135 +3,187 @@
 > **文档定位：** 当前开发进度与任务追踪（唯一权威来源）
 > **阶段定义参考：** [TrendLens Development Plan.md](TrendLens%20Development%20Plan.md) 第 7 章
 >
-> **当前阶段：** 阶段 1.5 - UI 系统重构（Ethereal Insight）
-> **最后更新：** 2026-01-24
+> **当前阶段：** 阶段 2 - 后端数据采集 + 远程数据集成
+> **最后更新：** 2026-02-23
 
 ---
 
 ## 已完成阶段
 
-### 阶段 0：项目基建 ✅
+### 阶段 0：项目基建 ✅（2026-01-21）
 
-完成日期：2026-01-21
+Clean Architecture 目录结构、依赖注入容器、Domain/Data/Infrastructure 三层架构、基础导航结构（iPhone TabView / iPad+macOS NavigationSplitView）、炫酷启动页。
 
-- Clean Architecture 目录结构、依赖注入容器
-- Domain/Data/Infrastructure 三层架构
-- 基础导航结构（iPhone TabView / iPad+macOS NavigationSplitView）
-- 炫酷启动页（SplashView）
+### 阶段 0.5：UI 设计深化 ✅（2026-01-22）
 
-### 阶段 0.5：UI 设计深化 ✅
+Prismatic Flow 设计系统（平台渐变色带、热度光谱、3D 阴影层级）、UI 组件库 14 个组件、热度曲线功能（HeatCurveView、HeatCurveMini、触摸交互）、Feed 页面完整 UI。
 
-完成日期：2026-01-22
+### 阶段 1：MVP（本地 SwiftData + Mock 数据）✅（2026-01-23）
 
-- Prismatic Flow 设计系统（平台渐变色带、热度光谱、3D 阴影层级）
-- UI 组件库（TrendCard、PlatformBadge、HeatIndicator、RankBadge 等 14 个组件）
-- 热度曲线功能（HeatCurveView、HeatCurveMini、触摸交互）
-- Feed 页面完整 UI（平台 Tab 切换、热榜列表、话题详情 Sheet）
+MockDataGenerator 动态数据生成（6 平台各 15 条话题）、FeedView/CompareView/SearchView/SettingsView 完整实现、下拉刷新/收藏/屏蔽词过滤。
 
-### 阶段 1：MVP（本地 SwiftData + Mock 数据）✅
+**技术要点**：SwiftData Predicate 不捕获外部变量（改用内存过滤）、`@MainActor` 隔离、`isRemoteEnabled = false` 配置。
 
-完成日期：2026-01-23
+### 阶段 1.5：UI 系统重构（Ethereal Insight）✅（2026-01-24 ~ 2026-02-18）
 
-**核心实现：**
+| Phase | 核心交付 | 完成 |
+|-------|---------|------|
+| 1.5.1 | DesignSystem 重构、原子级组件库（PlatformIcon、RankChangeIndicator、MiniTrendLine、StandardCard） | ✅ |
+| 1.5.2 | HeroCard 实现、FeedView 重构为 Hero+Standard 混合布局 | ✅ |
+| 1.5.3 | 官方 TabView + FluidRibbon 集成，平台切换流畅 | ✅ |
+| 1.5.4 | CompareView/SearchView 响应式布局（iPad 2列 LazyVGrid）、状态组件（EmptyState/Skeleton/Error） | ✅ |
+| 1.5.5 | 卡片交互（缩放反馈、滑动操作、长按菜单）、FluidRibbon 优化（滑动切换、触觉反馈） | ✅ |
+| 1.5.6 | TopicDetailView（新闻内容）+ DataAnalyseView（热度数据）分离、卡片导航按钮 | ✅ |
+| 1.5.7 | 三端验证与文档更新 | ⏸️ 延后 |
 
-- MockDataGenerator 动态生成数据（替代固定 MockData）
-- 首次启动数据填充（6 平台各 15 条话题）
-- FeedView 完整数据流（ViewModel 连接、下拉刷新、收藏、屏蔽词过滤）
-- CompareView 完整实现（平台多选、交集/差集计算、对比结果展示）
-- SearchView 完整实现（实时搜索、平台筛选、结果列表）
-- SettingsView 完整实现（订阅平台管理、屏蔽词管理、刷新设置、关于页面）
-
-**关键技术修复：**
-
-- Swift 6 并发问题：UserPreference Sendable、@MainActor 隔离
-- SwiftData error 1：所有 Predicate 避免捕获外部变量，改用内存过滤
-- 禁用远程请求：`isRemoteEnabled = false` 配置开关
-
-**技术要点：**
-
-- SwiftData ModelContext 必须在 @MainActor 上使用
-- SwiftData Predicate 不应捕获外部变量（即使是简单类型）
-- 正确做法：获取所有数据 → 内存过滤
-
----
-
-### 阶段 1.5.4：其他页面与状态组件 ✅
-
-完成日期：2026-01-24
-
-**核心交付：** CompareView/SearchView 响应式布局、状态组件完整验证
-
-**实现细节：**
-
-- ✅ 4.1 CompareView 响应式布局：iPad 2列 LazyVGrid、iPhone 单列
-- ✅ 4.2 SearchView 响应式布局：iPad 2列网格、iPhone 单列
-- ✅ 4.3 状态组件验证（EmptyStateView、SkeletonCard、ErrorView）
-- ✅ 4.4 SettingsView 背景使用 `.backgroundPrimary`
-
-**三端验证：**
-
-- ✅ iPhone 17 Pro 编译通过
-- ✅ iPad Pro 13-inch (M5) 编译通过
-- ✅ macOS 编译通过
-
----
-
-### 阶段 1.5.5：话题详情页重构 ✅
-
-完成日期：2026-01-24
-
-**核心交付：** TopicDetailView 独立页面化，弃用 Sheet 模态框
-
-**实现细节：**
-
-- ✅ 创建 TopicDetailView.swift 独立组件（Features/Feed/Views/）
-- ✅ 完整显示标题、AI 摘要、描述、热度曲线、标签、链接等信息
-- ✅ 使用标准 NavigationLink 替代 sheet(item:)
-- ✅ 更新 FeedView、SearchView、CompareView 中的导航方式
-- ✅ 使用 FlowLayout 实现标签流式布局
-- ✅ 添加分享功能（UIActivityViewController）
-
-**架构决策（ADR-005）：**
-
-选择标准导航而非 Sheet + matchedGeometryEffect 的原因：
-1. 用户体验一致性（熟悉的左滑返回手势）
-2. 内容容量充足（全屏显示完整信息）
-3. 开发成本低（无需管理复杂动画状态）
-4. 可访问性更好（VoiceOver 自动识别层级）
-5. 多任务兼容（iPad 分屏、Mac Catalyst）
-
-**文档更新：**
-
-- ✅ 更新 TrendLens New UI Design System.md（ADR-005、组件清单）
-- ✅ 更新 TrendLens Technical Architecture.md（目录结构、导航模式）
+> **1.5.7 延后说明**：深色模式走查、动态字体测试、VoiceOver 测试等验收工作延后至阶段 6（质量与发布）阶段统一执行。三端编译已在各 Phase 中持续验证通过。
 
 ---
 
 ## 当前阶段
 
-### 阶段 1.5.6：高级特效与交互 🚧
+### 阶段 2：后端数据采集 + 远程数据集成 🚧
 
-**目标：** 发光、脉冲、卡片交互等高级特效完整实现
-**设计文档：** [TrendLens New UI Design System.md](TrendLens%20New%20UI%20Design%20System.md)
-**前置条件：** Phase 1.5.5 完成 ✅
-**开发策略：** 垂直切片式迭代，每个 Phase 都有**立即可视觉验证**的成果。
+**目标**：建立 Python 后端数据采集系统，通过 Supabase 存储数据，iOS 应用连接远程数据源替换本地 Mock 数据。
+
+**设计文档**：
+- 数据源选型：[backend/docs/hot-news-data-sources-v2.md](backend/docs/hot-news-data-sources-v2.md)
+- 数据需求：[backend/docs/data-requirements.md](backend/docs/data-requirements.md)
+- 全量调研：[backend/docs/data-sources-v1.md](backend/docs/data-sources-v1.md)
+
+**技术栈**：Python 后端 + Supabase (PostgreSQL) + Supabase Data API
+
+**Supabase 配置**：
+- Project: TrendLens
+- 已启用 Data API（RESTful，用于 iOS 端 supabase-swift 连接）
+
+---
+
+#### 2.1 数据源补充与接口验证 🚧
+
+**目标**：完善 hot-news-data-sources-v2.md，验证所有选定接口的可用性和数据完整度
+
+- [ ] **2.1.1 P0 核心源接口验证**（7 源 / 8 端点）
+  - [ ] zhihu — 知乎热榜列表 + 答案内容抓取
+  - [ ] baidu — 百度热搜列表 + 描述
+  - [ ] weibo — 微博热搜列表 + 搜索结果抓取（Cookie 维护方案）
+  - [ ] bilibili-hot-search — B 站热搜 + 搜索扩展
+  - [ ] bilibili-hot-video — B 站热门视频（API 全量）
+  - [ ] douyin — 抖音热搜（Client Token 获取验证）
+  - [ ] toutiao — 今日头条热榜 + 文章抓取
+- [ ] **2.1.2 P1 补充源接口验证**（6 源）
+  - [ ] sina-news, thepaper, tencent-hot, hackernews, 36kr-renqi, douban
+- [ ] **2.1.3 P2 延伸源接口验证**（7 源）
+  - [ ] wallstreetcn, cankaoxiaoxi, github-trending, netease-news, tieba, ithome, kaopu
+- [ ] **2.1.4 补充缺失的数据源**
+  - [ ] 评估是否需要新增平台以覆盖数据需求缺口
+  - [ ] 更新 data-requirements.md 覆盖矩阵
+
+---
+
+#### 2.2 数据库建模
+
+**目标**：基于 data-requirements.md 设计 Supabase 数据表
+
+- [ ] **2.2.1 确定热度值归一化方案**
+- [ ] **2.2.2 设计数据表结构**
+  - [ ] snapshots 表（快照记录）
+  - [ ] topics 表（话题主体）
+  - [ ] topic_content 表（话题内容，分表）
+  - [ ] heat_history 表（热度时间序列）
+  - [ ] platforms 表（平台配置）
+- [ ] **2.2.3 在 Supabase 中创建表和索引**
+- [ ] **2.2.4 配置 Row Level Security (RLS)**
+- [ ] **2.2.5 更新 data-requirements.md 第六章**
+
+---
+
+#### 2.3 Python 后端开发
+
+**目标**：实现数据采集管道，定时抓取热榜数据存入 Supabase
+
+- [ ] **2.3.1 后端项目初始化**
+  - [ ] Python 项目结构（src/fetchers, src/scrapers, src/processors, src/storage）
+  - [ ] 依赖管理（requirements.txt / pyproject.toml）
+  - [ ] 配置管理（环境变量、数据源配置）
+  - [ ] 日志系统
+- [ ] **2.3.2 阶段 1 采集器（Fetcher）**
+  - [ ] 通用 HTTP 客户端（重试、超时、User-Agent 轮换）
+  - [ ] P0 核心源采集器（7 个）
+  - [ ] 响应解析器（JSON / HTML / 内嵌 JSON）
+- [ ] **2.3.3 阶段 2 正文抓取器（Scraper）**
+  - [ ] 通用正文提取器（基于 readability / newspaper3k）
+  - [ ] 各源专用页面解析器
+  - [ ] 图片 URL 提取
+- [ ] **2.3.4 数据处理器（Processor）**
+  - [ ] 热度值归一化
+  - [ ] AI 摘要生成（Claude API 集成）
+  - [ ] 关键词/标签提取
+  - [ ] 数据清洗（去 HTML、去广告、去重）
+- [ ] **2.3.5 快照与存储**
+  - [ ] 快照打包（聚合话题 + 元数据）
+  - [ ] Supabase 写入（supabase-py）
+  - [ ] 快照对比（rankChange 计算）
+  - [ ] 热度历史追加（heatHistory 累积）
+- [ ] **2.3.6 调度系统**
+  - [ ] 定时任务（每 15 分钟采集一次）
+  - [ ] 错误处理与重试策略
+  - [ ] 采集状态监控
+- [ ] **2.3.7 P1/P2 源扩展**
+  - [ ] 实现 P1 源（6 个）
+  - [ ] 实现 P2 源（7 个）
+  - [ ] 数据质量验证
+
+---
+
+#### 2.4 iOS 远程数据层
+
+**目标**：iOS 应用连接 Supabase 获取真实数据，替换本地 Mock
+
+- [ ] **2.4.1 Supabase Swift SDK 集成**
+  - [ ] 添加 supabase-swift 依赖
+  - [ ] 配置 Supabase Client（URL + anon key）
+- [ ] **2.4.2 RemoteDataSource 实现**
+  - [ ] 实现 `RemoteTrendingDataSource`（基于 Supabase API）
+  - [ ] 数据模型映射（Supabase JSON → TrendTopicEntity）
+  - [ ] 平台枚举更新（根据实际可用数据源调整）
+- [ ] **2.4.3 缓存与离线策略**
+  - [ ] ETag 支持（304 响应处理）
+  - [ ] 本地 SwiftData 缓存（validUntil TTL）
+  - [ ] 离线模式降级（使用过期缓存 + 标记）
+- [ ] **2.4.4 数据刷新**
+  - [ ] 手动下拉刷新触发网络请求
+  - [ ] 自动刷新间隔（配合 validUntil）
+  - [ ] 多平台并行请求（TaskGroup）
+- [ ] **2.4.5 端到端验证**
+  - [ ] 后端采集 → Supabase 存储 → iOS 读取 → UI 展示
+  - [ ] 三端编译验证（iPhone/iPad/Mac）
+  - [ ] 错误处理与降级测试
+
+---
+
+#### 2.5 平台枚举调整
+
+**目标**：根据实际数据源可用性更新 iOS 端 Platform 枚举
+
+> **当前状态**：iOS 端有 6 个平台（weibo/xiaohongshu/bilibili/douyin/x/zhihu），其中小红书和 X 无可靠数据源。
+> 此任务在后端核心功能稳定后再执行。
+
+- [ ] **2.5.1 确定最终平台列表**
+- [ ] **2.5.2 更新 Platform.swift 枚举**
+- [ ] **2.5.3 更新 UI 组件中的平台引用**
+- [ ] **2.5.4 三端编译验证**
 
 ---
 
 ## ⚠️ 重要开发原则
 
-**本项目处于研发阶段，UI 系统正在全面重构：**
+**阶段 2 开发原则：**
 
-1. **不考虑兼容旧设计**：直接删除旧代码（TrendCard 等），不做适配层
-2. **保持代码清洁**：避免为了兼容而引入冗余代码或中间层
-3. **逐步迭代验证**：每个 Phase 完成后都能在 Simulator 或 Canvas 中看到实际效果
-
-**旧代码处理规则：**
-
-- ❌ 禁止保留 `@available(*, deprecated)` 的旧 API
-- ❌ 禁止创建"适配旧组件"的兼容层
-- ✅ 直接删除并替换旧实现（如 TrendCard.swift）
-- ✅ 不确定能否删除时，先注释并标注 `// TODO: 待删除 - UI 重构`
+1. **后端先行**：先完成后端数据采集，确认数据质量，再对接 iOS 端
+2. **逐源验证**：每实现一个数据源，立即验证数据完整性和正确性
+3. **数据优先于 UI**：先确保数据管道稳定，UI 调整随后进行
+4. **保持 Mock 兼容**：iOS 端保留 Mock 数据能力，方便开发调试
 
 **编译要求**
 
@@ -151,302 +203,29 @@ xcodebuild -project TrendLens.xcodeproj -scheme TrendLens \
 
 ---
 
-## 🎯 垂直切片式开发计划（6 Phase）
-
-### Phase 1.5.1：基础系统 + 第一个可见卡片 ✅
-
-**核心交付：** DesignSystem 重构、原子级组件库（PlatformIcon、RankChangeIndicator、MiniTrendLine、StandardCard）
-**实现细节收纳** → 参见 [TrendLens New UI Design System.md](TrendLens%20New%20UI%20Design%20System.md) 第 3-5 章、第 7.3-7.4 章
-
----
-
-### Phase 1.5.2：Feed 页面集成 ✅
-
-**核心交付：** HeroCard 实现、FeedView 重构为 Hero+Standard 混合布局
-**实现细节收纳** → 参见 [TrendLens New UI Design System.md](TrendLens%20New%20UI%20Design%20System.md) 第 7.3 章
-
----
-
-### Phase 1.5.3：导航系统升级 ✅
-
-**交付成果：** 官方 TabView + FluidRibbon 完全集成，平台切换顺畅，导航交互流畅
-**实现细节收纳** → 参见 [TrendLens New UI Design System.md](TrendLens%20New%20UI%20Design%20System.md) 第 7.2 章、第 8 章
-
-**验收清单：**
-
-- ✅ FluidRibbon 顶部显示，平台切换数据正确筛选
-- ✅ 官方 TabView 导航流畅，选中指示器动画自然
-- ✅ 三个标签页能正常切换
-- ✅ iPhone/iPad/Mac 编译验证通过
-
----
-
-### Phase 1.5.4：其他页面与状态组件 ✅ 全局统一体验
-
-**交付成果：** Compare / Search / Settings 都使用新设计，所有页面统一风格
-
-**前置条件：** Phase 3 完成
-
-完成日期：2026-01-24
-
-- ✅ **4.1 重构 CompareView.swift**
-  - ✅ 删除旧的平台选择器
-  - ✅ 使用 FluidRibbon（但改为多选模式，或使用 Checkmark）
-  - ✅ 对比结果使用 StandardCard
-  - ✅ 背景改为 `.backgroundPrimary`
-  - ✅ 添加交集/差集的视觉区分（可选：背景色微调或分组分隔）
-
-- ✅ **4.2 重构 SearchView.swift**
-  - ✅ 搜索输入框新设计：
-    - ✅ 背景 `.container` 或 `.thinMaterial`
-    - ✅ 12pt 圆角
-    - ✅ 聚焦时显示渐变边框（使用低热度色）
-    - ✅ 搜索结果使用 StandardCard
-    - ✅ 空状态使用新的 EmptyStateView
-
-- ✅ **4.3 更新状态组件**
-  - ✅ **EmptyStateView.swift**（无数据态）
-    - ✅ 图标 + 文字居中布局
-    - ✅ 使用中性色
-    - ✅ 可选：轻微浮动动画
-  - ✅ **SkeletonCard.swift**（加载态）
-    - ✅ 改用渐变闪烁动画（而非灰色块）
-    - ✅ 形状匹配 StandardCard 布局
-    - ✅ 动画时长 1.5s，repeatForever
-  - ✅ **ErrorView.swift**（错误态）
-    - ✅ 图标 + 错误信息 + 重试按钮
-    - ✅ 按钮样式与新设计对齐
-
-- ✅ **4.4 响应式布局（iPad/Mac）**
-  - ✅ iPad（428pt - 1024pt）：
-    - ✅ 使用 LazyVGrid 2 列布局
-  - ✅ Mac（> 1024pt）：
-    - ✅ 保持单列布局（NavigationSplitView 适配）
-  - ✅ 断点定义：`@Environment(\.horizontalSizeClass)` 使用
-
-**验收标准：**
-
-- ✅ Compare / Search 页面都能正常显示和交互
-- ✅ 空/加载/错误态都应用新设计
-- ✅ iPad 和 Mac 布局合理，没有信息丢失
-- ✅ Settings 页面背景改为 `.backgroundPrimary`
-- ✅ 三端编译通过（iPhone/iPad/Mac）
-
----
-
-### Phase 1.5.5：高级特效与交互 ⏳ 部分完成
-
-**交付成果：** 卡片交互、FluidRibbon 优化等功能完整实现（热度特效和性能优化待评审）
-
-**前置条件：** Phase 4 完成 ✅
-
-**完成日期：** 2026-01-24（部分功能）
-
-**已实现功能：**
-
-- ✅ **FluidRibbon 优化**（额外完成）
-  - ✅ 添加左右滑动手势切换平台
-  - ✅ 统一选中文字颜色与下划线颜色（使用平台渐变）
-  - ✅ 触觉反馈和流畅动画
-
-- ✅ **5.2 实现卡片交互**
-  - ✅ 点击反馈：缩放效果 `scaleEffect(0.98)` + 触觉反馈
-  - ✅ 滑动操作（仅 iPhone）：左滑屏蔽、右滑收藏
-  - ✅ 长按快捷菜单：复制标题、分享、屏蔽、收藏、查看详情
-
-- ✅ **5.5 代码清理**
-  - ✅ 删除旧的 `TrendCard.swift` 文件
-  - ✅ 检查 TODO 注释（保留合理的待办标记）
-  - ✅ 三端编译验证通过
-
-**待评审功能：**
-
-- [ ] **5.1 实现热度特效**（重要：尚未评审，请勿开始开发！！！）
-  - [ ] 创建 `Modifiers/HeatEffectModifier.swift`
-  - [ ] **发光效果**（100k-500k 热度）：
-    - [ ] 使用 `.shadow(color: heatColor, radius: 2-4, y: 0)`
-    - [ ] 应用于卡片右上角的 热度Icon 或整个卡片
-  - [ ] **脉冲动画**（500k-1M 热度）：
-    - [ ] 使用 `.scaleEffect(1.0 → 1.03 → 1.0)`
-    - [ ] 周期 1.5s，repeatForever，easeInOut
-    - [ ] 仅在 Top 3 或高热度卡片应用
-  - [ ] **粒子效果**（1M+ 超热度，可选）：
-    - [ ] 简化版：增强脉冲 + 发光强度
-    - [ ] 完整版：TimelineView + Canvas 绘制粒子
-  - [ ] 集成到 HeroCard（始终检查） 和 StandardCard（高热度检查）
-  - [ ] 尊重系统 `accessibilityReduceMotion` 设置
-
-- [ ] **5.3 实现详情页转场**（待实现）
-  - [ ] 重构 TopicDetailSheet 为 DetailView
-  - [ ] 使用 `@Namespace` 和 `matchedGeometryEffect`
-  - [ ] 卡片展开动画：spring(response: 0.4, dampingFraction: 0.8)
-  - [ ] 背景模糊过渡：`.background(.ultraThinMaterial)`
-  - [ ] 关闭时反向动画
-
-- [ ] **5.4 性能优化**（重要：尚未评审，请勿开始开发！！！）
-  - [ ] Instruments 检查列表滚动性能（60fps）
-  - [ ] 检查内存泄漏（CardGalleryView / DetailView 回收）
-  - [ ] 图片加载优化（如有远程资源）
-  - [ ] SwiftData 查询优化（确保不阻塞主线程）
-
-
-**部分验收标准（已完成）：**
-
-- ✅ 卡片点击有缩放反馈和触觉反馈
-- ✅ 滑动和长按操作正常工作（仅 iPhone）
-- ✅ 代码库无旧 TrendCard 相关文件
-- ✅ 三端编译通过（iPhone/iPad/Mac）
-- ✅ FluidRibbon 支持左右滑动切换平台
-- ✅ FluidRibbon 文字与下划线颜色统一
-
-**待完成验收标准：**
-
-- ⏸ 高热度卡片（500k+）有可见的脉冲/发光效果（待评审）
-- ⏸ 详情页转场动画流畅，无闪烁（待实现）
-- ⏸ 性能优化完成（待评审）
-
----
-
-### Phase 1.5.6：三端验证与文档更新 ✅ 最终交付
-
-**交付成果：** 所有平台验证通过，文档完全同步，UI 重构完成
-
-**前置条件：** Phase 5 完成
-
-- [ ] **6.1 三端编译验证**
-  - [ ] iPhone target：编译 + 运行（真机 or 模拟器）
-  - [ ] iPad target：编译 + 运行（验证响应式布局）
-  - [ ] Mac target：编译 + 运行（验证三列布局）
-  - [ ] 所有 scheme 都能编译，无警告
-
-- [ ] **6.2 视觉与交互走查**
-  - [ ] **深色模式完整走查：**
-    - [ ] 所有卡片背景颜色对比度 > 4.5:1
-    - [ ] 文字颜色在深色背景下清晰
-    - [ ] 阴影效果在深色模式下可见（使用白色阴影）
-  - [ ] **动态字体测试：**
-    - [ ] 最小尺寸（Extra Small）- 内容不溢出
-    - [ ] 最大尺寸（Accessibility Sizes）- 排版不破坏
-    - [ ] 标题和摘要截断位置正确
-  - [ ] **VoiceOver 测试（关键页面）：**
-    - [ ] Feed 页面卡片读取顺序正确
-    - [ ] 按钮和交互元素标签清晰
-  - [ ] **触觉反馈验证：**
-    - [ ] 点击卡片有反馈
-    - [ ] 平台切换有反馈
-    - [ ] 手势操作有反馈
-
-- [ ] **6.3 更新文档**
-  - [ ] 标记 Development Plan 中阶段 1.5 为"已完成"
-  - [ ] 更新 CLAUDE.md 中的组件引用
-    - [ ] 删除对旧 TrendCard 的引用
-    - [ ] 添加对新组件（HeroCard / StandardCard / FluidRibbon）的说明
-  - [ ] 在 Progress.md 中记录 Phase 6 完成时间
-  - [ ] 标记整个阶段 1.5 为 ✅ 已完成
-
-- [ ] **6.4 最终检查**
-  - [ ] 确认没有遗留的 `// TODO` 或 `FIXME` 注释
-  - [ ] 确认没有 `print()` 或 debug 代码留在生产代码中
-  - [ ] 确认所有 Preview Provider 都能在 Xcode 中正确显示
-  - [ ] 运行一次完整的构建和运行
-
-**验收标准：**
-
-- ✅ 三端都能运行，无编译错误/警告
-- ✅ 视觉走查通过，颜色对比、排版符合设计规范
-- ✅ 文档与代码同步，阶段 1.5 标记完成
-- ✅ 代码库干净，没有废弃文件或临时代码
-
----
-
-## 重要提醒
-
-**开发过程中遇到的常见问题：**
-
-1. **不要为了保留旧代码而创建兼容层**
-   - ❌ 错误：同时保留 TrendCard 和 StandardCard，用条件判断选择
-   - ✅ 正确：直接删除 TrendCard，完全替换为 StandardCard
-
-2. **不要在高层 View 中导入多个版本的同一组件**
-   - ❌ 错误：在 FeedView 中同时导入和使用 TrendCard + StandardCard
-   - ✅ 正确：FeedView 只知道 HeroCard/StandardCard
-
-3. **深色模式色值必须配对定义**
-   - ❌ 错误：只定义浅色，深色使用 `.opacity()` 调整
-   - ✅ 正确：浅色和深色分别定义完整色值
-
-4. **Mock 数据的 heatHistory 必须有意义**
-   - ❌ 错误：所有话题的热度曲线都一样
-   - ✅ 正确：Top 话题是上升趋势，新话题是暴增，老话题是平稳或下降
-
----
-
 ## 未来阶段
 
-### 阶段 2：远程数据 + CDN 集成
+### 阶段 3：后台刷新 + 通知
 
-**目标：** 连接真实后端数据源，完成网络层集成。
+- BGTaskScheduler 集成
+- 本地通知（热点突发提醒、收藏话题更新）
+- 电量和流量优化
 
-**前置条件：** 阶段 1.5 完成（UI 重构完成）
+### 阶段 5：用户体系（可选）
 
-- [ ] 配置 CDN 端点
-  - [ ] 确定 CDN 提供商（Cloudflare / AWS CloudFront / 国内 CDN）
-  - [ ] 配置静态 JSON 文件存储路径
-  - [ ] 设置多区域回退（国内/国外）
-  - [ ] RemoteTrendingDataSource 配置真实 baseURL
-- [ ] ETag 缓存优化
-  - [ ] 验证 NetworkClient 的 If-None-Match 支持
-  - [ ] 测试 304 响应处理
-  - [ ] 验证缓存命中率
-- [ ] 数据刷新策略
-  - [ ] validUntil 时间配置（建议 15-30 分钟）
-  - [ ] 手动刷新触发网络请求
-  - [ ] 自动刷新间隔配置
-- [ ] 错误处理和降级
-  - [ ] 网络失败时使用过期缓存
-  - [ ] 显示数据时效性标识
-  - [ ] 离线模式提示
-- [ ] 性能优化
-  - [ ] 并行请求多平台数据（TaskGroup）
-  - [ ] 请求超时配置优化
-  - [ ] 流量监控
+- BaaS 选型和集成
+- 云端偏好同步（收藏、屏蔽词、订阅平台）
+- 匿名用户迁移
+- 隐私和安全
 
-## 阶段 3：后台刷新 + 通知
+### 阶段 6：质量与发布
 
-**目标：** 实现后台数据刷新和可选的推送通知。
-
-- [ ] BGTaskScheduler 集成
-- [ ] 本地通知（热点突发提醒、收藏话题更新）
-- [ ] 电量和流量优化
-
-## 阶段 4：云端刷新程序
-
-**目标：** 搭建服务端定时抓取和 JSON 生成服务。
-
-- [ ] 爬虫程序开发（微博、小红书、B站、抖音、X、知乎）
-- [ ] Snapshot 生成器（数据清洗、热度归一化、排名变化计算）
-- [ ] 定时任务调度（每 10-15 分钟刷新）
-- [ ] JSON 上传到 CDN
-- [ ] 监控和日志
-
-## 阶段 5：用户体系（可选）
-
-**目标：** 引入用户账号系统，支持云端数据同步。
-
-- [ ] BaaS 选型和集成
-- [ ] 云端偏好同步（收藏、屏蔽词、订阅平台）
-- [ ] 匿名用户迁移
-- [ ] 隐私和安全
-
-## 阶段 6：质量与发布
-
-**目标：** 完善测试、优化性能、准备发布。
-
-- [ ] 单元测试（Domain 90%, Data 80%, Presentation 75%）
-- [ ] UI 测试
-- [ ] 性能优化（启动 < 2s, 列表 60fps）
-- [ ] 隐私合规
-- [ ] 发布准备（App Store 提交）
+- 单元测试（Domain 90%, Data 80%, Presentation 75%）
+- UI 测试
+- 性能优化（启动 < 2s, 列表 60fps）
+- 深色模式走查、动态字体、VoiceOver（原 Phase 1.5.7 内容）
+- 隐私合规
+- 发布准备（App Store 提交）
 
 ---
 

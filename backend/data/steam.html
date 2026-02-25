@@ -1,0 +1,1705 @@
+<!DOCTYPE html>
+<html class=" responsive DesktopUI" lang="en"  >
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+			<meta name="viewport" content="width=device-width,initial-scale=1">
+		<meta name="theme-color" content="#171a21">
+		<title>Steam: Game and Player Statistics</title>
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+	
+	
+	<link href="https://store.akamai.steamstatic.com/public/shared/css/motiva_sans.css?v=4Vj7bvhvv_UL&amp;l=english&amp;_cdn=akamai" rel="stylesheet" type="text/css">
+<link href="https://store.akamai.steamstatic.com/public/shared/css/shared_global.css?v=ebGR_Er9ryC7&amp;l=english&amp;_cdn=akamai" rel="stylesheet" type="text/css">
+<link href="https://store.akamai.steamstatic.com/public/shared/css/buttons.css?v=u7ItYmj40jWH&amp;l=english&amp;_cdn=akamai" rel="stylesheet" type="text/css">
+<link href="https://store.akamai.steamstatic.com/public/css/v6/store.css?v=7I2JdcUuYsRY&amp;l=english&amp;_cdn=akamai" rel="stylesheet" type="text/css">
+<link href="https://store.akamai.steamstatic.com/public/css/styles_stats.css?v=nS8dH5gFDa48&amp;l=english&amp;_cdn=akamai" rel="stylesheet" type="text/css">
+<link href="https://store.akamai.steamstatic.com/public/shared/css/shared_responsive.css?v=8zUcJAgCg1Ml&amp;l=english&amp;_cdn=akamai" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="https://store.akamai.steamstatic.com/public/shared/javascript/jquery-1.8.3.min.js?v=NXam5zydzNu8&amp;l=english&amp;_cdn=akamai"></script>
+<script type="text/javascript">$J = jQuery.noConflict();</script><script type="text/javascript">VALVE_PUBLIC_PATH = "https:\/\/store.akamai.steamstatic.com\/public\/";</script><script type="text/javascript" src="https://store.akamai.steamstatic.com/public/shared/javascript/tooltip.js?v=k5leO7MVvAaV&amp;l=english&amp;_cdn=akamai"></script>
+
+<script type="text/javascript" src="https://store.akamai.steamstatic.com/public/shared/javascript/shared_global.js?v=q3cnGEVRB7ls&amp;l=english&amp;_cdn=akamai"></script>
+
+<script type="text/javascript" src="https://store.akamai.steamstatic.com/public/shared/javascript/auth_refresh.js?v=w6QbwI-5-j2S&amp;l=english&amp;_cdn=akamai"></script>
+
+<script type="text/javascript" src="https://store.akamai.steamstatic.com/public/javascript/main.js?v=Om88kdSoBVeV&amp;l=english&amp;_cdn=akamai"></script>
+
+<script type="text/javascript" src="https://store.akamai.steamstatic.com/public/javascript/dynamicstore.js?v=PsDbSfdC4Xew&amp;l=english&amp;_cdn=akamai"></script>
+
+<script type="text/javascript">
+	var __PrototypePreserve=[];
+	__PrototypePreserve[0] = Array.from;
+	__PrototypePreserve[1] = Array.prototype.filter;
+	__PrototypePreserve[2] = Array.prototype.flatMap;
+	__PrototypePreserve[3] = Array.prototype.find;
+	__PrototypePreserve[4] = Array.prototype.some;
+	__PrototypePreserve[5] = Function.prototype.bind;
+	__PrototypePreserve[6] = HTMLElement.prototype.scrollTo;
+</script>
+<script type="text/javascript" src="https://store.akamai.steamstatic.com/public/javascript/prototype-1.7.js?v=npJElBnrEO6W&amp;l=english&amp;_cdn=akamai"></script>
+<script type="text/javascript">
+	Array.from = __PrototypePreserve[0] || Array.from;
+	Array.prototype.filter = __PrototypePreserve[1] || Array.prototype.filter;
+	Array.prototype.flatMap = __PrototypePreserve[2] || Array.prototype.flatMap;
+	Array.prototype.find = __PrototypePreserve[3] || Array.prototype.find;
+	Array.prototype.some = __PrototypePreserve[4] || Array.prototype.some;
+	Function.prototype.bind = __PrototypePreserve[5] || Function.prototype.bind;
+	HTMLElement.prototype.scrollTo = __PrototypePreserve[6] || HTMLElement.prototype.scrollTo;
+</script>
+<script type="text/javascript">
+	var __ScriptaculousPreserve=[];
+	__ScriptaculousPreserve[0] = Array.from;
+	__ScriptaculousPreserve[1] = Function.prototype.bind;
+	__ScriptaculousPreserve[2] = HTMLElement.prototype.scrollTo;
+</script>
+<script type="text/javascript" src="https://store.akamai.steamstatic.com/public/javascript/scriptaculous/_combined.js?v=lz_99vci25ux&amp;l=english&amp;_cdn=akamai&amp;load=effects,controls,slider"></script>
+<script type="text/javascript">
+	Array.from = __ScriptaculousPreserve[0] || Array.from;
+	Function.prototype.bind = __ScriptaculousPreserve[1] || Function.prototype.bind;
+	HTMLElement.prototype.scrollTo = __ScriptaculousPreserve[2] || HTMLElement.prototype.scrollTo;
+delete String['__parseStyleElement'];  Prototype.Browser.WebKit = true;</script>
+<script type="text/javascript">Object.seal && [ Object, Array, String, Number ].map( function( builtin ) { Object.seal( builtin.prototype ); } );</script>
+		<script type="text/javascript">
+			document.addEventListener('DOMContentLoaded', function(event) {
+				$J.data( document, 'x_readytime', new Date().getTime() );
+				$J.data( document, 'x_oldref', GetNavCookie() );
+				SetupTooltips( { tooltipCSSClass: 'store_tooltip'  } );
+		});
+		</script><script type="text/javascript" src="https://store.akamai.steamstatic.com/public/javascript/hwsurvey.js?v=fM-GIUox9zCH&amp;l=english&amp;_cdn=akamai"></script>
+<script type="text/javascript" src="https://store.akamai.steamstatic.com/public/shared/javascript/flot-0.8/jquery.flot.min.js?v=mSfqk1QKKgiz&amp;l=english&amp;_cdn=akamai"></script>
+<script type="text/javascript" src="https://store.akamai.steamstatic.com/public/shared/javascript/flot-0.8/jquery.flot.resize.min.js?v=MeIf0YViALgL&amp;l=english&amp;_cdn=akamai"></script>
+<script type="text/javascript" src="https://store.akamai.steamstatic.com/public/shared/javascript/flot-0.8/jquery.flot.time.min.js?v=CIECDYHJjBgN&amp;l=english&amp;_cdn=akamai"></script>
+<script type="text/javascript" src="https://store.akamai.steamstatic.com/public/shared/javascript/flot-0.8/excanvas.min.js?v=7p4_7hQnC3sn&amp;l=english&amp;_cdn=akamai"></script>
+<script type="text/javascript" src="https://store.akamai.steamstatic.com/public/shared/javascript/shared_responsive_adapter.js?v=htU2ZedfDXGF&amp;l=english&amp;_cdn=akamai"></script>
+
+						<meta name="twitter:card" content="summary_large_image">
+			
+	<meta name="twitter:site" content="@steam" />
+
+						<meta property="og:title" content="Steam: Game and Player Statistics">
+					<meta property="twitter:title" content="Steam: Game and Player Statistics">
+					<meta property="og:type" content="website">
+					<meta property="fb:app_id" content="105386699540688">
+					<meta property="og:site" content="Steam">
+			
+	
+			<link rel="image_src" href="https://store.akamai.steamstatic.com/public/shared/images/responsive/steam_share_image.jpg">
+		<meta property="og:image" content="https://store.akamai.steamstatic.com/public/shared/images/responsive/steam_share_image.jpg">
+		<meta name="twitter:image" content="https://store.akamai.steamstatic.com/public/shared/images/responsive/steam_share_image.jpg" />
+					<meta property="og:image:secure" content="https://store.akamai.steamstatic.com/public/shared/images/responsive/steam_share_image.jpg">
+				
+	
+	
+	
+	
+	</head>
+<body class="v6 widestore v7menu responsive_page ">
+
+
+<div class="responsive_page_frame with_header">
+						<div role="navigation" class="responsive_page_menu_ctn mainmenu" aria-label="Mobile Menu">
+				<div class="responsive_page_menu"  id="responsive_page_menu">
+										<div class="mainmenu_contents">
+						<div class="mainmenu_contents_items">
+															<a class="menuitem" href="https://store.steampowered.com/login/?redir=stats%2Fstats%2F&redir_ssl=1&snr=1_26_26__global-header">
+									Sign in								</a>
+															<a class="menuitem supernav supernav_active" href="https://store.steampowered.com/?snr=1_26_26__global-responsive-menu" data-tooltip-type="selector" data-tooltip-content=".submenu_Store">
+				Store			</a>
+			<div class="submenu_Store" style="display: none;" data-submenuid="Store">
+														<a class="submenuitem" href="https://store.steampowered.com/?snr=1_26_26__global-responsive-menu">
+						Home											</a>
+														<a class="submenuitem" href="https://store.steampowered.com/explore/?snr=1_26_26__global-responsive-menu">
+						Discovery Queue											</a>
+														<a class="submenuitem" href="https://steamcommunity.com/my/wishlist/">
+						Wishlist											</a>
+														<a class="submenuitem" href="https://store.steampowered.com/points/shop/?snr=1_26_26__global-responsive-menu">
+						Points Shop											</a>
+														<a class="submenuitem" href="https://store.steampowered.com/news/?snr=1_26_26__global-responsive-menu">
+						News											</a>
+														<a class="submenuitem" href="https://store.steampowered.com/stats/?snr=1_26_26__global-responsive-menu">
+						Charts											</a>
+							</div>
+										<a class="menuitem supernav" href="https://steamcommunity.com/" data-tooltip-type="selector" data-tooltip-content=".submenu_Community">
+				Community			</a>
+			<div class="submenu_Community" style="display: none;" data-submenuid="Community">
+														<a class="submenuitem" href="https://steamcommunity.com/">
+						Home											</a>
+														<a class="submenuitem" href="https://steamcommunity.com/discussions/">
+						Discussions											</a>
+														<a class="submenuitem" href="https://steamcommunity.com/workshop/">
+						Workshop											</a>
+														<a class="submenuitem" href="https://steamcommunity.com/market/">
+						Market											</a>
+														<a class="submenuitem" href="https://steamcommunity.com/?subsection=broadcasts">
+						Broadcasts											</a>
+							</div>
+										<a class="menuitem " href="https://store.steampowered.com/about/?snr=1_26_26__global-responsive-menu">
+				About			</a>
+										<a class="menuitem " href="https://help.steampowered.com/en/">
+				Support			</a>
+			
+							<div class="minor_menu_items">
+																								<div class="menuitem change_language_action">
+									Change language								</div>
+																																	<a class="menuitem" href="https://store.steampowered.com/mobile" target="_blank" rel="noreferrer">Get the Steam Mobile App</a>
+																									<div class="menuitem" role="link" onclick="Responsive_RequestDesktopView();">
+										View desktop website									</div>
+															</div>
+						</div>
+						<div class="mainmenu_footer_spacer  "></div>
+						<div class="mainmenu_footer">
+															<div class="mainmenu_footer_logo"><img src="https://store.akamai.steamstatic.com/public/shared/images/responsive/footerLogo_valve_new.png"></div>
+								© Valve Corporation. All rights reserved. All trademarks are property of their respective owners in the US and other countries.								<span class="mainmenu_valve_links">
+									<a href="https://store.steampowered.com/privacy_agreement/?snr=1_26_26__global-responsive-menu" target="_blank">Privacy Policy</a>
+									&nbsp;| &nbsp;<a href="http://www.valvesoftware.com/legal.htm" target="_blank">Legal</a>
+									&nbsp;| &nbsp;<a href="https://help.steampowered.com/faqs/view/10BB-D27A-6378-4436" target="_blank">Accessibility</a>
+									&nbsp;| &nbsp;<a href="https://store.steampowered.com/subscriber_agreement/?snr=1_26_26__global-responsive-menu" target="_blank">Steam Subscriber Agreement</a>
+									&nbsp;| &nbsp;<a href="https://store.steampowered.com/steam_refunds/?snr=1_26_26__global-responsive-menu" target="_blank">Refunds</a>
+									&nbsp;| &nbsp;<a href="https://store.steampowered.com/account/cookiepreferences/?snr=1_26_26__global-responsive-menu" target="_blank">Cookies</a>
+								</span>
+													</div>
+					</div>
+									</div>
+			</div>
+		
+		<div class="responsive_local_menu_tab"></div>
+
+		<div class="responsive_page_menu_ctn localmenu">
+			<div class="responsive_page_menu"  id="responsive_page_local_menu" data-panel="{&quot;onOptionsActionDescription&quot;:&quot;Filter&quot;,&quot;onOptionsButton&quot;:&quot;Responsive_ToggleLocalMenu()&quot;,&quot;onCancelButton&quot;:&quot;Responsive_ToggleLocalMenu()&quot;}">
+				<div class="localmenu_content" data-panel="{&quot;maintainY&quot;:true,&quot;bFocusRingRoot&quot;:true,&quot;flow-children&quot;:&quot;column&quot;}">
+				</div>
+			</div>
+		</div>
+
+
+
+					<div class="responsive_header">
+				<div class="responsive_header_content">
+					<div id="responsive_menu_logo">
+						<img src="https://store.akamai.steamstatic.com/public/shared/images/responsive/header_menu_hamburger.png" height="100%">
+											</div>
+					<div class="responsive_header_logo">
+						<a href="https://store.steampowered.com/?snr=1_26_26__global-responsive-menu">
+															<img src="https://store.akamai.steamstatic.com/public/shared/images/responsive/header_logo.png" height="36" border="0" alt="STEAM">
+													</a>
+					</div>
+					<div class="responsive_header_react_target" data-featuretarget="store-menu-responsive-search"><div class="responsive_header_react_placeholder"></div></div>				</div>
+			</div>
+		
+		<div class="responsive_page_content_overlay">
+
+		</div>
+
+		<div class="responsive_fixonscroll_ctn nonresponsive_hidden ">
+		</div>
+	
+	<div class="responsive_page_content">
+
+		<div role="banner" id="global_header" data-panel="{&quot;flow-children&quot;:&quot;row&quot;}">
+	<div class="content">
+		<div class="logo">
+			<span id="logo_holder">
+									<a href="https://store.steampowered.com/?snr=1_26_26__global-header" aria-label="Link to the Steam Homepage">
+						<img src="https://store.akamai.steamstatic.com/public/shared/images/header/logo_steam.svg?t=962016" width="176" height="44" alt="Link to the Steam Homepage">
+					</a>
+							</span>
+		</div>
+
+			<div role="navigation" class="supernav_container" aria-label="Global Menu">
+								<a class="menuitem supernav supernav_active" href="https://store.steampowered.com/?snr=1_26_26__global-header" data-tooltip-type="selector" data-tooltip-content=".submenu_Store">
+				STORE			</a>
+			<div class="submenu_Store" style="display: none;" data-submenuid="Store">
+														<a class="submenuitem" href="https://store.steampowered.com/?snr=1_26_26__global-header">
+						Home											</a>
+														<a class="submenuitem" href="https://store.steampowered.com/explore/?snr=1_26_26__global-header">
+						Discovery Queue											</a>
+														<a class="submenuitem" href="https://steamcommunity.com/my/wishlist/">
+						Wishlist											</a>
+														<a class="submenuitem" href="https://store.steampowered.com/points/shop/?snr=1_26_26__global-header">
+						Points Shop											</a>
+														<a class="submenuitem" href="https://store.steampowered.com/news/?snr=1_26_26__global-header">
+						News											</a>
+														<a class="submenuitem" href="https://store.steampowered.com/stats/?snr=1_26_26__global-header">
+						Charts											</a>
+							</div>
+										<a class="menuitem supernav" href="https://steamcommunity.com/" data-tooltip-type="selector" data-tooltip-content=".submenu_Community">
+				COMMUNITY			</a>
+			<div class="submenu_Community" style="display: none;" data-submenuid="Community">
+														<a class="submenuitem" href="https://steamcommunity.com/">
+						Home											</a>
+														<a class="submenuitem" href="https://steamcommunity.com/discussions/">
+						Discussions											</a>
+														<a class="submenuitem" href="https://steamcommunity.com/workshop/">
+						Workshop											</a>
+														<a class="submenuitem" href="https://steamcommunity.com/market/">
+						Market											</a>
+														<a class="submenuitem" href="https://steamcommunity.com/?subsection=broadcasts">
+						Broadcasts											</a>
+							</div>
+										<a class="menuitem " href="https://store.steampowered.com/about/?snr=1_26_26__global-header">
+				About			</a>
+										<a class="menuitem " href="https://help.steampowered.com/en/">
+				SUPPORT			</a>
+				</div>
+	<script type="text/javascript">
+		jQuery(function($) {
+			$('#global_header .supernav').v_tooltip({'location':'bottom', 'destroyWhenDone': false, 'tooltipClass': 'supernav_content', 'offsetY':-6, 'offsetX': 1, 'horizontalSnap': 4, 'tooltipParent': '#global_header .supernav_container', 'correctForScreenSize': false});
+		});
+	</script>
+
+		<div id="global_actions">
+			<div role="navigation" id="global_action_menu" aria-label="Account Menu">
+									<a class="header_installsteam_btn header_installsteam_btn_green" href="https://store.steampowered.com/about/?snr=1_26_26__global-header">
+						<div class="header_installsteam_btn_content">
+							Install Steam						</div>
+					</a>
+				
+				
+									<a class="global_action_link" href="https://store.steampowered.com/login/?redir=stats%2Fstats%2F&redir_ssl=1&snr=1_26_26__global-header">sign in</a>
+											&nbsp;|&nbsp;
+						<span class="pulldown global_action_link" id="language_pulldown" onclick="ShowMenu( this, 'language_dropdown', 'right' );">language</span>
+						<div class="popup_block_new" id="language_dropdown" style="display: none;">
+							<div class="popup_body popup_menu">
+																																					<a class="popup_menu_item tight" href="?l=schinese" onclick="ChangeLanguage( 'schinese' ); return false;">简体中文 (Simplified Chinese)</a>
+																													<a class="popup_menu_item tight" href="?l=tchinese" onclick="ChangeLanguage( 'tchinese' ); return false;">繁體中文 (Traditional Chinese)</a>
+																													<a class="popup_menu_item tight" href="?l=japanese" onclick="ChangeLanguage( 'japanese' ); return false;">日本語 (Japanese)</a>
+																													<a class="popup_menu_item tight" href="?l=koreana" onclick="ChangeLanguage( 'koreana' ); return false;">한국어 (Korean)</a>
+																													<a class="popup_menu_item tight" href="?l=thai" onclick="ChangeLanguage( 'thai' ); return false;">ไทย (Thai)</a>
+																													<a class="popup_menu_item tight" href="?l=bulgarian" onclick="ChangeLanguage( 'bulgarian' ); return false;">Български (Bulgarian)</a>
+																													<a class="popup_menu_item tight" href="?l=czech" onclick="ChangeLanguage( 'czech' ); return false;">Čeština (Czech)</a>
+																													<a class="popup_menu_item tight" href="?l=danish" onclick="ChangeLanguage( 'danish' ); return false;">Dansk (Danish)</a>
+																													<a class="popup_menu_item tight" href="?l=german" onclick="ChangeLanguage( 'german' ); return false;">Deutsch (German)</a>
+																																							<a class="popup_menu_item tight" href="?l=spanish" onclick="ChangeLanguage( 'spanish' ); return false;">Español - España (Spanish - Spain)</a>
+																													<a class="popup_menu_item tight" href="?l=latam" onclick="ChangeLanguage( 'latam' ); return false;">Español - Latinoamérica (Spanish - Latin America)</a>
+																													<a class="popup_menu_item tight" href="?l=greek" onclick="ChangeLanguage( 'greek' ); return false;">Ελληνικά (Greek)</a>
+																													<a class="popup_menu_item tight" href="?l=french" onclick="ChangeLanguage( 'french' ); return false;">Français (French)</a>
+																													<a class="popup_menu_item tight" href="?l=italian" onclick="ChangeLanguage( 'italian' ); return false;">Italiano (Italian)</a>
+																													<a class="popup_menu_item tight" href="?l=indonesian" onclick="ChangeLanguage( 'indonesian' ); return false;">Bahasa Indonesia (Indonesian)</a>
+																													<a class="popup_menu_item tight" href="?l=hungarian" onclick="ChangeLanguage( 'hungarian' ); return false;">Magyar (Hungarian)</a>
+																													<a class="popup_menu_item tight" href="?l=dutch" onclick="ChangeLanguage( 'dutch' ); return false;">Nederlands (Dutch)</a>
+																													<a class="popup_menu_item tight" href="?l=norwegian" onclick="ChangeLanguage( 'norwegian' ); return false;">Norsk (Norwegian)</a>
+																													<a class="popup_menu_item tight" href="?l=polish" onclick="ChangeLanguage( 'polish' ); return false;">Polski (Polish)</a>
+																													<a class="popup_menu_item tight" href="?l=portuguese" onclick="ChangeLanguage( 'portuguese' ); return false;">Português (Portuguese - Portugal)</a>
+																													<a class="popup_menu_item tight" href="?l=brazilian" onclick="ChangeLanguage( 'brazilian' ); return false;">Português - Brasil (Portuguese - Brazil)</a>
+																													<a class="popup_menu_item tight" href="?l=romanian" onclick="ChangeLanguage( 'romanian' ); return false;">Română (Romanian)</a>
+																													<a class="popup_menu_item tight" href="?l=russian" onclick="ChangeLanguage( 'russian' ); return false;">Русский (Russian)</a>
+																													<a class="popup_menu_item tight" href="?l=finnish" onclick="ChangeLanguage( 'finnish' ); return false;">Suomi (Finnish)</a>
+																													<a class="popup_menu_item tight" href="?l=swedish" onclick="ChangeLanguage( 'swedish' ); return false;">Svenska (Swedish)</a>
+																													<a class="popup_menu_item tight" href="?l=turkish" onclick="ChangeLanguage( 'turkish' ); return false;">Türkçe (Turkish)</a>
+																													<a class="popup_menu_item tight" href="?l=vietnamese" onclick="ChangeLanguage( 'vietnamese' ); return false;">Tiếng Việt (Vietnamese)</a>
+																													<a class="popup_menu_item tight" href="?l=ukrainian" onclick="ChangeLanguage( 'ukrainian' ); return false;">Українська (Ukrainian)</a>
+																									<a class="popup_menu_item tight" href="https://www.valvesoftware.com/en/contact?contact-person=Translation%20Team%20Feedback" target="_blank">Report a translation problem</a>
+							</div>
+						</div>
+												</div>
+					</div>
+			</div>
+</div>
+<div class="StoreMenuLoadingPlaceholder" data-featuretarget="store-menu-v7"><div class="PlaceholderInner"></div></div><div id="responsive_store_nav_ctn"></div><div id="responsive_store_nav_overlay" style="display:none"><div id="responsive_store_nav_overlay_ctn"></div><div id="responsive_store_nav_overlay_bottom"></div></div><div id="responsive_store_search_overlay" style="display:none"></div><div data-cart-banner-spot="1"></div>
+		<div role="main" class="responsive_page_template_content" id="responsive_page_template_content" data-panel="{&quot;autoFocus&quot;:true}" >
+
+			<div id="application_config" style="display: none;"  data-config="{&quot;EUNIVERSE&quot;:1,&quot;WEB_UNIVERSE&quot;:&quot;public&quot;,&quot;LANGUAGE&quot;:&quot;english&quot;,&quot;COUNTRY&quot;:&quot;SG&quot;,&quot;MEDIA_CDN_COMMUNITY_URL&quot;:&quot;https:\/\/cdn.akamai.steamstatic.com\/steamcommunity\/public\/&quot;,&quot;MEDIA_CDN_URL&quot;:&quot;https:\/\/cdn.akamai.steamstatic.com\/&quot;,&quot;VIDEO_CDN_URL&quot;:&quot;https:\/\/video.akamai.steamstatic.com\/&quot;,&quot;COMMUNITY_CDN_URL&quot;:&quot;https:\/\/community.akamai.steamstatic.com\/&quot;,&quot;COMMUNITY_CDN_ASSET_URL&quot;:&quot;https:\/\/cdn.akamai.steamstatic.com\/steamcommunity\/public\/assets\/&quot;,&quot;STORE_CDN_URL&quot;:&quot;https:\/\/store.akamai.steamstatic.com\/&quot;,&quot;PUBLIC_SHARED_URL&quot;:&quot;https:\/\/store.akamai.steamstatic.com\/public\/shared\/&quot;,&quot;COMMUNITY_BASE_URL&quot;:&quot;https:\/\/steamcommunity.com\/&quot;,&quot;CHAT_BASE_URL&quot;:&quot;https:\/\/steamcommunity.com\/&quot;,&quot;STORE_BASE_URL&quot;:&quot;https:\/\/store.steampowered.com\/&quot;,&quot;STORE_CHECKOUT_BASE_URL&quot;:&quot;https:\/\/checkout.steampowered.com\/&quot;,&quot;IMG_URL&quot;:&quot;https:\/\/store.akamai.steamstatic.com\/public\/images\/&quot;,&quot;STEAMTV_BASE_URL&quot;:&quot;https:\/\/steam.tv\/&quot;,&quot;HELP_BASE_URL&quot;:&quot;https:\/\/help.steampowered.com\/&quot;,&quot;PARTNER_BASE_URL&quot;:&quot;https:\/\/partner.steamgames.com\/&quot;,&quot;STATS_BASE_URL&quot;:&quot;https:\/\/partner.steampowered.com\/&quot;,&quot;INTERNAL_STATS_BASE_URL&quot;:&quot;https:\/\/steamstats.valve.org\/&quot;,&quot;IN_CLIENT&quot;:false,&quot;USE_POPUPS&quot;:false,&quot;STORE_ICON_BASE_URL&quot;:&quot;https:\/\/shared.akamai.steamstatic.com\/store_item_assets\/steam\/apps\/&quot;,&quot;STORE_ITEM_BASE_URL&quot;:&quot;https:\/\/shared.akamai.steamstatic.com\/store_item_assets\/&quot;,&quot;WEBAPI_BASE_URL&quot;:&quot;https:\/\/api.steampowered.com\/&quot;,&quot;TOKEN_URL&quot;:&quot;https:\/\/store.steampowered.com\/\/chat\/clientjstoken&quot;,&quot;BUILD_TIMESTAMP&quot;:1771466504,&quot;PAGE_TIMESTAMP&quot;:1771511963,&quot;IN_TENFOOT&quot;:false,&quot;IN_GAMEPADUI&quot;:false,&quot;IN_CHROMEOS&quot;:false,&quot;IN_MOBILE_WEBVIEW&quot;:false,&quot;PLATFORM&quot;:&quot;unknown&quot;,&quot;BASE_URL_STORE_CDN_ASSETS&quot;:&quot;https:\/\/cdn.akamai.steamstatic.com\/store\/&quot;,&quot;EREALM&quot;:1,&quot;LOGIN_BASE_URL&quot;:&quot;https:\/\/login.steampowered.com\/&quot;,&quot;AVATAR_BASE_URL&quot;:&quot;https:\/\/avatars.akamai.steamstatic.com\/&quot;,&quot;FROM_WEB&quot;:true,&quot;WEBSITE_ID&quot;:&quot;Store&quot;,&quot;BASE_URL_SHARED_CDN&quot;:&quot;https:\/\/shared.akamai.steamstatic.com\/&quot;,&quot;CLAN_CDN_ASSET_URL&quot;:&quot;https:\/\/clan.akamai.steamstatic.com\/&quot;,&quot;COMMUNITY_ASSETS_BASE_URL&quot;:&quot;https:\/\/shared.akamai.steamstatic.com\/community_assets\/&quot;,&quot;SNR&quot;:&quot;1_26_26_&quot;}" data-userinfo="{&quot;logged_in&quot;:false,&quot;country_code&quot;:&quot;SG&quot;,&quot;excluded_content_descriptors&quot;:[3,4]}" data-hwinfo="{&quot;bSteamOS&quot;:false,&quot;bSteamDeck&quot;:false}" data-broadcastuser="{&quot;success&quot;:1,&quot;bHideStoreBroadcast&quot;:false}" data-store_user_config="{&quot;webapi_token&quot;:&quot;&quot;,&quot;shoppingcart&quot;:null,&quot;originating_navdata&quot;:{&quot;domain&quot;:&quot;store.steampowered.com&quot;,&quot;controller&quot;:&quot;direct-navigation&quot;,&quot;method&quot;:&quot;&quot;,&quot;submethod&quot;:&quot;&quot;,&quot;feature&quot;:&quot;&quot;,&quot;depth&quot;:0,&quot;countrycode&quot;:&quot;&quot;,&quot;webkey&quot;:null,&quot;is_client&quot;:false,&quot;curator_data&quot;:null,&quot;is_likely_bot&quot;:false,&quot;is_utm&quot;:false},&quot;wishlist_item_count&quot;:0}"></div><div id="application_root"></div><script>window.g_wapit="";</script><link href="https://store.akamai.steamstatic.com/public/css/applications/store/main.css?v=sVU5qxYvT0fV&amp;l=english&amp;_cdn=akamai" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="https://store.akamai.steamstatic.com/public/javascript/applications/store/manifest.js?v=R5tUPG8mNxsG&amp;l=english&amp;_cdn=akamai"></script>
+<script type="text/javascript" src="https://store.akamai.steamstatic.com/public/javascript/applications/store/libraries~b28b7af69.js?v=VXi50UIeX17k&amp;l=english&amp;_cdn=akamai"></script>
+<script type="text/javascript" src="https://store.akamai.steamstatic.com/public/javascript/applications/store/main.js?v=0WWfn9Rjx7XK&amp;l=english&amp;_cdn=akamai"></script>
+<script type="text/javascript">
+	var g_AccountID = 0;
+	var g_Languages = ["english"];
+	var g_sessionID = "c4ca9ee7988aa2db422569d6";
+	var g_ServerTime = 1771511963;
+	var g_bUseNewCartAPI = true;
+
+	$J( InitMiniprofileHovers( 'https%3A%2F%2Fstore.steampowered.com%2F' ) );
+
+	
+	if ( typeof GStoreItemData != 'undefined' )
+	{
+		GStoreItemData.AddNavParams({
+			__page_default: "1_26_26_",
+			__page_default_obj: {"domain":"store.steampowered.com","controller":"stats","method":"stats","submethod":"","feature":null,"depth":null,"countrycode":"SG","webkey":null,"is_client":false,"curator_data":null,"is_likely_bot":false,"is_utm":null},
+			__originating_obj: {"domain":"store.steampowered.com","controller":"direct-navigation","method":"","submethod":"","feature":"","depth":0,"countrycode":"","webkey":null,"is_client":false,"curator_data":null,"is_likely_bot":false,"is_utm":false},
+			storemenu_recommendedtags: "1_26_26__17"		});
+	}
+
+	if ( typeof GDynamicStore != 'undefined' )
+	{
+		GDynamicStore.Init(0, false, "", {"primary_language":null,"secondary_languages":null,"platform_windows":null,"platform_mac":null,"platform_linux":null,"timestamp_updated":null,"hide_store_broadcast":null,"review_score_preference":null,"timestamp_content_descriptor_preferences_updated":null,"provide_deck_feedback":null,"additional_languages":null,"game_frame_rate_reporting":null}, 'SG',
+			{"bNoDefaultDescriptors":false});
+		GStoreItemData.SetCurrencyFormatter(function( nValueInCents, bWholeUnitsOnly ) { var fmt = function( nValueInCents, bWholeUnitsOnly ) {	var format = v_numberformat( nValueInCents / 100, bWholeUnitsOnly ? 0 : 2, ".", ","); return format; };var strNegativeSymbol = '';	if ( nValueInCents < 0 ) { strNegativeSymbol = '-'; nValueInCents = -nValueInCents; }return strNegativeSymbol + "S$" + fmt( nValueInCents, bWholeUnitsOnly );});
+		GStoreItemData.SetCurrencyMinPriceIncrement(1);
+	}
+</script>
+<script type="text/javascript">
+	jQuery(function()
+	{
+		jQuery("<div class='chartooltip' id='charttooltip'></div>").css({
+			position: "absolute",
+			border: "1px solid #ffdddd",
+			display: "none",
+			padding: "2px",
+			"background-color": "white",
+			color: "black",
+			"font-size": "10px",
+			opacity: "1.0",
+		}).appendTo("body");
+	});
+</script>
+
+<div class="page_header_ctn search">
+
+	
+	<div class="page_content">
+
+		<div class="breadcrumbs">
+			<a href="https://store.steampowered.com/stats/?snr=1_26_26_">Steam Stats</a>
+		</div>
+		<h2 class="pageheader">Steam &amp; Game Stats <span class="statsTopSmall secondary_text">Updated: 19 February, 2026 @ 6:35am</span></h2>
+
+		<div class="">
+			<p class="body_text"> Our on-going goal with Steam is to improve the service we offer customers. We believe that by sharing this
+													data, we'll be able to spot problems earlier, improve the Steam service more efficiently, and ultimately build
+													better products and experiences. <a href="https://steamcommunity.com/discussions/?snr=1_26_26_">Let us know</a> what you think. </p>
+			<br>
+			<div class="block">
+				<div class="block_header"><div>Concurrent Steam Users <span id="community_activity_note" class="header_inline">(most recent 48 hours)</span></div></div>
+				<div class="block_content block_content_inner dark">
+					<div class="chart_center">
+						<div id="chartlegendUsers" class="chartLegend" ></div>
+						<div id="chartdivUsers" class="chartdiv" ></div>
+						<script type="text/javascript">
+							UsersChartPlot( '#chartdivUsers', '#chartlegendUsers', 'https://store.steampowered.com/stats/userdata.json' );
+						</script>
+					</div>
+					<div class="statsTop">
+						<table class="users_count_table" border="0" cellspacing="0" cellpadding="5">
+							<tr>
+								<td align="left">&nbsp;</td>
+								<td align="right">current</td>
+								<td align="right">peak</td>
+								<td>&nbsp;</td>
+							</tr>
+							<tr>
+								<td class="users_label" align="left">Concurrent Steam Users:</td>
+								<td class="users_count" align="right"><span class="statsTopHi">34,935,286</span></td>
+								<td class="users_count" align="right"><span class="statsTopHi">35,226,729</span></td>
+								<td>&nbsp;</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="page_content">
+
+	<div class="rightcol stats_links">
+		<div class="block">
+			<div class="block_header"><div>Steam Hardware & Software Survey</div></div>
+			<div class="block_content block_content_inner">
+				<a class="linkbar" href="https://store.steampowered.com/hwsurvey">Steam Hardware & Software Survey</a>
+			</div>
+		</div>
+		<div class="block">
+			<div class="block_header"><div>Steam Stats</div></div>
+			<div class="block_content block_content_inner">
+				<a class="linkbar" href="https://store.steampowered.com/stats/content/">Steam Download Stats</a>
+			</div>
+			<div class="block_content block_content_inner">
+				<a class="linkbar" href="https://store.steampowered.com/stats/support">Steam Support Stats</a>
+			</div>
+					</div>
+	</div>
+	<div class="topgames_col">
+		<div class="block">
+			<div class="block_header"><div>Top games by current player count</div></div>
+			<div class="block_content block_content_inner">
+
+				<div id="detailStats">
+					<table>
+						<tr>
+							<td align="right"><b>Current Players</b></td>
+							<td align="right" style="padding-left: 12px"><b>Peak Today</b></td>
+							<td width="20">&nbsp;</td>
+							<td align="left"><b>Game</b></td>
+						</tr>
+						<tr>
+							<td colspan="5">&nbsp;</td>
+						</tr>
+											<tr class="player_count_row" style="">
+							<td align="right">
+								<span class="currentServers">1,367,986</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">1,542,845</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:730,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/730/CounterStrike_2/">Counter-Strike 2</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="">
+							<td align="right">
+								<span class="currentServers">730,143</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">745,443</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:570,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/570/Dota_2/">Dota 2</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="">
+							<td align="right">
+								<span class="currentServers">455,654</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">457,159</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:578080,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/578080/PUBG_BATTLEGROUNDS/">PUBG: BATTLEGROUNDS</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="">
+							<td align="right">
+								<span class="currentServers">164,146</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">164,176</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:3419430,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/3419430/Bongo_Cat/">Bongo Cat</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="">
+							<td align="right">
+								<span class="currentServers">154,785</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">157,328</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:1172470,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/1172470/Apex_Legends/">Apex Legends</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="">
+							<td align="right">
+								<span class="currentServers">145,303</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">150,090</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:252490,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/252490/Rust/">Rust</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="">
+							<td align="right">
+								<span class="currentServers">129,008</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">130,143</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:2507950,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/2507950/Delta_Force/">Delta Force</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="">
+							<td align="right">
+								<span class="currentServers">109,159</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">109,159</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:431960,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/431960/Wallpaper_Engine/">Wallpaper Engine</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="">
+							<td align="right">
+								<span class="currentServers">108,619</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">163,892</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink"  href="https://store.steampowered.com/app/2676230/FiveM/">FiveM</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="">
+							<td align="right">
+								<span class="currentServers">106,029</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">109,817</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:271590,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/271590/Grand_Theft_Auto_V_Legacy/">Grand Theft Auto V Legacy</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">106,024</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">207,219</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:1808500,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/1808500/ARC_Raiders/">ARC Raiders</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">99,177</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">101,298</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:105600,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/105600/Terraria/">Terraria</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">85,725</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">85,725</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:236390,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/236390/War_Thunder/">War Thunder</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">83,733</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">112,099</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:2357570,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/2357570/Overwatch/">Overwatch®</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">80,712</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">81,144</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:413150,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/413150/Stardew_Valley/">Stardew Valley</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">74,912</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">95,856</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:553850,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/553850/HELLDIVERS_2/">HELLDIVERS™ 2</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">74,844</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">94,092</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:686060,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/686060/Mewgenics/">Mewgenics</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">69,836</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">75,573</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:2246340,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/2246340/Monster_Hunter_Wilds/">Monster Hunter Wilds</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">69,589</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">69,592</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:3240220,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/3240220/Grand_Theft_Auto_V_Enhanced/">Grand Theft Auto V Enhanced</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">64,209</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">67,046</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:1203220,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/1203220/NARAKA_BLADEPOINT/">NARAKA: BLADEPOINT</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">62,780</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">80,126</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:322170,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/322170/Geometry_Dash/">Geometry Dash</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">59,451</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">70,601</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:381210,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/381210/Dead_by_Daylight/">Dead by Daylight</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">59,194</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">59,194</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink"  href="https://steamcommunity.com/app/480">Spacewar</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">58,460</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">60,988</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:1281930,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/1281930/tModLoader/">tModLoader</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">58,004</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">58,740</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:230410,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/230410/Warframe/">Warframe</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">57,055</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">83,303</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:1973530,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/1973530/Limbus_Company/">Limbus Company</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">53,369</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">78,745</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:2807960,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/2807960/Battlefield_6/">Battlefield™ 6</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">50,472</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">50,472</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:440,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/440/Team_Fortress_2/">Team Fortress 2</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">50,439</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">55,814</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink"  href="https://steamcommunity.com/app/218">Source SDK Base 2007</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">50,413</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">51,316</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:438100,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/438100/VRChat/">VRChat</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">50,322</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">52,058</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:4025700,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/4025700/Heartopia/">Heartopia</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">50,049</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">78,954</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:359550,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/359550/Tom_Clancys_Rainbow_Six_Siege_X/">Tom Clancy's Rainbow Six® Siege X</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">48,991</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">121,223</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:2767030,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/2767030/Marvel_Rivals/">Marvel Rivals</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">47,668</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">59,737</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:3405690,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/3405690/EA_SPORTS_FC_26/">EA SPORTS FC™ 26</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">45,457</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">45,730</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:1623730,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/1623730/Palworld/">Palworld</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">44,296</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">45,002</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:394360,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/394360/Hearts_of_Iron_IV/">Hearts of Iron IV</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">43,106</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">60,868</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:1086940,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/1086940/Baldurs_Gate_3/">Baldur's Gate 3</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">43,069</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">43,905</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:2622380,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/2622380/ELDEN_RING_NIGHTREIGN/">ELDEN RING NIGHTREIGN</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">42,119</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">42,725</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:322330,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/322330/Dont_Starve_Together/">Don't Starve Together</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">41,313</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">56,476</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:221100,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/221100/DayZ/">DayZ</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">40,371</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">40,501</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:289070,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/289070/Sid_Meiers_Civilization_VI/">Sid Meier's Civilization VI</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">40,325</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">46,609</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:1366800,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/1366800/Crosshair_X/">Crosshair X</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">40,263</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">41,498</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:3564740,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/3564740/Where_Winds_Meet/">Where Winds Meet</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">39,770</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">46,284</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:227300,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/227300/Euro_Truck_Simulator_2/">Euro Truck Simulator 2</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">38,024</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">46,606</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:3551340,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/3551340/Football_Manager_26/">Football Manager 26</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">37,963</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">38,675</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:1174180,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/1174180/Red_Dead_Redemption_2/">Red Dead Redemption 2</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">37,454</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">39,062</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:3681010,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/3681010/Nioh_3/">Nioh 3</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">35,169</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">35,169</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:1091500,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/1091500/Cyberpunk_2077/">Cyberpunk 2077</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">34,255</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">34,304</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:294100,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/294100/RimWorld/">RimWorld</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">33,796</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">33,862</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:3241660,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/3241660/REPO/">R.E.P.O.</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">33,107</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">35,243</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:2923300,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/2923300/Banana/">Banana</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">31,890</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">37,726</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:1222670,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/1222670/The_Sims_4/">The Sims™ 4</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">31,737</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">32,764</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:1364780,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/1364780/Street_Fighter_6/">Street Fighter™ 6</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">31,185</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">31,300</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:1245620,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/1245620/ELDEN_RING/">ELDEN RING</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">30,665</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">31,952</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:1426210,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/1426210/It_Takes_Two/">It Takes Two</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">30,453</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">31,939</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:108600,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/108600/Project_Zomboid/">Project Zomboid</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">29,718</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">44,065</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:1938090,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/1938090/Call_of_Duty/">Call of Duty®</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">28,946</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">29,002</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:552990,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/552990/World_of_Warships/">World of Warships</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">28,827</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">52,866</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:1721470,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/1721470/Poppy_Playtime/">Poppy Playtime</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">27,378</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">27,378</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:251570,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/251570/7_Days_to_Die/">7 Days to Die</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">26,367</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">27,794</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:2358720,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/2358720/Black_Myth_Wukong/">Black Myth: Wukong</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">26,267</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">26,365</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:3472040,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/3472040/NBA_2K26/">NBA 2K26</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">26,096</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">26,096</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:261550,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/261550/Mount__Blade_II_Bannerlord/">Mount &amp; Blade II: Bannerlord</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">25,786</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">27,930</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:1142710,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/1142710/Total_War_WARHAMMER_III/">Total War: WARHAMMER III</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">25,515</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">35,701</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:377160,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/377160/Fallout_4/">Fallout 4</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">25,038</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">25,038</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:346110,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/346110/ARK_Survival_Evolved/">ARK: Survival Evolved</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">24,737</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">24,737</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:1905180,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/1905180/OBS_Studio/">OBS Studio</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">24,535</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">39,026</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:2300320,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/2300320/Farming_Simulator_25/">Farming Simulator 25</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">24,526</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">28,436</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:4000,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/4000/Garrys_Mod/">Garry's Mod</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">24,065</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">30,207</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:2073620,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/2073620/Arena_Breakout_Infinite/">Arena Breakout: Infinite</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">23,976</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">28,955</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:550,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/550/Left_4_Dead_2/">Left 4 Dead 2</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">23,954</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">29,209</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:284160,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/284160/BeamNGdrive/">BeamNG.drive</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">23,775</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">23,775</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:594650,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/594650/Hunt_Showdown_1896/">Hunt: Showdown 1896</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">23,737</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">24,097</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:646570,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/646570/Slay_the_Spire/">Slay the Spire</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">23,672</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">24,832</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:250900,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/250900/The_Binding_of_Isaac_Rebirth/">The Binding of Isaac: Rebirth</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">23,477</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">30,021</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:489830,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/489830/The_Elder_Scrolls_V_Skyrim_Special_Edition/">The Elder Scrolls V: Skyrim Special Edition</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">22,961</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">22,961</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:1665460,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/1665460/eFootball/">eFootball™</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">22,459</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">23,033</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:1449850,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/1449850/YuGiOh_Master_Duel/">Yu-Gi-Oh!  Master Duel</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">22,327</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">25,739</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:2399830,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/2399830/ARK_Survival_Ascended/">ARK: Survival Ascended</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">22,302</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">23,382</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:1049590,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/1049590/Eternal_Return/">Eternal Return</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">22,061</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">25,076</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:813780,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/813780/Age_of_Empires_II_Definitive_Edition/">Age of Empires II: Definitive Edition</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">21,805</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">21,805</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:3527290,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/3527290/PEAK/">PEAK</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">21,503</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">24,003</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:1771300,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/1771300/Kingdom_Come_Deliverance_II/">Kingdom Come: Deliverance II</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">21,375</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">24,235</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:582660,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/582660/Black_Desert/">Black Desert</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">20,266</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">22,085</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:1158310,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/1158310/Crusader_Kings_III/">Crusader Kings III</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">19,394</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">30,923</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:892970,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/892970/Valheim/">Valheim</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">19,334</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">20,501</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:2252570,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/2252570/Football_Manager_2024/">Football Manager 2024</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">19,196</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">19,956</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:292030,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/292030/The_Witcher_3_Wild_Hunt/">The Witcher 3: Wild Hunt</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">18,250</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">18,296</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:2050650,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/2050650/Resident_Evil_4/">Resident Evil 4</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">18,226</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">25,120</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:526870,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/526870/Satisfactory/">Satisfactory</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">17,669</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">17,698</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:3932890,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/3932890/Escape_from_Tarkov/">Escape from Tarkov</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">17,582</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">22,033</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:275850,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/275850/No_Mans_Sky/">No Man's Sky</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">17,507</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">17,507</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:766570,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/766570/Russian_Fishing_4/">Russian Fishing 4</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">17,385</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">17,461</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:582010,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/582010/Monster_Hunter_World/">Monster Hunter: World</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">17,170</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">22,474</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:2694490,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/2694490/Path_of_Exile_2/">Path of Exile 2</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">16,983</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">16,983</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:1551360,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/1551360/Forza_Horizon_5/">Forza Horizon 5</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">16,981</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">17,021</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:393380,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/393380/Squad/">Squad</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">16,570</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">22,024</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:427520,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/427520/Factorio/">Factorio</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">16,332</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">18,425</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:629520,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/629520/Soundpad/">Soundpad</a>
+							</td>
+						</tr>
+											<tr class="player_count_row" style="display: none;">
+							<td align="right">
+								<span class="currentServers">16,136</span>
+							</td>
+							<td align="right">
+								<span class="currentServers">16,136</span>
+							</td>
+							<td width="20">&nbsp;</td>
+							<td>
+								<a class="gameLink" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:2139460,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" href="https://store.steampowered.com/app/2139460/Once_Human/">Once Human</a>
+							</td>
+						</tr>
+										</table>
+					<br>
+				<div id="more_player_count_link">
+					<img src="https://store.akamai.steamstatic.com/public/images/ico/ico_arrow_blue_old.gif" />&nbsp;<a id="detailLink" href="javascript:void(0)" onclick="$$('tr.player_count_row').invoke('show'); $('more_player_count_link').hide();">View all of the top 100 most-played games</a>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div style="clear: both;"></div>
+</div>
+<!-- Footer -->
+		</div>	<!-- responsive_page_legacy_content -->
+
+		<div id="footer_spacer" style="" class=""></div>
+<div id="footer" role="contentinfo" class="">
+<div class="footer_content">
+
+    <div class="rule"></div>
+				<div id="footer_logo_steam"><img src="https://store.akamai.steamstatic.com/public/images/v6/logo_steam_footer.png" alt="Valve Software" border="0" /></div>
+
+    <div id="footer_logo"><a href="http://www.valvesoftware.com" target="_blank" rel=""><img src="https://store.akamai.steamstatic.com/public/images/footerLogo_valve_new.png" alt="Valve Software" border="0" /></a></div>
+    <div id="footer_text" data-panel="{&quot;flow-children&quot;:&quot;row&quot;}" >
+        <div>&copy; 2026 Valve Corporation.  All rights reserved.  All trademarks are property of their respective owners in the US and other countries.</div>
+        <div>VAT included in all prices where applicable.&nbsp;&nbsp;
+
+            <a href="https://store.steampowered.com/privacy_agreement/?snr=1_44_44_" target="_blank" rel="">Privacy Policy</a>
+            &nbsp; <span aria-hidden="true">|</span> &nbsp;
+            <a href="https://store.steampowered.com/legal/?snr=1_44_44_" target="_blank" rel="">Legal</a>
+            &nbsp; <span aria-hidden="true">|</span> &nbsp;
+            <a href="https://help.steampowered.com/faqs/view/10BB-D27A-6378-4436?snr=1_44_44_" target="_blank" rel="">Accessibility</a>
+            &nbsp; <span aria-hidden="true">|</span> &nbsp;
+            <a href="https://store.steampowered.com/subscriber_agreement/?snr=1_44_44_" target="_blank" rel="">Steam Subscriber Agreement</a>
+            &nbsp; <span aria-hidden="true">|</span> &nbsp;
+            <a href="https://store.steampowered.com/steam_refunds/?snr=1_44_44_" target="_blank" rel="">Refunds</a>
+            &nbsp; <span aria-hidden="true">|</span> &nbsp;
+            <a href="https://store.steampowered.com/account/cookiepreferences/?snr=1_44_44_" target="_blank" rel="">Cookies</a>
+
+        </div>
+					<div class="responsive_optin_link">
+				<div class="btn_medium btnv6_grey_black" role="link" onclick="Responsive_RequestMobileView()">
+					<span>View mobile website</span>
+				</div>
+			</div>
+		
+    </div>
+
+
+
+    <div style="clear: left;"></div>
+	<br>
+
+    <div class="rule"></div>
+
+    <div class="valve_links" data-panel="{&quot;flow-children&quot;:&quot;row&quot;}" >
+        <a href="http://www.valvesoftware.com/about" target="_blank" rel="">About Valve</a>
+        &nbsp; <span aria-hidden="true">|</span> &nbsp;<a href="http://www.valvesoftware.com" target="_blank" rel="">Jobs</a>
+        &nbsp; <span aria-hidden="true">|</span> &nbsp;<a href="http://www.steampowered.com/steamworks/" target="_blank" rel="">Steamworks</a>
+        &nbsp; <span aria-hidden="true">|</span> &nbsp;<a href="https://partner.steamgames.com/steamdirect" target="_blank" rel="">Steam Distribution</a>
+        &nbsp; <span aria-hidden="true">|</span> &nbsp;<a href="https://help.steampowered.com/en/?snr=1_44_44_">Support</a>
+                        		&nbsp; <span aria-hidden="true">|</span> &nbsp;<a href="https://store.steampowered.com/digitalgiftcards/?snr=1_44_44_" target="_blank" rel="">Gift Cards</a>
+		&nbsp; <span aria-hidden="true">|</span> &nbsp;<a href="https://steamcommunity.com/linkfilter/?u=http%3A%2F%2Fwww.facebook.com%2FSteam" target="_blank" rel=" noopener"><img src="https://store.akamai.steamstatic.com/public/images/ico/ico_facebook.png" alt="Facebook: Steam"></a>
+		&nbsp; <span aria-hidden="true">|</span> &nbsp;<a href="http://twitter.com/steam" target="_blank" rel=""><img src="https://store.akamai.steamstatic.com/public/images/ico/ico_twitter.png" alt="X: @Steam"></a>
+			&nbsp; <span aria-hidden="true">|</span> &nbsp;<a href="https://steamcommunity.com/linkfilter/?u=https%3A%2F%2Fbsky.app%2Fprofile%2Fsteampowered.com" target="_blank" rel=" noopener"><img src="https://store.akamai.steamstatic.com/public/images/ico/ico_bsky.png" alt="Bluesky: Steampowered"></a>
+            </div>
+				<div class="extra_space"></div>
+	
+</div>
+</div>
+
+	</div>	<!-- responsive_page_content -->
+
+</div>	<!-- responsive_page_frame -->
+</body>
+</html>

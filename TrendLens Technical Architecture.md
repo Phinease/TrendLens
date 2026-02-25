@@ -74,16 +74,34 @@ TrendLens/
 
 > **[权威定义]** 本章节为技术栈选型的唯一定义来源。
 
+### iOS 客户端
+
 | 类别 | 技术 |
 |------|------|
 | UI | SwiftUI（Liquid Glass、3D Layout、WebView） |
 | 状态管理 | `@Observable`（MVVM） |
 | 持久化 | SwiftData（Model Inheritance、Persistent History） |
 | 网络 | URLSession + async/await + ETag |
+| 远程数据 | supabase-swift（Supabase Data API） |
 | 图表 | Swift Charts（含 3D） |
 | 小组件 | WidgetKit |
 | 后台刷新 | BGTaskScheduler |
 | 日志 | OSLog |
+
+### 后端（Python）
+
+| 类别 | 技术 |
+|------|------|
+| 语言 | Python 3.12+ |
+| HTTP 客户端 | httpx（异步） |
+| HTML 解析 | BeautifulSoup4 + lxml |
+| 正文提取 | readability-lxml / newspaper3k |
+| 数据库 | Supabase（PostgreSQL 15+） |
+| ORM/客户端 | supabase-py |
+| AI 摘要 | Claude API（anthropic-sdk） |
+| 调度 | APScheduler |
+| 日志 | Python logging + structlog |
+| 配置 | python-dotenv |
 
 ---
 
@@ -127,18 +145,41 @@ TrendLens/
 
 > **[权威定义]** 本章节为数据流与缓存策略的唯一定义来源。
 
+### 阶段 1（本地 Mock）
+
 ```
-View → ViewModel → UseCase → Repository → DataSource
-                                  ↓
-                            Local / Remote
+View → ViewModel → UseCase → Repository → LocalDataSource (SwiftData)
+                                               ↑
+                                        MockDataGenerator
 ```
 
-**缓存策略**：
+### 阶段 2（远程 Supabase）
+
+```
+View → ViewModel → UseCase → Repository ─→ RemoteDataSource (Supabase API)
+                                        └→ LocalDataSource (SwiftData 缓存)
+```
+
+```
+[后端数据管道]
+Fetcher → Scraper → Processor → Snapshot → Supabase (PostgreSQL)
+  │          │          │
+  │          │          └─ 热度归一化、AI 摘要、标签提取
+  │          └─ 正文页面抓取
+  └─ 热榜列表 API 采集
+
+[快照对比]
+当前快照 + 上一快照 → Differ → rankChange / heatHistory 更新
+```
+
+### 缓存策略
 
 1. 检查 validUntil 判断缓存有效性
-2. 有效 → 返回缓存
-3. 无效 → 请求网络 → 成功则更新缓存
-4. 网络失败 → 返回过期缓存（带标记）
+2. 有效 → 返回 SwiftData 本地缓存
+3. 过期 → 请求 Supabase（带 ETag）
+4. 200 响应 → 更新本地缓存
+5. 304 响应 → 延长本地缓存有效期
+6. 网络失败 → 返回过期缓存（带「数据已过期」标记）
 
 ---
 
@@ -216,7 +257,126 @@ NavigationStack {
 
 ---
 
-## 10. 术语表
+## 10. 后端架构（Python + Supabase）
+
+> **[权威定义]** 本章节为后端架构的唯一定义来源。
+> **详细数据源规范：** [backend/docs/hot-news-data-sources-v2.md](backend/docs/hot-news-data-sources-v2.md)
+> **数据需求文档：** [backend/docs/data-requirements.md](backend/docs/data-requirements.md)
+
+### 10.1 后端目录结构
+
+```
+backend/
+├── docs/                      # 文档
+│   ├── data-sources-v1.md     # 全量数据源调研
+│   ├── hot-news-data-sources-v2.md  # 选定接口规范
+│   └── data-requirements.md   # 数据需求与字段映射
+├── data/                      # 接口样本数据（开发参考）
+├── src/
+│   ├── fetchers/              # 阶段 1：热榜列表采集器（每源一个文件）
+│   ├── scrapers/              # 阶段 2：正文页面抓取器
+│   ├── parsers/               # 响应解析器（JSON / HTML / 内嵌数据）
+│   ├── processors/            # 数据处理（归一化、AI 摘要、标签提取）
+│   ├── storage/               # Supabase 存储层
+│   ├── differ/                # 快照对比（rankChange、heatHistory）
+│   ├── scheduler/             # 定时任务调度
+│   └── common/                # 通用工具（HTTP 客户端、日志、配置）
+├── tests/
+├── config/
+│   └── sources.yaml           # 数据源配置（URL、频率、启用状态）
+├── .env                       # 环境变量（Supabase URL/Key、API Token）
+├── requirements.txt
+└── main.py                    # 入口
+```
+
+### 10.2 数据管道架构
+
+```
+┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐
+│ Fetcher  │───→│ Parser   │───→│ Scraper  │───→│Processor │───→│ Storage  │
+│ 热榜API  │    │ 响应解析 │    │ 正文抓取 │    │ 后处理   │    │ Supabase │
+└──────────┘    └──────────┘    └──────────┘    └──────────┘    └──────────┘
+                                                     │               │
+                                                     │               ▼
+                                                     │          ┌──────────┐
+                                                     │          │ Differ   │
+                                                     │          │ 快照对比 │
+                                                     │          └──────────┘
+                                                     ▼
+                                              ┌─────────────┐
+                                              │ AI (Claude) │
+                                              │ 摘要 + 标签 │
+                                              └─────────────┘
+```
+
+**管道各阶段职责**：
+
+| 阶段 | 输入 | 输出 | 频率 |
+|------|------|------|------|
+| Fetcher | 数据源 API URL | 原始响应（JSON/HTML） | 每 15 分钟 |
+| Parser | 原始响应 | 结构化话题列表（title, heat, link...） | 同 Fetcher |
+| Scraper | 话题 link URL | 正文内容、图片、标签 | 每条话题 |
+| Processor | 原始字段 | 归一化热度、AI 摘要、提取标签 | 批量 |
+| Storage | 处理后话题 + 元数据 | Supabase 数据库记录 | 同 Fetcher |
+| Differ | 当前快照 + 前一快照 | rankChange、heatHistory 追加 | 同 Storage |
+
+### 10.3 Supabase 集成
+
+**连接方式**：
+
+| 端 | SDK | 用途 |
+|----|-----|------|
+| Python 后端 | `supabase-py` | 写入采集数据（insert/upsert） |
+| iOS 客户端 | `supabase-swift` | 读取数据（select + 实时订阅） |
+
+**Data API 配置**：
+- 已启用 Autogenerate RESTful API（public schema）
+- iOS 端通过 `SUPABASE_URL` + `SUPABASE_ANON_KEY` 连接
+- 后端通过 `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` 连接（绕过 RLS）
+
+**安全策略**：
+- Row Level Security (RLS) 启用
+- anon key：只允许 SELECT（iOS 端只读）
+- service_role key：允许 INSERT/UPDATE/DELETE（仅后端使用，不暴露给客户端）
+
+### 10.4 iOS 远程数据层变化
+
+**新增组件**：
+
+| 组件 | 位置 | 职责 |
+|------|------|------|
+| `SupabaseClient` | Infrastructure/ | Supabase 连接配置 |
+| `RemoteTrendingDataSource` | Data/DataSources/ | 通过 Supabase API 获取远程数据 |
+| `SupabaseMapper` | Data/Mappers/ | Supabase JSON → TrendTopicEntity 映射 |
+
+**Repository 策略变更**：
+
+```swift
+// Phase 2: Remote-first, Local-cache
+func fetchTrending(platform: Platform) async throws -> TrendSnapshotEntity {
+    // 1. 检查本地缓存
+    if let cached = try await localDataSource.getLatestSnapshot(for: platform),
+       cached.isValid {
+        return cached
+    }
+    // 2. 请求远程
+    do {
+        let remote = try await remoteDataSource.fetchSnapshot(for: platform)
+        try await localDataSource.saveSnapshot(remote)  // 更新缓存
+        return remote
+    } catch {
+        // 3. 降级：返回过期缓存
+        if let expired = try await localDataSource.getLatestSnapshot(for: platform) {
+            return expired  // 带 isExpired 标记
+        }
+        throw error
+    }
+}
+```
+
+---
+
+## 11. 术语表
 
 | 术语 | 说明 |
 |------|------|
@@ -224,7 +384,11 @@ NavigationStack {
 | Compare / 对比页 | 交集/差集分析页 |
 | Topic | 热点话题实体 |
 | Snapshot | 某时刻某平台的完整热榜快照 |
-| Platform | 平台枚举（weibo, xiaohongshu, bilibili, douyin, x, zhihu） |
+| Platform | 平台枚举（根据实际数据源动态调整） |
 | Morphic Card | 变形卡片（非对称圆角 + 渐变光带） |
 | Heat Spectrum | 热度光谱（8 级颜色映射） |
 | Prismatic Flow | 棱镜流设计系统 |
+| Fetcher | 后端数据采集器（调用热榜 API 获取列表） |
+| Scraper | 后端正文抓取器（跟踪链接解析页面内容） |
+| Differ | 后端快照对比器（计算 rankChange 和 heatHistory） |
+| Heat Normalization | 热度值归一化（不同平台量级统一映射） |
