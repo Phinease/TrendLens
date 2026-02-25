@@ -1,0 +1,25 @@
+# Supabase Configuration — TrendLens
+# Copy this file to supabase.yaml and fill in your credentials.
+
+project:
+  url: "https://YOUR_PROJECT_REF.supabase.co"
+  region: "ap-southeast-1"
+
+keys:
+  publishable: "sb_publishable_xxx"
+  service_role: "sbp_xxx"
+
+database:
+  host: "db.YOUR_PROJECT_REF.supabase.co"
+  port: 5432
+  name: "postgres"
+  user: "postgres"
+  password: "YOUR_DATABASE_PASSWORD"
+  direct_url: "postgresql://postgres:YOUR_DATABASE_PASSWORD@db.YOUR_PROJECT_REF.supabase.co:5432/postgres"
+
+jina:
+  api_key: "jina_xxx"
+  model: "jina-embeddings-v3"
+  dimensions: 512
+  task: "text-matching"
+  endpoint: "https://api.jina.ai/v1/embeddings"

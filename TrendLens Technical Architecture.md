@@ -90,18 +90,24 @@ TrendLens/
 
 ### 后端（Python）
 
+> 详细技术栈说明见 [backend/docs/backend-architecture.md](backend/docs/backend-architecture.md) §3
+
 | 类别 | 技术 |
 |------|------|
 | 语言 | Python 3.12+ |
-| HTTP 客户端 | httpx（异步） |
+| 包管理 | uv |
+| HTTP 客户端 | httpx[http2,socks]（异步、代理支持） |
 | HTML 解析 | BeautifulSoup4 + lxml |
-| 正文提取 | readability-lxml / newspaper3k |
-| 数据库 | Supabase（PostgreSQL 15+） |
-| ORM/客户端 | supabase-py |
-| AI 摘要 | Claude API（anthropic-sdk） |
-| 调度 | APScheduler |
-| 日志 | Python logging + structlog |
-| 配置 | python-dotenv |
+| 中文分词 | jieba（POS 实体提取） |
+| 向量嵌入 | Jina Embeddings v3（512d） |
+| 数据库 | Supabase（PostgreSQL + pgvector） |
+| 存储接口 | PostgREST via httpx |
+| 数据验证 | Pydantic v2 |
+| 调度 | APScheduler v3 |
+| 重试 | tenacity |
+| 日志 | structlog（JSON） |
+| CLI | Click |
+| 配置 | PyYAML + 环境变量覆盖 |
 
 ---
 
@@ -161,15 +167,16 @@ View → ViewModel → UseCase → Repository ─→ RemoteDataSource (Supabase 
 ```
 
 ```
-[后端数据管道]
-Fetcher → Scraper → Processor → Snapshot → Supabase (PostgreSQL)
-  │          │          │
-  │          │          └─ 热度归一化、AI 摘要、标签提取
-  │          └─ 正文页面抓取
-  └─ 热榜列表 API 采集
-
-[快照对比]
-当前快照 + 上一快照 → Differ → rankChange / heatHistory 更新
+[后端数据管道] (详见 backend/docs/backend-architecture.md §4)
+Fetcher → Normalizer → Entity Extractor → Embedder → Storage → Scraper → Matcher
+  │           │              │                │          │          │         │
+  │           │              │                │          │          │         └─ 三信号融合 + Union-Find
+  │           │              │                │          │          └─ 内容抓取（5 平台，仅无 content 话题）
+  │           │              │                │          └─ PostgREST UPSERT
+  │           │              │                └─ Jina v3 512d（仅新话题）
+  │           │              └─ jieba POS 命名实体
+  │           └─ topic_key 三级降级 + 热度排名映射
+  └─ 7 平台并发采集（15 分钟间隔）
 ```
 
 ### 缓存策略
@@ -259,85 +266,91 @@ NavigationStack {
 
 ## 10. 后端架构（Python + Supabase）
 
-> **[权威定义]** 本章节为后端架构的唯一定义来源。
-> **详细数据源规范：** [backend/docs/hot-news-data-sources-v2.md](backend/docs/hot-news-data-sources-v2.md)
+> **[权威定义]** 本章节为后端架构的概述入口。
+> **完整后端架构文档：** [backend/docs/backend-architecture.md](backend/docs/backend-architecture.md)
+> **数据源规范：** [backend/docs/hot-news-data-sources-v2.md](backend/docs/hot-news-data-sources-v2.md)
+> **存储设计规范：** [backend/docs/data-storage-strategy.md](backend/docs/data-storage-strategy.md)
 > **数据需求文档：** [backend/docs/data-requirements.md](backend/docs/data-requirements.md)
 
 ### 10.1 后端目录结构
 
 ```
 backend/
-├── docs/                      # 文档
-│   ├── data-sources-v1.md     # 全量数据源调研
-│   ├── hot-news-data-sources-v2.md  # 选定接口规范
-│   └── data-requirements.md   # 数据需求与字段映射
-├── data/                      # 接口样本数据（开发参考）
-├── src/
-│   ├── fetchers/              # 阶段 1：热榜列表采集器（每源一个文件）
-│   ├── scrapers/              # 阶段 2：正文页面抓取器
-│   ├── parsers/               # 响应解析器（JSON / HTML / 内嵌数据）
-│   ├── processors/            # 数据处理（归一化、AI 摘要、标签提取）
-│   ├── storage/               # Supabase 存储层
-│   ├── differ/                # 快照对比（rankChange、heatHistory）
-│   ├── scheduler/             # 定时任务调度
-│   └── common/                # 通用工具（HTTP 客户端、日志、配置）
-├── tests/
+├── pyproject.toml                  # uv 项目定义 + 依赖
 ├── config/
-│   └── sources.yaml           # 数据源配置（URL、频率、启用状态）
-├── .env                       # 环境变量（Supabase URL/Key、API Token）
-├── requirements.txt
-└── main.py                    # 入口
+│   ├── supabase.yaml               # 密钥配置（gitignored）
+│   └── supabase.example.yaml       # 配置模板
+├── data/                           # 65 个 API 样本文件（开发验证用）
+├── docs/                           # 设计文档
+├── migrations/                     # SQL 迁移脚本
+├── logs/                           # 运行时日志（gitignored）
+└── src/
+    └── trendlens/                  # Python 包
+        ├── cli.py                  # Click CLI（run / serve / scrape / cleanup）
+        ├── config.py               # Pydantic 配置（YAML + env）
+        ├── constants.py            # 全局阈值与常量
+        ├── models.py               # RawTopic / FetchResult / NormalizedTopic
+        ├── pipeline.py             # 编排器：11 步完整管道（含 Step 6.5 内容抓取）
+        ├── scheduler.py            # APScheduler 持续调度
+        ├── log_setup.py            # structlog 日志配置
+        ├── fetchers/               # 7 个 P0 平台采集器 + 基础设施
+        ├── scraping/               # 7 个 P0 平台内容抓取器 + 编排器
+        ├── processing/             # normalizer + entity_extractor + embedder
+        ├── matching/               # 三信号融合匹配 + Union-Find
+        └── storage/                # PostgREST 客户端 + 6 个 store 模块
 ```
 
 ### 10.2 数据管道架构
 
 ```
-┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐
-│ Fetcher  │───→│ Parser   │───→│ Scraper  │───→│Processor │───→│ Storage  │
-│ 热榜API  │    │ 响应解析 │    │ 正文抓取 │    │ 后处理   │    │ Supabase │
-└──────────┘    └──────────┘    └──────────┘    └──────────┘    └──────────┘
-                                                     │               │
-                                                     │               ▼
-                                                     │          ┌──────────┐
-                                                     │          │ Differ   │
-                                                     │          │ 快照对比 │
-                                                     │          └──────────┘
-                                                     ▼
-                                              ┌─────────────┐
-                                              │ AI (Claude) │
-                                              │ 摘要 + 标签 │
-                                              └─────────────┘
+┌──────────┐  ┌────────────┐  ┌──────────┐  ┌─────────┐  ┌───────────┐  ┌──────────┐
+│ Fetcher  │→│ Normalizer │→│ Embedder │→│ Storage │→│  Scraper  │→│ Matcher  │
+│ 7平台并发 │  │ key+热度   │  │ Jina 512d│  │ UPSERT  │  │ 内容抓取   │  │ 三信号+UF │
+└──────────┘  └────────────┘  └──────────┘  └─────────┘  └───────────┘  └──────────┘
+      │              │                                         │
+      │              └─ jieba 实体提取                          └─ 5 平台并发（Sem=10）
+      │                                                          DB 过滤仅新话题
+      └─ tenacity 重试 + httpx HTTP/2 + SOCKS 代理
 ```
 
 **管道各阶段职责**：
 
-| 阶段 | 输入 | 输出 | 频率 |
-|------|------|------|------|
-| Fetcher | 数据源 API URL | 原始响应（JSON/HTML） | 每 15 分钟 |
-| Parser | 原始响应 | 结构化话题列表（title, heat, link...） | 同 Fetcher |
-| Scraper | 话题 link URL | 正文内容、图片、标签 | 每条话题 |
-| Processor | 原始字段 | 归一化热度、AI 摘要、提取标签 | 批量 |
-| Storage | 处理后话题 + 元数据 | Supabase 数据库记录 | 同 Fetcher |
-| Differ | 当前快照 + 前一快照 | rankChange、heatHistory 追加 | 同 Storage |
+| 阶段 | 模块 | 输入 | 输出 | 频率 |
+|------|------|------|------|------|
+| 采集 | `fetchers/` | 平台 API | `FetchResult` (RawTopic[]) | 每 15 分钟 |
+| 归一化 | `processing/normalizer.py` | RawTopic | NormalizedTopic (topic_key + heat) | 同采集 |
+| 实体提取 | `processing/entity_extractor.py` | 标题文本 | 命名实体列表 | 同采集 |
+| 嵌入 | `processing/embedder.py` | 标题文本 | 512 维向量 | 仅新话题 |
+| 存储 | `storage/` | NormalizedTopic | Supabase 6 张表 | 同采集 |
+| 内容抓取 | `scraping/` | DB 中无 content 的话题 | topics.content 列 | 仅新话题（Step 6.5） |
+| 匹配 | `matching/matcher.py` | 实体 + 向量 | event_clusters | 同采集 |
 
 ### 10.3 Supabase 集成
 
 **连接方式**：
 
-| 端 | SDK | 用途 |
+| 端 | 接口 | 用途 |
 |----|-----|------|
-| Python 后端 | `supabase-py` | 写入采集数据（insert/upsert） |
-| iOS 客户端 | `supabase-swift` | 读取数据（select + 实时订阅） |
+| Python 后端 | PostgREST via httpx | 写入采集数据（UPSERT/PATCH） |
+| iOS 客户端 | `supabase-swift` | 读取数据（SELECT + 实时订阅） |
 
-**Data API 配置**：
-- 已启用 Autogenerate RESTful API（public schema）
-- iOS 端通过 `SUPABASE_URL` + `SUPABASE_ANON_KEY` 连接
-- 后端通过 `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` 连接（绕过 RLS）
+**选择 PostgREST 的原因**：asyncpg 直连走 TCP 无法通过 SOCKS 代理，PostgREST 走 HTTP 可以。
 
 **安全策略**：
 - Row Level Security (RLS) 启用
-- anon key：只允许 SELECT（iOS 端只读）
-- service_role key：允许 INSERT/UPDATE/DELETE（仅后端使用，不暴露给客户端）
+- `anon` key：只允许 SELECT（iOS 端只读）
+- `service_role` key：允许 INSERT/UPDATE/DELETE（仅后端使用）
+
+**数据库 Schema（6 张表 + pgvector）**：
+
+| 表 | 用途 |
+|----|------|
+| `topics` | 话题主表（topic_key PK） |
+| `heat_history` | 热度时序数据 |
+| `topic_embeddings` | 512 维向量嵌入 |
+| `event_clusters` | 跨平台事件聚类 |
+| `snapshots_meta` | 快照元数据 |
+| `platform_config` | 平台配置 |
 
 ### 10.4 iOS 远程数据层变化
 
@@ -389,6 +402,12 @@ func fetchTrending(platform: Platform) async throws -> TrendSnapshotEntity {
 | Heat Spectrum | 热度光谱（8 级颜色映射） |
 | Prismatic Flow | 棱镜流设计系统 |
 | Fetcher | 后端数据采集器（调用热榜 API 获取列表） |
-| Scraper | 后端正文抓取器（跟踪链接解析页面内容） |
-| Differ | 后端快照对比器（计算 rankChange 和 heatHistory） |
-| Heat Normalization | 热度值归一化（不同平台量级统一映射） |
+| Scraper | 后端内容抓取器（为话题补充正文 content） |
+| topic_key | 话题唯一标识（三级降级：source_id → title hash） |
+| Normalizer | 归一化处理器（topic_key 生成 + 热度排名映射） |
+| Entity Extractor | jieba 命名实体提取器 |
+| Embedder | Jina 向量嵌入生成器（512 维） |
+| Matcher | 三信号融合跨平台匹配器 |
+| event_cluster | 跨平台事件聚类（≥2 个平台的相关话题集） |
+| Heat Normalization | 热度排名映射到 0..10,000,000（position_ratio^1.5） |
+| PostgREST | Supabase REST API 接口（后端写入通道） |

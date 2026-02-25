@@ -4,7 +4,7 @@
 > **阶段定义参考：** [TrendLens Development Plan.md](TrendLens%20Development%20Plan.md) 第 7 章
 >
 > **当前阶段：** 阶段 2 - 后端数据采集 + 远程数据集成
-> **最后更新：** 2026-02-23
+> **最后更新：** 2026-02-25
 
 ---
 
@@ -49,9 +49,10 @@ MockDataGenerator 动态数据生成（6 平台各 15 条话题）、FeedView/Co
 **设计文档**：
 - 数据源选型：[backend/docs/hot-news-data-sources-v2.md](backend/docs/hot-news-data-sources-v2.md)
 - 数据需求：[backend/docs/data-requirements.md](backend/docs/data-requirements.md)
+- 数据存储策略：[backend/docs/data-storage-strategy.md](backend/docs/data-storage-strategy.md)
 - 全量调研：[backend/docs/data-sources-v1.md](backend/docs/data-sources-v1.md)
 
-**技术栈**：Python 后端 + Supabase (PostgreSQL) + Supabase Data API
+**技术栈**：Python 后端 + Supabase (PostgreSQL + pgvector) + Jina Embeddings v3 + Supabase Data API
 
 **Supabase 配置**：
 - Project: TrendLens
@@ -63,14 +64,14 @@ MockDataGenerator 动态数据生成（6 平台各 15 条话题）、FeedView/Co
 
 **目标**：完善 hot-news-data-sources-v2.md，验证所有选定接口的可用性和数据完整度
 
-- [ ] **2.1.1 P0 核心源接口验证**（7 源 / 8 端点）
-  - [ ] zhihu — 知乎热榜列表 + 答案内容抓取
-  - [ ] baidu — 百度热搜列表 + 描述
-  - [ ] weibo — 微博热搜列表 + 搜索结果抓取（Cookie 维护方案）
-  - [ ] bilibili-hot-search — B 站热搜 + 搜索扩展
-  - [ ] bilibili-hot-video — B 站热门视频（API 全量）
-  - [ ] douyin — 抖音热搜（Client Token 获取验证）
-  - [ ] toutiao — 今日头条热榜 + 文章抓取
+- [x] **2.1.1 P0 核心源接口验证**（7 源）✅ — 2.3 采集器 + 2.3.9 内容抓取中全部验证
+  - [x] zhihu — 热榜列表 ✅ + 内容：热榜 excerpt（~80%）
+  - [x] baidu — 热搜列表 ✅ + 内容：description/rawUrl（100%）
+  - [x] weibo — 热搜列表 ✅（xxapi.cn）+ 内容：❌ 需登录，暂为 Stub
+  - [x] bilibili-hs — 热搜列表 ✅ + 内容：WBI 搜索 API（100%）
+  - [x] bilibili-hv — 热门视频 ✅ + 内容：API description（~30%）
+  - [x] douyin — 热搜列表 ✅（xxapi.cn）+ 内容：❌ JS 加密，暂为 Stub
+  - [x] toutiao — 热榜列表 ✅ + 内容：移动 info API（~30-65%）
 - [ ] **2.1.2 P1 补充源接口验证**（6 源）
   - [ ] sina-news, thepaper, tencent-hot, hackernews, 36kr-renqi, douban
 - [ ] **2.1.3 P2 延伸源接口验证**（7 源）
@@ -84,52 +85,124 @@ MockDataGenerator 动态数据生成（6 平台各 15 条话题）、FeedView/Co
 #### 2.2 数据库建模
 
 **目标**：基于 data-requirements.md 设计 Supabase 数据表
+**设计规范**：[data-storage-strategy.md](backend/docs/data-storage-strategy.md)
 
-- [ ] **2.2.1 确定热度值归一化方案**
-- [ ] **2.2.2 设计数据表结构**
-  - [ ] snapshots 表（快照记录）
-  - [ ] topics 表（话题主体）
-  - [ ] topic_content 表（话题内容，分表）
-  - [ ] heat_history 表（热度时间序列）
-  - [ ] platforms 表（平台配置）
-- [ ] **2.2.3 在 Supabase 中创建表和索引**
-- [ ] **2.2.4 配置 Row Level Security (RLS)**
-- [ ] **2.2.5 更新 data-requirements.md 第六章**
+- [x] **2.2.1 确定热度值归一化方案** — 排名映射 + 原始值保留（策略文档 §8）
+- [x] **2.2.1b 确定话题身份标识策略** — 混合优先级 topic_key（策略文档 §2）
+- [x] **2.2.1c 确定跨平台关联算法** — 三信号融合：时间窗口 + 实体匹配 + Jina 向量相似度（策略文档 §4）
+- [x] **2.2.2 设计数据表结构**（策略文档 §3）
+  - [x] platforms 表（平台配置）
+  - [x] topics 表（话题主体，UPSERT 模式）
+  - [x] heat_history 表（热度时间序列）
+  - [x] event_clusters 表（跨平台事件聚类）
+  - [x] topic_embeddings 表（pgvector 向量嵌入）
+  - [x] snapshots_meta 表（快照审计日志）
+- [x] **2.2.2b 设计 RLS 策略** — iOS 端 anon 只读，后端 service_role 写入（策略文档 §3.8）
+- [x] **2.2.2c 设计数据保留策略** — 7 天全精度 / 90 天降采样保留（策略文档 §7）
+- [x] **2.2.5 更新 data-requirements.md 第六章**
+- [x] **2.2.3 在 Supabase 中创建表和索引** — 6 张表 + pgvector HNSW 索引 + 20 平台种子数据
+- [x] **2.2.4 配置 Row Level Security (RLS)** — anon 只读 4 张公开表，embeddings/snapshots 仅 service_role
+- [ ] ~~2.2.6 配置 pg_cron 定时清理~~ — 免费版不支持，改由 Python 后端调度器执行
 
 ---
 
 #### 2.3 Python 后端开发
 
 **目标**：实现数据采集管道，定时抓取热榜数据存入 Supabase
+**技术栈**：uv + Python 3.14 / httpx / structlog / jieba / Jina Embeddings / Supabase PostgREST
+**代码位置**：`backend/src/trendlens/`（45 个 Python 源文件，7 个包）
 
-- [ ] **2.3.1 后端项目初始化**
-  - [ ] Python 项目结构（src/fetchers, src/scrapers, src/processors, src/storage）
-  - [ ] 依赖管理（requirements.txt / pyproject.toml）
-  - [ ] 配置管理（环境变量、数据源配置）
-  - [ ] 日志系统
-- [ ] **2.3.2 阶段 1 采集器（Fetcher）**
-  - [ ] 通用 HTTP 客户端（重试、超时、User-Agent 轮换）
-  - [ ] P0 核心源采集器（7 个）
-  - [ ] 响应解析器（JSON / HTML / 内嵌 JSON）
-- [ ] **2.3.3 阶段 2 正文抓取器（Scraper）**
-  - [ ] 通用正文提取器（基于 readability / newspaper3k）
-  - [ ] 各源专用页面解析器
-  - [ ] 图片 URL 提取
-- [ ] **2.3.4 数据处理器（Processor）**
-  - [ ] 热度值归一化
-  - [ ] AI 摘要生成（Claude API 集成）
-  - [ ] 关键词/标签提取
-  - [ ] 数据清洗（去 HTML、去广告、去重）
-- [ ] **2.3.5 快照与存储**
-  - [ ] 快照打包（聚合话题 + 元数据）
-  - [ ] Supabase 写入（supabase-py）
-  - [ ] 快照对比（rankChange 计算）
-  - [ ] 热度历史追加（heatHistory 累积）
-- [ ] **2.3.6 调度系统**
-  - [ ] 定时任务（每 15 分钟采集一次）
-  - [ ] 错误处理与重试策略
-  - [ ] 采集状态监控
-- [ ] **2.3.7 P1/P2 源扩展**
+- [x] **2.3.1 后端项目初始化** ✅
+  - [x] uv 项目结构 (`pyproject.toml` + `src/trendlens/` 布局)
+  - [x] 依赖管理 (httpx[http2,socks], beautifulsoup4, lxml, jieba, pydantic, click, apscheduler, tenacity, structlog)
+  - [x] 配置管理 (`config.py` — YAML + `TRENDLENS_*` 环境变量覆盖)
+  - [x] 日志系统 (`log_setup.py` — structlog JSON, 每次运行独立日志文件, 错误按日期归档)
+  - [x] CLI 入口 (`cli.py` — `run` / `serve` / `scrape` / `cleanup` 四命令)
+  - [x] 数据模型 (`models.py` — RawTopic / FetchResult / NormalizedTopic)
+  - [x] .gitignore 更新 (logs/, .venv/, __pycache__/)
+- [x] **2.3.2 采集器基础设施** ✅
+  - [x] BaseFetcher ABC + `@register_fetcher` 自动注册装饰器
+  - [x] 共享 httpx.AsyncClient (HTTP/2, SOCKS 代理, User-Agent 轮换)
+  - [x] tenacity 重试策略 (3 次指数退避, 仅重试网络/超时错误)
+- [x] **2.3.3 P0 核心源采集器** ✅ (5/7 已验证通过)
+  - [x] zhihu — 知乎热榜 (50 条) ✅ 已验证
+  - [x] baidu — 百度热搜 HTML 内嵌 JSON 解析 (51 条) ✅ 已验证
+  - [x] bilibili-hs — B 站热搜 (20 条) ✅ 已验证
+  - [x] bilibili-hv — B 站热门视频 (49 条) ✅ 已验证
+  - [x] toutiao — 今日头条热榜 (50 条) ✅ 已验证
+  - [x] weibo — 微博热搜 via xxapi.cn (52 条) ✅ 已验证
+  - [x] douyin — 抖音热搜 via xxapi.cn (50 条, 含 hot_value/图片) ✅ 已验证
+- [x] **2.3.4 数据处理管道** ✅
+  - [x] topic_key 三级降级生成 (source_id → URL → title hash)
+  - [x] 热度排名映射归一化 (0..10,000,000 指数衰减)
+  - [x] 标题规范化 (去标点/空白, 保留中英文数字, 小写化)
+  - [x] jieba 命名实体提取 (nr/ns/nt/nz/nrt/vn)
+  - [x] Jina API 批量嵌入 (64 条/批, 512 维, 失败降级)
+- [x] **2.3.5 存储层** ✅ (Supabase PostgREST via httpx)
+  - [x] PostgREST 客户端 (`client.py` — upsert/update/select/rpc)
+  - [x] topics UPSERT + heat_history APPEND (`topic_store.py`)
+  - [x] 下榜检测 (mark_offlist)
+  - [x] 向量嵌入存储 (`embedding_store.py`)
+  - [x] 事件聚类 CRUD (`cluster_store.py`)
+  - [x] 快照元数据 (`snapshot_store.py`)
+  - [x] 数据清理 (`maintenance.py` — 复刻 002_cron_jobs.sql)
+- [x] **2.3.6 匹配算法** ✅
+  - [x] 三信号融合 (实体 Jaccard 0.3 + 向量余弦 0.7, 阈值 0.65)
+  - [x] Union-Find 聚类
+  - [x] 实体候选生成 (内存倒排索引)
+  - [x] 向量候选生成 (RPC 函数预留, 当前降级为实体模式)
+- [x] **2.3.7 编排器 + 调度器** ✅
+  - [x] `pipeline.py` 完整流程 (fetch → normalize → entity → embed → upsert → **scrape** → offlist → match → snapshot)
+  - [x] `scheduler.py` APScheduler 持续模式 (每 15 分钟)
+  - [x] 并发控制 (asyncio.Semaphore=5)
+  - [x] 错误恢复 (单源失败不影响其他, 批量写入失败降级为逐条)
+
+> **首次端到端运行验证** (2026-02-25):
+> - 5 平台成功采集 220 条话题
+> - 220 条 Jina 嵌入生成 (4 批次, ~10s)
+> - 220 条 topics + heat_history 写入 Supabase
+> - 220 条向量嵌入存入 topic_embeddings
+> - 1 个跨平台事件聚类产生
+> - 5 条 snapshots_meta 记录
+> - 总耗时 ~29 秒
+>
+> **第二次运行** (weibo + douyin 切换 xxapi.cn 后):
+> - **7/7 平台全部成功**，323 条话题
+> - baidu (51), bilibili-hs (20), bilibili-hv (50), douyin (50), toutiao (50), weibo (52), zhihu (50)
+> - 124 条新嵌入 (仅新话题)，2 个跨平台聚类
+> - 下榜检测: baidu 4条, bilibili-hs 2条, toutiao 14条, zhihu 1条
+> - 总耗时 ~30 秒
+
+- [x] **2.3.8 数据源修复** ✅
+  - [x] weibo: 改用 xxapi.cn 免登录 API (52 条, 含热度值)
+  - [x] douyin: 改用 xxapi.cn 免登录 API (50 条, 含 hot_value/sentence_id/图片)
+- [x] **2.3.9 内容抓取 (Content Scraping)** ✅
+  - [x] NormalizedTopic 新增 `content` 字段，topic_store upsert 条件写入
+  - [x] 抓取框架 (`scraping/base.py` — BaseScraper ABC + `@register_scraper` 注册器)
+  - [x] HTML 工具 (`scraping/html_utils.py` — html_to_text, truncate, clean_content)
+  - [x] 7 平台 Scraper 实现:
+    - [x] bilibili-hv — 直接用 API 已有 description（~30% 话题有 desc）
+    - [x] zhihu — 用热榜 API 已有的 excerpt（~80% 话题有，常 200-800 字）
+    - [x] baidu — description > 50 字符直接用，否则抓取 rawUrl（100% 成功率）
+    - [x] toutiao — `m.toutiao.com/i{source_id}/info/` 移动 API（~30-65% 有文章内容，其余为话题聚合页无正文）
+    - [x] bilibili-hs — B 站 WBI 搜索 API `/wbi/search/type`（100% 成功率）
+    - [x] weibo — Stub（搜索 API 需登录，xxapi 无内容字段）
+    - [x] douyin — Stub（搜索页爬取复杂，按 v2 文档建议延后至 AI 摘要）
+  - [x] 编排器 (`scraping/scraper_manager.py` — 并发控制 Semaphore=10, DB 过滤去重)
+  - [x] Pipeline 集成 (Step 6.5: upsert 后、mark_offlist 前)
+  - [x] CLI `scrape` 独立命令 (`uv run python -m trendlens scrape`)
+  - [x] 常量: SCRAPE_CONCURRENCY_LIMIT=10, SCRAPE_TOP_N_PER_PLATFORM=20, SCRAPE_CONTENT_MAX_LENGTH=5000
+  - [x] 存储层 (`storage/content_store.py` — 查询无 content 话题 + 批量更新)
+
+> **Content Scraping 端到端验证** (2026-02-25):
+> - 完整管道含 Step 6.5, 7/7 平台, 323 话题, 47 条新内容写入
+> - baidu 20/20, bilibili-hs 8/8, toutiao 6/20, zhihu 11/20, bilibili-hv 2/20
+> - weibo/douyin 为 Stub（需登录/AI 摘要）
+> - 总管道耗时 ~43 秒（含 content scraping ~20 秒）
+
+- [ ] **2.3.10 待完成**
+  - [ ] 部署 Supabase RPC 函数 `match_topic_embedding` 以启用向量匹配
+- [ ] **2.3.11 P1/P2 源扩展** (后续)
   - [ ] 实现 P1 源（6 个）
   - [ ] 实现 P2 源（7 个）
   - [ ] 数据质量验证

@@ -27,3 +27,13 @@ Packages/
 # Secrets
 .env
 *.pem
+backend/config/supabase.yaml
+backend/config/jina.yaml
+backend/config/secrets.yaml
+
+# Python backend
+backend/logs/
+backend/.venv/
+__pycache__/
+*.pyc
+.python-version

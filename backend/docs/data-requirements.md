@@ -1,7 +1,9 @@
 # TrendLens 数据需求文档
 
 > **定位：** 管理全部数据类型、接口对接情况与数据表设计（持续更新的活文档）
-> **配套文档：** [hot-news-data-sources-v2.md](hot-news-data-sources-v2.md) — 数据源接口规范
+> **配套文档：**
+> - [hot-news-data-sources-v2.md](hot-news-data-sources-v2.md) — 数据源接口规范
+> - [data-storage-strategy.md](data-storage-strategy.md) — 数据存储策略（表设计、匹配算法）
 > **关联代码：** `TrendLens/Core/Domain/Entities/` — iOS 端实体定义
 > **最后更新：** 2026-02-23
 
@@ -255,27 +257,28 @@ API 仅返回列表摘要，需跟踪链接二次请求获取完整内容。
 
 ---
 
-## 六、数据表管理（规划中）
+## 六、数据表管理
 
-> **说明**：数据库建模将在数据源补充完成后统一进行。以下为初步规划框架。
+> **完整规范：** 表设计、索引、RLS 策略、数据保留策略均已在 [data-storage-strategy.md](data-storage-strategy.md) 中定义。
 
-### 6.1 预期表结构概览
+### 6.1 表结构概览
 
-| 表名（暂定） | 用途 | 主要字段 |
-|-------------|------|---------|
-| `snapshots` | 快照记录 | id, platform, fetched_at, valid_until, content_hash, etag |
-| `topics` | 话题主体 | id, snapshot_id, platform, title, heat_value, rank, link |
-| `topic_content` | 话题内容（分表） | topic_id, description, content, summary, image_urls, tags |
-| `heat_history` | 热度时间序列 | topic_id, timestamp, heat_value, rank |
-| `platforms` | 平台配置 | id, name, display_name, fetch_interval, enabled |
+| 表名 | 用途 | 主键 | 详见 |
+|-----|------|------|------|
+| `platforms` | 平台配置 | `id` (TEXT) | 策略文档 §3.2 |
+| `topics` | 话题主体（UPSERT） | `topic_key` (TEXT) | 策略文档 §3.3 |
+| `heat_history` | 热度时间序列 | `id` (BIGSERIAL) | 策略文档 §3.4 |
+| `event_clusters` | 跨平台事件聚类 | `cluster_id` (TEXT) | 策略文档 §3.5 |
+| `topic_embeddings` | 向量嵌入 (pgvector) | `topic_key` (TEXT) | 策略文档 §3.6 |
+| `snapshots_meta` | 快照审计日志 | `id` (TEXT) | 策略文档 §3.7 |
 
-### 6.2 待确认事项
+### 6.2 已确认事项
 
-- [ ] 热度值归一化方案选定
-- [ ] 话题去重策略（同一话题跨快照的识别方式）
-- [ ] 历史数据保留策略（保留多少天的 heat_history）
-- [ ] 是否需要分表存储不同平台的话题
-- [ ] 评论数据是否独立表存储
+- [x] 热度值归一化方案 — 排名映射 + 原始值保留（策略文档 §8）
+- [x] 话题身份标识策略 — 混合优先级 topic_key（策略文档 §2）
+- [x] 历史数据保留策略 — 7 天全精度 / 30 天降采样 / 30 天后删除（策略文档 §7）
+- [x] 不分表存储 — 所有平台话题在同一 `topics` 表，通过 `platform_id` 索引区分
+- [x] 评论数据 — Phase 2 暂不存储，后续独立表
 
 ---
 
@@ -284,3 +287,4 @@ API 仅返回列表摘要，需跟踪链接二次请求获取完整内容。
 | 日期 | 更新内容 |
 |------|---------|
 | 2026-02-23 | 初版创建：iOS 数据字段需求、数据类型分类、覆盖矩阵、管道设计 |
+| 2026-02-25 | 第六章更新：关联 data-storage-strategy.md，标记已确认事项 |

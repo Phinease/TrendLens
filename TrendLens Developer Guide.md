@@ -396,7 +396,68 @@ Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
 
 ---
 
-## 10. 相关文档
+## 10. Python 后端
+
+> 完整后端架构详见 [backend/docs/backend-architecture.md](backend/docs/backend-architecture.md)
+
+### 10.1 环境要求
+
+| 工具 | 版本 |
+|------|------|
+| Python | 3.12+ |
+| uv | 最新版 |
+
+### 10.2 安装与运行
+
+```bash
+# 安装依赖
+cd backend && uv sync
+
+# 单次运行 P0 源（7 个核心平台）
+uv run python -m trendlens run -p P0
+
+# 单次运行全部优先级
+uv run python -m trendlens run -p P0 -p P1 -p P2
+
+# 持续模式（每 15 分钟自动执行）
+uv run python -m trendlens serve
+
+# 手动清理过期数据
+uv run python -m trendlens cleanup
+```
+
+### 10.3 配置
+
+密钥配置文件：`backend/config/supabase.yaml`（从 `supabase.example.yaml` 复制）。
+
+环境变量 `TRENDLENS_*` 可覆盖 YAML 配置：
+
+| 环境变量 | 用途 |
+|---------|------|
+| `TRENDLENS_SUPABASE_URL` | Supabase 项目 URL |
+| `TRENDLENS_SERVICE_KEY` | service_role 密钥 |
+| `TRENDLENS_JINA_KEY` | Jina Embeddings API 密钥 |
+
+### 10.4 代理设置
+
+如需代理访问外部 API：
+
+```bash
+export https_proxy=http://127.0.0.1:7897
+export http_proxy=http://127.0.0.1:7897
+export all_proxy=socks5://127.0.0.1:7897
+```
+
+### 10.5 日志查看
+
+```bash
+ls backend/logs/runs/      # 每次运行的独立日志
+ls backend/logs/errors/    # 按日期的错误日志
+```
+
+---
+
+## 11. 相关文档
 
 | 文档 | 内容 |
 |------|------|
@@ -404,4 +465,5 @@ Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
 | [Technical Architecture.md](TrendLens%20Technical%20Architecture.md) | 技术规范（架构、并发、编码规范） |
 | [Testing Guide.md](TrendLens%20Testing%20Guide.md) | 测试策略与覆盖率要求 |
 | [UI Design System.md](TrendLens%20UI%20Design%20System.md) | UI 设计规范 |
+| [Backend Architecture.md](backend/docs/backend-architecture.md) | Python 后端架构 |
 | [Progress.md](TrendLens%20Progress.md) | 开发进度追踪 |

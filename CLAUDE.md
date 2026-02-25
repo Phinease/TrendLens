@@ -15,11 +15,17 @@ TrendLens 是一款跨平台热搜聚合应用，面向 iOS 26 / iPadOS 26 / mac
 
 完整产品规划与技术选型详见 [TrendLens Development Plan.md](TrendLens%20Development%20Plan.md)。
 
+**系统组成：**
+- **iOS 客户端**：SwiftUI 原生应用（Clean Architecture + MVVM）
+- **Python 后端**：数据采集管道（7 平台热榜 → 归一化 → 嵌入 → 匹配 → Supabase）
+
 ---
 
 ## 构建与测试
 
-所有构建、测试命令、Xcode 快捷键、代码示例详见 [TrendLens Developer Guide.md](TrendLens%20Developer%20Guide.md)。
+所有构建、测试、运行命令详见 [TrendLens Developer Guide.md](TrendLens%20Developer%20Guide.md)：
+- iOS 客户端：第 2-3 章
+- Python 后端：第 10 章
 
 ---
 
@@ -141,23 +147,7 @@ View → ViewModel → UseCase → Repository → DataSource
 
 ## 关键文件
 
-跨层修改时，优先查阅以下文件：
-
-**核心实体：**
-
-- [TrendLens/Core/Domain/Entities/Platform.swift](TrendLens/Core/Domain/Entities/Platform.swift) - 平台枚举
-- [TrendLens/Core/Domain/Entities/TrendTopic.swift](TrendLens/Core/Domain/Entities/TrendTopic.swift) - 话题实体与 SwiftData Model
-- [TrendLens/Core/Domain/Entities/TrendSnapshot.swift](TrendLens/Core/Domain/Entities/TrendSnapshot.swift) - 快照实体（含 TTL/ETag）
-
-**Repository 协议：**
-
-- [TrendLens/Core/Domain/Repositories/TrendingRepository.swift](TrendLens/Core/Domain/Repositories/TrendingRepository.swift)
-- [TrendLens/Core/Domain/Repositories/UserPreferenceRepository.swift](TrendLens/Core/Domain/Repositories/UserPreferenceRepository.swift)
-
-**基础设施：**
-
-- [TrendLens/Core/Infrastructure/Network/NetworkClient.swift](TrendLens/Core/Infrastructure/Network/NetworkClient.swift) - 网络层（ETag 支持）
-- [TrendLens/App/DependencyContainer.swift](TrendLens/App/DependencyContainer.swift) - DI 配置
+跨层修改时的文件索引详见 [TrendLens Key Files.md](TrendLens%20Key%20Files.md)，涵盖 iOS 客户端和 Python 后端全部关键文件。
 
 ---
 
@@ -197,6 +187,8 @@ View → ViewModel → UseCase → Repository → DataSource
 | [Testing Guide.md](TrendLens%20Testing%20Guide.md) | 测试策略总览、覆盖率要求 | 测试框架变更、质量要求调整 |
 | [TrendLensTests Architecture.md](TrendLensTests%20Architecture.md) | 单元测试实现细节（从属于 Testing Guide） | 测试架构变化 |
 | [UI Design System.md](TrendLens%20UI%20Design%20System.md) | UI 视觉设计规范、组件设计 | 设计语言变化 |
+| [Backend Architecture.md](backend/docs/backend-architecture.md) | Python 后端架构（管道、模块、存储、匹配） | 后端架构变更 |
+| [Key Files.md](TrendLens%20Key%20Files.md) | 关键文件索引（iOS + 后端） | 新增关键模块时 |
 | [Progress.md](TrendLens%20Progress.md) | 当前待办、开发进展追踪（唯一权威） | 每次开发完成后 |
 | [CLAUDE.md](CLAUDE.md)（本文件） | Claude Code 工作指引（引用式导航） | 文档结构调整 |
 
@@ -221,6 +213,14 @@ View → ViewModel → UseCase → Repository → DataSource
 | 阶段定义 | Development Plan.md | 第7章 |
 | 当前任务 | Progress.md | 全文 |
 | BaaS 策略 | Development Plan.md | 第5章 |
+| 关键文件索引 | Key Files.md | 全文 |
+| 后端管道架构 | Backend Architecture.md | 全文 |
+| Fetcher 设计 | Backend Architecture.md | §5.1 |
+| topic_key / 热度归一化 | Backend Architecture.md | §5.2 |
+| 匹配算法 | Backend Architecture.md | §5.5 |
+| 后端常量阈值 | Backend Architecture.md | §7 |
+| 数据库 Schema | data-storage-strategy.md | 全文 |
+| 数据源接口 | hot-news-data-sources-v2.md | 全文 |
 
 ### 开发完成后的文档更新流程
 
