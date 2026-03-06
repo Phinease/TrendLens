@@ -28,11 +28,26 @@ class JinaConfig(BaseModel):
     endpoint: str = "https://api.jina.ai/v1/embeddings"
 
 
+class LLMConfig(BaseModel):
+    api_key: str = ""
+    model: str = "claude-haiku-4-5-20251001"
+    endpoint: str = "https://api.anthropic.com"
+    max_tokens: int = 1024
+
+
+class TrendConfig(BaseModel):
+    enabled: bool = True
+    google_geo: str = ""
+    google_language: str = "zh-CN"
+
+
 class AppConfig(BaseModel):
     supabase_url: str = ""
     service_role_key: str = ""
     database: DatabaseConfig = Field(default_factory=DatabaseConfig)
     jina: JinaConfig = Field(default_factory=JinaConfig)
+    llm: LLMConfig = Field(default_factory=LLMConfig)
+    trend: TrendConfig = Field(default_factory=TrendConfig)
 
 
 def load_config(config_path: Path | None = None) -> AppConfig:
@@ -47,6 +62,8 @@ def load_config(config_path: Path | None = None) -> AppConfig:
     keys = raw.get("keys", {})
     db_raw = raw.get("database", {})
     jina_raw = raw.get("jina", {})
+    llm_raw = raw.get("llm", {})
+    trend_raw = raw.get("trend", {})
 
     db = DatabaseConfig(
         host=os.getenv("TRENDLENS_DB_HOST", db_raw.get("host", "")),
@@ -65,9 +82,24 @@ def load_config(config_path: Path | None = None) -> AppConfig:
         endpoint=jina_raw.get("endpoint", "https://api.jina.ai/v1/embeddings"),
     )
 
+    llm = LLMConfig(
+        api_key=os.getenv("TRENDLENS_LLM_KEY", llm_raw.get("api_key", "")),
+        model=os.getenv("TRENDLENS_LLM_MODEL", llm_raw.get("model", "claude-haiku-4-5-20251001")),
+        endpoint=llm_raw.get("endpoint", "https://api.anthropic.com"),
+        max_tokens=int(llm_raw.get("max_tokens", 1024)),
+    )
+
+    trend = TrendConfig(
+        enabled=trend_raw.get("enabled", True),
+        google_geo=trend_raw.get("google_geo", ""),
+        google_language=trend_raw.get("google_language", "zh-CN"),
+    )
+
     return AppConfig(
         supabase_url=os.getenv("TRENDLENS_SUPABASE_URL", project.get("url", "")),
         service_role_key=os.getenv("TRENDLENS_SERVICE_KEY", keys.get("service_role", "")),
         database=db,
         jina=jina,
+        llm=llm,
+        trend=trend,
     )

@@ -79,6 +79,10 @@
 | [backend/src/trendlens/processing/normalizer.py](backend/src/trendlens/processing/normalizer.py) | topic_key 生成 + 热度归一化 |
 | [backend/src/trendlens/processing/entity_extractor.py](backend/src/trendlens/processing/entity_extractor.py) | jieba POS 命名实体提取 |
 | [backend/src/trendlens/processing/embedder.py](backend/src/trendlens/processing/embedder.py) | Jina API 批量嵌入（512d） |
+| [backend/src/trendlens/processing/llm_client.py](backend/src/trendlens/processing/llm_client.py) | Anthropic Messages API 异步客户端 |
+| [backend/src/trendlens/processing/quality_filter.py](backend/src/trendlens/processing/quality_filter.py) | LLM 内容质量过滤（编号拒绝列表） |
+| [backend/src/trendlens/processing/keyword_extractor.py](backend/src/trendlens/processing/keyword_extractor.py) | AI 关键词提取（jieba + LLM + 去重） |
+| [backend/src/trendlens/processing/trend_collector.py](backend/src/trendlens/processing/trend_collector.py) | Google Trends 数据采集（pytrends + asyncio.to_thread） |
 
 ### 匹配与聚类
 
@@ -96,7 +100,9 @@
 | [backend/src/trendlens/storage/embedding_store.py](backend/src/trendlens/storage/embedding_store.py) | topic_embeddings 读写 |
 | [backend/src/trendlens/storage/cluster_store.py](backend/src/trendlens/storage/cluster_store.py) | event_clusters 创建/合并 |
 | [backend/src/trendlens/storage/snapshot_store.py](backend/src/trendlens/storage/snapshot_store.py) | snapshots_meta 写入 |
+| [backend/src/trendlens/storage/trend_store.py](backend/src/trendlens/storage/trend_store.py) | 趋势关键词/数据 CRUD + 清理 |
 | [backend/src/trendlens/storage/maintenance.py](backend/src/trendlens/storage/maintenance.py) | 数据清理 |
+| [backend/src/trendlens/trend_pipeline.py](backend/src/trendlens/trend_pipeline.py) | 趋势数据采集独立管道（60 分钟周期） |
 
 ---
 
@@ -110,3 +116,4 @@
 | [backend/docs/hot-news-data-sources-v2.md](backend/docs/hot-news-data-sources-v2.md) | 20 个数据源接口规范 |
 | [backend/migrations/001_init_tables.sql](backend/migrations/001_init_tables.sql) | 数据库 Schema（6 张表 + pgvector） |
 | [backend/migrations/002_cron_jobs.sql](backend/migrations/002_cron_jobs.sql) | 定时清理 SQL |
+| [backend/migrations/003_trend_tables.sql](backend/migrations/003_trend_tables.sql) | 趋势数据表（3 张 + RPC + RLS） |

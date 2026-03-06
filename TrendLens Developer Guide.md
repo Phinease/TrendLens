@@ -419,14 +419,32 @@ uv run python -m trendlens run -p P0
 # 单次运行全部优先级
 uv run python -m trendlens run -p P0 -p P1 -p P2
 
-# 持续模式（每 15 分钟自动执行）
+# 持续模式（每 15 分钟自动执行主管道 + 每 60 分钟趋势采集）
 uv run python -m trendlens serve
 
 # 手动清理过期数据
 uv run python -m trendlens cleanup
 ```
 
-### 10.3 配置
+### 10.3 趋势数据操作
+
+```bash
+# 为现有话题提取关键词（LLM 驱动，需要 LLM API key）
+uv run python -m trendlens extract-keywords        # 全部在榜话题
+uv run python -m trendlens extract-keywords -n 20   # 限制 20 个话题
+
+# 采集 Google Trends 数据（每批 5 个关键词，间隔 65 秒）
+uv run python -m trendlens collect-trends              # 默认最多 20 批
+uv run python -m trendlens collect-trends --max-batches 5  # 限制 5 批
+
+# 内容抓取（为话题补充正文摘要）
+uv run python -m trendlens scrape -n 30    # 抓取 30 个话题的内容
+```
+
+> **完整管道** `run` 命令已包含关键词提取步骤（Step 6.3），无需单独执行 `extract-keywords`。
+> `collect-trends` 是独立的趋势采集命令，在 `serve` 模式下每 60 分钟自动执行。
+
+### 10.4 配置
 
 密钥配置文件：`backend/config/supabase.yaml`（从 `supabase.example.yaml` 复制）。
 
@@ -437,8 +455,10 @@ uv run python -m trendlens cleanup
 | `TRENDLENS_SUPABASE_URL` | Supabase 项目 URL |
 | `TRENDLENS_SERVICE_KEY` | service_role 密钥 |
 | `TRENDLENS_JINA_KEY` | Jina Embeddings API 密钥 |
+| `TRENDLENS_LLM_KEY` | LLM API 密钥（Anthropic 或兼容转发） |
+| `TRENDLENS_LLM_MODEL` | LLM 模型名（默认 claude-haiku-4-5-20251001） |
 
-### 10.4 代理设置
+### 10.5 代理设置
 
 如需代理访问外部 API：
 
@@ -448,7 +468,7 @@ export http_proxy=http://127.0.0.1:7897
 export all_proxy=socks5://127.0.0.1:7897
 ```
 
-### 10.5 日志查看
+### 10.6 日志查看
 
 ```bash
 ls backend/logs/runs/      # 每次运行的独立日志

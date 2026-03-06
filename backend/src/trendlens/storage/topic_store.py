@@ -46,7 +46,7 @@ async def upsert_topics(client: SupabaseClient, topics: list[NormalizedTopic]) -
             row["content"] = t.content
         topic_rows.append(row)
 
-    # Upsert topics in batches of 50
+    # Upsert topics in batches of 50, fallback to row-by-row on failure
     upserted = 0
     for i in range(0, len(topic_rows), 50):
         batch = topic_rows[i : i + 50]
@@ -54,7 +54,13 @@ async def upsert_topics(client: SupabaseClient, topics: list[NormalizedTopic]) -
             result = await client.insert("topics", batch, upsert=True, on_conflict="topic_key")
             upserted += len(result)
         except Exception as exc:
-            log.error("topic_store.upsert_error", batch_start=i, error=str(exc))
+            log.warning("topic_store.upsert_batch_fail", batch_start=i, error=str(exc))
+            for row in batch:
+                try:
+                    result = await client.insert("topics", [row], upsert=True, on_conflict="topic_key")
+                    upserted += len(result)
+                except Exception as row_exc:
+                    log.error("topic_store.upsert_row_fail", topic_key=row["topic_key"], error=str(row_exc))
 
     # Append heat_history
     heat_rows = []
@@ -65,6 +71,7 @@ async def upsert_topics(client: SupabaseClient, topics: list[NormalizedTopic]) -
             "timestamp": ts,
             "heat_value": t.heat_value,
             "rank": t.rank,
+            "raw_heat_value": t.raw_heat_value,
         })
 
     for i in range(0, len(heat_rows), 50):
@@ -72,10 +79,40 @@ async def upsert_topics(client: SupabaseClient, topics: list[NormalizedTopic]) -
         try:
             await client.insert("heat_history", batch, upsert=True, on_conflict="topic_key,timestamp", ignore_duplicates=True)
         except Exception as exc:
-            log.error("topic_store.heat_history_error", batch_start=i, error=str(exc))
+            log.warning("topic_store.heat_batch_fail", batch_start=i, error=str(exc))
+            for row in batch:
+                try:
+                    await client.insert("heat_history", [row], upsert=True, on_conflict="topic_key,timestamp", ignore_duplicates=True)
+                except Exception as row_exc:
+                    log.error("topic_store.heat_row_fail", topic_key=row["topic_key"], error=str(row_exc))
 
     log.info("topic_store.upserted", count=upserted, total=len(topics))
     return upserted
+
+
+async def update_tags(client: SupabaseClient, topic_key: str, tags: list[str]) -> bool:
+    """Set the tags column for a single topic. Returns True on success."""
+    filters = f"topic_key=eq.{quote(topic_key)}"
+    try:
+        await client.update("topics", {"tags": tags}, filters)
+        return True
+    except Exception as exc:
+        log.error("topic_store.update_tags_error", topic_key=topic_key, error=str(exc))
+        return False
+
+
+async def batch_update_tags(client: SupabaseClient, updates: dict[str, list[str]]) -> int:
+    """Update tags for multiple topics. Returns count of successful updates.
+
+    *updates* is a dict of {topic_key: [tag, ...]}.
+    """
+    success = 0
+    for topic_key, tags in updates.items():
+        if await update_tags(client, topic_key, tags):
+            success += 1
+    if updates:
+        log.info("topic_store.batch_tags_done", total=len(updates), success=success)
+    return success
 
 
 async def mark_offlist(client: SupabaseClient, platform_id: str, on_list_keys: list[str]) -> int:

@@ -23,3 +23,14 @@ jina:
   dimensions: 512
   task: "text-matching"
   endpoint: "https://api.jina.ai/v1/embeddings"
+
+llm:
+  api_key: "sk-ant-xxx"
+  model: "claude-haiku-4-5-20251001"
+  endpoint: "https://api.anthropic.com"
+  max_tokens: 1024
+
+trend:
+  enabled: true
+  google_geo: ""
+  google_language: "zh-CN"

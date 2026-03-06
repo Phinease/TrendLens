@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from urllib.parse import quote
 
 import structlog
@@ -10,6 +11,18 @@ from trendlens.constants import SCRAPE_TOP_N_PER_PLATFORM
 from trendlens.storage.client import SupabaseClient
 
 log = structlog.get_logger()
+
+
+def _normalize_text(text: str) -> str:
+    """Strip and collapse whitespace for comparison."""
+    return re.sub(r"\s+", "", text.strip())
+
+
+def _is_duplicate_content(content: str, description: str) -> bool:
+    """Check if scraped content is essentially the same as the description."""
+    if not content or not description:
+        return False
+    return _normalize_text(content) == _normalize_text(description)
 
 
 async def get_topics_without_content(
@@ -64,15 +77,23 @@ async def update_content(
 async def batch_update_content(
     client: SupabaseClient,
     updates: list[tuple[str, str]],
+    descriptions: dict[str, str] | None = None,
 ) -> int:
     """Update content for multiple topics. Returns count of successful updates.
 
     *updates* is a list of (topic_key, content) tuples.
+    *descriptions* maps topic_key → description for dedup checking.
+    Content that duplicates the description is skipped.
     """
     success = 0
+    skipped = 0
     for topic_key, content in updates:
+        desc = descriptions.get(topic_key, "") if descriptions else ""
+        if desc and _is_duplicate_content(content, desc):
+            skipped += 1
+            continue
         if await update_content(client, topic_key, content):
             success += 1
     if updates:
-        log.info("content_store.batch_done", total=len(updates), success=success)
+        log.info("content_store.batch_done", total=len(updates), success=success, dedup_skipped=skipped)
     return success

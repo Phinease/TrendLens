@@ -219,6 +219,7 @@ CREATE TABLE heat_history (
     topic_key       TEXT NOT NULL REFERENCES topics(topic_key) ON DELETE CASCADE,
     timestamp       TIMESTAMPTZ NOT NULL,
     heat_value      INT,
+    raw_heat_value  TEXT,                      -- 平台原始热度值（保留原始信息）
     rank            INT,
 
     UNIQUE(topic_key, timestamp)
@@ -293,6 +294,68 @@ CREATE TABLE snapshots_meta (
 CREATE INDEX idx_snapshots_platform_time ON snapshots_meta(platform_id, fetched_at DESC);
 ```
 
+### 3.9 trend_keywords — 趋势搜索关键词
+
+```sql
+CREATE TABLE trend_keywords (
+    keyword_id      TEXT PRIMARY KEY,              -- 归一化关键词文本作为 ID（自然去重）
+    keyword         TEXT NOT NULL,                 -- 关键词显示形式
+    language        TEXT NOT NULL DEFAULT 'zh',
+    source          TEXT NOT NULL DEFAULT 'llm',   -- 'jieba' / 'llm' / 'manual'
+    embedding       vector(512),                   -- Jina 嵌入（去重用）
+    last_queried_at TIMESTAMPTZ,                   -- 上次查询 Google Trends 时间
+    query_hit_rate  REAL NOT NULL DEFAULT 0,       -- Google Trends 有效数据比率
+    is_active       BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX idx_trend_keywords_active ON trend_keywords(is_active, last_queried_at ASC NULLS FIRST);
+CREATE INDEX idx_trend_keywords_embedding ON trend_keywords
+    USING hnsw (embedding vector_cosine_ops) WITH (m = 16, ef_construction = 64)
+    WHERE embedding IS NOT NULL;
+```
+
+### 3.10 topic_trend_links — 话题-关键词多对多关联
+
+```sql
+CREATE TABLE topic_trend_links (
+    topic_key       TEXT NOT NULL REFERENCES topics(topic_key) ON DELETE CASCADE,
+    keyword_id      TEXT NOT NULL REFERENCES trend_keywords(keyword_id) ON DELETE CASCADE,
+    relevance       REAL NOT NULL DEFAULT 1.0,     -- LLM 分配的相关度 0.0-1.0
+    source          TEXT NOT NULL DEFAULT 'llm',
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    PRIMARY KEY (topic_key, keyword_id)
+);
+
+CREATE INDEX idx_topic_trend_links_keyword ON topic_trend_links(keyword_id);
+```
+
+### 3.11 trend_data — 趋势时序数据（数组存储）
+
+每个关键词的完整时序数据存储在一行中（`timestamps[]` + `trend_values[]`），大幅减少行数。
+
+```sql
+CREATE TABLE trend_data (
+    keyword_id   TEXT NOT NULL REFERENCES trend_keywords(keyword_id) ON DELETE CASCADE,
+    data_source  TEXT NOT NULL DEFAULT 'google_trends',
+    resolution   TEXT NOT NULL DEFAULT 'hourly',
+    geo          TEXT NOT NULL DEFAULT '',       -- '' = 全球, 'CN' = 中国
+    timestamps   TIMESTAMPTZ[] NOT NULL DEFAULT '{}',   -- 时间序列
+    trend_values INT[] NOT NULL DEFAULT '{}',           -- Google Trends 相对值 (0-100)
+    queried_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    created_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    PRIMARY KEY (keyword_id, data_source, resolution, geo)
+);
+
+CREATE INDEX idx_trend_data_queried ON trend_data(queried_at DESC);
+```
+
+> **关键词提取算法**：Claude LLM 直接提取（按 20 条/批，提取具体可搜索关键词）→ 停用词过滤（1860 词标准停用词表 + 领域补充词表）→ 精确字符串去重
+>
+> **趋势数据采集**：每 60 分钟通过 Google Trends（pytrends + asyncio.to_thread）查询活跃关键词，5 个/批，65 秒间隔。每个关键词的时序数据以数组形式存储在一行中。
+>
+> **iOS 端展示**：`get_topic_trend_data` RPC 一次调用获取话题的全部趋势数据（JOIN 穿透 topic_trend_links → trend_keywords → trend_data），每行返回一个关键词的完整时序数组
+
 ### 3.8 Row Level Security 配置
 
 ```sql
@@ -309,6 +372,14 @@ CREATE POLICY "anon_read_platforms" ON platforms FOR SELECT TO anon USING (true)
 CREATE POLICY "anon_read_topics" ON topics FOR SELECT TO anon USING (true);
 CREATE POLICY "anon_read_heat_history" ON heat_history FOR SELECT TO anon USING (true);
 CREATE POLICY "anon_read_clusters" ON event_clusters FOR SELECT TO anon USING (true);
+
+-- 趋势数据表：客户端只读
+ALTER TABLE trend_keywords ENABLE ROW LEVEL SECURITY;
+ALTER TABLE topic_trend_links ENABLE ROW LEVEL SECURITY;
+ALTER TABLE trend_data ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "anon_read_trend_keywords" ON trend_keywords FOR SELECT TO anon USING (true);
+CREATE POLICY "anon_read_topic_trend_links" ON topic_trend_links FOR SELECT TO anon USING (true);
+CREATE POLICY "anon_read_trend_data" ON trend_data FOR SELECT TO anon USING (true);
 
 -- topic_embeddings 和 snapshots_meta 对客户端不可见（不设 anon 策略）
 
@@ -612,6 +683,7 @@ Python INSERT topic (无 embedding)
 | **CompareView — 跨平台事件列表** | `event_clusters?is_active=eq.true&order=max_heat.desc` | 活跃事件排序 |
 | **CompareView — 事件详情** | `topics?cluster_id=eq.evt_xxx&is_on_list=eq.true&order=platform_id,rank` | **一条语句拉出所有平台报道** |
 | **SearchView** | `topics?title=ilike.*关键词*&is_on_list=eq.true` | ILIKE 模糊搜索 |
+| **DataAnalyseView — 全网趋势** | `rpc/get_topic_trend_data?p_topic_key=xxx` | RPC 穿透桥接表获取趋势数据 |
 
 ### 6.3 Supabase Swift SDK 示例
 
@@ -685,6 +757,10 @@ Supabase 返回的 JSON 直接映射到 iOS Domain Entity，无需额外转换�
 | **event_clusters** (is_active=FALSE) | 保留 90 天 | pg_cron 每日清理 |
 | **topic_embeddings** | 随 topics 级联删除 | 自动（ON DELETE CASCADE） |
 | **snapshots_meta** | 保留 14 天 | pg_cron 每日清理 |
+| **trend_data** | 全精度保留 7 天 | Python 后端调度器 |
+| **trend_data** (降采样) | 7-90 天：每天一个点 | downsample_trend_data RPC |
+| **trend_data** (>90天) | 删除 | Python 后端调度器 |
+| **trend_keywords** (无关联) | 30 天无关联后停用 | Python 后端调度器 |
 
 ### 7.2 定期维护任务
 

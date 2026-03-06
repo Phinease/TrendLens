@@ -14,6 +14,7 @@ from trendlens.config import AppConfig
 from trendlens.constants import (
     OFFLIST_RETENTION_DAYS,
     SNAPSHOT_RETENTION_DAYS,
+    TREND_DATA_RETENTION_DAYS,
 )
 from trendlens.storage.client import close_client, get_client
 
@@ -53,6 +54,14 @@ async def run_cleanup(cfg: AppConfig) -> None:
             log.info("maintenance.offlist_cleaned", cutoff=cutoff_offlist)
         except Exception as exc:
             log.error("maintenance.offlist_error", error=str(exc))
+
+        # 4. Trend data cleanup
+        try:
+            from trendlens.storage.trend_store import cleanup_trend_data
+            await cleanup_trend_data(client, TREND_DATA_RETENTION_DAYS)
+            log.info("maintenance.trend_data_cleaned")
+        except Exception as exc:
+            log.error("maintenance.trend_data_error", error=str(exc))
 
         log.info("maintenance.done")
     finally:

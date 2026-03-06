@@ -45,7 +45,15 @@ async def store_embeddings(
             )
             stored += len(result)
         except Exception as exc:
-            log.error("embedding_store.error", batch_start=i, error=str(exc))
+            log.warning("embedding_store.batch_fail", batch_start=i, error=str(exc))
+            for row in batch:
+                try:
+                    result = await client.insert(
+                        "topic_embeddings", [row], upsert=True, on_conflict="topic_key"
+                    )
+                    stored += len(result)
+                except Exception as row_exc:
+                    log.error("embedding_store.row_fail", topic_key=row["topic_key"], error=str(row_exc))
 
     log.info("embedding_store.done", stored=stored, total=len(to_store))
     return stored

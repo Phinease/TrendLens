@@ -4,7 +4,7 @@
 > **阶段定义参考：** [TrendLens Development Plan.md](TrendLens%20Development%20Plan.md) 第 7 章
 >
 > **当前阶段：** 阶段 2 - 后端数据采集 + 远程数据集成
-> **最后更新：** 2026-02-25
+> **最后更新：** 2026-02-27
 
 ---
 
@@ -200,16 +200,38 @@ MockDataGenerator 动态数据生成（6 平台各 15 条话题）、FeedView/Co
 > - weibo/douyin 为 Stub（需登录/AI 摘要）
 > - 总管道耗时 ~43 秒（含 content scraping ~20 秒）
 
-- [ ] **2.3.10 Content 质量过滤**
-  - [ ] 在 scrape 后新增拦截模块，过滤劣质 content（过短、乱码、广告、重复模板等）
-  - [ ] 定义质量阈值与过滤规则（最小长度、信息密度、黑名单模式等）
-  - [ ] 劣质数据不写入 DB，记录日志供后续分析
-- [ ] **2.3.11 热力数据采集**
-  - [ ] 采集各平台话题的热力值时序数据（当前仅有首次入榜时的 heat_value）
-  - [ ] 评估是否需要更高频率采集热力变化（如 5 分钟间隔）
-- [ ] **2.3.12 Tag 数据补充**
-  - [ ] 分析或获取各话题的 tag/分类数据（当前仅 bilibili-hv/toutiao 有部分 tags）
-  - [ ] 评估：从平台 API 直接获取 vs 基于标题/内容自动生成 tags
+- [x] **2.3.10 Content 质量过滤** ✅
+  - [x] LLM 编号过滤法（`processing/quality_filter.py`）：标题+描述编号 → LLM 输出拒绝编号列表
+  - [x] Pipeline 集成 Step 2.5：归一化后、实体提取前，被过滤 topic 不进入后续步骤
+  - [x] content = description 去重：`content_store.batch_update_content` 写入前比对，重复则跳过
+  - [x] `scraper_manager.py` 传入 description 供 content_store 比对
+  - [x] CLI `filter-quality` 命令（dry-run 查看过滤效果）
+  - [x] CLI `truncate-all` 命令（清空全部数据表，应用未上线重置）
+  - [x] `SupabaseClient.delete()` 方法
+  - [x] 常量：`QUALITY_FILTER_BATCH_SIZE=50`, `QUALITY_LLM_TEMPERATURE=0.1`
+  - [x] 文档更新：backend-architecture.md §4 管道流程 + §5.7 Quality Filter
+- [x] **2.3.11 热力数据采集** ✅
+  - [x] 数据库迁移（`003_trend_tables.sql`）：trend_keywords / topic_trend_links / trend_data 三张新表 + RPC + RLS
+  - [x] heat_history 增强：新增 raw_heat_value 列（ALTER TABLE + topic_store 写入）
+  - [x] LLM 客户端（`processing/llm_client.py`）：httpx 异步封装 Anthropic Messages API + tenacity 重试
+  - [x] AI 关键词提取（`processing/keyword_extractor.py`）：jieba 粗提取 → LLM 语境扩展 → 精确字符串去重
+  - [x] 停用词过滤：标准中文停用词表（哈工大+百度+cn, 1860 词）+ 趋势领域补充词表（`data/stopwords_zh.txt` + `data/trend_stopwords.txt`）
+  - [x] LLM Prompt 优化：明确禁止泛化行业词、通用概念词、情感短语
+  - [x] 趋势数据存储（`storage/trend_store.py`）：keywords/links/data CRUD + 查询统计 + 清理
+  - [x] Google Trends 采集器（`processing/trend_collector.py`）：pytrends + asyncio.to_thread + 限流 + 降级
+  - [x] 趋势管道（`trend_pipeline.py`）：独立 60 分钟周期
+  - [x] 主管道集成：Step 6.3 关键词提取 + 存储（pipeline.py）
+  - [x] 调度器集成：trend_cycle 60 分钟 job（scheduler.py）
+  - [x] CLI 新增 `extract-keywords` / `collect-trends` 命令
+  - [x] trend_data 数组存储重构（`004_trend_data_array.sql`）：per-point → per-keyword，timestamps[] + trend_values[]
+  - [x] 维护集成：trend_data 清理 + 关键词停用（maintenance.py）
+  - [x] 配置：LLMConfig / TrendConfig 新增（config.py, constants.py, supabase.example.yaml）
+  - [x] 依赖：pytrends>=4.9（pyproject.toml）
+- [x] **2.3.12 Tag 数据补充** ✅
+  - [x] LLM 内容分类：15 个预设类别（`CONTENT_CATEGORIES`），与关键词提取合并到同一 LLM 调用
+  - [x] Tag 合并算法（`merge_tags()`）：categories ∪ keywords ∪ platform_tags → `topics.tags`
+  - [x] 抖音状态标签过滤（`DOUYIN_STATUS_LABELS`：新/推荐/热/爆/首映）
+  - [x] 批量写入（`batch_update_tags()`）：pipeline Step 6.4 + CLI extract-keywords
 - [ ] **2.3.13 向量嵌入存储验证**
   - [ ] 确认 Supabase 免费版对 pgvector 的支持情况（存储上限、HNSW 索引限制）
   - [ ] 验证当前 topic_embeddings 写入是否正常持久化

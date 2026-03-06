@@ -80,7 +80,8 @@ backend/
         ├── processing/             # 数据处理
         │   ├── normalizer.py       # topic_key 生成 + 热度归一化
         │   ├── entity_extractor.py # jieba 实体提取
-        │   └── embedder.py         # Jina API 批量嵌入
+        │   ├── embedder.py         # Jina API 批量嵌入
+        │   ├── quality_filter.py   # LLM 内容质量过滤
         ├── matching/               # 跨平台匹配
         │   ├── matcher.py          # 三信号融合匹配算法
         │   └── union_find.py       # Union-Find 聚类
@@ -129,6 +130,9 @@ Step 1  并发采集 (Semaphore=5)
 Step 2  归一化
   │     topic_key 生成 + 热度映射 + 标题规范化
   ▼
+Step 2.5 质量过滤
+  │     LLM 编号过滤法——拒绝个人叙事/广告/无意义标题
+  ▼
 Step 3  实体提取
   │     jieba POS 命名实体提取
   ▼
@@ -140,6 +144,12 @@ Step 5  向量嵌入
   ▼
 Step 6  UPSERT topics + APPEND heat_history
   │     ON CONFLICT (topic_key) DO UPDATE
+  ▼
+Step 6.3 趋势关键词提取 + 内容分类
+  │     LLM 批量提取关键词 + 分类 → trend_keywords + topic_trend_links
+  ▼
+Step 6.4 Tag 合并写入
+  │     categories ∪ keywords ∪ platform_tags → topics.tags
   ▼
 Step 7  下榜检测
   │     标记该平台不在结果中的话题 is_on_list=FALSE
@@ -253,6 +263,62 @@ heat_value = int(10_000_000 * (position_ratio ** 1.5))
   └─ 仅保留跨平台（≥2 个平台）的聚类
 ```
 
+### 5.7 内容质量过滤 (`processing/quality_filter.py`)
+
+LLM 编号过滤法：将话题标题+描述编号后发给 LLM，LLM 仅输出需过滤的编号列表。
+
+**Pipeline 位置**：Step 2 归一化之后、Step 3 实体提取之前。被过滤的 topic 不进入后续步骤。
+
+**过滤目标**：
+- 个人叙事（"我叛逆的一生"）
+- 无上下文的网红/创作者名（"coke和雨妹"）
+- 广告/推广内容（"别在这理发店💈"）
+- 无意义/乱码标题
+
+**Token 优化设计**：
+- 输入：`[N] 标题 — 描述摘要` 格式，~50 字符/条
+- 输出：仅被拒绝的编号数组 `[3, 17, 42]`（~50-100 tokens）
+- 分批处理（`QUALITY_FILTER_BATCH_SIZE=50`），低温度（0.1）
+
+**降级策略**：LLM 失败时不过滤任何 topic（宁可漏掉劣质也不误删好内容），circuit breaker 连续 2 次失败后停止。
+
+**content = description 去重**：`content_store.batch_update_content` 在写入前比对 content 与 description，归一化后相同则跳过（不涉及 LLM）。
+
+### 5.8 AI 关键词提取 + 内容分类 (`processing/keyword_extractor.py`)
+
+将长话题标题转化为可查询的短关键词（2-15 字）并分类到预设内容类别，关键词用于 Google Trends / 百度指数查询，分类用于生成 tags。
+
+**单次 LLM 调用同时完成两项任务：**
+1. **关键词提取**：从话题标题中提取具体可搜索的短关键词（2-15 字），Prompt 明确禁止泛化行业词
+2. **内容分类**：将话题归入 1-3 个预设类别（15 类：社会民生、国际政治、科技数码等，定义在 `constants.CONTENT_CATEGORIES`）
+3. **关键词去重**：停用词过滤 + 精确字符串匹配现有 trend_keywords
+
+**返回类型**：`{topic_key: {"keywords": [{keyword_id, keyword, relevance, source, is_new}], "categories": [str]}}`
+
+**Tag 合并** (`merge_tags()`): 将 LLM 分类 + 关键词 + 平台原始标签合并为最终 `topics.tags`：
+- 合并顺序：categories → keywords → platform_tags
+- 去重：保持插入顺序，相同字符串只保留首次出现
+- 过滤：抖音状态标签（新、推荐、热、爆、首映）被排除（`constants.DOUYIN_STATUS_LABELS`）
+
+> **历史变更**：早期版本使用 jieba POS + TextRank 作为粗提取阶段，已移除改为 LLM 直接提取。后续增加内容分类职责，与关键词提取合并到同一 LLM 调用中。
+
+**停用词来源**：`data/stopwords_zh.txt`（哈工大+百度+cn 合并）+ `data/trend_stopwords.txt`（趋势领域补充），用于过滤 LLM 输出中的泛化词。
+
+**降级策略：** LLM API 不可用时跳过该批次关键词提取（circuit breaker: 连续 2 次失败后跳过后续批次），话题仍正常存储，下轮补提取。
+
+**LLM 客户端** (`processing/llm_client.py`): httpx 异步封装 Anthropic Messages API，tenacity 2 次重试（指数退避 2-10s），30s 超时。
+
+### 5.9 趋势数据采集 (`processing/trend_collector.py`)
+
+通过 Google Trends（pytrends + asyncio.to_thread）采集关键词搜索趋势：
+- 每 5 个关键词一批（Google Trends 上限），每批间隔 65 秒
+- 新关键词用 `now 7-d`（小时粒度）
+- 429 限流时指数退避
+- 空结果更新 `query_hit_rate`，低命中率关键词降低优先级
+- **数组存储**：每个关键词一行（`timestamps[]` + `trend_values[]`），UPSERT 覆盖
+
+**独立调度**：`trend_pipeline.py` 每 60 分钟运行一次，与主管道独立。
+
 ### 5.6 存储层 (`storage/`)
 
 **PostgREST 客户端**：通过 httpx 调用 Supabase PostgREST API（选择 PostgREST 而非 asyncpg 是因为前者可通过 HTTP/SOCKS 代理工作）。
@@ -273,6 +339,9 @@ heat_value = int(10_000_000 * (position_ratio ** 1.5))
 | `event_clusters` | 跨平台聚类 | cluster_id (PK), member_keys, platforms, title |
 | `snapshots_meta` | 快照元数据 | platform_id, fetched_at, topic_count, duration_ms |
 | `platform_config` | 平台配置 | platform_id, display_name, priority |
+| `trend_keywords` | 趋势关键词 | keyword_id (PK), keyword, embedding, query_hit_rate |
+| `topic_trend_links` | 话题-关键词关联 | topic_key + keyword_id (联合 PK), relevance |
+| `trend_data` | 趋势时序数据 | keyword_id, timestamp, value (0-100), data_source |
 
 ---
 
@@ -297,6 +366,13 @@ jina:
   model: "jina-embeddings-v3"
   dimensions: 512
   task: "text-matching"
+llm:
+  api_key: "sk-ant-..."
+  model: "claude-haiku-4-5-20251001"
+trend:
+  enabled: true
+  google_geo: ""
+  google_language: "zh-CN"
 ```
 
 ### 6.2 环境变量覆盖
@@ -310,6 +386,8 @@ jina:
 | `TRENDLENS_DB_HOST` | database.host |
 | `TRENDLENS_DB_PASSWORD` | database.password |
 | `TRENDLENS_JINA_KEY` | jina.api_key |
+| `TRENDLENS_LLM_KEY` | llm.api_key |
+| `TRENDLENS_LLM_MODEL` | llm.model |
 
 ---
 
@@ -331,6 +409,13 @@ jina:
 | `MATCH_THRESHOLD` | 0.65 | 匹配判定阈值 |
 | `OFFLIST_RETENTION_DAYS` | 90 | 下榜话题保留天数 |
 | `SNAPSHOT_RETENTION_DAYS` | 14 | 快照保留天数 |
+| `TREND_FETCH_INTERVAL_MINUTES` | 60 | 趋势采集间隔（分钟） |
+| `TREND_GOOGLE_RATE_LIMIT_SECONDS` | 65 | Google Trends 批次间隔 |
+| `TREND_GOOGLE_MAX_KW_PER_REQUEST` | 5 | 每批关键词数上限 |
+| `TREND_KEYWORD_DEDUP_THRESHOLD` | 0.85 | 关键词去重余弦阈值 |
+| `TREND_DATA_RETENTION_DAYS` | 90 | 趋势数据保留天数 |
+| `QUALITY_FILTER_BATCH_SIZE` | 50 | 质量过滤每批 topic 数 |
+| `QUALITY_LLM_TEMPERATURE` | 0.1 | 质量过滤 LLM 温度 |
 
 ---
 
@@ -343,6 +428,9 @@ jina:
 | Jina API | 失败时跳过嵌入，话题仍正常存储，下轮补嵌入 |
 | 数据库写入 | 批量 50 条 UPSERT，单批失败记录日志后继续 |
 | 匹配 RPC | vector RPC 不可用时降级为仅实体匹配 |
+| LLM API | 失败时跳过关键词提取+分类，管道不中断；无 LLM 结果时 tag 合并仅含平台原始标签 |
+| 质量过滤 | LLM 失败时不过滤任何 topic（保守策略）；circuit breaker 连续 2 次失败后停止 |
+| Google Trends | 429 限流时指数退避，空结果更新 hit_rate |
 | 管道级别 | 顶层 catch，记录错误日志，不影响调度器下次触发 |
 
 ---
@@ -376,6 +464,21 @@ uv run python -m trendlens serve
 
 # 手动清理过期数据
 uv run python -m trendlens cleanup
+
+# 手动提取关键词（全部在榜话题）
+uv run python -m trendlens extract-keywords
+
+# 手动提取关键词（限制数量）
+uv run python -m trendlens extract-keywords -n 50
+
+# 手动采集 Google Trends 数据
+uv run python -m trendlens collect-trends --max-batches 5
+
+# 质量过滤 dry-run（查看哪些话题会被过滤）
+uv run python -m trendlens filter-quality
+
+# 清空全部数据表（应用未上线时重置）
+uv run python -m trendlens truncate-all
 ```
 
 ---
@@ -392,6 +495,9 @@ uv run python -m trendlens cleanup
 3. jieba 实体提取 → 每条话题 0-5 个实体
 4. Jina API 嵌入新话题（已有的跳过）→ 512 维向量
 5. UPSERT 到 topics 表，追加 heat_history
+5.3 趋势关键词提取 + 内容分类 → 存储 trend_keywords + topic_trend_links
+5.4 Tag 合并写入 → categories ∪ keywords ∪ platform_tags → topics.tags
+5.5 内容抓取（无 content 的话题）
 6. 下榜检测：标记各平台已不在榜的话题
 7. 存储嵌入向量到 topic_embeddings
 8. 三信号匹配 → Union-Find 聚类 → 写入 event_clusters

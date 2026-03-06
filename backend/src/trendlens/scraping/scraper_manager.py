@@ -72,6 +72,7 @@ async def scrape_content(
 
         # Collect successful results
         updates: list[tuple[str, str]] = []
+        descriptions: dict[str, str] = {}
         errors = 0
         for r in results:
             if r.ok:
@@ -79,8 +80,13 @@ async def scrape_content(
             else:
                 errors += 1
 
+        # Build description map for content dedup
+        for t in topics:
+            if t.get("description"):
+                descriptions[t["topic_key"]] = t["description"]
+
         if updates:
-            updated = await batch_update_content(client, updates)
+            updated = await batch_update_content(client, updates, descriptions)
             total_updated += updated
 
         log.info(

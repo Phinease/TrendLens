@@ -95,6 +95,24 @@ class SupabaseClient:
         resp.raise_for_status()
         return resp.json()
 
+    async def delete(
+        self,
+        table: str,
+        filters: str = "",
+    ) -> list[dict]:
+        """Delete rows matching filters. Returns deleted rows."""
+        headers = dict(self._headers)
+        headers["Prefer"] = "return=minimal"
+        url = f"{self.rest_url}/{table}"
+        if filters:
+            url += f"?{filters}"
+        resp = await self._http.delete(url, headers=headers)
+        if resp.status_code >= 400:
+            log.error("postgrest.delete_error", table=table, status=resp.status_code, body=resp.text[:500])
+        resp.raise_for_status()
+        # return=minimal gives empty body
+        return []
+
     async def rpc(self, fn_name: str, params: dict[str, Any] | None = None) -> Any:
         """Call a Supabase RPC (database function)."""
         resp = await self._http.post(
