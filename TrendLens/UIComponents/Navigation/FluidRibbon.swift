@@ -141,7 +141,7 @@ struct FluidRibbon: View {
 }
 
 #Preview("FluidRibbon - All Platforms") {
-    @Previewable @State var selectedPlatform: Platform? = .bilibili
+    @Previewable @State var selectedPlatform: Platform? = .bilibiliHotSearch
 
     VStack(spacing: 20) {
         FluidRibbon(selectedPlatform: $selectedPlatform)

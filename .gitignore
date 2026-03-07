@@ -30,6 +30,7 @@ Packages/
 backend/config/supabase.yaml
 backend/config/jina.yaml
 backend/config/secrets.yaml
+TrendLens/Config/Secrets.xcconfig
 
 # Python backend
 backend/logs/

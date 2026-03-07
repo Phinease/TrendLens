@@ -347,7 +347,7 @@ struct RefreshLoadingView: View {
         HStack(spacing: 20) {
             RefreshLoadingView()
             RefreshLoadingView(platform: .weibo)
-            RefreshLoadingView(platform: .bilibili)
+            RefreshLoadingView(platform: .bilibiliHotSearch)
         }
 
         InlineLoadingIndicator(message: "加载更多...")

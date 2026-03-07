@@ -226,8 +226,6 @@ struct FeedView: View {
     // MARK: - Actions
 
     private func refreshData() async {
-        // 刷新数据（动画由 .animation modifier 自动处理）
-        await DependencyContainer.shared.refreshAllData()
         await viewModel.fetchTopics(forceRefresh: true)
     }
 

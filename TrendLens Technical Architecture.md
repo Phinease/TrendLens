@@ -81,8 +81,7 @@ TrendLens/
 | UI | SwiftUI（Liquid Glass、3D Layout、WebView） |
 | 状态管理 | `@Observable`（MVVM） |
 | 持久化 | SwiftData（Model Inheritance、Persistent History） |
-| 网络 | URLSession + async/await + ETag |
-| 远程数据 | supabase-swift（Supabase Data API） |
+| 网络 | supabase-swift 2.x（Supabase Data API） |
 | 图表 | Swift Charts（含 3D） |
 | 小组件 | WidgetKit |
 | 后台刷新 | BGTaskScheduler |
@@ -181,12 +180,11 @@ Fetcher → Normalizer → Entity Extractor → Embedder → Storage → Scraper
 
 ### 缓存策略
 
-1. 检查 validUntil 判断缓存有效性
+1. 检查 validUntil 判断缓存有效性（TTL 15 分钟，匹配后端采集间隔）
 2. 有效 → 返回 SwiftData 本地缓存
-3. 过期 → 请求 Supabase（带 ETag）
+3. 过期 → 请求 Supabase
 4. 200 响应 → 更新本地缓存
-5. 304 响应 → 延长本地缓存有效期
-6. 网络失败 → 返回过期缓存（带「数据已过期」标记）
+5. 网络失败 → 返回过期缓存（带「数据已过期」标记）
 
 ---
 
@@ -352,37 +350,61 @@ backend/
 | `snapshots_meta` | 快照元数据 |
 | `platform_config` | 平台配置 |
 
-### 10.4 iOS 远程数据层变化
+### 10.4 iOS 远程数据层
 
-**新增组件**：
+**平台枚举**（7 平台，与后端 platform_id 一致）：
+
+| 枚举 case | rawValue | 显示名 |
+|-----------|----------|--------|
+| weibo | "weibo" | 微博 |
+| zhihu | "zhihu" | 知乎 |
+| baidu | "baidu" | 百度 |
+| bilibiliHotSearch | "bilibili-hs" | B站热搜 |
+| bilibiliHotVideo | "bilibili-hv" | B站热门 |
+| douyin | "douyin" | 抖音 |
+| toutiao | "toutiao" | 头条 |
+
+**组件**：
 
 | 组件 | 位置 | 职责 |
 |------|------|------|
-| `SupabaseClient` | Infrastructure/ | Supabase 连接配置 |
-| `RemoteTrendingDataSource` | Data/DataSources/ | 通过 Supabase API 获取远程数据 |
-| `SupabaseMapper` | Data/Mappers/ | Supabase JSON → TrendTopicEntity 映射 |
+| `supabaseClient` | Infrastructure/Network/SupabaseConfig.swift | nonisolated(unsafe) 全局 SupabaseClient 实例 |
+| `RemoteTrendingDataSource` | Data/DataSources/Remote/ | actor，通过 Supabase SDK 查询话题/热度历史/搜索 |
+| DTO 层 | 同上 | SupabaseTopicDTO / RankChangeDTO / SupabaseHeatHistoryDTO |
 
-**Repository 策略变更**：
+**Supabase 配置**：xcconfig（gitignored）→ Info.plist 注入 → Bundle.main 读取
+
+**RemoteTrendingDataSource 方法**：
+
+| 方法 | Supabase 查询 | 说明 |
+|------|--------------|------|
+| `fetchTopics(for:)` | topics WHERE platform_id = ? AND is_on_list ORDER BY rank | 单平台在榜话题 |
+| `fetchAllOnListTopics()` | topics WHERE is_on_list ORDER BY heat_value DESC LIMIT 200 | 全平台 |
+| `fetchHeatHistory(for:)` | heat_history WHERE topic_key = ? ORDER BY timestamp DESC LIMIT 96 | 懒加载，仅详情页 |
+| `searchTopics(query:)` | topics WHERE title ILIKE %query% AND is_on_list | 直接搜索 |
+| `fetchSnapshot(for:)` | 调用 fetchTopics + 合成 TrendSnapshotEntity | 快照合成（无后端 snapshot 表） |
+
+**快照合成**：后端无 snapshot 表，由 RemoteTrendingDataSource 合成：id = platform_timestamp, validUntil = now + 900s, contentHash = SHA256(sorted topic_keys)
+
+**热度历史策略**：列表页不加载（heatHistory: []），仅在 getTopicDetail 时懒加载
+
+**Repository 策略**：
 
 ```swift
-// Phase 2: Remote-first, Local-cache
-func fetchTrending(platform: Platform) async throws -> TrendSnapshotEntity {
-    // 1. 检查本地缓存
-    if let cached = try await localDataSource.getLatestSnapshot(for: platform),
-       cached.isValid {
-        return cached
+// Remote-first, Local-cache, Stale fallback
+func fetchLatestSnapshot(for platform: Platform, forceRefresh: Bool) async throws -> TrendSnapshotEntity {
+    if !forceRefresh, let cached = localDataSource.getLatestSnapshot(for: platform), cached.isValid {
+        return cached.toDomainEntity()  // TTL 有效 → 直接返回
     }
-    // 2. 请求远程
     do {
-        let remote = try await remoteDataSource.fetchSnapshot(for: platform)
-        try await localDataSource.saveSnapshot(remote)  // 更新缓存
-        return remote
+        let snapshot = try await remoteDataSource.fetchSnapshot(for: platform)
+        try await localDataSource.saveSnapshot(snapshot)  // 更新缓存
+        return snapshot
     } catch {
-        // 3. 降级：返回过期缓存
-        if let expired = try await localDataSource.getLatestSnapshot(for: platform) {
-            return expired  // 带 isExpired 标记
+        if let cached = try? localDataSource.getLatestSnapshot(for: platform) {
+            return cached.toDomainEntity()  // 网络失败 → 过期缓存降级
         }
-        throw error
+        throw AppError.network(underlying: error)
     }
 }
 ```
@@ -397,7 +419,7 @@ func fetchTrending(platform: Platform) async throws -> TrendSnapshotEntity {
 | Compare / 对比页 | 交集/差集分析页 |
 | Topic | 热点话题实体 |
 | Snapshot | 某时刻某平台的完整热榜快照 |
-| Platform | 平台枚举（根据实际数据源动态调整） |
+| Platform | 平台枚举（7 平台：weibo/zhihu/baidu/bilibili-hs/bilibili-hv/douyin/toutiao） |
 | Morphic Card | 变形卡片（非对称圆角 + 渐变光带） |
 | Heat Spectrum | 热度光谱（8 级颜色映射） |
 | Prismatic Flow | 棱镜流设计系统 |

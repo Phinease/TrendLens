@@ -364,7 +364,7 @@ struct HeatCurveView: View {
 #Preview("Heat Curve - Insufficient Data") {
     HeatCurveView(
         dataPoints: [HeatDataPoint(timestamp: Date(), heatValue: 50000)],
-        platform: .bilibili,
+        platform: .bilibiliHotSearch,
         style: .full
     )
     .padding()

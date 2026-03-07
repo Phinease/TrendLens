@@ -1,120 +1,170 @@
 import Foundation
+import Supabase
+import CryptoKit
 
-/// 远程热榜数据源
+// MARK: - Supabase DTOs
+
+struct SupabaseTopicDTO: Decodable {
+    let topicKey: String
+    let platformId: String
+    let title: String
+    let description: String?
+    let content: String?
+    let summary: String?
+    let link: String?
+    let imageUrls: [String]?
+    let tags: [String]?
+    let heatValue: Int?
+    let rank: Int?
+    let rankChange: RankChangeDTO?
+    let fetchedAt: Date
+    let isOnList: Bool
+}
+
+struct RankChangeDTO: Decodable {
+    let type: String
+    let value: Int?
+
+    nonisolated func toDomain() -> RankChange {
+        switch type {
+        case "new": return .new
+        case "up": return .up(value ?? 0)
+        case "down": return .down(value ?? 0)
+        default: return .unchanged
+        }
+    }
+}
+
+struct SupabaseHeatHistoryDTO: Decodable {
+    let topicKey: String
+    let timestamp: Date
+    let heatValue: Int?
+    let rank: Int?
+}
+
+// MARK: - Remote Data Source
+
+/// 远程热榜数据源（Supabase）
 actor RemoteTrendingDataSource {
 
-    // MARK: - Dependencies
+    private let client: SupabaseClient
 
-    private let networkClient: NetworkClient
-
-    // MARK: - Configuration
-
-    /// 远程数据源基础 URL
-    /// TODO: 配置实际的 CDN/API 地址
-    private let baseURL = "https://api.trendlens.example.com"
-
-    // MARK: - Initialization
-
-    init(networkClient: NetworkClient) {
-        self.networkClient = networkClient
+    init(client: SupabaseClient = supabaseClient) {
+        self.client = client
     }
 
     // MARK: - Public Methods
 
-    /// 从远程获取热榜快照
-    /// - Parameters:
-    ///   - platform: 平台
-    ///   - etag: ETag（用于缓存控制）
-    /// - Returns: 热榜快照实体
-    func fetchSnapshot(
-        for platform: Platform,
-        etag: String?
-    ) async throws -> TrendSnapshotEntity {
-        let url = try buildSnapshotURL(for: platform)
-
-        let (dto, newETag) = try await networkClient.fetchAndDecode(
-            TrendSnapshotDTO.self,
-            from: url,
-            etag: etag
-        )
-
-        return dto.toDomainEntity(etag: newETag)
+    /// 获取指定平台在榜话题
+    func fetchTopics(for platform: Platform) async throws -> [SupabaseTopicDTO] {
+        try await client.from("topics")
+            .select()
+            .eq("platform_id", value: platform.rawValue)
+            .eq("is_on_list", value: true)
+            .order("rank")
+            .execute()
+            .value
     }
 
-    // MARK: - Helper Methods
+    /// 获取所有在榜话题
+    func fetchAllOnListTopics() async throws -> [SupabaseTopicDTO] {
+        try await client.from("topics")
+            .select()
+            .eq("is_on_list", value: true)
+            .order("heat_value", ascending: false)
+            .limit(200)
+            .execute()
+            .value
+    }
 
-    private func buildSnapshotURL(for platform: Platform) throws -> URL {
-        // 构建 CDN URL，例如：
-        // https://cdn.trendlens.example.com/snapshots/weibo/latest.json
-        let urlString = "\(baseURL)/snapshots/\(platform.rawValue)/latest.json"
+    /// 获取话题热度历史
+    func fetchHeatHistory(for topicKey: String, limit: Int = 96) async throws -> [HeatDataPoint] {
+        let dtos: [SupabaseHeatHistoryDTO] = try await client.from("heat_history")
+            .select()
+            .eq("topic_key", value: topicKey)
+            .order("timestamp", ascending: false)
+            .limit(limit)
+            .execute()
+            .value
 
-        guard let url = URL(string: urlString) else {
-            throw NetworkError.invalidURL
+        return dtos.map { dto in
+            HeatDataPoint(
+                timestamp: dto.timestamp,
+                heatValue: dto.heatValue ?? 0,
+                rank: dto.rank
+            )
+        }.reversed()
+    }
+
+    /// 搜索话题
+    func searchTopics(query: String, platforms: [Platform]?) async throws -> [SupabaseTopicDTO] {
+        var request = client.from("topics")
+            .select()
+            .ilike("title", pattern: "%\(query)%")
+            .eq("is_on_list", value: true)
+
+        if let platforms = platforms, !platforms.isEmpty {
+            let ids = platforms.map(\.rawValue)
+            request = request.in("platform_id", values: ids)
         }
 
-        return url
+        return try await request
+            .order("heat_value", ascending: false)
+            .limit(50)
+            .execute()
+            .value
     }
-}
 
-// MARK: - DTO (Data Transfer Object)
+    /// 获取快照（合成自话题查询结果）
+    func fetchSnapshot(for platform: Platform) async throws -> TrendSnapshotEntity {
+        let dtos = try await fetchTopics(for: platform)
+        return synthesizeSnapshot(from: dtos, platform: platform)
+    }
 
-/// 热榜快照 DTO（从 API 接收的格式）
-struct TrendSnapshotDTO: Codable, @unchecked Sendable {
-    let id: String
-    let platform: String
-    let fetchedAt: String
-    let validUntil: String
-    let contentHash: String
-    let schemaVersion: Int
-    let topics: [TrendTopicDTO]
+    // MARK: - DTO → Domain Mapping
 
-    nonisolated func toDomainEntity(etag: String?) -> TrendSnapshotEntity {
-        let dateFormatter = ISO8601DateFormatter()
-
-        return TrendSnapshotEntity(
-            id: id,
-            platform: Platform(rawValue: platform) ?? .weibo,
-            fetchedAt: dateFormatter.date(from: fetchedAt) ?? Date(),
-            validUntil: dateFormatter.date(from: validUntil) ?? Date(),
-            contentHash: contentHash,
-            etag: etag,
-            schemaVersion: schemaVersion,
-            topics: topics.map { $0.toDomainEntity() }
+    nonisolated func mapToEntity(_ dto: SupabaseTopicDTO) -> TrendTopicEntity {
+        TrendTopicEntity(
+            id: dto.topicKey,
+            platform: Platform(rawValue: dto.platformId) ?? .weibo,
+            title: dto.title,
+            description: dto.description,
+            heatValue: dto.heatValue ?? 0,
+            rank: dto.rank ?? 0,
+            link: dto.link,
+            tags: dto.tags ?? [],
+            fetchedAt: dto.fetchedAt,
+            rankChange: dto.rankChange?.toDomain() ?? .unchanged,
+            heatHistory: [],
+            summary: dto.summary ?? "",
+            isFavorite: false,
+            content: dto.content,
+            imageURLs: dto.imageUrls ?? [],
+            comments: []
         )
     }
-}
 
-/// 热榜话题 DTO
-struct TrendTopicDTO: Codable, @unchecked Sendable {
-    let id: String
-    let platform: String
-    let title: String
-    let description: String?
-    let heatValue: Int
-    let rank: Int
-    let link: String?
-    let tags: [String]
-    let fetchedAt: String
-    let summary: String?
-    let rankChange: RankChange?
-    let heatHistory: [HeatDataPoint]?
+    // MARK: - Private
 
-    nonisolated func toDomainEntity() -> TrendTopicEntity {
-        let dateFormatter = ISO8601DateFormatter()
+    private nonisolated func synthesizeSnapshot(
+        from dtos: [SupabaseTopicDTO],
+        platform: Platform
+    ) -> TrendSnapshotEntity {
+        let now = Date()
+        let topics = dtos.map { mapToEntity($0) }
+        let sortedKeys = topics.map(\.id).sorted().joined(separator: ",")
+        let hashData = Data(sortedKeys.utf8)
+        let contentHash = SHA256.hash(data: hashData).compactMap { String(format: "%02x", $0) }.joined()
 
-        return TrendTopicEntity(
-            id: id,
-            platform: Platform(rawValue: platform) ?? .weibo,
-            title: title,
-            description: description,
-            heatValue: heatValue,
-            rank: rank,
-            link: link,
-            tags: tags,
-            fetchedAt: dateFormatter.date(from: fetchedAt) ?? Date(),
-            rankChange: rankChange ?? .unchanged,
-            heatHistory: heatHistory ?? [],
-            summary: summary ?? "该话题在平台上引发了广泛讨论，用户参与度高，热度持续攀升。"
+        return TrendSnapshotEntity(
+            id: "\(platform.rawValue)_\(ISO8601DateFormatter().string(from: now))",
+            platform: platform,
+            fetchedAt: now,
+            validUntil: now.addingTimeInterval(900), // 15 min TTL
+            contentHash: contentHash,
+            etag: nil,
+            schemaVersion: 1,
+            topics: topics
         )
     }
 }

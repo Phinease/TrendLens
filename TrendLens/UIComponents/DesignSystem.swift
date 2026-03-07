@@ -221,18 +221,32 @@ enum DesignSystem {
             Color(hex: "FBBF24")
         ]
 
-        /// 小红书：樱花粉 → 玫瑰红 → 珊瑚
-        static let xiaohongshu: [Color] = [
-            Color(hex: "FDA4AF"),
-            Color(hex: "F43F5E"),
-            Color(hex: "FF6B6B")
+        /// 知乎：宝石蓝 → 紫罗兰 → 薰衣草
+        static let zhihu: [Color] = [
+            Color(hex: "3B82F6"),
+            Color(hex: "8B5CF6"),
+            Color(hex: "C4B5FD")
         ]
 
-        /// Bilibili：天青蓝 → 青色 → 薄荷绿
-        static let bilibili: [Color] = [
+        /// 百度：靛蓝 → 宝蓝 → 天蓝
+        static let baidu: [Color] = [
+            Color(hex: "2319DC"),
+            Color(hex: "3B82F6"),
+            Color(hex: "60A5FA")
+        ]
+
+        /// B站热搜：天青蓝 → 青色 → 薄荷绿
+        static let bilibiliHotSearch: [Color] = [
             Color(hex: "38BDF8"),
             Color(hex: "22D3D8"),
             Color(hex: "34D399")
+        ]
+
+        /// B站热门：粉色 → 珊瑚 → 浅粉
+        static let bilibiliHotVideo: [Color] = [
+            Color(hex: "FB7299"),
+            Color(hex: "F472B6"),
+            Color(hex: "FDA4AF")
         ]
 
         /// 抖音：霓虹粉 → 电紫 → 深黑
@@ -242,29 +256,23 @@ enum DesignSystem {
             Color(hex: "1E1B4B")
         ]
 
-        /// X：天蓝 → 靛蓝 → 深蓝
-        static let x: [Color] = [
-            Color(hex: "38BDF8"),
-            Color(hex: "6366F1"),
-            Color(hex: "1E3A8A")
-        ]
-
-        /// 知乎：宝石蓝 → 紫罗兰 → 薰衣草
-        static let zhihu: [Color] = [
-            Color(hex: "3B82F6"),
-            Color(hex: "8B5CF6"),
-            Color(hex: "C4B5FD")
+        /// 头条：火红 → 珊瑚 → 橙色
+        static let toutiao: [Color] = [
+            Color(hex: "F85959"),
+            Color(hex: "FB923C"),
+            Color(hex: "FBBF24")
         ]
 
         /// 获取平台渐变色
         static func colors(for platform: Platform) -> [Color] {
             switch platform {
             case .weibo: return weibo
-            case .xiaohongshu: return xiaohongshu
-            case .bilibili: return bilibili
-            case .douyin: return douyin
-            case .x: return x
             case .zhihu: return zhihu
+            case .baidu: return baidu
+            case .bilibiliHotSearch: return bilibiliHotSearch
+            case .bilibiliHotVideo: return bilibiliHotVideo
+            case .douyin: return douyin
+            case .toutiao: return toutiao
             }
         }
 
@@ -393,20 +401,22 @@ enum DesignSystem {
 
     enum PlatformColor {
         static let weibo = Color(hex: "FF6B6B")
-        static let xiaohongshu = Color(hex: "F43F5E")
-        static let bilibili = Color(hex: "22D3D8")
-        static let douyin = Color(hex: "A855F7")
-        static let x = Color(hex: "6366F1")
         static let zhihu = Color(hex: "8B5CF6")
+        static let baidu = Color(hex: "6366F1")
+        static let bilibiliHotSearch = Color(hex: "22D3D8")
+        static let bilibiliHotVideo = Color(hex: "FB7299")
+        static let douyin = Color(hex: "A855F7")
+        static let toutiao = Color(hex: "F87171")
 
         static func color(for platform: Platform) -> Color {
             switch platform {
             case .weibo: return weibo
-            case .xiaohongshu: return xiaohongshu
-            case .bilibili: return bilibili
-            case .douyin: return douyin
-            case .x: return x
             case .zhihu: return zhihu
+            case .baidu: return baidu
+            case .bilibiliHotSearch: return bilibiliHotSearch
+            case .bilibiliHotVideo: return bilibiliHotVideo
+            case .douyin: return douyin
+            case .toutiao: return toutiao
             }
         }
     }

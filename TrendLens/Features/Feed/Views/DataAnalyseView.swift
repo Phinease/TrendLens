@@ -258,7 +258,7 @@ private struct PreviewData {
 
     static let sampleTopicBilibili = TrendTopicEntity(
         id: "preview-2",
-        platform: .bilibili,
+        platform: .bilibiliHotSearch,
         title: "Bilibili 示例话题",
         description: nil,
         heatValue: 850_000,

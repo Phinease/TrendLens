@@ -13,12 +13,11 @@ final class DependencyContainer {
     // MARK: - Dependencies
 
     private let modelContainer: ModelContainer
-    private let networkClient: NetworkClient
 
     // MARK: - Initialization
 
     private init() {
-        // 初始化 SwiftData ModelContainer
+        // 初始化 SwiftData ModelContainer（含 schema reset 容错）
         do {
             self.modelContainer = try ModelContainer(
                 for: TrendSnapshot.self,
@@ -26,18 +25,30 @@ final class DependencyContainer {
                 UserPreference.self
             )
         } catch {
-            fatalError("Failed to initialize ModelContainer: \(error)")
+            // Schema migration failed (e.g. Platform enum rawValue change) — delete old store and retry
+            print("⚠️ ModelContainer init failed: \(error). Resetting SwiftData store...")
+            let storeURL = URL.applicationSupportDirectory.appending(path: "default.store")
+            try? FileManager.default.removeItem(at: storeURL)
+            // Also remove WAL/SHM if present
+            try? FileManager.default.removeItem(at: storeURL.appendingPathExtension("wal"))
+            try? FileManager.default.removeItem(at: storeURL.appendingPathExtension("shm"))
+            do {
+                self.modelContainer = try ModelContainer(
+                    for: TrendSnapshot.self,
+                    TrendTopic.self,
+                    UserPreference.self
+                )
+            } catch {
+                fatalError("Failed to initialize ModelContainer after reset: \(error)")
+            }
         }
-
-        // 初始化网络客户端
-        self.networkClient = NetworkClient()
     }
 
     // MARK: - Factory Methods - Data Layer
 
     func makeTrendingRepository() -> TrendingRepository {
         let localDataSource = LocalTrendingDataSource(modelContext: modelContainer.mainContext)
-        let remoteDataSource = RemoteTrendingDataSource(networkClient: networkClient)
+        let remoteDataSource = RemoteTrendingDataSource()
         return TrendingRepositoryImpl(
             localDataSource: localDataSource,
             remoteDataSource: remoteDataSource
@@ -102,64 +113,21 @@ final class DependencyContainer {
 
     // MARK: - Data Initialization
 
-    /// 初始化数据库（首次启动时填充 Mock 数据）
+    /// 初始化数据库（远程模式下首次启动从 Supabase 拉取）
     func initializeDataIfNeeded() async {
-        // 检查数据库是否为空
         let context = modelContainer.mainContext
         let descriptor = FetchDescriptor<TrendSnapshot>()
 
         do {
             let existingSnapshots = try context.fetch(descriptor)
 
-            // 如果数据库为空，填充初始数据
             if existingSnapshots.isEmpty {
-                print("📦 Database is empty, initializing with mock data...")
-                await fillInitialData()
-            } else {
-                print("✅ Database already contains data, skipping initialization")
+                print("📦 Database is empty, will fetch from Supabase on first load")
+                // Data will be fetched through the normal repository flow
+                // when FeedViewModel loads. No mock data needed.
             }
         } catch {
             print("❌ Failed to check database: \(error)")
-        }
-    }
-
-    /// 填充初始数据
-    private func fillInitialData() async {
-        let generator = MockDataGenerator()
-
-        do {
-            // 为每个平台生成快照
-            let snapshots = generator.generateAllSnapshots(topicsPerPlatform: 15)
-
-            // 保存到数据库
-            let localDataSource = LocalTrendingDataSource(modelContext: modelContainer.mainContext)
-
-            for snapshot in snapshots {
-                try await localDataSource.saveSnapshot(snapshot)
-                print("✅ Saved snapshot for \(snapshot.platform.displayName)")
-            }
-
-            print("🎉 Initial data filled successfully!")
-        } catch {
-            print("❌ Failed to fill initial data: \(error)")
-        }
-    }
-
-    /// 刷新所有平台数据（用于下拉刷新）
-    func refreshAllData() async {
-        let generator = MockDataGenerator()
-
-        do {
-            let snapshots = generator.generateAllSnapshots(topicsPerPlatform: 15)
-            let localDataSource = LocalTrendingDataSource(modelContext: modelContainer.mainContext)
-
-            for snapshot in snapshots {
-                try await localDataSource.saveSnapshot(snapshot)
-            }
-
-            print("🔄 Data refreshed successfully!")
-        } catch {
-            print("❌ Failed to refresh data: \(error)")
         }
     }
 }

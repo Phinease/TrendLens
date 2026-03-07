@@ -199,8 +199,8 @@ struct RankBadge: View {
             Text("Rank Badges").font(.headline)
             HStack(spacing: 12) {
                 RankBadge(rank: 1, platform: .weibo)
-                RankBadge(rank: 2, platform: .bilibili)
-                RankBadge(rank: 3, platform: .xiaohongshu)
+                RankBadge(rank: 2, platform: .bilibiliHotSearch)
+                RankBadge(rank: 3, platform: .baidu)
                 RankBadge(rank: 4)
                 RankBadge(rank: 10)
                 RankBadge(rank: 25)
