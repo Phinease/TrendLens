@@ -19,6 +19,19 @@ struct SupabaseTopicDTO: Decodable {
     let rankChange: RankChangeDTO?
     let fetchedAt: Date
     let isOnList: Bool
+
+    enum CodingKeys: String, CodingKey {
+        case topicKey = "topic_key"
+        case platformId = "platform_id"
+        case title, description, content, summary, link
+        case imageUrls = "image_urls"
+        case tags
+        case heatValue = "heat_value"
+        case rank
+        case rankChange = "rank_change"
+        case fetchedAt = "fetched_at"
+        case isOnList = "is_on_list"
+    }
 }
 
 struct RankChangeDTO: Decodable {
@@ -40,6 +53,13 @@ struct SupabaseHeatHistoryDTO: Decodable {
     let timestamp: Date
     let heatValue: Int?
     let rank: Int?
+
+    enum CodingKeys: String, CodingKey {
+        case topicKey = "topic_key"
+        case timestamp
+        case heatValue = "heat_value"
+        case rank
+    }
 }
 
 // MARK: - Remote Data Source

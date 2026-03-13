@@ -3,8 +3,8 @@
 > **文档定位：** 当前开发进度与任务追踪（唯一权威来源）
 > **阶段定义参考：** [TrendLens Development Plan.md](TrendLens%20Development%20Plan.md) 第 7 章
 >
-> **当前阶段：** 阶段 2 - iOS 远程数据层（2.4）
-> **最后更新：** 2026-03-06
+> **当前阶段：** 阶段 2 - 端到端验证完成（2.4.5）
+> **最后更新：** 2026-03-13
 
 ---
 
@@ -102,7 +102,17 @@
 - [x] **2.4.2 RemoteDataSource 实现** ✅
 - [x] **2.4.3 缓存与离线策略** ✅ — TTL 15min，网络失败返回过期缓存
 - [x] **2.4.4 数据刷新** ✅ — 下拉刷新 forceRefresh、TaskGroup 并行
-- [ ] **2.4.5 端到端验证** — 需要在设备上运行确认数据流通
+- [x] **2.4.5 端到端验证** ✅ (2026-03-13) — 模拟器连通 Supabase，数据流通确认
+
+**2.4.5 修复内容**：
+- 修复 Supabase URL 双重 `https://` 拼接问题（SupabaseConfig.swift 移除多余前缀）
+- 更新 Supabase API Key（旧 JWT → 新 `sb_publishable_` 格式）
+- 修复 DTO snake_case 映射（SupabaseTopicDTO/SupabaseHeatHistoryDTO 添加 CodingKeys）
+- 清理 14 个编译警告：
+  - Comment.swift: 4x `nonisolated(unsafe)` → `nonisolated static let`
+  - SupabaseConfig.swift: 1x `nonisolated(unsafe)` → `nonisolated let`
+  - TrendingRepositoryImpl.swift: 9x 多余 `await` 移除（LocalDataSource 方法为同步）
+  - RankChange: 提取到独立文件，与 `@Model` 上下文解耦
 
 ---
 

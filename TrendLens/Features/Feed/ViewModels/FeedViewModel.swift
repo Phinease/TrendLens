@@ -42,6 +42,7 @@ final class FeedViewModel {
             )
             lastUpdatedAt = Date()
         } catch {
+            print("❌ [FeedViewModel] fetchTopics failed: \(error)")
             self.error = error
         }
         isLoading = false

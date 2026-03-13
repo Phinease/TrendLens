@@ -35,7 +35,7 @@ final class TrendingRepositoryImpl: TrendingRepository {
     ) async throws -> TrendSnapshotEntity {
         // If remote disabled, use local only
         if !isRemoteEnabled {
-            if let cached = try await localDataSource.getLatestSnapshot(for: platform) {
+            if let cached = try localDataSource.getLatestSnapshot(for: platform) {
                 return cached.toDomainEntity()
             } else {
                 throw AppError.notFound
@@ -44,7 +44,7 @@ final class TrendingRepositoryImpl: TrendingRepository {
 
         // Check local cache first (unless force refresh)
         if !forceRefresh {
-            if let cached = try await localDataSource.getLatestSnapshot(for: platform),
+            if let cached = try localDataSource.getLatestSnapshot(for: platform),
                cached.isValid {
                 return cached.toDomainEntity()
             }
@@ -53,11 +53,11 @@ final class TrendingRepositoryImpl: TrendingRepository {
         // Fetch from Supabase
         do {
             let snapshot = try await remoteDataSource.fetchSnapshot(for: platform)
-            try await localDataSource.saveSnapshot(snapshot)
+            try localDataSource.saveSnapshot(snapshot)
             return snapshot
         } catch {
             // Fall back to stale cache on network failure
-            if let cached = try? await localDataSource.getLatestSnapshot(for: platform) {
+            if let cached = try? localDataSource.getLatestSnapshot(for: platform) {
                 return cached.toDomainEntity()
             }
             throw AppError.network(underlying: error)
@@ -99,7 +99,7 @@ final class TrendingRepositoryImpl: TrendingRepository {
     func getCachedSnapshot(
         for platform: Platform
     ) async throws -> TrendSnapshotEntity? {
-        try await localDataSource.getLatestSnapshot(for: platform)?.toDomainEntity()
+        try localDataSource.getLatestSnapshot(for: platform)?.toDomainEntity()
     }
 
     func searchTopics(
@@ -112,14 +112,14 @@ final class TrendingRepositoryImpl: TrendingRepository {
                 return dtos.map { remoteDataSource.mapToEntity($0) }
             } catch {
                 // Fall back to local search
-                return try await localDataSource.searchTopics(query: query, in: platforms)
+                return try localDataSource.searchTopics(query: query, in: platforms)
             }
         }
-        return try await localDataSource.searchTopics(query: query, in: platforms)
+        return try localDataSource.searchTopics(query: query, in: platforms)
     }
 
     func getTopicDetail(topicId: String) async throws -> TrendTopicEntity? {
-        guard var topic = try await localDataSource.getTopic(by: topicId)?.toDomainEntity() else {
+        guard var topic = try localDataSource.getTopic(by: topicId)?.toDomainEntity() else {
             return nil
         }
 
@@ -152,6 +152,6 @@ final class TrendingRepositoryImpl: TrendingRepository {
     }
 
     func clearExpiredCache() async throws {
-        try await localDataSource.clearExpiredSnapshots()
+        try localDataSource.clearExpiredSnapshots()
     }
 }

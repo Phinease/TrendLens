@@ -69,7 +69,7 @@ struct Comment: Identifiable, Codable, Sendable, Hashable, Equatable {
 extension Comment {
 
     /// 头像符号库
-    nonisolated(unsafe) static let avatarSymbols = [
+    nonisolated static let avatarSymbols = [
         "person.circle.fill",
         "person.crop.circle.fill",
         "figure.stand",
@@ -88,7 +88,7 @@ extension Comment {
     ]
 
     /// 头像颜色库
-    nonisolated(unsafe) static let avatarColors = [
+    nonisolated static let avatarColors = [
         "#007AFF", // 蓝色
         "#34C759", // 绿色
         "#FF9500", // 橙色
@@ -102,7 +102,7 @@ extension Comment {
     ]
 
     /// 用户名库
-    nonisolated(unsafe) static let usernames = [
+    nonisolated static let usernames = [
         "科技观察者", "热点追踪", "理性分析", "吃瓜群众", "路人甲",
         "深度思考", "围观网友", "热心市民", "好奇宝宝", "专业评论",
         "小明同学", "隔壁老王", "技术大佬", "设计师小李", "产品经理",
@@ -110,7 +110,7 @@ extension Comment {
     ]
 
     /// 评论内容模板库
-    nonisolated(unsafe) static let commentTemplates = [
+    nonisolated static let commentTemplates = [
         "这个话题太火了，必须关注！",
         "终于等到这个消息了，期待已久",
         "说得很有道理，学习了",
