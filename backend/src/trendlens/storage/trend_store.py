@@ -51,15 +51,20 @@ async def upsert_topic_trend_links(client: SupabaseClient, links: list[dict]) ->
     if not links:
         return 0
 
-    rows = [
-        {
+    # Deduplicate by (topic_key, keyword_id) within the batch
+    seen: set[tuple[str, str]] = set()
+    rows: list[dict] = []
+    for lnk in links:
+        key = (lnk["topic_key"], lnk["keyword_id"])
+        if key in seen:
+            continue
+        seen.add(key)
+        rows.append({
             "topic_key": lnk["topic_key"],
             "keyword_id": lnk["keyword_id"],
             "relevance": lnk.get("relevance", 1.0),
             "source": lnk.get("source", "llm"),
-        }
-        for lnk in links
-    ]
+        })
 
     upserted = 0
     for i in range(0, len(rows), _BATCH_SIZE):
@@ -68,6 +73,7 @@ async def upsert_topic_trend_links(client: SupabaseClient, links: list[dict]) ->
             result = await client.insert(
                 "topic_trend_links", batch,
                 upsert=True, on_conflict="topic_key,keyword_id",
+                ignore_duplicates=True,
             )
             upserted += len(result)
         except Exception as exc:

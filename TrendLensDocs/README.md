@@ -67,4 +67,4 @@ open TrendLens.xcodeproj
 
 - [TrendLens Technical Architecture.md](TrendLens%20Technical%20Architecture.md) - 技术架构权威文档
 - [TrendLens Testing Guide.md](TrendLens%20Testing%20Guide.md) - 测试策略与规范
-- [CLAUDE.md](CLAUDE.md) - Claude Code 工作指引
+- [CLAUDE.md](../CLAUDE.md) - Claude Code 工作指引

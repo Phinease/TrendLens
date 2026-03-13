@@ -61,11 +61,32 @@ Classification requirements:
 Topics:
 {topics_block}
 
+IMPORTANT: Use the numeric ID (the number in brackets) as "topic_key", NOT the title text.
 Respond with ONLY valid JSON (no markdown fences):
-{{"extractions": [{{"topic_key": "...", "keywords": [{{"keyword": "...", "relevance": 0.9}}], "categories": ["科技数码"]}}]}}"""
+{{"extractions": [{{"topic_key": "0", "keywords": [{{"keyword": "...", "relevance": 0.9}}], "categories": ["科技数码"]}}]}}"""
 
 
 _CATEGORIES_SET = frozenset(CONTENT_CATEGORIES)
+
+
+def _try_repair_json(raw: str) -> dict | None:
+    """Try to salvage partial JSON by truncating to the last complete extraction item."""
+    # Find the last complete object boundary: "}, {" pattern for extraction items
+    # Then close the array and outer object
+    last_complete = raw.rfind('"categories"')
+    if last_complete < 0:
+        return None
+    # Find the closing of that categories array: "]}"
+    close_pos = raw.find("]}", last_complete)
+    if close_pos < 0:
+        return None
+    truncated = raw[: close_pos + 2] + "]}"
+    try:
+        data = json.loads(truncated)
+        log.info("keyword_extractor.json_repaired", salvaged_len=len(truncated), original_len=len(raw))
+        return data
+    except json.JSONDecodeError:
+        return None
 
 
 async def _llm_extract_batch(
@@ -77,8 +98,10 @@ async def _llm_extract_batch(
 
     Returns {topic_key: {"keywords": [{keyword, relevance}], "categories": [str]}}.
     """
+    # Use numeric IDs instead of topic_keys in prompt to avoid JSON escaping issues
+    idx_to_key = {str(i): t.topic_key for i, t in enumerate(topics)}
     topics_block = "\n".join(
-        f"- [{t.topic_key}] {t.title}" for t in topics
+        f"- [{i}] {t.title}" for i, t in enumerate(topics)
     )
     existing_sample = ", ".join(sorted(existing_keywords)[:50]) if existing_keywords else "(none)"
 
@@ -103,11 +126,21 @@ async def _llm_extract_batch(
         brace_start = cleaned.find("{")
         if brace_start > 0:
             cleaned = cleaned[brace_start:]
-        data = json.loads(cleaned)
+
+        # Try parsing as-is first, then attempt repair on failure
+        try:
+            data = json.loads(cleaned)
+        except json.JSONDecodeError:
+            data = _try_repair_json(cleaned)
+            if data is None:
+                raise
+
         extractions = data.get("extractions", [])
         result: dict[str, dict] = {}
         for item in extractions:
-            tk = item.get("topic_key", "")
+            # Map numeric ID back to actual topic_key
+            raw_tk = str(item.get("topic_key", ""))
+            tk = idx_to_key.get(raw_tk, raw_tk)
             kws = item.get("keywords", [])
             valid_kws = []
             for kw in kws:
@@ -199,6 +232,26 @@ async def extract_keywords_for_topics(
     Returns {topic_key: {"keywords": [{keyword_id, keyword, relevance, source, is_new}], "categories": [str]}}.
     """
     if not topics:
+        return {}
+
+    # Filter out topics that already have keywords (incremental extraction)
+    try:
+        linked_rows = await client.select("topic_trend_links", "topic_key")
+        linked_keys = {row["topic_key"] for row in linked_rows}
+        topics_to_extract = [t for t in topics if t.topic_key not in linked_keys]
+        if len(topics_to_extract) < len(topics):
+            log.info(
+                "keyword_extractor.incremental_skip",
+                total=len(topics),
+                already_have=len(topics) - len(topics_to_extract),
+                to_extract=len(topics_to_extract),
+            )
+        topics = topics_to_extract
+    except Exception:
+        pass  # On failure, process all topics as fallback
+
+    if not topics:
+        log.info("keyword_extractor.done", topics=0, total_keywords=0, new_keywords=0, categorized=0)
         return {}
 
     # Collect existing keywords for dedup hints

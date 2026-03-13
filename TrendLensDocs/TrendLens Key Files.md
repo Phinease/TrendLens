@@ -1,7 +1,7 @@
 # TrendLens 关键文件索引
 
 > **文档定位：** 跨模块修改时的快速文件导航
-> **Claude Code 指引：** [CLAUDE.md](CLAUDE.md)
+> **Claude Code 指引：** [CLAUDE.md](../CLAUDE.md)
 
 ---
 
@@ -110,10 +110,10 @@
 
 | 文件 | 职责 |
 |------|------|
-| [backend/docs/backend-architecture.md](backend/docs/backend-architecture.md) | Python 后端完整架构 |
-| [backend/docs/data-storage-strategy.md](backend/docs/data-storage-strategy.md) | topic_key、归一化、匹配算法规范 |
-| [backend/docs/data-requirements.md](backend/docs/data-requirements.md) | 数据需求与字段映射 |
-| [backend/docs/hot-news-data-sources-v2.md](backend/docs/hot-news-data-sources-v2.md) | 20 个数据源接口规范 |
+| [backend/docs/backend-architecture.md](../backend/docs/backend-architecture.md) | Python 后端完整架构 |
+| [backend/docs/data-storage-strategy.md](../backend/docs/data-storage-strategy.md) | topic_key、归一化、匹配算法规范 |
+| [backend/docs/data-requirements.md](../backend/docs/data-requirements.md) | 数据需求与字段映射 |
+| [backend/docs/hot-news-data-sources-v2.md](../backend/docs/hot-news-data-sources-v2.md) | 20 个数据源接口规范 |
 | [backend/migrations/001_init_tables.sql](backend/migrations/001_init_tables.sql) | 数据库 Schema（6 张表 + pgvector） |
 | [backend/migrations/002_cron_jobs.sql](backend/migrations/002_cron_jobs.sql) | 定时清理 SQL |
 | [backend/migrations/003_trend_tables.sql](backend/migrations/003_trend_tables.sql) | 趋势数据表（3 张 + RPC + RLS） |

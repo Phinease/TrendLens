@@ -2,7 +2,7 @@
 
 > **文档定位：** 日常开发操作手册（构建、测试、环境配置、代码示例）
 > **技术规范参考：** [TrendLens Technical Architecture.md](TrendLens%20Technical%20Architecture.md)
-> **Claude Code 指引：** [CLAUDE.md](CLAUDE.md)
+> **Claude Code 指引：** [CLAUDE.md](../CLAUDE.md)
 >
 > **最后更新：** 2026-01-22
 
@@ -398,7 +398,7 @@ Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
 
 ## 10. Python 后端
 
-> 完整后端架构详见 [backend/docs/backend-architecture.md](backend/docs/backend-architecture.md)
+> 完整后端架构详见 [backend/docs/backend-architecture.md](../backend/docs/backend-architecture.md)
 
 ### 10.1 环境要求
 
@@ -481,9 +481,9 @@ ls backend/logs/errors/    # 按日期的错误日志
 
 | 文档 | 内容 |
 |------|------|
-| [CLAUDE.md](CLAUDE.md) | Claude Code 工作指引 |
+| [CLAUDE.md](../CLAUDE.md) | Claude Code 工作指引 |
 | [Technical Architecture.md](TrendLens%20Technical%20Architecture.md) | 技术规范（架构、并发、编码规范） |
 | [Testing Guide.md](TrendLens%20Testing%20Guide.md) | 测试策略与覆盖率要求 |
 | [UI Design System.md](TrendLens%20UI%20Design%20System.md) | UI 设计规范 |
-| [Backend Architecture.md](backend/docs/backend-architecture.md) | Python 后端架构 |
+| [Backend Architecture.md](../backend/docs/backend-architecture.md) | Python 后端架构 |
 | [Progress.md](TrendLens%20Progress.md) | 开发进度追踪 |

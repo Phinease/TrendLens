@@ -26,10 +26,10 @@
 **目标**：建立 Python 后端数据采集系统，通过 Supabase 存储数据，iOS 应用连接远程数据源替换本地 Mock 数据。
 
 **设计文档**：
-- 数据源选型：[backend/docs/hot-news-data-sources-v2.md](backend/docs/hot-news-data-sources-v2.md)
-- 数据需求：[backend/docs/data-requirements.md](backend/docs/data-requirements.md)
-- 数据存储策略：[backend/docs/data-storage-strategy.md](backend/docs/data-storage-strategy.md)
-- 全量调研：[backend/docs/data-sources-v1.md](backend/docs/data-sources-v1.md)
+- 数据源选型：[backend/docs/hot-news-data-sources-v2.md](../backend/docs/hot-news-data-sources-v2.md)
+- 数据需求：[backend/docs/data-requirements.md](../backend/docs/data-requirements.md)
+- 数据存储策略：[backend/docs/data-storage-strategy.md](../backend/docs/data-storage-strategy.md)
+- 全量调研：[backend/docs/data-sources-v1.md](../backend/docs/data-sources-v1.md)
 
 **技术栈**：Python 后端 + Supabase (PostgreSQL + pgvector) + Jina Embeddings v3 + Supabase Data API
 
@@ -41,7 +41,7 @@
 
 #### 2.1 数据源接口验证
 
-- [x] **2.1.1 P0 核心源**（7 源）✅ — 全部验证通过，详见 [hot-news-data-sources-v2.md](backend/docs/hot-news-data-sources-v2.md)
+- [x] **2.1.1 P0 核心源**（7 源）✅ — 全部验证通过，详见 [hot-news-data-sources-v2.md](../backend/docs/hot-news-data-sources-v2.md)
 - [ ] **2.1.2 P1 补充源**（6 源）— sina-news, thepaper, tencent-hot, hackernews, 36kr-renqi, douban
 - [ ] **2.1.3 P2 延伸源**（7 源）— wallstreetcn, cankaoxiaoxi, github-trending, netease-news, tieba, ithome, kaopu
 - [ ] **2.1.4 补充缺失的数据源**
@@ -50,7 +50,7 @@
 
 #### 2.2 数据库建模 ✅
 
-6 张核心表 + 3 张趋势表 + pgvector HNSW 索引 + RLS + 20 平台种子数据。详见 [data-storage-strategy.md](backend/docs/data-storage-strategy.md)。
+6 张核心表 + 3 张趋势表 + pgvector HNSW 索引 + RLS + 20 平台种子数据。详见 [data-storage-strategy.md](../backend/docs/data-storage-strategy.md)。
 
 > ~~2.2.6 pg_cron~~ — 免费版不支持，改由 Python 后端调度器执行。
 
@@ -60,7 +60,7 @@
 
 **代码位置**：`backend/src/trendlens/`（45+ Python 源文件，7 个包）
 **技术栈**：uv + Python 3.12+ / httpx / structlog / jieba / Jina Embeddings / Supabase PostgREST
-**详细架构**：[backend-architecture.md](backend/docs/backend-architecture.md)
+**详细架构**：[backend-architecture.md](../backend/docs/backend-architecture.md)
 
 | 子任务 | 状态 | 摘要 |
 |--------|------|------|

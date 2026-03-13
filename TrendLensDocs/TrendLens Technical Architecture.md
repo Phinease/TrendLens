@@ -89,7 +89,7 @@ TrendLens/
 
 ### 后端（Python）
 
-> 详细技术栈说明见 [backend/docs/backend-architecture.md](backend/docs/backend-architecture.md) §3
+> 详细技术栈说明见 [backend/docs/backend-architecture.md](../backend/docs/backend-architecture.md) §3
 
 | 类别 | 技术 |
 |------|------|
@@ -265,10 +265,10 @@ NavigationStack {
 ## 10. 后端架构（Python + Supabase）
 
 > **[权威定义]** 本章节为后端架构的概述入口。
-> **完整后端架构文档：** [backend/docs/backend-architecture.md](backend/docs/backend-architecture.md)
-> **数据源规范：** [backend/docs/hot-news-data-sources-v2.md](backend/docs/hot-news-data-sources-v2.md)
-> **存储设计规范：** [backend/docs/data-storage-strategy.md](backend/docs/data-storage-strategy.md)
-> **数据需求文档：** [backend/docs/data-requirements.md](backend/docs/data-requirements.md)
+> **完整后端架构文档：** [backend/docs/backend-architecture.md](../backend/docs/backend-architecture.md)
+> **数据源规范：** [backend/docs/hot-news-data-sources-v2.md](../backend/docs/hot-news-data-sources-v2.md)
+> **存储设计规范：** [backend/docs/data-storage-strategy.md](../backend/docs/data-storage-strategy.md)
+> **数据需求文档：** [backend/docs/data-requirements.md](../backend/docs/data-requirements.md)
 
 ### 10.1 后端目录结构
 

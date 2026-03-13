@@ -13,7 +13,7 @@ TrendLens 是一款跨平台热搜聚合应用，面向 iOS 26 / iPadOS 26 / mac
 - 后端可替换性设计（开发阶段 Supabase → 生产阶段 CDN + 国内 BaaS）
 - 只读快照数据模型（热榜数据作为时间序列快照）
 
-完整产品规划与技术选型详见 [TrendLens Development Plan.md](TrendLens%20Development%20Plan.md)。
+完整产品规划与技术选型详见 [TrendLens Development Plan.md](TrendLensDocs/TrendLens%20Development%20Plan.md)。
 
 **系统组成：**
 - **iOS 客户端**：SwiftUI 原生应用（Clean Architecture + MVVM）
@@ -23,7 +23,7 @@ TrendLens 是一款跨平台热搜聚合应用，面向 iOS 26 / iPadOS 26 / mac
 
 ## 构建与测试
 
-所有构建、测试、运行命令详见 [TrendLens Developer Guide.md](TrendLens%20Developer%20Guide.md)：
+所有构建、测试、运行命令详见 [TrendLens Developer Guide.md](TrendLensDocs/TrendLens%20Developer%20Guide.md)：
 - iOS 客户端：第 2-3 章
 - Python 后端：第 10 章
 
@@ -33,7 +33,7 @@ TrendLens 是一款跨平台热搜聚合应用，面向 iOS 26 / iPadOS 26 / mac
 
 ### Clean Architecture 分层
 
-完整架构说明见 [TrendLens Technical Architecture.md](TrendLens%20Technical%20Architecture.md)。
+完整架构说明见 [TrendLens Technical Architecture.md](TrendLensDocs/TrendLens%20Technical%20Architecture.md)。
 
 ```
 ┌─────────────────────────────────────────────────┐
@@ -51,7 +51,7 @@ TrendLens 是一款跨平台热搜聚合应用，面向 iOS 26 / iPadOS 26 / mac
 
 ### 目录结构
 
-详细目录结构、各层职责与模块边界定义见 [TrendLens Technical Architecture.md](TrendLens%20Technical%20Architecture.md) 第 2 章和第 5 章。
+详细目录结构、各层职责与模块边界定义见 [TrendLens Technical Architecture.md](TrendLensDocs/TrendLens%20Technical%20Architecture.md) 第 2 章和第 5 章。
 
 ```
 TrendLens/
@@ -89,7 +89,7 @@ TrendLens/
 - 生产计划：CDN 静态 JSON + 可选国内 BaaS（用户数据）
 - App 代码不直接耦合特定后端
 
-详见 [TrendLens Development Plan.md](TrendLens%20Development%20Plan.md) 第 5 章「BaaS 选型与可替换策略」。
+详见 [TrendLens Development Plan.md](TrendLensDocs/TrendLens%20Development%20Plan.md) 第 5 章「BaaS 选型与可替换策略」。
 
 ### 4. Actor 隔离（Swift 6.2）
 
@@ -100,7 +100,7 @@ TrendLens/
 - Repositories/DataSources：I/O 方法标记 `nonisolated`
 - NetworkClient：`actor`（线程安全网络操作）
 
-并发模型详见 [TrendLens Technical Architecture.md](TrendLens%20Technical%20Architecture.md) 第 4 章。
+并发模型详见 [TrendLens Technical Architecture.md](TrendLensDocs/TrendLens%20Technical%20Architecture.md) 第 4 章。
 
 ---
 
@@ -132,9 +132,9 @@ View → ViewModel → UseCase → Repository → DataSource
 
 ## 编码与测试规范
 
-- **编码规范**：见 [Technical Architecture.md](TrendLens%20Technical%20Architecture.md) 第 8 章
-- **测试策略**：见 [Testing Guide.md](TrendLens%20Testing%20Guide.md)
-- **代码示例**：见 [Developer Guide.md](TrendLens%20Developer%20Guide.md)
+- **编码规范**：见 [Technical Architecture.md](TrendLensDocs/TrendLens%20Technical%20Architecture.md) 第 8 章
+- **测试策略**：见 [Testing Guide.md](TrendLensDocs/TrendLens%20Testing%20Guide.md)
+- **代码示例**：见 [Developer Guide.md](TrendLensDocs/TrendLens%20Developer%20Guide.md)
 
 **核心要点**：
 
@@ -147,7 +147,7 @@ View → ViewModel → UseCase → Repository → DataSource
 
 ## 关键文件
 
-跨层修改时的文件索引详见 [TrendLens Key Files.md](TrendLens%20Key%20Files.md)，涵盖 iOS 客户端和 Python 后端全部关键文件。
+跨层修改时的文件索引详见 [TrendLens Key Files.md](TrendLensDocs/TrendLens%20Key%20Files.md)，涵盖 iOS 客户端和 Python 后端全部关键文件。
 
 ---
 
@@ -181,15 +181,16 @@ View → ViewModel → UseCase → Repository → DataSource
 
 | 文档 | 职责 | 更新时机 |
 |------|------|----------|
-| [Development Plan.md](TrendLens%20Development%20Plan.md) | 产品规划、开发阶段、BaaS 策略 | 阶段完成、架构决策变更 |
-| [Technical Architecture.md](TrendLens%20Technical%20Architecture.md) | 技术规范（架构、技术栈、并发模型、编码规范） | 技术栈变更、架构调整 |
-| [Developer Guide.md](TrendLens%20Developer%20Guide.md) | 开发操作手册（构建、测试命令、代码示例） | 工具链变更、新增常用模式 |
-| [Testing Guide.md](TrendLens%20Testing%20Guide.md) | 测试策略总览、覆盖率要求 | 测试框架变更、质量要求调整 |
-| [TrendLensTests Architecture.md](TrendLensTests%20Architecture.md) | 单元测试实现细节（从属于 Testing Guide） | 测试架构变化 |
-| [UI Design System.md](TrendLens%20UI%20Design%20System.md) | UI 视觉设计规范、组件设计 | 设计语言变化 |
+| [Development Plan.md](TrendLensDocs/TrendLens%20Development%20Plan.md) | 产品规划、开发阶段、BaaS 策略 | 阶段完成、架构决策变更 |
+| [Technical Architecture.md](TrendLensDocs/TrendLens%20Technical%20Architecture.md) | 技术规范（架构、技术栈、并发模型、编码规范） | 技术栈变更、架构调整 |
+| [Developer Guide.md](TrendLensDocs/TrendLens%20Developer%20Guide.md) | 开发操作手册（构建、测试命令、代码示例） | 工具链变更、新增常用模式 |
+| [Testing Guide.md](TrendLensDocs/TrendLens%20Testing%20Guide.md) | 测试策略总览、覆盖率要求 | 测试框架变更、质量要求调整 |
+| [TrendLensTests Architecture.md](TrendLensDocs/TrendLensTests%20Architecture.md) | 单元测试实现细节（从属于 Testing Guide） | 测试架构变化 |
+| [UI Design System.md](TrendLensDocs/TrendLens%20UI%20Design%20System.md) | UI 视觉设计规范、组件设计 | 设计语言变化 |
 | [Backend Architecture.md](backend/docs/backend-architecture.md) | Python 后端架构（管道、模块、存储、匹配） | 后端架构变更 |
-| [Key Files.md](TrendLens%20Key%20Files.md) | 关键文件索引（iOS + 后端） | 新增关键模块时 |
-| [Progress.md](TrendLens%20Progress.md) | 当前待办、开发进展追踪（唯一权威） | 每次开发完成后 |
+| [Database Schema.md](TrendLensDocs/TrendLens%20Database%20Schema.md) | 数据库全量模型速查（表结构、索引、RLS、RPC、查询） | Schema 变更时 |
+| [Key Files.md](TrendLensDocs/TrendLens%20Key%20Files.md) | 关键文件索引（iOS + 后端） | 新增关键模块时 |
+| [Progress.md](TrendLensDocs/TrendLens%20Progress.md) | 当前待办、开发进展追踪（唯一权威） | 每次开发完成后 |
 | [CLAUDE.md](CLAUDE.md)（本文件） | Claude Code 工作指引（引用式导航） | 文档结构调整 |
 
 ### 信息归属速查表
@@ -219,23 +220,24 @@ View → ViewModel → UseCase → Repository → DataSource
 | topic_key / 热度归一化 | Backend Architecture.md | §5.2 |
 | 匹配算法 | Backend Architecture.md | §5.5 |
 | 后端常量阈值 | Backend Architecture.md | §7 |
-| 数据库 Schema | data-storage-strategy.md | 全文 |
+| 数据库全量模型（表/索引/RLS/RPC） | Database Schema.md | 全文 |
+| 数据库设计决策与算法 | data-storage-strategy.md | 全文 |
 | 数据源接口 | hot-news-data-sources-v2.md | 全文 |
 
 ### 开发完成后的文档更新流程
 
 **每次开发完成后，必须执行以下步骤：**
 
-1. **更新 [TrendLens Progress.md](TrendLens Progress.md)**
+1. **更新 [TrendLens Progress.md](TrendLensDocs/TrendLens%20Progress.md)**
    - 标记已完成的任务
    - 添加新发现的待办事项
    - 更新当前阶段进度
 
-2. **更新 [TrendLens Development Plan.md](TrendLens%20Development%20Plan.md)**
+2. **更新 [TrendLens Development Plan.md](TrendLensDocs/TrendLens%20Development%20Plan.md)**
    - 更新对应阶段的完成状态（第 7 章「完整开发计划」）
    - 如有架构决策变化，更新相关章节
 
-3. **如有技术实现变化，更新 [TrendLens Technical Architecture.md](TrendLens%20Technical%20Architecture.md)**
+3. **如有技术实现变化，更新 [TrendLens Technical Architecture.md](TrendLensDocs/TrendLens%20Technical%20Architecture.md)**
    - 新增技术栈
    - 编码规范调整
    - 并发模型变化
