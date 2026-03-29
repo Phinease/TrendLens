@@ -14,6 +14,17 @@ struct DataAnalyseView: View {
 
     let topic: TrendTopicEntity
     @Environment(\.colorScheme) private var colorScheme
+    @State private var displayTopic: TrendTopicEntity
+    @State private var isLoadingDetail = false
+    @State private var isLoadingTrendData = false
+    @State private var didAttemptDetailLoad = false
+    @State private var didAttemptTrendLoad = false
+    @State private var trendSeries: TopicTrendSeries?
+
+    init(topic: TrendTopicEntity) {
+        self.topic = topic
+        self._displayTopic = State(initialValue: topic)
+    }
 
     // MARK: - Body
 
@@ -27,10 +38,15 @@ struct DataAnalyseView: View {
                 .padding(.vertical, DesignSystem.Spacing.xl)
 
                 // 热度曲线
-                if !topic.heatHistory.isEmpty {
+                if let chartPoints = chartDataPoints {
+                    if let trendSeries {
+                        trendSourceView(series: trendSeries)
+                            .padding(.bottom, DesignSystem.Spacing.md)
+                    }
+
                     HeatCurveView(
-                        dataPoints: topic.heatHistory,
-                        platform: topic.platform,
+                        dataPoints: chartPoints,
+                        platform: displayTopic.platform,
                         style: .full
                     )
                     .frame(height: 300)
@@ -38,6 +54,14 @@ struct DataAnalyseView: View {
 
                     Divider()
                     .padding(.vertical, DesignSystem.Spacing.xl)
+                }
+
+                if isLoadingTrendData && chartDataPoints == nil {
+                    LoadingView(message: "加载 Google Trends 中...")
+                        .padding(.bottom, DesignSystem.Spacing.xl)
+                } else if isLoadingDetail && chartDataPoints == nil {
+                    LoadingView(message: "加载热度历史中...")
+                        .padding(.bottom, DesignSystem.Spacing.xl)
                 }
 
                 // 话题信息
@@ -59,6 +83,10 @@ struct DataAnalyseView: View {
                 shareButton
             }
         }
+        .task(id: topic.id) {
+            await loadTopicDetailIfNeeded()
+            await loadTrendDataIfNeeded()
+        }
     }
 
     // MARK: - Sections
@@ -67,17 +95,17 @@ struct DataAnalyseView: View {
         VStack(alignment: .leading, spacing: DesignSystem.Spacing.md) {
             // 排名和标题
             HStack(alignment: .top, spacing: DesignSystem.Spacing.sm) {
-                RankBadge(rank: topic.rank, platform: topic.platform)
+                RankBadge(rank: displayTopic.rank, platform: displayTopic.platform)
 
-                Text(topic.title)
+                Text(displayTopic.title)
                     .font(DesignSystem.Typography.headline)
                     .foregroundStyle(.primary)
                     .lineLimit(nil) // 详情页显示完整标题
             }
 
             // AI 摘要
-            if !topic.summary.isEmpty {
-                Text(topic.summary)
+            if !displayTopic.summary.isEmpty {
+                Text(displayTopic.summary)
                     .font(DesignSystem.Typography.body)
                     .foregroundStyle(.secondary)
                     .lineLimit(nil) // 详情页显示完整摘要
@@ -85,7 +113,7 @@ struct DataAnalyseView: View {
             }
 
             // 描述
-            if let description = topic.description, !description.isEmpty {
+            if let description = displayTopic.description, !description.isEmpty {
                 Text(description)
                     .font(DesignSystem.Typography.body)
                     .foregroundStyle(.secondary)
@@ -94,11 +122,11 @@ struct DataAnalyseView: View {
 
             // 平台、热度、排名变化徽章
             HStack(spacing: DesignSystem.Spacing.sm) {
-                PlatformBadge(platform: topic.platform, style: .full)
+                PlatformBadge(platform: displayTopic.platform, style: .full)
 
-                HeatLevelBadge(heatValue: topic.heatValue)
+                HeatLevelBadge(heatValue: displayTopic.heatValue)
 
-                RankChangeIndicator(rankChange: topic.rankChange, style: .full)
+                RankChangeIndicator(rankChange: displayTopic.rankChange, style: .full)
             }
             .padding(.top, DesignSystem.Spacing.xs)
         }
@@ -110,18 +138,21 @@ struct DataAnalyseView: View {
                 .font(DesignSystem.Typography.headline)
                 .foregroundStyle(.primary)
 
-            infoRow(title: "当前热度", value: topic.heatValue.formattedHeat)
-            infoRow(title: "当前排名", value: "#\(topic.rank)")
-            infoRow(title: "数据来源", value: topic.platform.displayName)
-            infoRow(title: "数据更新", value: topic.fetchedAt.formatted(date: .abbreviated, time: .shortened))
+            infoRow(title: "当前热度", value: displayTopic.heatValue.formattedHeat)
+            infoRow(title: "当前排名", value: "#\(displayTopic.rank)")
+            infoRow(title: "数据来源", value: displayTopic.platform.displayName)
+            infoRow(title: "数据更新", value: displayTopic.fetchedAt.formatted(date: .abbreviated, time: .shortened))
+            if let trendSeries {
+                infoRow(title: "趋势来源", value: "Google Trends · \(trendSeries.keyword)")
+            }
 
             // 标签
-            if !topic.tags.isEmpty {
+            if !displayTopic.tags.isEmpty {
                 tagsSection
             }
 
             // 链接（如果有）
-            if let link = topic.link, !link.isEmpty, let url = URL(string: link) {
+            if let link = displayTopic.link, !link.isEmpty, let url = URL(string: link) {
                 linkSection(url: url)
             }
         }
@@ -135,7 +166,7 @@ struct DataAnalyseView: View {
 
             Spacer()
 
-            ForEach(topic.tags, id: \.self) { tag in
+            ForEach(displayTopic.tags, id: \.self) { tag in
                 Text("#\(tag)")
                     .font(DesignSystem.Typography.footnote)
                     .foregroundStyle(.primary)
@@ -191,16 +222,35 @@ struct DataAnalyseView: View {
         }
     }
 
+    private func trendSourceView(series: TopicTrendSeries) -> some View {
+        HStack(spacing: DesignSystem.Spacing.sm) {
+            Image(systemName: "waveform.path.ecg")
+                .font(.system(size: 13, weight: .medium))
+                .foregroundStyle(.blue)
+
+            Text("Google Trends")
+                .font(DesignSystem.Typography.caption)
+                .foregroundStyle(.secondary)
+
+            Text(series.keyword)
+                .font(DesignSystem.Typography.caption)
+                .foregroundStyle(.primary)
+                .lineLimit(1)
+
+            Spacer()
+        }
+    }
+
     // MARK: - Actions
 
     private func shareTopic() {
 #if os(iOS)
         let shareText = """
-        \(topic.title)
+        \(displayTopic.title)
 
-        \(topic.summary)
+        \(displayTopic.summary)
 
-        来自 \(topic.platform.displayName) · 热度 \(topic.heatValue.formattedHeat)
+        来自 \(displayTopic.platform.displayName) · 热度 \(displayTopic.heatValue.formattedHeat)
         """
 
         let activityVC = UIActivityViewController(
@@ -214,6 +264,49 @@ struct DataAnalyseView: View {
             rootViewController.present(activityVC, animated: true)
         }
 #endif
+    }
+
+    private func loadTopicDetailIfNeeded() async {
+        guard !didAttemptDetailLoad else { return }
+        didAttemptDetailLoad = true
+
+        guard displayTopic.heatHistory.isEmpty || displayTopic.content == nil else {
+            return
+        }
+
+        isLoadingDetail = true
+        defer { isLoadingDetail = false }
+
+        let repository = await MainActor.run {
+            DependencyContainer.shared.makeTrendingRepository()
+        }
+
+        guard let detailedTopic = try? await repository.getTopicDetail(topicId: topic.id) else {
+            return
+        }
+
+        displayTopic = detailedTopic
+    }
+
+    private func loadTrendDataIfNeeded() async {
+        guard !didAttemptTrendLoad else { return }
+        didAttemptTrendLoad = true
+
+        isLoadingTrendData = true
+        defer { isLoadingTrendData = false }
+
+        let remoteDataSource = RemoteTrendingDataSource()
+        trendSeries = try? await remoteDataSource.fetchTopicTrendSeries(for: topic.id)
+    }
+
+    private var chartDataPoints: [HeatDataPoint]? {
+        if let trendSeries, trendSeries.points.count >= 2 {
+            return trendSeries.points
+        }
+        if displayTopic.heatHistory.count >= 2 {
+            return displayTopic.heatHistory
+        }
+        return nil
     }
 }
 

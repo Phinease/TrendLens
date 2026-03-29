@@ -2,8 +2,8 @@
 
 > **定位：** 当前 Supabase 数据库的全量模型速查，面向 iOS 客户端和 Python 后端的开发参考
 > **数据库：** Supabase (PostgreSQL 15 + pgvector)
-> **设计决策详见：** [data-storage-strategy.md](../backend/docs/data-storage-strategy.md)
-> **最后同步：** 2026-03-13（基于线上数据库实际状态）
+> **设计决策详见：** [TrendLens Data Storage Strategy.md](TrendLens%20Data%20Storage%20Strategy.md)
+> **最后同步：** 2026-03-27（基于线上数据库实际状态）
 
 ---
 
@@ -168,15 +168,27 @@ platforms ─────────────< topics >?──────�
 | `source` | TEXT | NOT NULL | `'llm'` | `llm` / `manual` / `entity` |
 | `embedding` | vector(512) | nullable | — | Jina 嵌入（去重用） |
 | `last_queried_at` | TIMESTAMPTZ | nullable | — | 上次查询 Google Trends |
-| `query_hit_rate` | REAL | NOT NULL | `0` | Google Trends 有效数据比率 |
+| `query_hit_rate` | REAL | NOT NULL | `0` | Google Trends 有效数据比率（EWMA） |
+| `query_miss_streak` | INT | NOT NULL | `0` | 连续成功查询但无数据的次数（网络错误不计入） |
+| `no_trend_data` | BOOLEAN | NOT NULL | `FALSE` | 永久标记：确认 Google Trends 无数据，不再查询 |
 | `is_active` | BOOLEAN | NOT NULL | `TRUE` | — |
 | `created_at` | TIMESTAMPTZ | NOT NULL | `NOW()` | — |
+
+**关键词退役机制：**
+
+| 条件 | 处理 | 说明 |
+|------|------|------|
+| 成功查询 + 有 ≥4 数据点 | `miss_streak=0` | 正常数据，存储 |
+| 成功查询 + 有 1-3 数据点 | `miss_streak+1`，不存储 | 稀疏数据（168h 窗口 <2% 覆盖），无意义 |
+| 成功查询 + 无数据 | `miss_streak+1` | 该关键词在 Google 无搜索量 |
+| 网络错误（429/超时/SSL） | `miss_streak` 不变 | 无法判断，跳过整批 |
+| `miss_streak ≥ 2` | `no_trend_data=TRUE` | 永久退役，不再查询 |
 
 **索引：**
 
 | 索引名 | 定义 |
 |--------|------|
-| `idx_trend_keywords_active` | `(is_active, last_queried_at ASC NULLS FIRST)` |
+| `idx_trend_keywords_queryable` | `(is_active, no_trend_data, last_queried_at ASC NULLS FIRST) WHERE is_active=TRUE AND no_trend_data=FALSE` |
 | `idx_trend_keywords_embedding` | `HNSW(embedding vector_cosine_ops) WHERE embedding IS NOT NULL` |
 
 ---
@@ -295,7 +307,7 @@ Python 后端使用 **service_role key** 绕过 RLS 进行全部读写操作。
 | 热度曲线 | `heat_history` | `.from("heat_history").select().eq("topic_key", key).order("timestamp", ascending: false).limit(96)` |
 | 跨平台事件列表 | `event_clusters` | `.from("event_clusters").select().eq("is_active", true).order("max_heat", ascending: false)` |
 | 事件下所有报道 | `topics` | `.from("topics").select().eq("cluster_id", cid).eq("is_on_list", true)` |
-| 话题趋势数据 | RPC | `.rpc("get_topic_trend_data", params: ["p_topic_key": key])` |
+| 话题趋势数据 | RPC | `.rpc("get_topic_trend_data", params: ["p_topic_key": key])` — 自动过滤 `no_trend_data` 关键词 |
 | 平台列表 | `platforms` | `.from("platforms").select().eq("enabled", true).order("priority")` |
 
 ---
@@ -330,5 +342,6 @@ Python 后端使用 **service_role key** 绕过 RLS 进行全部读写操作。
 | snapshots_meta | 14 天 | Python 调度器 |
 | trend_data | 数组内管理 | Python 调度器 |
 | trend_keywords (无关联) | 30 天后停用 | Python 调度器 |
+| trend_keywords (无数据) | 永久退役 | `no_trend_data=TRUE`（连续 2 次成功查询无数据） |
 
 > pg_cron 不可用（Supabase 免费版），所有清理由 Python 后端每日 03:00 UTC 执行。

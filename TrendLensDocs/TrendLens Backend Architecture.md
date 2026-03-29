@@ -1,10 +1,11 @@
 # TrendLens 后端架构文档
 
 > **文档定位：** Python 后端数据管道的权威架构说明
-> **上层引用：** [TrendLens Technical Architecture.md](../../TrendLens%20Technical%20Architecture.md) §10
-> **数据源规范：** [hot-news-data-sources-v2.md](hot-news-data-sources-v2.md)
-> **存储设计：** [data-storage-strategy.md](data-storage-strategy.md)
-> **字段映射：** [data-requirements.md](data-requirements.md)
+> **上层引用：** [TrendLens Technical Architecture.md](TrendLens%20Technical%20Architecture.md) §10
+> **数据源规范：** [TrendLens Data Sources.md](TrendLens%20Data%20Sources.md)
+> **存储设计：** [TrendLens Data Storage Strategy.md](TrendLens%20Data%20Storage%20Strategy.md)
+> **字段映射：** [TrendLens Data Requirements.md](TrendLens%20Data%20Requirements.md)
+> **数据库全量模型：** [TrendLens Database Schema.md](TrendLens%20Database%20Schema.md)
 
 ---
 
@@ -31,7 +32,11 @@ Python 后端是 TrendLens 的数据采集管道，负责从多个平台抓取�
 
 **运行模式：**
 - **单次运行**：`uv run python -m trendlens run -p P0` — 执行一次完整管道
-- **持续模式**：`uv run python -m trendlens serve` — 每 15 分钟自动执行
+- **持续模式**：`uv run python -m trendlens serve` — 双任务调度：
+  - **主管道**：每 15 分钟（采集 + 归一化 + 嵌入 + 匹配 + 关键词提取）
+  - **趋势采集**：每 60 分钟（Google Trends 查询 + 关键词退役）
+  - 启动时立即执行一次主管道 + 趋势采集，然后进入定时循环
+  - APScheduler `max_instances=1` 保证同类任务不并发
 
 ---
 
@@ -44,15 +49,11 @@ backend/
 │   ├── supabase.yaml               # 密钥配置（gitignored）
 │   └── supabase.example.yaml       # 配置模板
 ├── data/                           # 65 个 API 样本文件（开发验证用）
-├── docs/
-│   ├── backend-architecture.md     # 本文档
-│   ├── data-storage-strategy.md    # topic_key、归一化、匹配算法规范
-│   ├── data-requirements.md        # 数据需求与字段映射
-│   ├── data-sources-v1.md          # 全量数据源调研
-│   └── hot-news-data-sources-v2.md # 选定接口规范（20 个平台）
 ├── migrations/
 │   ├── 001_init_tables.sql         # 6 张表 + pgvector 扩展
-│   └── 002_cron_jobs.sql           # 定时清理 SQL
+│   ├── 002_cron_jobs.sql           # 定时清理 SQL
+│   ├── 003_trend_tables.sql        # trend_keywords + trend_data + RPC
+│   └── 004_trend_keyword_cleanup.sql # query_miss_streak + no_trend_data + 稀疏清理
 ├── logs/                           # 运行时生成（gitignored）
 │   ├── runs/                       # 每次运行的独立日志
 │   └── errors/                     # 按日期的错误日志
@@ -82,6 +83,9 @@ backend/
         │   ├── entity_extractor.py # jieba 实体提取
         │   ├── embedder.py         # Jina API 批量嵌入
         │   ├── quality_filter.py   # LLM 内容质量过滤
+        │   ├── keyword_extractor.py # LLM 关键词提取 + 内容分类
+        │   ├── llm_client.py      # Anthropic Messages API 封装
+        │   └── trend_collector.py # Google Trends 采集 + 稀疏过滤 + 关键词退役
         ├── matching/               # 跨平台匹配
         │   ├── matcher.py          # 三信号融合匹配算法
         │   └── union_find.py       # Union-Find 聚类
@@ -91,6 +95,7 @@ backend/
             ├── embedding_store.py  # topic_embeddings 读写
             ├── cluster_store.py    # event_clusters 创建/合并
             ├── snapshot_store.py   # snapshots_meta 写入
+            ├── trend_store.py     # trend_keywords/links/data 读写 + 退役标记
             └── maintenance.py      # 数据清理
 ```
 
@@ -313,11 +318,22 @@ LLM 编号过滤法：将话题标题+描述编号后发给 LLM，LLM 仅输出�
 通过 Google Trends（pytrends + asyncio.to_thread）采集关键词搜索趋势：
 - 每 5 个关键词一批（Google Trends 上限），每批间隔 65 秒
 - 新关键词用 `now 7-d`（小时粒度）
-- 429 限流时指数退避
-- 空结果更新 `query_hit_rate`，低命中率关键词降低优先级
 - **数组存储**：每个关键词一行（`timestamps[]` + `trend_values[]`），UPSERT 覆盖
 
-**独立调度**：`trend_pipeline.py` 每 60 分钟运行一次，与主管道独立。
+**错误分类与处理**（精确区分"无数据"和"网络故障"）：
+
+| 场景 | `error_kind` | `miss_streak` | 处理 |
+|------|-------------|---------------|------|
+| 请求成功 + ≥4 数据点 | `None` | 归零 | 存储数据 |
+| 请求成功 + 1-3 数据点 | `None` | +1，不存储 | 稀疏数据（168h 窗口 <2% 覆盖） |
+| 请求成功 + 无数据 | `None` | +1 | 该关键词在 Google 确认无搜索量 |
+| 429 限流 | `rate_limited` | 不变 | 跳过整批，降低 batch size |
+| 超时/SSL 错误 | `timeout`/`ssl_eof` | 不变 | 跳过整批，不判断 |
+| `miss_streak ≥ 2` | — | — | 永久标记 `no_trend_data=TRUE`，不再查询 |
+
+**独立调度**：`trend_pipeline.py` 每 60 分钟运行一次，与主管道独立。`serve` 模式启动时立即执行一次。
+
+> 关键词退役机制详见 [Database Schema §2.7](TrendLens%20Database%20Schema.md#27-trend_keywords--趋势搜索关键词)
 
 ### 5.6 存储层 (`storage/`)
 
@@ -329,19 +345,19 @@ LLM 编号过滤法：将话题标题+描述编号后发给 LLM，LLM 仅输出�
 - `select()` — 带过滤的查询
 - `rpc()` — 调用 Supabase 数据库函数
 
-**数据库表结构**（参见 `migrations/001_init_tables.sql`）：
+**数据库表结构**（完整定义详见 [Database Schema](TrendLens%20Database%20Schema.md)）：
 
-| 表名 | 用途 | 关键字段 |
-|------|------|---------|
-| `topics` | 话题主表 | topic_key (PK), platform_id, title, heat_value, entities, is_on_list |
-| `heat_history` | 热度时序 | topic_key (FK), heat_value, rank, fetched_at |
-| `topic_embeddings` | 向量嵌入 | topic_key (PK), embedding (vector(512)), model |
-| `event_clusters` | 跨平台聚类 | cluster_id (PK), member_keys, platforms, title |
-| `snapshots_meta` | 快照元数据 | platform_id, fetched_at, topic_count, duration_ms |
-| `platform_config` | 平台配置 | platform_id, display_name, priority |
-| `trend_keywords` | 趋势关键词 | keyword_id (PK), keyword, embedding, query_hit_rate |
-| `topic_trend_links` | 话题-关键词关联 | topic_key + keyword_id (联合 PK), relevance |
-| `trend_data` | 趋势时序数据 | keyword_id, timestamp, value (0-100), data_source |
+| 表名 | 用途 |
+|------|------|
+| `platforms` | 平台配置（20 行种子数据） |
+| `topics` | 话题主表（topic_key PK） |
+| `heat_history` | 热度时间序列 |
+| `topic_embeddings` | Jina v3 向量嵌入（512 维） |
+| `event_clusters` | 跨平台事件聚类 |
+| `snapshots_meta` | 快照审计日志 |
+| `trend_keywords` | 趋势搜索关键词（含退役标记 `no_trend_data`） |
+| `topic_trend_links` | 话题↔关键词多对多关联 |
+| `trend_data` | 趋势时间序列（数组模式） |
 
 ---
 

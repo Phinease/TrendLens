@@ -129,17 +129,21 @@ async def get_keywords_needing_query(
     since_hours: int = 1,
     limit: int = 100,
 ) -> list[dict]:
-    """Get active keywords that haven't been queried recently, ordered by oldest first."""
+    """Get active keywords that haven't been queried recently, ordered by oldest first.
+
+    Excludes keywords permanently marked as no_trend_data (confirmed no
+    Google Trends coverage after 2+ consecutive successful empty queries).
+    """
     from datetime import timedelta
 
     cutoff = (datetime.now(timezone.utc) - timedelta(hours=since_hours)).strftime("%Y-%m-%dT%H:%M:%S")
     try:
-        # Keywords never queried or queried more than since_hours ago
         rows = await client.select(
             "trend_keywords",
-            "keyword_id,keyword,last_queried_at,query_hit_rate",
+            "keyword_id,keyword,last_queried_at,query_hit_rate,query_miss_streak",
             (
                 f"is_active=eq.true"
+                f"&no_trend_data=eq.false"
                 f"&or=(last_queried_at.is.null,last_queried_at.lt.{quote(cutoff)})"
                 f"&order=last_queried_at.asc.nullsfirst"
                 f"&limit={limit}"
@@ -155,17 +159,42 @@ async def update_keyword_query_stats(
     client: SupabaseClient,
     keyword_id: str,
     hit_rate: float,
+    miss_streak: int = 0,
 ) -> None:
-    """Update keyword's last_queried_at and query_hit_rate."""
+    """Update keyword's last_queried_at, query_hit_rate, and query_miss_streak."""
     now = datetime.now(timezone.utc).isoformat()
     try:
         await client.update(
             "trend_keywords",
-            {"last_queried_at": now, "query_hit_rate": hit_rate},
+            {
+                "last_queried_at": now,
+                "query_hit_rate": hit_rate,
+                "query_miss_streak": miss_streak,
+            },
             f"keyword_id=eq.{quote(keyword_id)}",
         )
     except Exception as exc:
         log.error("trend_store.update_stats_error", keyword_id=keyword_id, error=str(exc))
+
+
+async def mark_keyword_no_trend_data(
+    client: SupabaseClient,
+    keyword_id: str,
+) -> None:
+    """Permanently mark a keyword as having no Google Trends data.
+
+    Once marked, the keyword is excluded from future trend queries.
+    This is only called after 2+ consecutive successful queries returned
+    no data — network errors do NOT trigger this.
+    """
+    try:
+        await client.update(
+            "trend_keywords",
+            {"no_trend_data": True},
+            f"keyword_id=eq.{quote(keyword_id)}",
+        )
+    except Exception as exc:
+        log.error("trend_store.mark_no_data_error", keyword_id=keyword_id, error=str(exc))
 
 
 async def cleanup_trend_data(client: SupabaseClient, retention_days: int = 90) -> None:

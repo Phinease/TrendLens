@@ -16,12 +16,16 @@ struct TopicDetailView: View {
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.openURL) private var openURL
     @State private var isFavorite: Bool
+    @State private var displayTopic: TrendTopicEntity
+    @State private var isLoadingDetail = false
+    @State private var didAttemptDetailLoad = false
 
     // MARK: - Initialization
 
     init(topic: TrendTopicEntity) {
         self.topic = topic
         self._isFavorite = State(initialValue: topic.isFavorite)
+        self._displayTopic = State(initialValue: topic)
     }
 
     // MARK: - Body
@@ -34,7 +38,7 @@ struct TopicDetailView: View {
                     .padding(.bottom, DesignSystem.Spacing.md)
 
                 // 标题
-                Text(topic.title)
+                Text(displayTopic.title)
                     .font(.system(size: 24, weight: .bold, design: .default))
                     .foregroundStyle(.primary)
                     .lineLimit(nil)
@@ -48,7 +52,7 @@ struct TopicDetailView: View {
                     .padding(.bottom, DesignSystem.Spacing.lg)
 
                 // 图片区域
-                if !topic.imageURLs.isEmpty {
+                if !displayTopic.imageURLs.isEmpty {
                     imageGallery
                         .padding(.bottom, DesignSystem.Spacing.lg)
                 }
@@ -57,13 +61,13 @@ struct TopicDetailView: View {
                 contentSection
 
                 // 标签
-                if !topic.tags.isEmpty {
+                if !displayTopic.tags.isEmpty {
                     tagsSection
                         .padding(.top, DesignSystem.Spacing.xl)
                 }
 
                 // 评论区
-                if !topic.comments.isEmpty {
+                if !displayTopic.comments.isEmpty {
                     commentsSection
                         .padding(.top, DesignSystem.Spacing.xl)
                 }
@@ -97,7 +101,7 @@ struct TopicDetailView: View {
                 }
 
                 // 打开原文
-                if let link = topic.link, !link.isEmpty, let url = URL(string: link) {
+                if let link = displayTopic.link, !link.isEmpty, let url = URL(string: link) {
                     Button {
                         openURL(url)
                     } label: {
@@ -106,6 +110,9 @@ struct TopicDetailView: View {
                 }
             }
         }
+        .task(id: topic.id) {
+            await loadTopicDetailIfNeeded()
+        }
     }
 
     // MARK: - Source Header
@@ -113,10 +120,10 @@ struct TopicDetailView: View {
     private var sourceHeader: some View {
         HStack(spacing: DesignSystem.Spacing.sm) {
             // 平台图标
-            PlatformIcon(platform: topic.platform)
+            PlatformIcon(platform: displayTopic.platform)
 
             // 平台名称
-            Text(topic.platform.displayName)
+            Text(displayTopic.platform.displayName)
                 .font(.system(size: 15, weight: .medium))
                 .foregroundStyle(.primary)
 
@@ -124,7 +131,7 @@ struct TopicDetailView: View {
                 .foregroundStyle(.tertiary)
 
             // 时间
-            Text(formatDate(topic.fetchedAt))
+            Text(formatDate(displayTopic.fetchedAt))
                 .font(.system(size: 14, weight: .regular))
                 .foregroundStyle(.secondary)
 
@@ -141,7 +148,7 @@ struct TopicDetailView: View {
                 Image(systemName: "number")
                     .font(.system(size: 13, weight: .medium))
                     .foregroundStyle(.secondary)
-                Text("\(topic.rank)")
+                Text("\(displayTopic.rank)")
                     .font(.system(size: 15, weight: .semibold, design: .rounded))
                     .foregroundStyle(.primary)
             }
@@ -150,14 +157,14 @@ struct TopicDetailView: View {
             HStack(spacing: 4) {
                 Image(systemName: "flame.fill")
                     .font(.system(size: 13, weight: .medium))
-                    .foregroundStyle(DesignSystem.HeatSpectrum.color(for: topic.heatValue))
-                Text(topic.heatValue.formattedHeat)
+                    .foregroundStyle(DesignSystem.HeatSpectrum.color(for: displayTopic.heatValue))
+                Text(displayTopic.heatValue.formattedHeat)
                     .font(.system(size: 15, weight: .semibold, design: .monospaced))
-                    .foregroundStyle(DesignSystem.HeatSpectrum.color(for: topic.heatValue))
+                    .foregroundStyle(DesignSystem.HeatSpectrum.color(for: displayTopic.heatValue))
             }
 
             // 排名变化
-            RankChangeIndicator(rankChange: topic.rankChange, style: .full)
+            RankChangeIndicator(rankChange: displayTopic.rankChange, style: .full)
 
             Spacer()
         }
@@ -171,9 +178,9 @@ struct TopicDetailView: View {
 
     private var imageGallery: some View {
         VStack(alignment: .leading, spacing: DesignSystem.Spacing.sm) {
-            if topic.imageURLs.count == 1 {
+            if displayTopic.imageURLs.count == 1 {
                 // 单图：大图展示
-                AsyncImage(url: URL(string: topic.imageURLs[0])) { phase in
+                AsyncImage(url: URL(string: displayTopic.imageURLs[0])) { phase in
                     imagePhaseView(phase: phase)
                 }
                 .frame(maxWidth: .infinity)
@@ -188,7 +195,7 @@ struct TopicDetailView: View {
                     ],
                     spacing: DesignSystem.Spacing.xs
                 ) {
-                    ForEach(Array(topic.imageURLs.prefix(4).enumerated()), id: \.offset) { index, urlString in
+                    ForEach(Array(displayTopic.imageURLs.prefix(4).enumerated()), id: \.offset) { index, urlString in
                         AsyncImage(url: URL(string: urlString)) { phase in
                             imagePhaseView(phase: phase)
                         }
@@ -196,10 +203,10 @@ struct TopicDetailView: View {
                         .clipShape(RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.small, style: .continuous))
                         .overlay {
                             // 显示更多图片数量
-                            if index == 3 && topic.imageURLs.count > 4 {
+                            if index == 3 && displayTopic.imageURLs.count > 4 {
                                 RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.small, style: .continuous)
                                     .fill(.black.opacity(0.5))
-                                Text("+\(topic.imageURLs.count - 4)")
+                                Text("+\(displayTopic.imageURLs.count - 4)")
                                     .font(.system(size: 20, weight: .semibold))
                                     .foregroundStyle(.white)
                             }
@@ -242,7 +249,7 @@ struct TopicDetailView: View {
     private var contentSection: some View {
         VStack(alignment: .leading, spacing: DesignSystem.Spacing.lg) {
             // AI 摘要（核心内容）
-            if !topic.summary.isEmpty {
+            if !displayTopic.summary.isEmpty {
                 VStack(alignment: .leading, spacing: DesignSystem.Spacing.sm) {
                     HStack(spacing: 6) {
                         Image(systemName: "sparkles")
@@ -253,7 +260,7 @@ struct TopicDetailView: View {
                             .foregroundStyle(.purple)
                     }
 
-                    Text(topic.summary)
+                    Text(displayTopic.summary)
                         .font(.system(size: 16, weight: .regular))
                         .foregroundStyle(.primary)
                         .lineSpacing(6)
@@ -267,7 +274,7 @@ struct TopicDetailView: View {
             }
 
             // 详细内容
-            if let content = topic.content, !content.isEmpty {
+            if let content = displayTopic.content, !content.isEmpty {
                 Text(content)
                     .font(.system(size: 17, weight: .regular))
                     .foregroundStyle(.primary)
@@ -275,14 +282,18 @@ struct TopicDetailView: View {
             }
 
             // 占位内容（当没有详细内容时）
-            if topic.content == nil || topic.content?.isEmpty == true {
-                if let description = topic.description, !description.isEmpty {
+            if displayTopic.content == nil || displayTopic.content?.isEmpty == true {
+                if let description = displayTopic.description, !description.isEmpty {
                     Text(description)
                         .font(.system(size: 17, weight: .regular))
                         .foregroundStyle(.primary)
                         .lineSpacing(8)
                 } else {
-                    placeholderContent
+                    if isLoadingDetail {
+                        LoadingView(message: "加载详情中...")
+                    } else {
+                        placeholderContent
+                    }
                 }
             }
         }
@@ -321,7 +332,7 @@ struct TopicDetailView: View {
                 .foregroundStyle(.secondary)
 
             FlowLayout(spacing: DesignSystem.Spacing.xs) {
-                ForEach(topic.tags, id: \.self) { tag in
+                ForEach(displayTopic.tags, id: \.self) { tag in
                     Text("#\(tag)")
                         .font(.system(size: 14, weight: .medium))
                         .foregroundStyle(.primary)
@@ -350,7 +361,7 @@ struct TopicDetailView: View {
 
                 Spacer()
 
-                Text("\(topic.comments.count) 条")
+                Text("\(displayTopic.comments.count) 条")
                     .font(.system(size: 13, weight: .regular))
                     .foregroundStyle(.secondary)
             }
@@ -359,7 +370,7 @@ struct TopicDetailView: View {
 
             // 评论列表
             LazyVStack(spacing: DesignSystem.Spacing.md) {
-                ForEach(topic.comments) { comment in
+                ForEach(displayTopic.comments) { comment in
                     CommentRow(comment: comment)
                 }
             }
@@ -399,11 +410,11 @@ struct TopicDetailView: View {
     private func shareTopic() {
 #if os(iOS)
         let shareText = """
-        \(topic.title)
+        \(displayTopic.title)
 
-        \(topic.summary)
+        \(displayTopic.summary)
 
-        来自 \(topic.platform.displayName) · 热度 \(topic.heatValue.formattedHeat)
+        来自 \(displayTopic.platform.displayName) · 热度 \(displayTopic.heatValue.formattedHeat)
         """
 
         let activityVC = UIActivityViewController(
@@ -416,6 +427,31 @@ struct TopicDetailView: View {
             rootViewController.present(activityVC, animated: true)
         }
 #endif
+    }
+
+    private func loadTopicDetailIfNeeded() async {
+        guard !didAttemptDetailLoad else { return }
+        didAttemptDetailLoad = true
+
+        let needsRemoteDetail =
+            displayTopic.heatHistory.isEmpty ||
+            displayTopic.content == nil ||
+            displayTopic.imageURLs.isEmpty
+        guard needsRemoteDetail else { return }
+
+        isLoadingDetail = true
+        defer { isLoadingDetail = false }
+
+        let repository = await MainActor.run {
+            DependencyContainer.shared.makeTrendingRepository()
+        }
+
+        guard let detailedTopic = try? await repository.getTopicDetail(topicId: topic.id) else {
+            return
+        }
+
+        displayTopic = detailedTopic
+        isFavorite = detailedTopic.isFavorite
     }
 }
 

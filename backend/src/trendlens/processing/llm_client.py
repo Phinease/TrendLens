@@ -52,7 +52,7 @@ async def call_llm(
         payload["system"] = system
 
     try:
-        async with httpx.AsyncClient(timeout=httpx.Timeout(30, connect=10)) as client:
+        async with httpx.AsyncClient(timeout=httpx.Timeout(30, connect=10), verify=False) as client:
             resp = await _post_messages(client, url, headers, payload)
         data = resp.json()
         # Extract text from first content block

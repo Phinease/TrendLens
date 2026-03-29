@@ -62,6 +62,37 @@ struct SupabaseHeatHistoryDTO: Decodable {
     }
 }
 
+struct SupabaseTopicTrendDTO: Decodable {
+    let keyword: String
+    let relevance: Double
+    let dataSource: String
+    let resolution: String
+    let geo: String
+    let timestamps: [Date]
+    let trendValues: [Int]
+    let queriedAt: Date
+
+    enum CodingKeys: String, CodingKey {
+        case keyword
+        case relevance
+        case dataSource = "data_source"
+        case resolution
+        case geo
+        case timestamps
+        case trendValues = "trend_values"
+        case queriedAt = "queried_at"
+    }
+}
+
+struct TopicTrendSeries: Sendable, Equatable {
+    let keyword: String
+    let dataSource: String
+    let resolution: String
+    let geo: String
+    let relevance: Double
+    let points: [HeatDataPoint]
+}
+
 // MARK: - Remote Data Source
 
 /// 远程热榜数据源（Supabase）
@@ -114,6 +145,41 @@ actor RemoteTrendingDataSource {
                 rank: dto.rank
             )
         }.reversed()
+    }
+
+    /// 获取话题关联的 Google Trends 趋势数据
+    func fetchTopicTrendSeries(for topicKey: String) async throws -> TopicTrendSeries? {
+        let params: [String: String] = ["p_topic_key": topicKey]
+        let dtos: [SupabaseTopicTrendDTO] = try await client
+            .rpc("get_topic_trend_data", params: params)
+            .execute()
+            .value
+
+        let candidate = dtos
+            .map { dto in
+                let points = zip(dto.timestamps, dto.trendValues).map { timestamp, value in
+                    HeatDataPoint(timestamp: timestamp, heatValue: value)
+                }
+
+                return TopicTrendSeries(
+                    keyword: dto.keyword,
+                    dataSource: dto.dataSource,
+                    resolution: dto.resolution,
+                    geo: dto.geo,
+                    relevance: dto.relevance,
+                    points: points.sorted { $0.timestamp < $1.timestamp }
+                )
+            }
+            .filter { $0.points.count >= 2 }
+            .sorted {
+                if $0.relevance == $1.relevance {
+                    return $0.points.count > $1.points.count
+                }
+                return $0.relevance > $1.relevance
+            }
+            .first
+
+        return candidate
     }
 
     /// 搜索话题

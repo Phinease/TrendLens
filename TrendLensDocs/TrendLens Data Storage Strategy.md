@@ -2,8 +2,8 @@
 
 > **定位：** 数据存储架构、表设计、话题追踪与跨平台关联算法的完整技术规范
 > **配套文档：**
-> - [data-requirements.md](data-requirements.md) — 数据字段需求与覆盖矩阵
-> - [hot-news-data-sources-v2.md](hot-news-data-sources-v2.md) — 数据源接口规范
+> - [TrendLens Data Requirements.md](TrendLens%20Data%20Requirements.md) — 数据字段需求与覆盖矩阵
+> - [TrendLens Data Sources.md](TrendLens%20Data%20Sources.md) — 数据源接口规范
 > **技术栈：** Supabase (PostgreSQL 15 + pgvector) + Python 后端 + Jina Embeddings
 > **最后更新：** 2026-02-25
 

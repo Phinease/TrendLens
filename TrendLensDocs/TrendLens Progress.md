@@ -3,8 +3,8 @@
 > **文档定位：** 当前开发进度与任务追踪（唯一权威来源）
 > **阶段定义参考：** [TrendLens Development Plan.md](TrendLens%20Development%20Plan.md) 第 7 章
 >
-> **当前阶段：** 阶段 2 - 端到端验证完成（2.4.5）
-> **最后更新：** 2026-03-13
+> **当前阶段：** 阶段 2 - 端到端验证完成（2.4.5）+ 数据管道持续优化
+> **最后更新：** 2026-03-27
 
 ---
 
@@ -26,10 +26,10 @@
 **目标**：建立 Python 后端数据采集系统，通过 Supabase 存储数据，iOS 应用连接远程数据源替换本地 Mock 数据。
 
 **设计文档**：
-- 数据源选型：[backend/docs/hot-news-data-sources-v2.md](../backend/docs/hot-news-data-sources-v2.md)
-- 数据需求：[backend/docs/data-requirements.md](../backend/docs/data-requirements.md)
-- 数据存储策略：[backend/docs/data-storage-strategy.md](../backend/docs/data-storage-strategy.md)
-- 全量调研：[backend/docs/data-sources-v1.md](../backend/docs/data-sources-v1.md)
+- 数据源选型：[TrendLens Data Sources.md](TrendLens%20Data%20Sources.md)
+- 数据需求：[TrendLens Data Requirements.md](TrendLens%20Data%20Requirements.md)
+- 数据存储策略：[TrendLens Data Storage Strategy.md](TrendLens%20Data%20Storage%20Strategy.md)
+- 全量调研：[TrendLens Data Sources v1 (Archive).md](TrendLens%20Data%20Sources%20v1%20(Archive).md)
 
 **技术栈**：Python 后端 + Supabase (PostgreSQL + pgvector) + Jina Embeddings v3 + Supabase Data API
 
@@ -41,7 +41,7 @@
 
 #### 2.1 数据源接口验证
 
-- [x] **2.1.1 P0 核心源**（7 源）✅ — 全部验证通过，详见 [hot-news-data-sources-v2.md](../backend/docs/hot-news-data-sources-v2.md)
+- [x] **2.1.1 P0 核心源**（7 源）✅ — 全部验证通过，详见 [TrendLens Data Sources.md](TrendLens%20Data%20Sources.md)
 - [ ] **2.1.2 P1 补充源**（6 源）— sina-news, thepaper, tencent-hot, hackernews, 36kr-renqi, douban
 - [ ] **2.1.3 P2 延伸源**（7 源）— wallstreetcn, cankaoxiaoxi, github-trending, netease-news, tieba, ithome, kaopu
 - [ ] **2.1.4 补充缺失的数据源**
@@ -50,7 +50,7 @@
 
 #### 2.2 数据库建模 ✅
 
-6 张核心表 + 3 张趋势表 + pgvector HNSW 索引 + RLS + 20 平台种子数据。详见 [data-storage-strategy.md](../backend/docs/data-storage-strategy.md)。
+6 张核心表 + 3 张趋势表 + pgvector HNSW 索引 + RLS + 20 平台种子数据。详见 [TrendLens Data Storage Strategy.md](TrendLens%20Data%20Storage%20Strategy.md)。
 
 > ~~2.2.6 pg_cron~~ — 免费版不支持，改由 Python 后端调度器执行。
 
@@ -60,7 +60,7 @@
 
 **代码位置**：`backend/src/trendlens/`（45+ Python 源文件，7 个包）
 **技术栈**：uv + Python 3.12+ / httpx / structlog / jieba / Jina Embeddings / Supabase PostgREST
-**详细架构**：[backend-architecture.md](../backend/docs/backend-architecture.md)
+**详细架构**：[TrendLens Backend Architecture.md](TrendLens%20Backend%20Architecture.md)
 
 | 子任务 | 状态 | 摘要 |
 |--------|------|------|
@@ -77,8 +77,12 @@
 | 2.3.11 热力数据采集 | ✅ | LLM 关键词提取 → Google Trends → 趋势管道 60 分钟周期 |
 | 2.3.12 Tag 补充 | ✅ | LLM 15 类分类 + merge_tags 合并算法 |
 
-- [ ] **2.3.13 向量嵌入存储验证** ⏸️ 延后 — pgvector 支持确认、持久化验证、RPC 函数部署
-- [ ] **2.3.14 P1/P2 源扩展** ⏸️ 延后 — P1（6 源）+ P2（7 源）实现与数据质量验证
+| 2.3.13 趋势关键词退役机制 | ✅ | `query_miss_streak` + `no_trend_data` 列、稀疏数据过滤（≤3 点）、网络错误 vs 确认无数据精确区分 |
+| 2.3.14 调度器优化 | ✅ | `serve` 启动时立即执行 trend cycle（不等 60 分钟） |
+| 2.3.15 文档统一管理 | ✅ | `backend/docs/` 合并至 `TrendLensDocs/`、修复全部交叉引用、SSOT 整改 |
+
+- [ ] **2.3.16 向量嵌入存储验证** ⏸️ 延后 — pgvector 支持确认、持久化验证、RPC 函数部署
+- [ ] **2.3.17 P1/P2 源扩展** ⏸️ 延后 — P1（6 源）+ P2（7 源）实现与数据质量验证
 
 ---
 

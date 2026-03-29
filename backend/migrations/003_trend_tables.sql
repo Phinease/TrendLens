@@ -43,22 +43,23 @@ CREATE TABLE topic_trend_links (
 CREATE INDEX idx_topic_trend_links_keyword ON topic_trend_links(keyword_id);
 
 -- ============================================================
--- 3. trend_data — Trend Time Series
+-- 3. trend_data — Trend Time Series (array mode)
 -- ============================================================
 
 CREATE TABLE trend_data (
-    id              BIGSERIAL PRIMARY KEY,
     keyword_id      TEXT NOT NULL REFERENCES trend_keywords(keyword_id) ON DELETE CASCADE,
-    timestamp       TIMESTAMPTZ NOT NULL,
-    value           INT NOT NULL,
     data_source     TEXT NOT NULL DEFAULT 'google_trends',
     resolution      TEXT NOT NULL DEFAULT 'hourly',
     geo             TEXT NOT NULL DEFAULT '',
+    timestamps      TIMESTAMPTZ[] NOT NULL DEFAULT '{}',
+    trend_values    INT[] NOT NULL DEFAULT '{}',
+    queried_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 
-    UNIQUE (keyword_id, timestamp, data_source, geo)
+    PRIMARY KEY (keyword_id, data_source, resolution, geo)
 );
 
-CREATE INDEX idx_trend_data_keyword_time ON trend_data(keyword_id, timestamp DESC);
+CREATE INDEX idx_trend_data_queried ON trend_data(queried_at DESC);
 
 -- ============================================================
 -- 4. heat_history enhancement — raw_heat_value
@@ -78,26 +79,28 @@ CREATE OR REPLACE FUNCTION get_topic_trend_data(
 RETURNS TABLE (
     keyword TEXT,
     relevance REAL,
-    "timestamp" TIMESTAMPTZ,
-    value INT,
     data_source TEXT,
     resolution TEXT,
-    geo TEXT
+    geo TEXT,
+    timestamps TIMESTAMPTZ[],
+    trend_values INT[],
+    queried_at TIMESTAMPTZ
 ) LANGUAGE sql STABLE AS $$
     SELECT
         tk.keyword,
         ttl.relevance,
-        td."timestamp",
-        td.value,
         td.data_source,
         td.resolution,
-        td.geo
+        td.geo,
+        td.timestamps,
+        td.trend_values,
+        td.queried_at
     FROM topic_trend_links ttl
     JOIN trend_keywords tk ON tk.keyword_id = ttl.keyword_id
     JOIN trend_data td ON td.keyword_id = ttl.keyword_id
     WHERE ttl.topic_key = p_topic_key
-      AND td."timestamp" >= p_since
-    ORDER BY td."timestamp" DESC;
+      AND td.queried_at >= p_since
+    ORDER BY td.queried_at DESC;
 $$;
 
 -- Find similar keywords by embedding (pgvector dedup)
@@ -124,22 +127,12 @@ RETURNS TABLE (
 $$;
 
 -- Downsample trend_data older than N days (keep one per day per keyword)
+-- Array mode stores one row per keyword/source/resolution/geo, so downsampling
+-- is handled inside the arrays by the application pipeline instead of SQL.
 CREATE OR REPLACE FUNCTION downsample_trend_data(p_older_than_days INT DEFAULT 7)
 RETURNS INT LANGUAGE plpgsql AS $$
-DECLARE
-    deleted_count INT;
 BEGIN
-    DELETE FROM trend_data
-    WHERE "timestamp" < NOW() - (p_older_than_days || ' days')::INTERVAL
-      AND id NOT IN (
-        SELECT DISTINCT ON (keyword_id, date_trunc('day', "timestamp"), data_source, geo)
-            id
-        FROM trend_data
-        WHERE "timestamp" < NOW() - (p_older_than_days || ' days')::INTERVAL
-        ORDER BY keyword_id, date_trunc('day', "timestamp"), data_source, geo, "timestamp"
-      );
-    GET DIAGNOSTICS deleted_count = ROW_COUNT;
-    RETURN deleted_count;
+    RETURN 0;
 END;
 $$;
 

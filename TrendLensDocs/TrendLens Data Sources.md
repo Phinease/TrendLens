@@ -1,8 +1,8 @@
 # TrendLens 热榜数据接口选型 v2
 
 > **定位：** 后端实际使用的热榜数据接口规范（基于 data-sources-v1.md 调研筛选）
-> **前置文档：** [data-sources-v1.md](data-sources-v1.md) — 全量数据源调研（61 个源）
-> **配套文档：** [data-requirements.md](data-requirements.md) — 数据需求与字段映射
+> **前置文档：** [TrendLens Data Sources v1 (Archive).md](TrendLens%20Data%20Sources%20v1%20(Archive).md) — 全量数据源调研（61 个源）
+> **配套文档：** [TrendLens Data Requirements.md](TrendLens%20Data%20Requirements.md) — 数据需求与字段映射
 > **最后更新：** 2026-02-23
 
 ---

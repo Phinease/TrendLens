@@ -89,7 +89,7 @@ TrendLens/
 
 ### 后端（Python）
 
-> 详细技术栈说明见 [backend/docs/backend-architecture.md](../backend/docs/backend-architecture.md) §3
+> 详细技术栈说明见 [TrendLens Backend Architecture.md](TrendLens%20Backend%20Architecture.md) §3
 
 | 类别 | 技术 |
 |------|------|
@@ -166,7 +166,7 @@ View → ViewModel → UseCase → Repository ─→ RemoteDataSource (Supabase 
 ```
 
 ```
-[后端数据管道] (详见 backend/docs/backend-architecture.md §4)
+[后端数据管道] (详见 TrendLens Backend Architecture.md §4)
 Fetcher → Normalizer → Entity Extractor → Embedder → Storage → Scraper → Matcher
   │           │              │                │          │          │         │
   │           │              │                │          │          │         └─ 三信号融合 + Union-Find
@@ -265,10 +265,10 @@ NavigationStack {
 ## 10. 后端架构（Python + Supabase）
 
 > **[权威定义]** 本章节为后端架构的概述入口。
-> **完整后端架构文档：** [backend/docs/backend-architecture.md](../backend/docs/backend-architecture.md)
-> **数据源规范：** [backend/docs/hot-news-data-sources-v2.md](../backend/docs/hot-news-data-sources-v2.md)
-> **存储设计规范：** [backend/docs/data-storage-strategy.md](../backend/docs/data-storage-strategy.md)
-> **数据需求文档：** [backend/docs/data-requirements.md](../backend/docs/data-requirements.md)
+> **完整后端架构文档：** [TrendLens Backend Architecture.md](TrendLens%20Backend%20Architecture.md)
+> **数据源规范：** [TrendLens Data Sources.md](TrendLens%20Data%20Sources.md)
+> **存储设计规范：** [TrendLens Data Storage Strategy.md](TrendLens%20Data%20Storage%20Strategy.md)
+> **数据需求文档：** [TrendLens Data Requirements.md](TrendLens%20Data%20Requirements.md)
 
 ### 10.1 后端目录结构
 

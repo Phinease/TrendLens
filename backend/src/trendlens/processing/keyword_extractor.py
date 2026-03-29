@@ -140,7 +140,10 @@ async def _llm_extract_batch(
         for item in extractions:
             # Map numeric ID back to actual topic_key
             raw_tk = str(item.get("topic_key", ""))
-            tk = idx_to_key.get(raw_tk, raw_tk)
+            tk = idx_to_key.get(raw_tk)
+            if tk is None:
+                log.warning("keyword_extractor.invalid_topic_key", raw_topic_key=raw_tk)
+                continue
             kws = item.get("keywords", [])
             valid_kws = []
             for kw in kws:

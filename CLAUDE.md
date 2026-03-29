@@ -187,7 +187,7 @@ View → ViewModel → UseCase → Repository → DataSource
 | [Testing Guide.md](TrendLensDocs/TrendLens%20Testing%20Guide.md) | 测试策略总览、覆盖率要求 | 测试框架变更、质量要求调整 |
 | [TrendLensTests Architecture.md](TrendLensDocs/TrendLensTests%20Architecture.md) | 单元测试实现细节（从属于 Testing Guide） | 测试架构变化 |
 | [UI Design System.md](TrendLensDocs/TrendLens%20UI%20Design%20System.md) | UI 视觉设计规范、组件设计 | 设计语言变化 |
-| [Backend Architecture.md](backend/docs/backend-architecture.md) | Python 后端架构（管道、模块、存储、匹配） | 后端架构变更 |
+| [Backend Architecture.md](TrendLensDocs/TrendLens%20Backend%20Architecture.md) | Python 后端架构（管道、模块、存储、匹配） | 后端架构变更 |
 | [Database Schema.md](TrendLensDocs/TrendLens%20Database%20Schema.md) | 数据库全量模型速查（表结构、索引、RLS、RPC、查询） | Schema 变更时 |
 | [Key Files.md](TrendLensDocs/TrendLens%20Key%20Files.md) | 关键文件索引（iOS + 后端） | 新增关键模块时 |
 | [Progress.md](TrendLensDocs/TrendLens%20Progress.md) | 当前待办、开发进展追踪（唯一权威） | 每次开发完成后 |
@@ -221,8 +221,11 @@ View → ViewModel → UseCase → Repository → DataSource
 | 匹配算法 | Backend Architecture.md | §5.5 |
 | 后端常量阈值 | Backend Architecture.md | §7 |
 | 数据库全量模型（表/索引/RLS/RPC） | Database Schema.md | 全文 |
-| 数据库设计决策与算法 | data-storage-strategy.md | 全文 |
-| 数据源接口 | hot-news-data-sources-v2.md | 全文 |
+| 数据库设计决策与算法 | Data Storage Strategy.md | 全文 |
+| 数据源接口 | Data Sources.md | 全文 |
+| 数据字段需求 | Data Requirements.md | 全文 |
+| 趋势关键词退役机制 | Database Schema.md | §2.7 |
+| 趋势采集错误处理 | Backend Architecture.md | §5.9 |
 
 ### 开发完成后的文档更新流程
 

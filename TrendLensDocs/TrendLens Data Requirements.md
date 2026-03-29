@@ -2,8 +2,8 @@
 
 > **定位：** 管理全部数据类型、接口对接情况与数据表设计（持续更新的活文档）
 > **配套文档：**
-> - [hot-news-data-sources-v2.md](hot-news-data-sources-v2.md) — 数据源接口规范
-> - [data-storage-strategy.md](data-storage-strategy.md) — 数据存储策略（表设计、匹配算法）
+> - [TrendLens Data Sources.md](TrendLens%20Data%20Sources.md) — 数据源接口规范
+> - [TrendLens Data Storage Strategy.md](TrendLens%20Data%20Storage%20Strategy.md) — 数据存储策略（表设计、匹配算法）
 > **关联代码：** `TrendLens/Core/Domain/Entities/` — iOS 端实体定义
 > **最后更新：** 2026-02-23
 

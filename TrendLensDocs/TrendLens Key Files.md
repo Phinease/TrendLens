@@ -110,10 +110,17 @@
 
 | 文件 | 职责 |
 |------|------|
-| [backend/docs/backend-architecture.md](../backend/docs/backend-architecture.md) | Python 后端完整架构 |
-| [backend/docs/data-storage-strategy.md](../backend/docs/data-storage-strategy.md) | topic_key、归一化、匹配算法规范 |
-| [backend/docs/data-requirements.md](../backend/docs/data-requirements.md) | 数据需求与字段映射 |
-| [backend/docs/hot-news-data-sources-v2.md](../backend/docs/hot-news-data-sources-v2.md) | 20 个数据源接口规范 |
-| [backend/migrations/001_init_tables.sql](backend/migrations/001_init_tables.sql) | 数据库 Schema（6 张表 + pgvector） |
-| [backend/migrations/002_cron_jobs.sql](backend/migrations/002_cron_jobs.sql) | 定时清理 SQL |
-| [backend/migrations/003_trend_tables.sql](backend/migrations/003_trend_tables.sql) | 趋势数据表（3 张 + RPC + RLS） |
+| [TrendLens Backend Architecture.md](TrendLens%20Backend%20Architecture.md) | Python 后端完整架构 |
+| [TrendLens Data Storage Strategy.md](TrendLens%20Data%20Storage%20Strategy.md) | topic_key、归一化、匹配算法规范 |
+| [TrendLens Data Requirements.md](TrendLens%20Data%20Requirements.md) | 数据需求与字段映射 |
+| [TrendLens Data Sources.md](TrendLens%20Data%20Sources.md) | 20 个数据源接口规范 |
+| [TrendLens Database Schema.md](TrendLens%20Database%20Schema.md) | 数据库全量模型（9 表 + RPC + RLS） |
+
+### 数据库迁移
+
+| 文件 | 职责 |
+|------|------|
+| [backend/migrations/001_init_tables.sql](../backend/migrations/001_init_tables.sql) | 6 张核心表 + pgvector |
+| [backend/migrations/002_cron_jobs.sql](../backend/migrations/002_cron_jobs.sql) | 定时清理 SQL |
+| [backend/migrations/003_trend_tables.sql](../backend/migrations/003_trend_tables.sql) | 趋势数据表（3 张 + RPC + RLS） |
+| [backend/migrations/004_trend_keyword_cleanup.sql](../backend/migrations/004_trend_keyword_cleanup.sql) | 关键词退役机制（miss_streak + no_trend_data） |

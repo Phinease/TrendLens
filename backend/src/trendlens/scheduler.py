@@ -68,6 +68,8 @@ def start_scheduler(cfg: AppConfig) -> None:
 
     # Run once immediately
     _run_cycle_sync(cfg)
+    if cfg.trend.enabled:
+        _run_trend_cycle_sync(cfg)
 
     log.info("scheduler.running", interval_minutes=DEFAULT_FETCH_INTERVAL_MINUTES)
     try:
