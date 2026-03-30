@@ -175,6 +175,38 @@ View → ViewModel → UseCase → Repository → DataSource
 
 ---
 
+## iOS 调试协作模式
+
+> 详细指南见 [iOS Debug Collaboration Guide.md](TrendLensDocs/TrendLens%20iOS%20Debug%20Collaboration%20Guide.md)
+
+**核心约束：** Claude 看不到运行中的 App（模拟器/真机画面、交互延迟、动画效果），只能看到代码、编译结果、Preview 截图和控制台日志。
+
+### 日志系统（AppLog）
+
+- 日志工厂：`Core/Infrastructure/Logging/AppLog.swift`
+- 7 个分类：`network`, `data`, `ui`, `cache`, `nav`, `lifecycle`, `perf`
+- 格式约定：`操作 状态 key=value key=value`
+- 计时辅助：`timed("LABEL") { await operation() }`
+- 使用 `AppLog` 的文件必须 `import OSLog`
+
+### 协作流程
+
+1. **Claude 改代码** → `mcp__xcode__BuildProject` 验证编译
+2. **静态布局问题** → `mcp__xcode__RenderPreview` 渲染 Preview 截图自查
+3. **交互/性能问题** → 用户在 Xcode 控制台（`Cmd+Shift+C`）过滤 `com.trendlens` 粘贴日志
+4. **数据问题** → `mcp__supabase__execute_sql` 直接查数据库
+
+### 用户反馈模板
+
+```
+问题：[一句话]
+操作：[1. 点击xx 2. 等待 3. 看到xx]
+控制台日志：[粘贴 com.trendlens 过滤后的日志]
+截图：[如有]
+```
+
+---
+
 ## 文档维护规范
 
 ### 文档职责划分
@@ -190,6 +222,9 @@ View → ViewModel → UseCase → Repository → DataSource
 | [Backend Architecture.md](TrendLensDocs/TrendLens%20Backend%20Architecture.md) | Python 后端架构（管道、模块、存储、匹配） | 后端架构变更 |
 | [Database Schema.md](TrendLensDocs/TrendLens%20Database%20Schema.md) | 数据库全量模型速查（表结构、索引、RLS、RPC、查询） | Schema 变更时 |
 | [Key Files.md](TrendLensDocs/TrendLens%20Key%20Files.md) | 关键文件索引（iOS + 后端） | 新增关键模块时 |
+| [Trends Feature Design.md](TrendLensDocs/TrendLens%20Trends%20Feature%20Design.md) | 趋势页面功能设计（页面结构、数据流、组件） | 趋势功能变更时 |
+| [iOS Debug Collaboration Guide.md](TrendLensDocs/TrendLens%20iOS%20Debug%20Collaboration%20Guide.md) | 人机协作调试流程（日志系统、反馈模板） | 调试流程变更时 |
+| [SwiftUI Review.md](TrendLensDocs/TrendLens%20SwiftUI%20Review.md) | SwiftUI 全面审查报告（设计+技术+性能+修复记录） | 审查/修复后 |
 | [Progress.md](TrendLensDocs/TrendLens%20Progress.md) | 当前待办、开发进展追踪（唯一权威） | 每次开发完成后 |
 | [CLAUDE.md](CLAUDE.md)（本文件） | Claude Code 工作指引（引用式导航） | 文档结构调整 |
 
@@ -226,6 +261,10 @@ View → ViewModel → UseCase → Repository → DataSource
 | 数据字段需求 | Data Requirements.md | 全文 |
 | 趋势关键词退役机制 | Database Schema.md | §2.7 |
 | 趋势采集错误处理 | Backend Architecture.md | §5.9 |
+| 趋势页面功能设计 | Trends Feature Design.md | 全文 |
+| iOS 调试协作模式 | iOS Debug Collaboration Guide.md | 全文 |
+| SwiftUI 审查与修复记录 | SwiftUI Review.md | 第四部分 |
+| AppLog 日志系统 | iOS Debug Collaboration Guide.md | §3 |
 
 ### 开发完成后的文档更新流程
 

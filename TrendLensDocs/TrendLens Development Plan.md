@@ -427,6 +427,24 @@ extension TrendTopic {
 
 ---
 
+## 阶段 2.6：趋势页面（Trends Feature）
+
+**目标：** 将 Google Trends 时序数据以独立页面呈现，与热榜、对比平行的核心功能。
+
+**当前状态：** 🚧 设计完成，待实现
+
+**设计文档：** [TrendLens Trends Feature Design.md](TrendLens%20Trends%20Feature%20Design.md)
+
+**核心交付：**
+- 趋势关键词列表页（按热度/涨幅排序）
+- 趋势详情页（完整曲线 + 关联话题跳转）
+- Supabase RPC 查询（关键词列表 + 趋势数据 + 关联话题）
+- MainNavigationView 新增 Tab（趋势）
+
+**当前进度：** 见 [TrendLens Progress.md](TrendLens%20Progress.md#阶段-26趋势页面)
+
+---
+
 # 8. 高级功能规划
 
 > 以下功能在核心架构稳定后逐步迭代，每个功能都是在现有模块上增加能力。

@@ -14,6 +14,7 @@
 | [Core/Domain/Entities/Platform.swift](TrendLens/Core/Domain/Entities/Platform.swift) | 平台枚举 |
 | [Core/Domain/Entities/TrendTopic.swift](TrendLens/Core/Domain/Entities/TrendTopic.swift) | 话题实体与 SwiftData Model |
 | [Core/Domain/Entities/TrendSnapshot.swift](TrendLens/Core/Domain/Entities/TrendSnapshot.swift) | 快照实体（含 TTL/ETag） |
+| [Core/Domain/Entities/TrendKeywordEntity.swift](TrendLens/Core/Domain/Entities/TrendKeywordEntity.swift) | 趋势关键词实体 |
 
 ### Repository 协议
 
@@ -21,13 +22,34 @@
 |------|------|
 | [Core/Domain/Repositories/TrendingRepository.swift](TrendLens/Core/Domain/Repositories/TrendingRepository.swift) | 热榜数据访问协议 |
 | [Core/Domain/Repositories/UserPreferenceRepository.swift](TrendLens/Core/Domain/Repositories/UserPreferenceRepository.swift) | 用户偏好访问协议 |
+| [Core/Domain/Repositories/TrendRepository.swift](TrendLens/Core/Domain/Repositories/TrendRepository.swift) | 趋势数据访问协议 |
 
 ### 基础设施
 
 | 文件 | 职责 |
 |------|------|
 | [Core/Infrastructure/Network/NetworkClient.swift](TrendLens/Core/Infrastructure/Network/NetworkClient.swift) | 网络层（ETag 支持） |
-| [App/DependencyContainer.swift](TrendLens/App/DependencyContainer.swift) | 依赖注入配置 |
+| [Core/Infrastructure/Logging/AppLog.swift](TrendLens/Core/Infrastructure/Logging/AppLog.swift) | 集中化日志工厂（7 分类 Logger） |
+| [App/DependencyContainer.swift](TrendLens/App/DependencyContainer.swift) | 依赖注入配置（延迟 ModelContainer） |
+| [App/TrendLensApp.swift](TrendLens/App/TrendLensApp.swift) | App 入口（schema 迁移 + Splash 管理） |
+
+### 功能页面
+
+| 文件 | 职责 |
+|------|------|
+| [Features/Feed/Views/FeedView.swift](TrendLens/Features/Feed/Views/FeedView.swift) | 热榜列表页 |
+| [Features/Trends/Views/TrendsView.swift](TrendLens/Features/Trends/Views/TrendsView.swift) | 趋势关键词列表页 |
+| [Features/Trends/Views/TrendDetailView.swift](TrendLens/Features/Trends/Views/TrendDetailView.swift) | 趋势详情页（曲线 + 关联话题） |
+| [Features/Splash/SplashView.swift](TrendLens/Features/Splash/SplashView.swift) | 品牌启动页 |
+
+### UIComponents
+
+| 文件 | 职责 |
+|------|------|
+| [UIComponents/DesignSystem.swift](TrendLens/UIComponents/DesignSystem.swift) | 设计系统令牌 |
+| [UIComponents/Cards/TrendKeywordCard.swift](TrendLens/UIComponents/Cards/TrendKeywordCard.swift) | 趋势关键词卡片 |
+| [UIComponents/CommentRow.swift](TrendLens/UIComponents/CommentRow.swift) | 评论行组件 |
+| [UIComponents/FlowLayout.swift](TrendLens/UIComponents/FlowLayout.swift) | 流式标签布局 |
 
 ---
 
