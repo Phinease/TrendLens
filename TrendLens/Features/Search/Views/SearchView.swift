@@ -91,41 +91,20 @@ struct SearchView: View {
                 .focused($isSearchFieldFocused)
 
             if !searchText.isEmpty {
-                Button {
+                Button("清除", systemImage: "xmark.circle.fill") {
                     searchText = ""
                     viewModel.clearResults()
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .font(.system(size: 16))
-                        .foregroundStyle(.secondary)
                 }
+                .labelStyle(.iconOnly)
+                .foregroundStyle(.secondary)
                 .transition(.scale.combined(with: .opacity))
             }
         }
         .padding(DesignSystem.Spacing.sm)
-        .background(DesignSystem.Neutral.container(colorScheme))
-        .overlay(
-            RoundedRectangle(cornerRadius: 12, style: .continuous)
-                .strokeBorder(
-                    isSearchFieldFocused
-                        ? LinearGradient(
-                            colors: [
-                                DesignSystem.HeatSpectrum.cool.opacity(0.5),
-                                DesignSystem.HeatSpectrum.warm.opacity(0.5)
-                            ],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                        : LinearGradient(
-                            colors: [DesignSystem.Neutral.borderSubtle(colorScheme)],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        ),
-                    lineWidth: isSearchFieldFocused ? 2 : 1
-                )
+        .glassEffect(
+            .regular.interactive(),
+            in: .rect(cornerRadius: 12)
         )
-        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-        .cardShadow()
         .padding(.horizontal, DesignSystem.Spacing.md)
         .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isSearchFieldFocused)
         .onChange(of: searchText) { oldValue, newValue in

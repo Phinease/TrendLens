@@ -43,7 +43,7 @@ struct StandardCard: View {
             // 第二行：AI 摘要
             summaryRowView(topic.summary)
 
-            // 第三行：平台信息 · 时间 · 热度值 · 热度等级 · 排名变化
+            // 第三行：平台信息 · 时间 · 热度值 · 排名变化
             leftMetricsView
                 .padding(.top, DesignSystem.Spacing.xs)
 
@@ -52,62 +52,34 @@ struct StandardCard: View {
                 .padding(.top, DesignSystem.Spacing.sm)
         }
         .padding(DesignSystem.Spacing.md)
-        .background(DesignSystem.Neutral.container(colorScheme))
-        .clipShape(RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.medium))
-        .cardShadow()
+        .glassEffect(.regular, in: .rect(cornerRadius: DesignSystem.CornerRadius.medium))
     }
 
     // MARK: - Action Buttons
+
+    @State private var detailTapTrigger = false
+    @State private var dataTapTrigger = false
 
     private var actionButtonsRow: some View {
         HStack {
             Spacer()
 
-            // 详情按钮
-            Button {
-                hapticFeedback()
+            Button("详情", systemImage: "doc.text") {
                 onDetailTap?()
-            } label: {
-                HStack(spacing: 4) {
-                    Image(systemName: "doc.text")
-                        .font(.system(size: 11, weight: .medium))
-                    Text("详情")
-                        .font(.system(size: 12, weight: .medium))
-                }
-                .foregroundStyle(.secondary)
-                .padding(.horizontal, 10)
-                .padding(.vertical, 5)
-                .background(Color.gray.opacity(0.12))
-                .clipShape(Capsule())
+                detailTapTrigger.toggle()
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.glass)
+            .controlSize(.mini)
 
-            // 数据按钮
-            Button {
-                hapticFeedback()
+            Button("数据", systemImage: "chart.line.uptrend.xyaxis") {
                 onDataTap?()
-            } label: {
-                HStack(spacing: 4) {
-                    Image(systemName: "chart.line.uptrend.xyaxis")
-                        .font(.system(size: 11, weight: .medium))
-                    Text("数据")
-                        .font(.system(size: 12, weight: .medium))
-                }
-                .foregroundStyle(.blue)
-                .padding(.horizontal, 10)
-                .padding(.vertical, 5)
-                .background(Color.blue.opacity(0.12))
-                .clipShape(Capsule())
+                dataTapTrigger.toggle()
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.glassProminent)
+            .controlSize(.mini)
         }
-    }
-
-    private func hapticFeedback() {
-#if os(iOS)
-        let generator = UIImpactFeedbackGenerator(style: .light)
-        generator.impactOccurred()
-#endif
+        .sensoryFeedback(.impact(flexibility: .soft), trigger: detailTapTrigger)
+        .sensoryFeedback(.impact(flexibility: .soft), trigger: dataTapTrigger)
     }
 
     // MARK: - Row Views

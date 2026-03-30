@@ -40,7 +40,7 @@ struct MiniTrendLine: View {
 
     var body: some View {
         GeometryReader { geometry in
-            // 趋势曲线
+            // 趋势曲线（仅在有足够数据时显示）
             if sampledDataPoints.count >= 2 {
                 curvePath(in: geometry.size)
                     .stroke(
@@ -55,10 +55,8 @@ struct MiniTrendLine: View {
                         color: glowColor,
                         radius: glowRadius
                     )
-            } else {
-                // 数据不足时显示占位符
-                placeholderView
             }
+            // 数据不足时不显示任何内容（由调用方决定是否显示组件）
         }
     }
 
@@ -156,11 +154,6 @@ struct MiniTrendLine: View {
         default:
             return 0
         }
-    }
-
-    private var placeholderView: some View {
-        Rectangle()
-            .fill(.tertiary.opacity(0.1))
     }
 
     // MARK: - Data Processing

@@ -36,105 +36,80 @@ struct HeroCard: View {
     // MARK: - Body
 
     var body: some View {
-        ZStack {
-            // 背景：热度渐变氛围
-            heroBackground
-
-            // 内容：VStack
-            VStack(alignment: .leading, spacing: 10) {
-                HStack {
-                    // 排名水印
-                    Text("\(rank)")
+        VStack(alignment: .leading, spacing: 10) {
+            HStack {
+                // 排名水印
+                Text("\(rank)")
                     .font(.system(size: 40, weight: .bold, design: .rounded))
                     .foregroundStyle(.primary.opacity(0.2))
 
-                    // 标题
-                    Text(topic.title)
-                    .font(.system(size: 25, weight: .bold, design: .rounded))
+                // 标题
+                Text(topic.title)
+                    .font(.title2.weight(.bold))
                     .lineLimit(2)
                     .foregroundStyle(.primary)
-                }
+            }
 
-                // 元信息：平台 · 时间
-                metaView
+            // 元信息：平台 · 时间
+            metaView
 
-                HStack {
-                    // AI 摘要
-                    Text(topic.summary)
-                    .font(.system(size: 17, weight: .regular, design: .default))
+            HStack {
+                // AI 摘要
+                Text(topic.summary)
+                    .font(.body)
                     .lineLimit(3)
                     .foregroundStyle(.secondary)
 
-                    Spacer()
+                Spacer()
 
-                    // 趋势线
+                // 趋势线（仅在有数据时显示）
+                if topic.heatHistory.count >= 2 {
                     MiniTrendLine(dataPoints: topic.heatHistory)
-                    .frame(width: 80, height: 32)
+                        .frame(width: 80, height: 32)
                 }
-
-                // 底部按钮区域
-                actionButtonsRow
             }
-            .padding(DesignSystem.Spacing.lg)
+
+            // 底部按钮区域
+            actionButtonsRow
         }
-        .frame(minHeight: 220)
-        .background(DesignSystem.Neutral.container(colorScheme))
-        .clipShape(RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.large, style: .continuous))
-        .elevatedShadow()
+        .padding(DesignSystem.Spacing.lg)
+        .frame(minHeight: 200)
+        .background {
+            // 热度渐变氛围（裁剪到圆角内）
+            heroBackground
+                .clipShape(RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.large, style: .continuous))
+        }
+        .glassEffect(.regular, in: .rect(cornerRadius: DesignSystem.CornerRadius.large))
     }
 
     // MARK: - Action Buttons
+
+    @State private var detailTapTrigger = false
+    @State private var dataTapTrigger = false
 
     private var actionButtonsRow: some View {
         HStack {
             Spacer()
 
             // 详情按钮
-            Button {
-                hapticFeedback()
+            Button("详情", systemImage: "doc.text") {
                 onDetailTap?()
-            } label: {
-                HStack(spacing: 4) {
-                    Image(systemName: "doc.text")
-                        .font(.system(size: 12, weight: .medium))
-                    Text("详情")
-                        .font(.system(size: 13, weight: .medium))
-                }
-                .foregroundStyle(.secondary)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 6)
-                .background(Color.gray.opacity(0.12))
-                .clipShape(Capsule())
+                detailTapTrigger.toggle()
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.glass)
+            .controlSize(.small)
 
             // 数据按钮
-            Button {
-                hapticFeedback()
+            Button("数据", systemImage: "chart.line.uptrend.xyaxis") {
                 onDataTap?()
-            } label: {
-                HStack(spacing: 4) {
-                    Image(systemName: "chart.line.uptrend.xyaxis")
-                        .font(.system(size: 12, weight: .medium))
-                    Text("数据")
-                        .font(.system(size: 13, weight: .medium))
-                }
-                .foregroundStyle(.blue)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 6)
-                .background(Color.blue.opacity(0.12))
-                .clipShape(Capsule())
+                dataTapTrigger.toggle()
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.glassProminent)
+            .controlSize(.small)
         }
         .padding(.top, DesignSystem.Spacing.xs)
-    }
-
-    private func hapticFeedback() {
-#if os(iOS)
-        let generator = UIImpactFeedbackGenerator(style: .light)
-        generator.impactOccurred()
-#endif
+        .sensoryFeedback(.impact(flexibility: .soft), trigger: detailTapTrigger)
+        .sensoryFeedback(.impact(flexibility: .soft), trigger: dataTapTrigger)
     }
 
     // MARK: - Background

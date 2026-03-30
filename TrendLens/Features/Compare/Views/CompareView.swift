@@ -75,6 +75,8 @@ struct CompareView: View {
 
     // MARK: - Platform Selector
 
+    @State private var chipSelectionTrigger = false
+
     private var platformSelector: some View {
         VStack(alignment: .leading, spacing: DesignSystem.Spacing.sm) {
             Text("选择平台（至少2个）")
@@ -82,15 +84,19 @@ struct CompareView: View {
                 .foregroundStyle(.secondary)
                 .padding(.horizontal, DesignSystem.Spacing.md)
 
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: DesignSystem.Spacing.sm) {
-                    ForEach(Platform.allCases) { platform in
-                        platformChip(platform)
+            ScrollView(.horizontal) {
+                GlassEffectContainer(spacing: DesignSystem.Spacing.sm) {
+                    HStack(spacing: DesignSystem.Spacing.sm) {
+                        ForEach(Platform.allCases) { platform in
+                            platformChip(platform)
+                        }
                     }
+                    .padding(.horizontal, DesignSystem.Spacing.md)
+                    .padding(.vertical, DesignSystem.Spacing.xs)
                 }
-                .padding(.horizontal, DesignSystem.Spacing.md)
-                .padding(.vertical, DesignSystem.Spacing.xs)
             }
+            .scrollIndicators(.hidden)
+            .sensoryFeedback(.selection, trigger: chipSelectionTrigger)
 
             if canCompare {
                 Button {
@@ -102,7 +108,7 @@ struct CompareView: View {
                     }
                     .frame(maxWidth: .infinity)
                 }
-                .buttonStyle(.borderedProminent)
+                .buttonStyle(.glassProminent)
                 .padding(.horizontal, DesignSystem.Spacing.md)
             }
         }
@@ -112,34 +118,22 @@ struct CompareView: View {
         let isSelected = selectedPlatforms.contains(platform)
 
         return Button {
-            withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+            withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                 if isSelected {
                     selectedPlatforms.remove(platform)
                 } else {
                     selectedPlatforms.insert(platform)
                 }
             }
-
-            // 触觉反馈
-            #if os(iOS)
-            let generator = UIImpactFeedbackGenerator(style: .light)
-            generator.impactOccurred()
-            #endif
+            chipSelectionTrigger.toggle()
         } label: {
             HStack(spacing: DesignSystem.Spacing.xs) {
-                // 平台图标
-                ZStack {
-                    RoundedRectangle(cornerRadius: 4, style: .continuous)
-                        .fill(platform.hintColor)
-                        .frame(width: 16, height: 16)
-
-                    Image(systemName: platform.iconName)
-                        .font(.system(size: 10, weight: .medium))
-                        .foregroundStyle(.white)
-                }
+                Image(systemName: platform.iconName)
+                    .font(.system(size: 12, weight: .medium))
+                    .foregroundStyle(isSelected ? .primary : .secondary)
 
                 Text(platform.displayName)
-                    .font(.system(size: 15, weight: isSelected ? .semibold : .medium))
+                    .font(.subheadline.weight(isSelected ? .semibold : .medium))
 
                 if isSelected {
                     Image(systemName: "checkmark.circle.fill")
@@ -150,13 +144,12 @@ struct CompareView: View {
             .foregroundStyle(isSelected ? .primary : .secondary)
             .padding(.horizontal, DesignSystem.Spacing.sm)
             .padding(.vertical, DesignSystem.Spacing.xs)
-            .background(isSelected ? DesignSystem.Neutral.containerHover(colorScheme) : DesignSystem.Neutral.container(colorScheme))
-            .overlay(
-                RoundedRectangle(cornerRadius: 12, style: .continuous)
-                    .strokeBorder(isSelected ? platform.hintColor.opacity(0.3) : .clear, lineWidth: 1)
+            .glassEffect(
+                isSelected
+                    ? .regular.tint(platform.hintColor.opacity(0.3)).interactive()
+                    : .regular.interactive(),
+                in: .capsule
             )
-            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-            .cardShadow()
         }
         .buttonStyle(.plain)
     }

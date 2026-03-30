@@ -8,7 +8,7 @@
 import SwiftUI
 
 /// 流体化平台选择器
-/// 支持横向滚动、流畅动画、平台切换、左右滑动手势
+/// 支持横向滚动、Liquid Glass 选中态、平台切换
 struct FluidRibbon: View {
 
     // MARK: - Properties
@@ -19,87 +19,73 @@ struct FluidRibbon: View {
     /// 动画命名空间
     @Namespace private var animation
 
-    /// 环境变量
-    @Environment(\.colorScheme) private var colorScheme
-
-    /// 滑动手势回调（可选）- 用于在父视图中添加滑动手势
-    var onSwipeGesture: ((DragGesture.Value) -> Void)? = nil
+    /// 触觉反馈触发器
+    @State private var selectionTrigger = false
 
     // MARK: - Body
 
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: DesignSystem.Spacing.lg) {
-                // "全部"选项
-                platformItem(platform: nil, title: "全部")
+        ScrollView(.horizontal) {
+            GlassEffectContainer(spacing: DesignSystem.Spacing.xs) {
+                HStack(spacing: DesignSystem.Spacing.xs) {
+                    // "全部"选项
+                    platformChip(platform: nil, title: "全部", icon: "globe")
 
-                // 各平台选项
-                ForEach(Platform.allCases) { platform in
-                    platformItem(platform: platform, title: platform.displayName)
+                    // 各平台选项
+                    ForEach(Platform.allCases) { platform in
+                        platformChip(platform: platform, title: platform.displayName, icon: platform.iconName)
+                    }
                 }
+                .padding(.horizontal, DesignSystem.Spacing.md)
             }
-            .padding(.horizontal, DesignSystem.Spacing.md)
             .frame(height: 48)
         }
-        .background(DesignSystem.Neutral.backgroundPrimary(colorScheme))
+        .scrollIndicators(.hidden)
+        .sensoryFeedback(.selection, trigger: selectionTrigger)
     }
 
-    // MARK: - Platform Item
+    // MARK: - Platform Chip
 
     @ViewBuilder
-    private func platformItem(platform: Platform?, title: String) -> some View {
+    private func platformChip(platform: Platform?, title: String, icon: String) -> some View {
         let isSelected = selectedPlatform == platform
 
         Button {
-            withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+            withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                 selectedPlatform = platform
             }
-
-            // 触觉反馈
-            #if os(iOS)
-            let generator = UIImpactFeedbackGenerator(style: .light)
-            generator.impactOccurred()
-            #endif
+            selectionTrigger.toggle()
         } label: {
-            VStack(spacing: 4) {
-                // 文字 - 选中时使用平台渐变色
-                if isSelected, let platform = platform {
-                    // 平台选中态 - 使用渐变色文字
-                    Text(title)
-                        .font(.system(size: 15, weight: .semibold))
-                        .foregroundStyle(platform.selectionGradient)
-                } else {
-                    // 未选中或"全部"选项 - 使用标准颜色
-                    Text(title)
-                        .font(.system(size: 15, weight: isSelected ? .semibold : .medium))
-                        .foregroundStyle(isSelected ? .primary : .secondary)
-                }
+            HStack(spacing: 6) {
+                Image(systemName: icon)
+                    .font(.system(size: 12, weight: .medium))
+                    .foregroundStyle(chipForeground(platform: platform, isSelected: isSelected))
 
-                // 选中指示器
-                if isSelected {
-                    if let platform = platform {
-                        // 平台渐变下划线
-                        Capsule()
-                            .fill(platform.selectionGradient)
-                            .frame(height: 2)
-                            .matchedGeometryEffect(id: "selector", in: animation)
-                    } else {
-                        // 全部使用纯色下划线
-                        Capsule()
-                            .fill(.primary)
-                            .frame(height: 2)
-                            .matchedGeometryEffect(id: "selector", in: animation)
-                    }
-                } else {
-                    // 占位，保持布局稳定
-                    Capsule()
-                        .fill(.clear)
-                        .frame(height: 2)
-                }
+                Text(title)
+                    .font(.subheadline.weight(isSelected ? .semibold : .medium))
+                    .foregroundStyle(chipForeground(platform: platform, isSelected: isSelected))
             }
-            .frame(minWidth: 44) // 确保足够的点击区域
+            .padding(.horizontal, DesignSystem.Spacing.sm)
+            .padding(.vertical, DesignSystem.Spacing.xs)
+            .glassEffect(
+                isSelected
+                    ? .regular.tint(chipTint(for: platform)).interactive()
+                    : .regular.interactive(),
+                in: .capsule
+            )
         }
         .buttonStyle(.plain)
+    }
+
+    // MARK: - Styling
+
+    private func chipForeground(platform: Platform?, isSelected: Bool) -> some ShapeStyle {
+        isSelected ? AnyShapeStyle(.primary) : AnyShapeStyle(.secondary)
+    }
+
+    private func chipTint(for platform: Platform?) -> Color {
+        guard let platform else { return .primary.opacity(0.15) }
+        return platform.hintColor.opacity(0.3)
     }
 }
 

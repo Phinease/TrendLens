@@ -199,11 +199,9 @@ struct DataAnalyseView: View {
     }
 
     private var shareButton: some View {
-        Button {
-            shareTopic()
-        } label: {
-            Image(systemName: "square.and.arrow.up")
-        }
+        ShareLink(
+            item: "\(displayTopic.title)\n\n\(displayTopic.summary)\n\n来自 \(displayTopic.platform.displayName) · 热度 \(displayTopic.heatValue.formattedHeat)"
+        )
     }
 
     // MARK: - Helper Views
@@ -242,29 +240,6 @@ struct DataAnalyseView: View {
     }
 
     // MARK: - Actions
-
-    private func shareTopic() {
-#if os(iOS)
-        let shareText = """
-        \(displayTopic.title)
-
-        \(displayTopic.summary)
-
-        来自 \(displayTopic.platform.displayName) · 热度 \(displayTopic.heatValue.formattedHeat)
-        """
-
-        let activityVC = UIActivityViewController(
-            activityItems: [shareText],
-            applicationActivities: nil
-        )
-
-        // 获取当前窗口场景
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let rootViewController = windowScene.windows.first?.rootViewController {
-            rootViewController.present(activityVC, animated: true)
-        }
-#endif
-    }
 
     private func loadTopicDetailIfNeeded() async {
         guard !didAttemptDetailLoad else { return }

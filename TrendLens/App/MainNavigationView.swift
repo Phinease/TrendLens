@@ -2,63 +2,55 @@
 //  MainNavigationView.swift
 //  TrendLens
 //
-//  Created by Claude on 1/21/26.
-//
 
 import SwiftUI
 
 /// 主导航容器 - 根据平台自动选择合适的导航方式
 struct MainNavigationView: View {
     @State private var selectedTab: NavigationTab = .feed
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     var body: some View {
-#if os(iOS)
-        // iPhone/iPad 根据屏幕尺寸决定
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            iphoneLayout
-        } else {
-            ipadLayout
-        }
-#elseif os(macOS)
+#if os(macOS)
         macLayout
 #else
-        iphoneLayout
+        if horizontalSizeClass == .compact {
+            compactLayout
+        } else {
+            regularLayout
+        }
 #endif
     }
 
-    // MARK: - iPhone Layout (TabView with Liquid Glass)
+    // MARK: - Compact Layout (TabView with Liquid Glass)
 
-    private var iphoneLayout: some View {
+    private var compactLayout: some View {
         TabView(selection: $selectedTab) {
-            FeedView()
-                .tabItem {
-                    Label("热榜", systemImage: "flame")
-                }
-                .tag(NavigationTab.feed)
+            Tab("热榜", systemImage: "flame", value: NavigationTab.feed) {
+                FeedView()
+            }
 
-            CompareView()
-                .tabItem {
-                    Label("对比", systemImage: "chart.bar.xaxis")
-                }
-                .tag(NavigationTab.compare)
+            Tab("对比", systemImage: "chart.bar.xaxis", value: NavigationTab.compare) {
+                CompareView()
+            }
 
-            SearchView()
-                .tabItem {
-                    Label("搜索", systemImage: "magnifyingglass")
-                }
-                .tag(NavigationTab.search)
+            Tab("趋势", systemImage: "chart.line.uptrend.xyaxis", value: NavigationTab.trends) {
+                TrendsView()
+            }
 
-            SettingsView()
-                .tabItem {
-                    Label("设置", systemImage: "gear")
-                }
-                .tag(NavigationTab.settings)
+            Tab("搜索", systemImage: "magnifyingglass", value: NavigationTab.search) {
+                SearchView()
+            }
+
+            Tab("设置", systemImage: "gear", value: NavigationTab.settings) {
+                SettingsView()
+            }
         }
     }
 
-    // MARK: - iPad Layout (NavigationSplitView)
+    // MARK: - Regular Layout (NavigationSplitView for iPad)
 
-    private var ipadLayout: some View {
+    private var regularLayout: some View {
         NavigationSplitView {
             List {
                 ForEach(NavigationTab.allCases, id: \.self) { tab in
@@ -110,6 +102,8 @@ struct MainNavigationView: View {
             FeedView()
         case .compare:
             CompareView()
+        case .trends:
+            TrendsView()
         case .search:
             SearchView()
         case .settings:
@@ -123,24 +117,27 @@ struct MainNavigationView: View {
 enum NavigationTab: String, CaseIterable {
     case feed
     case compare
+    case trends
     case search
     case settings
 
     var title: String {
         switch self {
-        case .feed: return "热榜"
-        case .compare: return "对比"
-        case .search: return "搜索"
-        case .settings: return "设置"
+        case .feed: "热榜"
+        case .compare: "对比"
+        case .trends: "趋势"
+        case .search: "搜索"
+        case .settings: "设置"
         }
     }
 
     var icon: String {
         switch self {
-        case .feed: return "flame"
-        case .compare: return "chart.bar.xaxis"
-        case .search: return "magnifyingglass"
-        case .settings: return "gear"
+        case .feed: "flame"
+        case .compare: "chart.bar.xaxis"
+        case .trends: "chart.line.uptrend.xyaxis"
+        case .search: "magnifyingglass"
+        case .settings: "gear"
         }
     }
 }
