@@ -1,4 +1,5 @@
 import Foundation
+import OSLog
 import Supabase
 
 nonisolated let supabaseClient: SupabaseClient = {
@@ -6,7 +7,6 @@ nonisolated let supabaseClient: SupabaseClient = {
           let url = URL(string: urlString),
           let key = Bundle.main.infoDictionary?["SUPABASE_ANON_KEY"] as? String
     else { fatalError("Missing Supabase config in Info.plist — ensure Secrets.xcconfig is set up") }
-    print("🔗 [Supabase] URL string from Info.plist: '\(urlString)'")
-    print("🔗 [Supabase] Parsed URL: \(url.absoluteString)")
+    AppLog.network.info("SUPABASE_INIT url=\(url.absoluteString)")
     return SupabaseClient(supabaseURL: url, supabaseKey: key)
 }()

@@ -1,4 +1,5 @@
 import Foundation
+import OSLog
 import SwiftUI
 
 /// 设置页 ViewModel
@@ -81,6 +82,6 @@ final class SettingsViewModel {
     func savePreferences() async {
         // 保存刷新间隔和后台刷新设置
         // 这里可以添加保存逻辑
-        print("Saving preferences: refreshInterval=\(refreshInterval), backgroundRefresh=\(isBackgroundRefreshEnabled)")
+        AppLog.data.info("SETTINGS_SAVE refreshInterval=\(self.refreshInterval) bgRefresh=\(self.isBackgroundRefreshEnabled)")
     }
 }

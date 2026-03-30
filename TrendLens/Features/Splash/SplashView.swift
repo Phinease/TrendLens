@@ -2,177 +2,125 @@
 //  SplashView.swift
 //  TrendLens
 //
-//  Created by Claude on 1/21/26.
-//
 
 import SwiftUI
 
-/// 炫酷的启动页 - Liquid Glass 风格
+/// 品牌启动页 — 与 App Icon（玻璃蜂鸟）风格统一
 struct SplashView: View {
-    @State private var isAnimating = false
-    @State private var glowOpacity = 0.0
-    @State private var rotation: Double = 0
-    @State private var scale: CGFloat = 0.5
+
+    // MARK: - Properties
+
+    var onFinished: (() -> Void)? = nil
+
+    // MARK: - Environment
+
+    @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    // MARK: - State
+
+    @State private var phase = 0  // 0=idle, 1=logoIn, 2=textIn, 3=complete
+
+    // MARK: - Body
 
     var body: some View {
         ZStack {
-            // 背景渐变
-            LinearGradient(
-                colors: [
-                    Color.blue.opacity(0.3),
-                    Color.purple.opacity(0.3),
-                    Color.pink.opacity(0.3)
-                ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .ignoresSafeArea()
+            background
 
-            // 动态光球背景
-            GeometryReader { geometry in
-                ZStack {
-                    ForEach(0..<3) { index in
-                        Circle()
-                            .fill(
-                                RadialGradient(
-                                    colors: [
-                                        glowColor(for: index).opacity(0.4),
-                                        glowColor(for: index).opacity(0.0)
-                                    ],
-                                    center: .center,
-                                    startRadius: 0,
-                                    endRadius: 200
-                                )
-                            )
-                            .frame(width: 300, height: 300)
-                            .position(
-                                x: geometry.size.width * positionX(for: index),
-                                y: geometry.size.height * positionY(for: index)
-                            )
-                            .blur(radius: 40)
-                            .opacity(glowOpacity)
-                    }
-                }
-            }
-
-            // 中心内容
-            VStack(spacing: DesignSystem.Spacing.lg) {
-                // Logo/Icon 区域
-                ZStack {
-                    // 外圈光环
-                    Circle()
-                        .stroke(
-                            LinearGradient(
-                                colors: [
-                                    Color.blue,
-                                    Color.purple,
-                                    Color.pink
-                                ],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            ),
-                            lineWidth: 4
-                        )
-                        .frame(width: 120, height: 120)
-                        .rotationEffect(.degrees(rotation))
-                        .opacity(glowOpacity)
-
-                    // 内圈图标容器
-                    RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.large)
-                        .fill(DesignSystem.Material.ultraThick)
-                        .frame(width: 100, height: 100)
-                        .overlay(
-                            Image(systemName: "chart.line.uptrend.xyaxis")
-                                .font(.system(size: 50, weight: .light))
-                                .foregroundStyle(
-                                    LinearGradient(
-                                        colors: [.blue, .purple],
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    )
-                                )
-                        )
-                        .shadow(color: Color.blue.opacity(0.3), radius: 20, y: 10)
-                }
-                .scaleEffect(scale)
-
-                // 应用名称
-                Text("TrendLens")
-                    .font(DesignSystem.Typography.largeTitle)
-                    .fontWeight(.bold)
-                    .fontDesign(.rounded)
-                    .foregroundStyle(
-                        LinearGradient(
-                            colors: [.blue, .purple, .pink],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
+            VStack(spacing: 24) {
+                // 玻璃蜂鸟 Icon
+                Image(.splashLogo)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 130, height: 130)
+                    .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+                    .shadow(
+                        color: colorScheme == .dark
+                            ? .white.opacity(0.06)
+                            : .black.opacity(0.1),
+                        radius: 24, y: 10
                     )
-                    .opacity(glowOpacity)
+                    .scaleEffect(phase >= 1 ? 1.0 : 0.7)
+                    .opacity(phase >= 1 ? 1 : 0)
+                    .offset(y: phase >= 1 ? 0 : 20)
 
-                // 副标题
-                Text("打破信息茧房")
-                    .font(DesignSystem.Typography.caption)
-                    .foregroundStyle(.secondary)
-                    .opacity(glowOpacity)
+                // 品牌文字
+                VStack(spacing: 6) {
+                    Text("TrendLens")
+                        .font(.system(size: 30, weight: .semibold, design: .rounded))
+                        .foregroundStyle(.primary)
+
+                    Text("打破信息茧房")
+                        .font(.subheadline)
+                        .foregroundStyle(.tertiary)
+                }
+                .opacity(phase >= 2 ? 1 : 0)
+                .offset(y: phase >= 2 ? 0 : 12)
             }
         }
-        .onAppear {
-            startAnimations()
+        .ignoresSafeArea()
+        .task {
+            await runAnimation()
         }
     }
+}
 
-    // MARK: - Animation Logic
+// MARK: - Subviews
 
-    private func startAnimations() {
-        // 缩放动画
-        withAnimation(.spring(response: 0.8, dampingFraction: 0.6)) {
-            scale = 1.0
-        }
+private extension SplashView {
 
-        // 淡入动画
-        withAnimation(.easeOut(duration: 1.0)) {
-            glowOpacity = 1.0
-        }
-
-        // 持续旋转动画
-        withAnimation(.linear(duration: 8.0).repeatForever(autoreverses: false)) {
-            rotation = 360
-        }
+    var background: some View {
+        Rectangle()
+            .fill(colorScheme == .dark
+                ? Color(red: 0.06, green: 0.07, blue: 0.09)
+                : Color(red: 0.96, green: 0.965, blue: 0.97))
     }
+}
 
-    // MARK: - Helper Methods
+// MARK: - Animation
 
-    private func glowColor(for index: Int) -> Color {
-        switch index {
-        case 0: return .blue
-        case 1: return .purple
-        case 2: return .pink
-        default: return .blue
+private extension SplashView {
+
+    func runAnimation() async {
+        // Reduce Motion：直接显示完整画面，短暂停留后退出
+        if reduceMotion {
+            phase = 3
+            try? await Task.sleep(for: .seconds(1.0))
+            onFinished?()
+            return
         }
-    }
 
-    private func positionX(for index: Int) -> CGFloat {
-        switch index {
-        case 0: return 0.2
-        case 1: return 0.8
-        case 2: return 0.5
-        default: return 0.5
+        // Phase 1: Icon 弹入（带位移 + 缩放 + 淡入）
+        withAnimation(.spring(response: 0.6, dampingFraction: 0.75)) {
+            phase = 1
         }
-    }
 
-    private func positionY(for index: Int) -> CGFloat {
-        switch index {
-        case 0: return 0.3
-        case 1: return 0.3
-        case 2: return 0.7
-        default: return 0.5
+        // Phase 2: 品牌文字滑入
+        try? await Task.sleep(for: .milliseconds(400))
+        withAnimation(.easeOut(duration: 0.45)) {
+            phase = 2
         }
+
+        // Phase 3: 完整画面停留
+        try? await Task.sleep(for: .milliseconds(350))
+        phase = 3
+
+        // 停留让用户看到完整品牌
+        try? await Task.sleep(for: .milliseconds(700))
+
+        // 通知可以切换
+        onFinished?()
     }
 }
 
 // MARK: - Preview
 
-#Preview {
+#Preview("Light") {
     SplashView()
+        .preferredColorScheme(.light)
+}
+
+#Preview("Dark") {
+    SplashView()
+        .preferredColorScheme(.dark)
 }

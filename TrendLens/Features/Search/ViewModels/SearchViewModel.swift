@@ -1,4 +1,10 @@
+//
+//  SearchViewModel.swift
+//  TrendLens
+//
+
 import Foundation
+import OSLog
 import SwiftUI
 
 /// 搜索页 ViewModel
@@ -6,48 +12,36 @@ import SwiftUI
 @Observable
 final class SearchViewModel {
 
-    // MARK: - Published State
-
     private(set) var searchResults: [TrendTopicEntity] = []
     private(set) var isLoading = false
     private(set) var error: Error?
     var searchQuery: String = ""
 
-    // MARK: - Dependencies
-
     private let searchTrendingUseCase: SearchTrendingUseCase
-
-    // MARK: - Initialization
 
     init(searchTrendingUseCase: SearchTrendingUseCase) {
         self.searchTrendingUseCase = searchTrendingUseCase
     }
 
-    // MARK: - Public Methods
-
     func search(query: String, in platforms: [Platform]?) async {
-        print("🔎 [SearchViewModel] search called - query: \(query), platforms: \(platforms?.map { $0.rawValue } ?? ["all"])")
-
         guard !query.isEmpty else {
             searchResults = []
             return
         }
 
+        AppLog.data.info("SEARCH START query=\(query) platforms=\(platforms?.map(\.rawValue).joined(separator: ",") ?? "all")")
         isLoading = true
         error = nil
 
         do {
-            print("🔎 [SearchViewModel] Executing search use case...")
-            searchResults = try await searchTrendingUseCase.execute(
-                query: query,
-                in: platforms
-            )
-            print("🔎 [SearchViewModel] Search completed - found \(searchResults.count) results")
+            searchResults = try await timed("SEARCH") {
+                try await searchTrendingUseCase.execute(query: query, in: platforms)
+            }
+            AppLog.data.info("SEARCH SUCCESS count=\(self.searchResults.count)")
         } catch {
-            print("❌ [SearchViewModel] Search failed - error: \(error)")
+            AppLog.data.error("SEARCH FAILED error=\(error.localizedDescription)")
             self.error = error
         }
-
         isLoading = false
     }
 
