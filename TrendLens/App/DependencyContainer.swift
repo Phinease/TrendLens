@@ -1,4 +1,5 @@
 import Foundation
+import OSLog
 import SwiftData
 
 /// 依赖注入容器
@@ -12,42 +13,31 @@ final class DependencyContainer {
 
     // MARK: - Dependencies
 
-    private let modelContainer: ModelContainer
+    private var modelContainer: ModelContainer?
 
     // MARK: - Initialization
 
-    private init() {
-        // 初始化 SwiftData ModelContainer（含 schema reset 容错）
-        do {
-            self.modelContainer = try ModelContainer(
-                for: TrendSnapshot.self,
-                TrendTopic.self,
-                UserPreference.self
-            )
-        } catch {
-            // Schema migration failed (e.g. Platform enum rawValue change) — delete old store and retry
-            print("⚠️ ModelContainer init failed: \(error). Resetting SwiftData store...")
-            let storeURL = URL.applicationSupportDirectory.appending(path: "default.store")
-            try? FileManager.default.removeItem(at: storeURL)
-            // Also remove WAL/SHM if present
-            try? FileManager.default.removeItem(at: storeURL.appendingPathExtension("wal"))
-            try? FileManager.default.removeItem(at: storeURL.appendingPathExtension("shm"))
-            do {
-                self.modelContainer = try ModelContainer(
-                    for: TrendSnapshot.self,
-                    TrendTopic.self,
-                    UserPreference.self
-                )
-            } catch {
-                fatalError("Failed to initialize ModelContainer after reset: \(error)")
-            }
+    private init() {}
+
+    /// 配置容器（由 TrendLensApp 调用，传入统一的 ModelContainer）
+    func configure(with container: ModelContainer) {
+        guard modelContainer == nil else { return }
+        modelContainer = container
+    }
+
+    // MARK: - Private Helpers
+
+    private var container: ModelContainer {
+        guard let modelContainer else {
+            fatalError("DependencyContainer.configure(with:) must be called before use")
         }
+        return modelContainer
     }
 
     // MARK: - Factory Methods - Data Layer
 
     func makeTrendingRepository() -> TrendingRepository {
-        let localDataSource = LocalTrendingDataSource(modelContext: modelContainer.mainContext)
+        let localDataSource = LocalTrendingDataSource(modelContext: container.mainContext)
         let remoteDataSource = RemoteTrendingDataSource()
         return TrendingRepositoryImpl(
             localDataSource: localDataSource,
@@ -55,8 +45,12 @@ final class DependencyContainer {
         )
     }
 
+    func makeTrendRepository() -> TrendRepository {
+        TrendRepositoryImpl(remoteDataSource: RemoteTrendingDataSource())
+    }
+
     func makeUserPreferenceRepository() -> UserPreferenceRepository {
-        let localDataSource = LocalUserPreferenceDataSource(modelContext: modelContainer.mainContext)
+        let localDataSource = LocalUserPreferenceDataSource(modelContext: container.mainContext)
         return UserPreferenceRepositoryImpl(localDataSource: localDataSource)
     }
 
@@ -75,6 +69,10 @@ final class DependencyContainer {
 
     func makeSearchTrendingUseCase() -> SearchTrendingUseCase {
         SearchTrendingUseCase(repository: makeTrendingRepository())
+    }
+
+    func makeFetchTrendsUseCase() -> FetchTrendsUseCase {
+        FetchTrendsUseCase(repository: makeTrendRepository())
     }
 
     func makeManageFavoritesUseCase() -> ManageFavoritesUseCase {
@@ -101,33 +99,28 @@ final class DependencyContainer {
         SearchViewModel(searchTrendingUseCase: makeSearchTrendingUseCase())
     }
 
+    func makeTrendsViewModel() -> TrendsViewModel {
+        TrendsViewModel(fetchTrendsUseCase: makeFetchTrendsUseCase())
+    }
+
     func makeSettingsViewModel() -> SettingsViewModel {
         SettingsViewModel(preferenceRepository: makeUserPreferenceRepository())
     }
 
-    // MARK: - Public Access
-
-    var modelContainerForPreview: ModelContainer {
-        modelContainer
-    }
-
     // MARK: - Data Initialization
 
-    /// 初始化数据库（远程模式下首次启动从 Supabase 拉取）
+    /// 初始化数据库（首次启动检查）
     func initializeDataIfNeeded() async {
-        let context = modelContainer.mainContext
+        let context = container.mainContext
         let descriptor = FetchDescriptor<TrendSnapshot>()
 
         do {
             let existingSnapshots = try context.fetch(descriptor)
-
             if existingSnapshots.isEmpty {
-                print("📦 Database is empty, will fetch from Supabase on first load")
-                // Data will be fetched through the normal repository flow
-                // when FeedViewModel loads. No mock data needed.
+                AppLog.lifecycle.info("DB_INIT empty, will fetch on first load")
             }
         } catch {
-            print("❌ Failed to check database: \(error)")
+            AppLog.lifecycle.error("DB_INIT FAILED error=\(error.localizedDescription)")
         }
     }
 }

@@ -93,6 +93,55 @@ struct TopicTrendSeries: Sendable, Equatable {
     let points: [HeatDataPoint]
 }
 
+struct SupabaseTrendKeywordDTO: Decodable {
+    let keywordId: String
+    let keyword: String
+    let language: String
+    let isActive: Bool
+    let lastQueriedAt: Date?
+    let queryHitRate: Double
+
+    enum CodingKeys: String, CodingKey {
+        case keywordId = "keyword_id"
+        case keyword, language
+        case isActive = "is_active"
+        case lastQueriedAt = "last_queried_at"
+        case queryHitRate = "query_hit_rate"
+    }
+}
+
+struct SupabaseTrendDataDTO: Decodable {
+    let keywordId: String
+    let timestamps: [Date]
+    let trendValues: [Int]
+    let queriedAt: Date
+
+    enum CodingKeys: String, CodingKey {
+        case keywordId = "keyword_id"
+        case timestamps
+        case trendValues = "trend_values"
+        case queriedAt = "queried_at"
+    }
+}
+
+struct SupabaseTrendLinkCountDTO: Decodable {
+    let keywordId: String
+
+    enum CodingKeys: String, CodingKey {
+        case keywordId = "keyword_id"
+    }
+}
+
+struct SupabaseTrendLinkDTO: Decodable {
+    let topicKey: String
+    let relevance: Double
+
+    enum CodingKeys: String, CodingKey {
+        case topicKey = "topic_key"
+        case relevance
+    }
+}
+
 // MARK: - Remote Data Source
 
 /// 远程热榜数据源（Supabase）
@@ -205,6 +254,94 @@ actor RemoteTrendingDataSource {
     func fetchSnapshot(for platform: Platform) async throws -> TrendSnapshotEntity {
         let dtos = try await fetchTopics(for: platform)
         return synthesizeSnapshot(from: dtos, platform: platform)
+    }
+
+    // MARK: - Trend Keywords
+
+    /// 获取活跃趋势关键词 + 最新趋势数据 + 关联话题计数
+    func fetchTrendKeywords() async throws -> [TrendKeywordEntity] {
+        // 1. 获取活跃关键词
+        let keywordDTOs: [SupabaseTrendKeywordDTO] = try await client.from("trend_keywords")
+            .select()
+            .eq("is_active", value: true)
+            .eq("no_trend_data", value: false)
+            .order("last_queried_at", ascending: false)
+            .limit(100)
+            .execute()
+            .value
+
+        guard !keywordDTOs.isEmpty else { return [] }
+
+        // 2. 批量获取趋势数据
+        let keywordIds = keywordDTOs.map(\.keywordId)
+        let trendDTOs: [SupabaseTrendDataDTO] = try await client.from("trend_data")
+            .select()
+            .in("keyword_id", values: keywordIds)
+            .eq("data_source", value: "google_trends")
+            .execute()
+            .value
+
+        // 3. 获取关联话题计数
+        let linkDTOs: [SupabaseTrendLinkCountDTO] = try await client.from("topic_trend_links")
+            .select("keyword_id")
+            .in("keyword_id", values: keywordIds)
+            .execute()
+            .value
+
+        // 按 keyword_id 分组
+        let trendByKeyword = Dictionary(grouping: trendDTOs, by: \.keywordId)
+        let linkCounts = Dictionary(linkDTOs.map { ($0.keywordId, 1) }, uniquingKeysWith: +)
+
+        // 4. 组装实体
+        return keywordDTOs.compactMap { dto in
+            let trendData = trendByKeyword[dto.keywordId]?.first
+            var points: [HeatDataPoint] = []
+
+            if let trendData, trendData.timestamps.count == trendData.trendValues.count {
+                points = zip(trendData.timestamps, trendData.trendValues)
+                    .map { HeatDataPoint(timestamp: $0, heatValue: $1) }
+                    .sorted { $0.timestamp < $1.timestamp }
+            }
+
+            // 跳过没有数据的关键词
+            guard !points.isEmpty else { return nil }
+
+            return TrendKeywordEntity(
+                id: dto.keywordId,
+                keyword: dto.keyword,
+                language: dto.language,
+                isActive: dto.isActive,
+                lastQueriedAt: dto.lastQueriedAt,
+                queryHitRate: dto.queryHitRate,
+                linkedTopicCount: linkCounts[dto.keywordId] ?? 0,
+                trendPoints: points
+            )
+        }
+    }
+
+    /// 获取关键词关联的在榜话题
+    func fetchLinkedTopics(for keywordId: String) async throws -> [TrendTopicEntity] {
+        // 获取关联的 topic_keys
+        let links: [SupabaseTrendLinkDTO] = try await client.from("topic_trend_links")
+            .select("topic_key, relevance")
+            .eq("keyword_id", value: keywordId)
+            .order("relevance", ascending: false)
+            .execute()
+            .value
+
+        guard !links.isEmpty else { return [] }
+
+        let topicKeys = links.map(\.topicKey)
+
+        // 获取话题详情（不限 is_on_list，因为关联话题可能已下榜）
+        let topics: [SupabaseTopicDTO] = try await client.from("topics")
+            .select()
+            .in("topic_key", values: topicKeys)
+            .order("heat_value", ascending: false)
+            .execute()
+            .value
+
+        return topics.map { mapToEntity($0) }
     }
 
     // MARK: - DTO → Domain Mapping
