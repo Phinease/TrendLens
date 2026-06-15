@@ -1,0 +1,1045 @@
+{
+  "version": 1,
+  "skills": {
+    "a-b-test-design": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "1fb9ab99f1c8ec9757027fc3b3fdb501a8139cf4cd780de534bd6462377fc6ae"
+    },
+    "ab-test-analysis": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "a41788149deaca12cd735f1ca18a8b036618d8d39b202258cc5d9a7eb3216c4c"
+    },
+    "accessibility-audit": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "a9059193adfcf3d548b770382bd5b4dae9496cc4c324812fecd0e6c15ceaceb1"
+    },
+    "accessibility-test-plan": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "74b8bf6936e2f1f9aeca41e6a94a890c6be918cc4e7c386de12308cbd19da4cb"
+    },
+    "acquisition-channel-advisor": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "ce7dd3aedb21254b914a99c60343727d82c33b94b8c9b99801c6ee89462d9adf"
+    },
+    "adapt": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "computedHash": "fb7cca7602be381b7b486e731fdcd480335cbb9b925e1911276f5bb9352c6b2f"
+    },
+    "affinity-diagram": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "d5264e7551275747e2787f25f05d57963bbc6d7845932fce74bceb802dd78668"
+    },
+    "ai-shaped-readiness-advisor": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "070e6d9e5e513515ac5827234aa24c9a731294e27c4faea6f09729a041b7b034"
+    },
+    "altitude-horizon-framework": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "6e2a01efe30571d7f11f5db8842e9758990e4372dfa1c6e1ad2a61b8c48b5afd"
+    },
+    "analyze-feature-requests": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "c0c1815f750b4a0ff6dccd5accdec50659ddc4015de80a4dc51e0608b6d71587"
+    },
+    "animate": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "computedHash": "b00cb71343fa7e987489ad330e3dd3e504ff893b9ddd2b30cacea93691b78e46"
+    },
+    "animation-principles": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "09ee44becaf8d48638166a9af1d09bf041c2d7fa74496740a2cac05f9cdd0225"
+    },
+    "ansoff-matrix": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "0c198b0ba438e87ba2ff79b301ef7ab0ccf8d4024168547a43470da8f562c65d"
+    },
+    "app-store-changelog": {
+      "source": "patrickserrano/skills",
+      "sourceType": "github",
+      "computedHash": "fb4979f1e2f802cd42f005c083a932969d4a4cdc344b0f5b2e58ee05b6cca2b6"
+    },
+    "arrange": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "computedHash": "698fb952e9ef0d2551a5c3421ef61e084934420e0d8371a02efb4f76f21049e8"
+    },
+    "audit": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "computedHash": "eb9109e542194f8711cffce23095ef5da2deb4ed0b23f59c07e912e3931f1e17"
+    },
+    "baseline-ui": {
+      "source": "ibelick/ui-skills",
+      "sourceType": "github",
+      "computedHash": "49817c981208de2f412719f7814d31eba2b2096462edc048a279d93f522cab0f"
+    },
+    "beachhead-segment": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "975e009cd04beffb0a4d68fd970a7677d9cb0ac95dabf058299c240410cef95a"
+    },
+    "bolder": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "computedHash": "4b03286f1dc45da3e1a76a71c0c62729b4887c814dff3084345889cb4780a3a2"
+    },
+    "brainstorm-experiments-existing": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "0dc5c020f11b04efc82e303a880e998c9a2622a80e889ff3a55b197b2d1cce24"
+    },
+    "brainstorm-experiments-new": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "368ea29bee623228b631f2e7d9c3e8f8a130e35976dc5e90aac831583383d17e"
+    },
+    "brainstorm-ideas-existing": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "32644235ef2da3916692b0b817aca226309bcc8c4b5007c892d41226fa7a0fd9"
+    },
+    "brainstorm-ideas-new": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "d996451909bfe18cce853f1838d640505ee00d564fdf8818e3563b790ad8b492"
+    },
+    "brainstorm-okrs": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "fe967be0462ec0fc3b8ccea1922e9eda1ecf08bdda14f5db5ae37d499467109d"
+    },
+    "business-health-diagnostic": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "37803eab8994edcfe168dad3817ddaab45cee1341d03ddf21e005cf03c0cc032"
+    },
+    "business-model": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "c6eee0cd2d102bb2982a41c7e6ec49515146be622858f76d5a5e1977e144e755"
+    },
+    "card-sort-analysis": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "d98fe9fbbb59088e8465edc02ecafa7094636d33de5bc8a2063338523260272c"
+    },
+    "case-study": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "765afbd709978c15742c1b115f0d1cb079e0a3d8bd01304dcbaa411b0e436723"
+    },
+    "clarify": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "computedHash": "1138379fb9f10b911094fb57b5607de8efbd77d2467fba4981ccc1c155457c6f"
+    },
+    "click-test-plan": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "4c7662212818bfb53f1a186ec2c9fbc72c213ee1064d9f4c3ba578823ba52912"
+    },
+    "cohort-analysis": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "8c6adb54ad7c849c581aae723e0cbf37f4f6dfcaa4860ee12bf72a82f9d5c6fa"
+    },
+    "color-system": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "e273ec32da74094fbb497bd6eb39bbc6340b61584d6c37997d652b30f5ee3f7b"
+    },
+    "colorize": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "computedHash": "6e292a0ba428d339615e025cab1f2692b2e6267ba247574a00545b1dac1acc5a"
+    },
+    "company-research": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "3d8fbcbb9c6f8b9f9066e0ff2a094d92c3ac7e27d1846231196596ff6e4a3448"
+    },
+    "competitive-analysis": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "93abc95b8090a667000a4d94ef85649cff48cef1ca1d77abb2ad70a778eb0007"
+    },
+    "competitive-battlecard": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "534d760942f79ba510bd3b87e5ad3f3aafb2ee2e2dc342dd1adb2f8be8d31cf6"
+    },
+    "competitor-analysis": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "589b2783c3fa6f8a559217ebf053b8311a8dea27627037798c8eba177efe58b7"
+    },
+    "component-spec": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "7f13e510f41a91c14a494f16c6fff5825201eafa8c2cecdf08f353a60ede560b"
+    },
+    "concurrency-expert": {
+      "source": "patrickserrano/skills",
+      "sourceType": "github",
+      "computedHash": "190cdac7fc9f1b1a6e8a8120f84be5166cad5c6f360697f3c90b9165cdc4f860"
+    },
+    "context-engineering-advisor": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "93a8ad576832be3d0d182885f6011d4aec1df62a66e5c714384b52c88f0f6c26"
+    },
+    "create-prd": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "5c242d3abb9508f59021ed22936230e555971feab690cbf2a90142e06d10e7ae"
+    },
+    "critique": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "computedHash": "59d3facaee0d7c969f23e938c35239183d3fdd9befff526908585e55afa3a9dd"
+    },
+    "customer-journey-map": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "793689f403818a1a357e5fac0f36f9a83397fbca2ed9e56de849cfc957010f68"
+    },
+    "customer-journey-mapping-workshop": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "0dfccb27cb2417da13f3907e5d6d41870be4355e842e7c7ec66a093ea1bcb4e2"
+    },
+    "dark-mode-design": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "521eeba531ff2192df390956126507ecf250d3b16f9ef7688f67c9169c935838"
+    },
+    "data-visualization": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "640f408d628fa774fd6300038bc555248159f0e60387aff374f00c620254535d"
+    },
+    "debugger-agent": {
+      "source": "patrickserrano/skills",
+      "sourceType": "github",
+      "computedHash": "dc480dce85bc7f4fb2695651945bc063d9db6d1dd9d84b1df96ab6430d483fb0"
+    },
+    "delight": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "computedHash": "80127e9c695f768f5df70b9f62ad51cdfb3b4892791c4d901214b08f3be8d37e"
+    },
+    "design-brief": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "c770553410b53e14703582d889910cc2bd284b551286815f33ec7eecf10b3344"
+    },
+    "design-critique": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "176c87e444147c35236495f5416bab9fa9287610efd509a73138f700f60b75aa"
+    },
+    "design-principles": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "d2a325f208b23f3b0bf7f50737061a182d0f16235d661c4a431eea3eebfeaab4"
+    },
+    "design-qa-checklist": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "596805c8a9850acc8d36583a3f0afcf53b8c969a16383659822afc9246727692"
+    },
+    "design-rationale": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "a717add06da8161836b8da205e298d8b97fa8e9a2647cd79ac76e653abe0c296"
+    },
+    "design-review-process": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "142384a87e472c63fb391e873338b002c9b0ce164de078a21bd91eb9340519d6"
+    },
+    "design-sprint-plan": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "f94271fe118b951469c173bdd57694c524416d6947a3ed853fc230d5d1320ece"
+    },
+    "design-system-adoption": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "5835c7f5beaf56e747fa93028844644446c44b4f971b0175e017eae5d0d3df33"
+    },
+    "design-token": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "13d408ed09d2f7bf6ef2495430fcc25d1240a186e4396efd1badaeb4c84d3a0b"
+    },
+    "design-token-audit": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "9c7a6c5059051c763b98395a7f9b193ac985c13d959bb52c6951fbbf4c97cf2b"
+    },
+    "diary-study-plan": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "2a493bfb844b4a562e2b5cd59c3fa40e4b11327ff9b96454aa9f468f285d0872"
+    },
+    "director-readiness-advisor": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "882d0cb3bc932d7f09f5329c31d8fa2fef3f90bd4362685eabf3be62e0707305"
+    },
+    "discovery-interview-prep": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "7e6752a85ee648c1a798d545a96b37c476b4006c01f2093588a5f51e6a0a366b"
+    },
+    "discovery-process": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "81b67c0c28d788d06803991c1af6cfe57eae16b61cb92ad2c1ba610cddbcb116"
+    },
+    "distill": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "computedHash": "ce6fbd844488a326208c1302c73b2865fa4fb20e447b6a06c038315444d6e0c5"
+    },
+    "documentation-template": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "3269f7e1dbe24f15902800f27b3e99e2eb507a5c43266b940706d2fa8369e8e0"
+    },
+    "draft-nda": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "0e8ee39d06733a50fbaadb08d60e646bd855297de79b4c5f67ac463511c02cf3"
+    },
+    "dummy-dataset": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "1354aa148920680d38cf78eb49c258a100cccd344d751ad445f419ba6dc436e4"
+    },
+    "empathy-map": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "8fc1afd73161dd522f755ab3d286cfa2ef5384c464a5a2746cf7765b011d6b9a"
+    },
+    "eol-message": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "53e4a70c6cf31e535310a47a758af2e08c5a52310f4372d5aa07ea28d95093b0"
+    },
+    "epic-breakdown-advisor": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "36566935f8dca4616c34e973d4d479aa7999c0ebf52de403236afbe0119a0513"
+    },
+    "epic-hypothesis": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "262cf39d4c2de2216e9755c603c5850eabdf3fb678d16fd0763938e7914b03b1"
+    },
+    "error-handling-ux": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "2cc819d2f01a7f1d74c0c976a1b5c56bdb97c30affae1d748bfe02cb3017ec8a"
+    },
+    "executive-onboarding-playbook": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "9bf10130aaa69d0935bdcfaf32dc7c98899d47207d6eff416a71a33ff7f4513c"
+    },
+    "experience-map": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "19e8efd2d3d90ee5168726f1ebdff71f494e1f5de02658c53222021639de09fc"
+    },
+    "extract": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "computedHash": "1bbe30b5be73a86971f6bccb37daae84aaafceaa6d23429d6a3a0442378ac4ec"
+    },
+    "feature-investment-advisor": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "0e832cfe44cc3f68190f8751e5f4c688a2a315ff927f1d1e936fd4973e8256c7"
+    },
+    "feedback-patterns": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "4944c5f3bfcccbe8b8eb5b0e014dd90fa1720e9142b25c3828366d004989ff2d"
+    },
+    "finance-based-pricing-advisor": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "7b644f464ef67a11b85e14d3496773d61b0480fbadfdeee92bc2ed7c7e8b5372"
+    },
+    "finance-metrics-quickref": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "92ef5be1771e50cee00cd7713374dbde2d212a1dd0b6c07559ee98cc3ba95e71"
+    },
+    "fixing-accessibility": {
+      "source": "ibelick/ui-skills",
+      "sourceType": "github",
+      "computedHash": "4fa8f5a772b4eef3d28a54c136b507d070e54e2c326578f65eaf5e5a0118b38a"
+    },
+    "fixing-metadata": {
+      "source": "ibelick/ui-skills",
+      "sourceType": "github",
+      "computedHash": "699e13890fb50acffa02dfd2d5b0e719bd916a9e2b7e6035bdc4513fc73d9174"
+    },
+    "fixing-motion-performance": {
+      "source": "ibelick/ui-skills",
+      "sourceType": "github",
+      "computedHash": "426dcf33f23419643f2aab71e2253e1a5b5684a808fabb8a4ad135e489ed7a0f"
+    },
+    "frontend-design": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "computedHash": "9ebe6c652743fcde8d2ae773f34b6f548dcc8b2e75a3a30936adcd8b95dd2d16"
+    },
+    "gesture-patterns": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "43222e5ddb8dd80e2a304c021442409707e27400cce6ea8cd7795473d8f0d7c8"
+    },
+    "grammar-check": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "1954c1532ca62d28d747a79af13ed1db55e5c54e60d40e127d0ffbfc58439686"
+    },
+    "growth-loops": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "7d52ffc8956d15d4aef194bf14e8ac02f9ea50a97ba7c7bf42f3ce679ade91a3"
+    },
+    "gtm-motions": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "db56853aef2211e29eb5e7359c512c41b6f3d47e7eee790b1306d50b15d1796b"
+    },
+    "gtm-strategy": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "29fb0efd2a65edbe86b47f85e3f9de06b386a53a2dd870911089d8f18e5c08ef"
+    },
+    "handoff-spec": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "af46a3d7e3885bd088c37cf6d4ca8066a7d58f1aeaa2cf45e2ef0bd92cc10347"
+    },
+    "harden": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "computedHash": "f8ce420b3c78b90707704122264da76514c793ac0e12fb9540ace68d257c231c"
+    },
+    "heuristic-evaluation": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "33357870b71c9153d2d614ca5f1b9240c794bb1f5ed9d4e73f16de832e65a4be"
+    },
+    "icon-system": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "b83d3d2c18814218d454ae8e29a13fb1653d2752a904b8bfb9b86af86e5530d9"
+    },
+    "ideal-customer-profile": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "b4adac9af2dcf7b1408bcbb710a1c22f326795d92db0f4a90eace98d8242e9a3"
+    },
+    "identify-assumptions-existing": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "157566069c0d49a600abef80e05549f6d0c62a19e39fd2814e18392597b55ccc"
+    },
+    "identify-assumptions-new": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "863667c0d27c925650ebf43fbb755e0f5586ea804bc051eedbf6e92f6785df28"
+    },
+    "illustration-style": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "e132ebf617da8d26df00cd21e80ed7ec76b32debb5bd3816248a090e634ad653"
+    },
+    "interview-script": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "7b4fcca6ca66a8371e581a1f32dc444398fdb824ad1348f60b97f62dd4aba425"
+    },
+    "issue-fix-flow": {
+      "source": "patrickserrano/skills",
+      "sourceType": "github",
+      "computedHash": "d5235935d9378310a5ec7c7d0ec1e406bb9550c99ddf1898c626e702a2548115"
+    },
+    "job-stories": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "8b4a0d96bffd81266981e7ed0ed979d415995f6734d65e3cf6293cd28399d3a3"
+    },
+    "jobs-to-be-done": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "a477497452f84b538285c1517d02da8d9aa85f1a7fe06c76bf1afd10d46bbe24"
+    },
+    "journey-map": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "201b4ac820efe88b3ca99fb33daf2f8bc00a210bcee9037b2bc719e327b5bc7a"
+    },
+    "layout-grid": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "baafc9cdb58f8c52d46f0116fafdb5cb188af9749a6aa1409cad8a2ac412f6e2"
+    },
+    "lean-canvas": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "4e470bd694c6535c9c316c17f5ab877299d11aea3967f2fe8b92d1511eeaff93"
+    },
+    "lean-ux-canvas": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "f2a7fa51b3f57afd03f4f6a27ea9892b3257f6773de3d24c01dda0065bc6c264"
+    },
+    "liquid-glass": {
+      "source": "patrickserrano/skills",
+      "sourceType": "github",
+      "computedHash": "b72cae01d79346807b04a7048382135947f5e8d77e2f2e95ba9ebc3eac6f360b"
+    },
+    "loading-states": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "a6bcded656c70205a6fd99016a63d2dc6eb9e4e9d76a9d8c901723fb8955b074"
+    },
+    "macos-spm-app-packaging": {
+      "source": "patrickserrano/skills",
+      "sourceType": "github",
+      "computedHash": "99c8757af982f052d4678ed8247e973141d82b156483a20ee8187cd32a4c79a2"
+    },
+    "market-segments": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "b80469ab3b88c02e7f26fdd361a704c60681463675874b93be8c574d5dc06c90"
+    },
+    "market-sizing": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "bd1fd85b45e848a810141e916ce967e0328072e87c6e8626e48065e8b01b0554"
+    },
+    "marketing-ideas": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "3e464a70238d16ca8a6b21c3ebab785594024c8eb80b8dd3a78a021cd92ed61e"
+    },
+    "metrics-dashboard": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "23943ae9700288342b146c60664107bd5533918348ea3888b7ae96b5e4e1fe7e"
+    },
+    "metrics-definition": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "f4744d25695a9e2913ec6c4b531cd8f2d190f1529685a31c2cf45c0a0624cdf6"
+    },
+    "micro-interaction-spec": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "b3c84fbaf2b9961342678822e5edb71c83b6e8e6f47759d9b213192daedf0499"
+    },
+    "monetization-strategy": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "fe59fc0cde884e3e5ae7316b6bcbbdcf1936b7f74fec3cfe5e8a3523db0423b2"
+    },
+    "naming-convention": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "e50b9223a789fa19e54dc5d049be3f871d59f62f04e4f188c7e3fbf82d6846a7"
+    },
+    "nano-banana-pro-prompts-recommend-skill": {
+      "source": "YouMind-OpenLab/nano-banana-pro-prompts-recommend-skill",
+      "sourceType": "github",
+      "computedHash": "6448fc7f4770601cb3b913efe7fe18c7a939edcf3e94f15844d9ba0be71e94ea"
+    },
+    "native-app-profiling": {
+      "source": "patrickserrano/skills",
+      "sourceType": "github",
+      "computedHash": "836bba9b161b102337f243061161f5f32683c0edbd11ace41798ebf25897122d"
+    },
+    "normalize": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "computedHash": "281b7f9e590e252a6aec3f5f83c5ca548c91e8bccb3fd6eee4cc7d5be0becb4d"
+    },
+    "north-star-metric": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "4154f922dd84e7d13f212f70d925ed8543841ccceb1164a91623b39a0616198d"
+    },
+    "north-star-vision": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "782d59a634250bf6bd738d56cdb0c8122329044c2a7feaa6758a68e971baa863"
+    },
+    "onboard": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "computedHash": "1cbedf70f906150b1b8bb70b61393eaf67e2e1311e1b5e43bde3e47411bcaa2b"
+    },
+    "opportunity-framework": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "d323703e549cb9241d6ae688d4a8756a9356684c0e953b16be63a675241106e9"
+    },
+    "opportunity-solution-tree": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "0bbc9c2da81f4e6143d17de9e34fa9b275a6c408bf5f351ccc0a76c9ea50b11e"
+    },
+    "optimize": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "computedHash": "f7adc2a2e540a590978b567d82985062bfada83385f5ad5d50b13a127cdc96d6"
+    },
+    "outcome-roadmap": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "12abd68e440a17578d5dce8d9e80fbaadfb603134ec58ce38f622da7075ef668"
+    },
+    "overdrive": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "computedHash": "3b940d458ef13afcb93ccb51ff430510aca4a9733d68fbdc335927a2636a091d"
+    },
+    "pattern-library": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "b76e7a9e70fce0c3575e1b23e128d108ab0077bf175b897f4b87a65e7cc7bfd6"
+    },
+    "performance-audit": {
+      "source": "patrickserrano/skills",
+      "sourceType": "github",
+      "computedHash": "5f854b47e5227b92399ddcac79e3b302a101691bf85dd6634ac39c3ffb2874ed"
+    },
+    "pestel-analysis": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "32cd2d58b3f837efd43d5556298fd808a1d681f1d23ad3908032801c346850ab"
+    },
+    "pestle-analysis": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "f6dfcc39873011340d4a3f95f260c34cbf98ab5154884b5fae273b3ed26c5005"
+    },
+    "pol-probe": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "2d251b057a577d5a61abe18d083a04ba248e4393de1671c3643bbc235e22ff18"
+    },
+    "pol-probe-advisor": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "984515e53127906726156ca1a6df635819207390bf5c1e64d77a8134c5d24815"
+    },
+    "polish": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "computedHash": "33a8b5195481719e954b71762de56faaabc68c479602673894e0d0e47336756b"
+    },
+    "porters-five-forces": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "6607f757c39236f444a9cc1681ba064fb608818411590e47ce6d883f35efd342"
+    },
+    "positioning-ideas": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "f4b71635d2ffd33ccd4c8885d6bda412b72dbd61e34d4b427969b85c0e1cb91e"
+    },
+    "positioning-statement": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "f86777e3d49ae322e5614cbe1d677fc17b2419a6f27b35cca21ded69d184ac27"
+    },
+    "positioning-workshop": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "ccd9aa93569c4ffd4c46c31624102c23216260e25cb26fdd409fff42a33a9dbe"
+    },
+    "prd-development": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "03f7586e21391986880d3c7a50bcd845ed8d3b3922298b7d8b0e2e6359f5c598"
+    },
+    "pre-mortem": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "19ae048852f8e0ea4009e519e6ad6d0627e4c051858ddd31cb229deb64eea68f"
+    },
+    "presentation-deck": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "f9aa2f651fb20b729a32e8ce95f52409329480959667837a14265e4ff1cdefe7"
+    },
+    "press-release": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "eba044dd417991ad3c209d0a5c8f3c167bbedc0dc5d1d923f8e6eef329745efe"
+    },
+    "pricing-strategy": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "8b08c790570b59f344430c14d7d5b1dee44d585ced4b50ce9915130ea902cebf"
+    },
+    "prioritization-advisor": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "0e93c39e32a92117095cdc6bc54e7c9960b9efcc80541ad81b81a5ad77d2c3e9"
+    },
+    "prioritization-frameworks": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "c3a9efeb0aff02df481fc5c624b91709e6b21de167b2867e93a2d08bb4b4fa84"
+    },
+    "prioritize-assumptions": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "189b8e88c6654505d91a4b068144197a39c4f8fccf8f5e1ba91952f2ca85e7e3"
+    },
+    "prioritize-features": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "0cd2f0bf0a1440b12aec601470c30d86dafd1bb0f8a507d7caced94f4bc8a2f8"
+    },
+    "privacy-policy": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "b7de21713e3b59e8a152b47135f4a501e8ecf22e5e550dc64937f18ced7e6eae"
+    },
+    "problem-framing-canvas": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "c64a7065d6172d7f635a77f54b34a46c74dd843b1e899e2327fb07919356c578"
+    },
+    "problem-statement": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "7a58915d1aba86088f11b3ae2c78518138db33b16e745c977e5d78e21d37b37d"
+    },
+    "product-name": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "37cca037c08948af87728d31b676c2192029fa8ca0a4dd62584ad0839dee55a7"
+    },
+    "product-strategy": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "3c3caf28c064bdd863027fb7737133e6efd545682c82ba21beaf85ac9b21da81"
+    },
+    "product-strategy-session": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "7dbe56d6ec799595edf916cc8fbcca87694ef4e832fac5a90382d543e3dfbcab"
+    },
+    "product-vision": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "6db8717df816928ce4f77e54fc42467f35892967aae84ab0eec8ca5f9edd2c88"
+    },
+    "proto-persona": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "0a8e1a4de74e68395de8a6f51810390715059828ff39dd41f6e62a3fd492f1a9"
+    },
+    "prototype-strategy": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "fd1a04de726e3eb3b0916893fdd8a4991107c7b60504cf57136c57c63430918f"
+    },
+    "quieter": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "computedHash": "6066e73875e4770e624641355cc04662ce75d2b1d1a3673e24dcbd0ec8936297"
+    },
+    "recommendation-canvas": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "6ea7ad93d9c04c3d77d4fb2f4efce96b234727d7abdaf9a4bbef07482768964c"
+    },
+    "release-notes": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "375e01b5114d4ec892db0129cfb4cb3788fbfa9f2ff0262cdfd2166d77b3108a"
+    },
+    "responsive-design": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "a7fe79088a1d56bd85e2f989c372b5bdd8a7869c5d04b93748452e082de18cb6"
+    },
+    "retro": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "7f71997df63d73af6d0e732148b524fa6c314dacaaf0d383dc0da3e34523dc81"
+    },
+    "review-resume": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "457ce744e2da12f85aa98d0a4f5f08eec71817405cb2c06b45c09575b83b9852"
+    },
+    "roadmap-planning": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "15c94d46b55ecbcf40ad3df2dba5deca9e212ee0e99574f97f17ebacd513e96a"
+    },
+    "saas-economics-efficiency-metrics": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "d11add0f8c7a91e0a2433e4071e19d8c2a02f255fe26eaf346bf8248dd9dd5f6"
+    },
+    "saas-revenue-growth-metrics": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "eab7e4f98fe98de39292f8e0988f17106cddd16ca0a13d37c21e553860e40995"
+    },
+    "sentiment-analysis": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "5202a258b4ce2c7bfff3845f269349ca5fa21c68a48610899c62503286b2d410"
+    },
+    "skill-authoring-workflow": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "667d9242ff724e0be62410bb1e99190c1339faafb787af83da14bd5108f254d9"
+    },
+    "spacing-system": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "895b326ceec32780b99ec29373efdcd2d16474306864ec98de5d3ea41635836e"
+    },
+    "sprint-plan": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "c24b2cef87ecf404548da46dc8f6d473f7b1fc3e2477edc9de7b1e8ab04adad7"
+    },
+    "sql-queries": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "8cd45f46990b642b0ccaa5f6dedbeea051d44f1ea2cc5d67114534e77c29b03a"
+    },
+    "stakeholder-alignment": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "58495619083de766ada7dcc587881a4c4ac6a05c1c816594d782b729e9c4a1db"
+    },
+    "stakeholder-map": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "a721f2737863b48f26cd1d6cc3de3150977fc7a994645d2303cd412ed3315887"
+    },
+    "startup-canvas": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "57a15851a385bd7e31c6dad1037a29dfe4cd467ed369a3ff4892d988dd0d81a6"
+    },
+    "state-machine": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "3de657494be27db1b785f65454063053c6e61ce825c86c7022fdbe6adc1557c1"
+    },
+    "storyboard": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "fb36301d982dee1d62a512e4a6a8c828aac53920cd5be3de634f03234ded459e"
+    },
+    "summarize-interview": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "88749df51a9cda97f89cee50346db3cb1b9ff7a15094d9e24cca1ac60f0a3071"
+    },
+    "summarize-meeting": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "505e6223ea9bcb274bde412e6b4d1d0e4ff8597e688d43ab5f3789c19ac05860"
+    },
+    "swift-concurrency-pro": {
+      "source": "twostraws/swift-concurrency-agent-skill",
+      "sourceType": "github",
+      "computedHash": "dec65531b4bd37d15e6243dbb0d2d1f554b4f4087bcb2e8deb7273f570fa4069"
+    },
+    "swiftui-expert-skill": {
+      "source": "AvdLee/SwiftUI-Agent-Skill",
+      "sourceType": "github",
+      "computedHash": "530d5a9a2a16ccc046080f34a611012a1192fcd94ef974ac2323fb70147449c6"
+    },
+    "swiftui-pro": {
+      "source": "twostraws/swiftui-agent-skill",
+      "sourceType": "github",
+      "computedHash": "ce653d19fd00a4874489003025e9235be542e7134ff3c543e20afeb53fc3bc9a"
+    },
+    "swot-analysis": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "e54e0a983dfb825ff3f9008efae0611c895f93d7a13140a53c5331678f2d4ec5"
+    },
+    "tam-sam-som-calculator": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "32a66e38fea07e0e246749b8f7d2e68251af31a9dff37abf092ba4d0293a3585"
+    },
+    "teach-impeccable": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "computedHash": "b3b5541bb9b0a260af793c7d79c2db4a436c2cd9384be34a4024c7f28af72e62"
+    },
+    "team-workflow": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "9e6ec734363b9ed4ed5b328fc53f8567b2c79659b478371a0cf0e41808acd353"
+    },
+    "test-scenario": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "4164c5f313d62ad29e88c0776f49bcd42a85b86b8e5f68a1915951f575da8974"
+    },
+    "test-scenarios": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "a65c9547fb66a7383323ba6986b18f682a3fa010d6b0b030abc4e68ccb56a54e"
+    },
+    "theming-system": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "30d8d7d0bc80d269726f12a2f8de56d36ee0424ab872f0070d12bc498fed5b19"
+    },
+    "typeset": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "computedHash": "0259de15644a89550cfd6a936a8e1866dcb35d20ccc96197614459233a9bcdb3"
+    },
+    "typography-scale": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "2ab442a62f1ecc618ab4458a29372c88c5ec3f904209b358003772d96a99a9f9"
+    },
+    "ui-patterns": {
+      "source": "patrickserrano/skills",
+      "sourceType": "github",
+      "computedHash": "26c7e371afe78249fbdc20bea7a02f6d95bd1cd99d424e7c5b236d0da4cf2a3f"
+    },
+    "usability-test-plan": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "63a9106d0ff0b62acd708f63b236f3aad51e87cd1466998c8a7491712433b74c"
+    },
+    "user-flow-diagram": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "d5c3319e8f2bf605567454d2ca27191d6576af26c6b3ab82025025f20fa235ed"
+    },
+    "user-persona": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "13cbc0a741ea90f8172df24164ef96e1c165b55af964d39dfe814e84119a2eaf"
+    },
+    "user-personas": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "271152c8d16d09fd3448e3d33707d61373c3c06e4619e8a1e9730d5305c120d4"
+    },
+    "user-segmentation": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "540d00a0b213d4c297f06aae7cb5315612d2b5dd74f204af640f0eff122953fe"
+    },
+    "user-stories": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "b9ba16cb7178e3e71b84cfb6d8e8226244bd04c1a7a957cf41cb793e567dd0d5"
+    },
+    "user-story": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "3ce7255707adbdf8f33194f87ea65444dd484a540286ad0fc158103d928a099b"
+    },
+    "user-story-mapping": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "3991608c3624aa2b8f49a8377e5df6c1ef9a76cd216d86e8cc105c986cabc3d5"
+    },
+    "user-story-mapping-workshop": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "892c27c40aa1670dc85221c326af3140b346db9a50363e6c6346fad4335c846c"
+    },
+    "user-story-splitting": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "8131b4447345ad8288c09f764a1e23f8eed2b0d86f843db268046b1057c8e8aa"
+    },
+    "ux-writing": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "05eba31804518a2f674c67ba320e2ddb9acc8cab7150a931aa33216fa615e427"
+    },
+    "value-prop-statements": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "5a40288434e0784430bfefa0d3577d57722d0adf5545e24c86764462f7e82cae"
+    },
+    "value-proposition": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "2a2da3df17301089d6dbd9b39392c72e2723117f01291d6d28020d80a6840a5e"
+    },
+    "version-control-strategy": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "8bfcd7304da639492b32b4dc0f6de9d55090c814042b71c3fb77a2f3afcb78ee"
+    },
+    "view-refactor": {
+      "source": "patrickserrano/skills",
+      "sourceType": "github",
+      "computedHash": "6e9e19e09e2edb6dabead65afdbb9a315736fb0427deeaa49875e4799ef113e2"
+    },
+    "visual-hierarchy": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "f8cc919884a4752f54303b4e07af8db630503e058aefd3197dce1d1a5eb9c3ff"
+    },
+    "vp-cpo-readiness-advisor": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "3869649a2b70b2f9af73a7e3039ee2a0f83043e1b873dd73dc6b3d8c7219215f"
+    },
+    "wireframe-spec": {
+      "source": "Owl-Listener/designer-skills",
+      "sourceType": "github",
+      "computedHash": "790a9e40f32453f4e2de4aac5ad8883a0aecb70b765b2201aa9370a37850bd37"
+    },
+    "workshop-facilitation": {
+      "source": "deanpeters/Product-Manager-Skills",
+      "sourceType": "github",
+      "computedHash": "e3d1f253c48c4357db71b17e4ecd4a569a268f9faab59edfcde8ff50f2451b15"
+    },
+    "wwas": {
+      "source": "phuryn/pm-skills",
+      "sourceType": "github",
+      "computedHash": "962c1ff4d5d9d5affc9bf6c3f30baa156de85dec71f8379f92de1a256995a4f8"
+    }
+  }
+}

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.trendlens.trendbackfill</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/zsh</string>
+    <string>/Users/phinease/Code/TrendLens/backend/scripts/run_trend_backfill_tick.sh</string>
+  </array>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>ROUNDS</key>
+    <string>10</string>
+    <key>MAX_BATCHES</key>
+    <string>20</string>
+  </dict>
+
+  <key>RunAtLoad</key>
+  <true/>
+
+  <key>StartInterval</key>
+  <integer>1800</integer>
+
+  <key>WorkingDirectory</key>
+  <string>/Users/phinease/Code/TrendLens/backend</string>
+
+  <key>StandardOutPath</key>
+  <string>/Users/phinease/Code/TrendLens/backend/logs/runs/trend_backfill_launchd.out</string>
+
+  <key>StandardErrorPath</key>
+  <string>/Users/phinease/Code/TrendLens/backend/logs/runs/trend_backfill_launchd.err</string>
+</dict>
+</plist>

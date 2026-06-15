@@ -9,6 +9,7 @@ import SwiftUI
 enum FeedNavigationDestination: Hashable {
     case topicDetail(TrendTopicEntity)
     case dataAnalyse(TrendTopicEntity)
+    case trendDetail(TrendKeywordEntity)
 }
 
 /// Feed 页面 - 全平台热榜聚合
@@ -43,9 +44,29 @@ struct FeedView: View {
             .navigationDestination(for: FeedNavigationDestination.self) { destination in
                 switch destination {
                 case .topicDetail(let topic):
-                    TopicDetailView(topic: topic)
+                    TopicDetailView(topic: topic, navigationPath: $navigationPath)
                 case .dataAnalyse(let topic):
                     DataAnalyseView(topic: topic)
+                case .trendDetail(let keyword):
+                    TrendDetailView(
+                        keyword: keyword,
+                        viewModel: DependencyContainer.shared.makeTrendsViewModel(),
+                        navigationPath: $navigationPath
+                    )
+                }
+            }
+            // Also handle TrendsNavigationDestination so TrendDetailView's
+            // internal navigation (linked topics) works from the Feed stack.
+            .navigationDestination(for: TrendsNavigationDestination.self) { destination in
+                switch destination {
+                case .trendDetail(let keyword):
+                    TrendDetailView(
+                        keyword: keyword,
+                        viewModel: DependencyContainer.shared.makeTrendsViewModel(),
+                        navigationPath: $navigationPath
+                    )
+                case .topicDetail(let topic):
+                    TopicDetailView(topic: topic, navigationPath: $navigationPath)
                 }
             }
             .task {

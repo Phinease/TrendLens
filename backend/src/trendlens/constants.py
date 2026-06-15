@@ -71,9 +71,15 @@ TREND_KEYWORD_STOPWORDS: frozenset[str] = _load_stopwords()
 # ---------- Trend data collection ----------
 TREND_FETCH_INTERVAL_MINUTES = 60
 TREND_KEYWORD_BATCH_SIZE = 10
-TREND_GOOGLE_RATE_LIMIT_SECONDS = 65
+# Base delay between batches; actual delay is randomised ±15s to avoid detection.
+TREND_GOOGLE_RATE_LIMIT_SECONDS = 55
 TREND_GOOGLE_MAX_KW_PER_REQUEST = 5
-TREND_GOOGLE_TIMEFRAME = "now 7-d"
+# Daily resolution over 3 months — far better data density for Chinese keywords
+# than hourly "now 7-d" (which hits Google's privacy threshold on low-volume terms).
+TREND_GOOGLE_TIMEFRAME = "today 3-m"
+TREND_GOOGLE_TIMEFRAME_HOURLY = "now 7-d"  # optional high-res for confirmed high-volume keywords
+TREND_GOOGLE_SPARSE_THRESHOLD = 5  # min data points to keep (daily: 5 out of ~90)
+TREND_GOOGLE_MISS_STREAK_RETIRE = 3  # consecutive misses before retiring keyword
 TREND_KEYWORD_DEDUP_THRESHOLD = 0.85
 TREND_KEYWORD_MAX_PER_TOPIC = 8
 TREND_DATA_RETENTION_DAYS = 90

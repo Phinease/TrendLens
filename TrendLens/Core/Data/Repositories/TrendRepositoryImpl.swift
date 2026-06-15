@@ -22,4 +22,8 @@ final class TrendRepositoryImpl: TrendRepository {
     nonisolated func fetchLinkedTopics(for keywordId: String) async throws -> [TrendTopicEntity] {
         try await remoteDataSource.fetchLinkedTopics(for: keywordId)
     }
+
+    nonisolated func fetchLinkedKeywords(for topicKey: String) async throws -> [TrendKeywordEntity] {
+        try await remoteDataSource.fetchLinkedKeywords(for: topicKey)
+    }
 }

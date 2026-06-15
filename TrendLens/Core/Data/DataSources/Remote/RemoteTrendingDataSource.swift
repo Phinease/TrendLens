@@ -344,6 +344,63 @@ actor RemoteTrendingDataSource {
         return topics.map { mapToEntity($0) }
     }
 
+    /// 获取话题关联的趋势关键词（含趋势数据）
+    func fetchLinkedKeywords(for topicKey: String) async throws -> [TrendKeywordEntity] {
+        // 1. 获取关联的 keyword_ids
+        let links: [SupabaseTrendLinkCountDTO] = try await client.from("topic_trend_links")
+            .select("keyword_id")
+            .eq("topic_key", value: topicKey)
+            .execute()
+            .value
+
+        guard !links.isEmpty else { return [] }
+
+        let keywordIds = links.map(\.keywordId)
+
+        // 2. 获取关键词信息
+        let keywordDTOs: [SupabaseTrendKeywordDTO] = try await client.from("trend_keywords")
+            .select()
+            .in("keyword_id", values: keywordIds)
+            .eq("is_active", value: true)
+            .execute()
+            .value
+
+        // 3. 获取趋势数据
+        let trendDTOs: [SupabaseTrendDataDTO] = try await client.from("trend_data")
+            .select()
+            .in("keyword_id", values: keywordIds)
+            .eq("data_source", value: "google_trends")
+            .execute()
+            .value
+
+        let trendByKeyword = Dictionary(grouping: trendDTOs, by: \.keywordId)
+
+        // 4. 组装实体（只返回有趋势数据的关键词）
+        return keywordDTOs.compactMap { dto in
+            let trendData = trendByKeyword[dto.keywordId]?.first
+            var points: [HeatDataPoint] = []
+
+            if let trendData, trendData.timestamps.count == trendData.trendValues.count {
+                points = zip(trendData.timestamps, trendData.trendValues)
+                    .map { HeatDataPoint(timestamp: $0, heatValue: $1) }
+                    .sorted { $0.timestamp < $1.timestamp }
+            }
+
+            guard !points.isEmpty else { return nil }
+
+            return TrendKeywordEntity(
+                id: dto.keywordId,
+                keyword: dto.keyword,
+                language: dto.language,
+                isActive: dto.isActive,
+                lastQueriedAt: dto.lastQueriedAt,
+                queryHitRate: dto.queryHitRate,
+                linkedTopicCount: 0,
+                trendPoints: points
+            )
+        }
+    }
+
     // MARK: - DTO → Domain Mapping
 
     nonisolated func mapToEntity(_ dto: SupabaseTopicDTO) -> TrendTopicEntity {

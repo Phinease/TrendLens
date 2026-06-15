@@ -14,7 +14,7 @@ dependencies = [
     "apscheduler>=3.10,<4",
     "tenacity>=9.0",
     "structlog>=24.0",
-    "pytrends>=4.9",
+    "pytrends-modern[all]>=0.2",
 ]
 
 [build-system]

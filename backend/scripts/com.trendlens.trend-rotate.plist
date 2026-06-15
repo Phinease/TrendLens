@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.trendlens.trend-rotate</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/phinease/Code/TrendLens/backend/.venv/bin/python3</string>
+        <string>-u</string>
+        <string>/Users/phinease/Code/TrendLens/backend/scripts/trend_rotate_once.py</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/phinease/Code/TrendLens/backend</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PYTHONPATH</key>
+        <string>/Users/phinease/Code/TrendLens/backend/src</string>
+        <key>PATH</key>
+        <string>/usr/local/bin:/usr/bin:/bin</string>
+    </dict>
+
+    <!-- Run every 30 minutes -->
+    <key>StartInterval</key>
+    <integer>1800</integer>
+
+    <!-- Also run at load time -->
+    <key>RunAtLoad</key>
+    <false/>
+
+    <!-- Logging -->
+    <key>StandardOutPath</key>
+    <string>/Users/phinease/Code/TrendLens/backend/logs/rotate/launchd.out</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/phinease/Code/TrendLens/backend/logs/rotate/launchd.err</string>
+
+    <!-- Don't pile up if a run takes too long -->
+    <key>AbandonProcessGroup</key>
+    <false/>
+</dict>
+</plist>

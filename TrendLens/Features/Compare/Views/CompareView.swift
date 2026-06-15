@@ -59,9 +59,35 @@ struct CompareView: View {
             .navigationDestination(for: CompareNavigationDestination.self) { destination in
                 switch destination {
                 case .topicDetail(let topic):
-                    TopicDetailView(topic: topic)
+                    TopicDetailView(topic: topic, navigationPath: $navigationPath)
                 case .dataAnalyse(let topic):
                     DataAnalyseView(topic: topic)
+                }
+            }
+            .navigationDestination(for: FeedNavigationDestination.self) { destination in
+                switch destination {
+                case .topicDetail(let topic):
+                    TopicDetailView(topic: topic, navigationPath: $navigationPath)
+                case .trendDetail(let keyword):
+                    TrendDetailView(
+                        keyword: keyword,
+                        viewModel: DependencyContainer.shared.makeTrendsViewModel(),
+                        navigationPath: $navigationPath
+                    )
+                case .dataAnalyse(let topic):
+                    DataAnalyseView(topic: topic)
+                }
+            }
+            .navigationDestination(for: TrendsNavigationDestination.self) { destination in
+                switch destination {
+                case .trendDetail(let keyword):
+                    TrendDetailView(
+                        keyword: keyword,
+                        viewModel: DependencyContainer.shared.makeTrendsViewModel(),
+                        navigationPath: $navigationPath
+                    )
+                case .topicDetail(let topic):
+                    TopicDetailView(topic: topic, navigationPath: $navigationPath)
                 }
             }
             .task {

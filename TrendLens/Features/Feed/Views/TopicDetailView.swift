@@ -1,7 +1,6 @@
 //
 //  TopicDetailView.swift
 //  TrendLens
-//
 
 import SwiftUI
 
@@ -16,6 +15,7 @@ struct TopicDetailView: View {
     // MARK: - Properties
 
     let topic: TrendTopicEntity
+    @Binding var navigationPath: NavigationPath
 
     // MARK: - State
 
@@ -24,11 +24,13 @@ struct TopicDetailView: View {
     @State private var isLoadingDetail = false
     @State private var didAttemptDetailLoad = false
     @State private var favoriteTrigger = false
+    @State private var linkedKeywords: [TrendKeywordEntity] = []
 
     // MARK: - Init
 
-    init(topic: TrendTopicEntity) {
+    init(topic: TrendTopicEntity, navigationPath: Binding<NavigationPath>) {
         self.topic = topic
+        self._navigationPath = navigationPath
         self._isFavorite = State(initialValue: topic.isFavorite)
         self._displayTopic = State(initialValue: topic)
     }
@@ -42,7 +44,7 @@ struct TopicDetailView: View {
                     .padding(.bottom, DesignSystem.Spacing.md)
 
                 Text(displayTopic.title)
-                    .font(.title2.weight(.bold))
+                    .font(.title2.bold())
                     .foregroundStyle(.primary)
                     .lineLimit(nil)
                     .padding(.bottom, DesignSystem.Spacing.lg)
@@ -60,7 +62,7 @@ struct TopicDetailView: View {
 
                 contentSection
 
-                if !displayTopic.tags.isEmpty {
+                if !displayTopic.tags.isEmpty || !linkedKeywords.isEmpty {
                     tagsSection
                         .padding(.top, DesignSystem.Spacing.xl)
                 }
@@ -102,6 +104,7 @@ struct TopicDetailView: View {
         .sensoryFeedback(.success, trigger: favoriteTrigger)
         .task(id: topic.id) {
             await loadTopicDetailIfNeeded()
+            await loadLinkedKeywords()
         }
     }
 }
@@ -281,19 +284,45 @@ private extension TopicDetailView {
 
     var tagsSection: some View {
         VStack(alignment: .leading, spacing: DesignSystem.Spacing.sm) {
-            Text("相关标签")
-                .font(.subheadline.weight(.medium))
-                .foregroundStyle(.secondary)
+            // 趋势关键词（可点击，有数据）
+            if !linkedKeywords.isEmpty {
+                Label("趋势关键词", systemImage: "chart.line.uptrend.xyaxis")
+                    .font(.subheadline.weight(.medium))
+                    .foregroundStyle(.secondary)
 
-            FlowLayout(spacing: DesignSystem.Spacing.xs) {
-                ForEach(displayTopic.tags, id: \.self) { tag in
-                    Text("#\(tag)")
-                        .font(.subheadline.weight(.medium))
-                        .foregroundStyle(.primary)
-                        .padding(.horizontal, DesignSystem.Spacing.sm)
+                FlowLayout(spacing: DesignSystem.Spacing.xs) {
+                    ForEach(linkedKeywords) { keyword in
+                        Button {
+                            navigationPath.append(FeedNavigationDestination.trendDetail(keyword))
+                        } label: {
+                            TrendKeywordTag(keyword: keyword)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+            }
+
+            // 内容标签（静态）
+            if !displayTopic.tags.isEmpty {
+                if !linkedKeywords.isEmpty {
+                    Divider()
                         .padding(.vertical, DesignSystem.Spacing.xs)
-                        .background(Color.gray.opacity(0.12))
-                        .clipShape(Capsule())
+                }
+
+                Label("相关标签", systemImage: "tag")
+                    .font(.subheadline.weight(.medium))
+                    .foregroundStyle(.secondary)
+
+                FlowLayout(spacing: DesignSystem.Spacing.xs) {
+                    ForEach(displayTopic.tags, id: \.self) { tag in
+                        Text("#\(tag)")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                            .padding(.horizontal, DesignSystem.Spacing.sm)
+                            .padding(.vertical, DesignSystem.Spacing.xs)
+                            .background(Color.gray.opacity(0.12))
+                            .clipShape(Capsule())
+                    }
                 }
             }
         }
@@ -324,6 +353,37 @@ private extension TopicDetailView {
         .padding(DesignSystem.Spacing.md)
         .background(DesignSystem.Neutral.container(colorScheme))
         .clipShape(RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.medium))
+    }
+}
+
+// MARK: - Trend Keyword Tag
+
+struct TrendKeywordTag: View {
+
+    let keyword: TrendKeywordEntity
+
+    var body: some View {
+        HStack(spacing: 4) {
+            Image(systemName: keyword.trendDirection.icon)
+                .font(.caption2)
+                .foregroundStyle(directionColor)
+
+            Text(keyword.keyword)
+                .font(.subheadline)
+                .foregroundStyle(.primary)
+        }
+        .padding(.horizontal, DesignSystem.Spacing.sm)
+        .padding(.vertical, DesignSystem.Spacing.xs)
+        .background(Color.accentColor.opacity(0.1))
+        .clipShape(Capsule())
+    }
+
+    private var directionColor: Color {
+        switch keyword.trendDirection {
+        case .rising: .green
+        case .falling: .red
+        case .stable: .secondary
+        }
     }
 }
 
@@ -373,12 +433,18 @@ private extension TopicDetailView {
         )
         isFavorite = displayTopic.isFavorite
     }
+
+    func loadLinkedKeywords() async {
+        let useCase = DependencyContainer.shared.makeFetchTrendsUseCase()
+        linkedKeywords = (try? await useCase.fetchLinkedKeywords(for: topic.id)) ?? []
+    }
 }
 
 // MARK: - Preview
 
 #Preview("Topic Detail - 完整内容") {
-    NavigationStack {
+    @Previewable @State var path = NavigationPath()
+    NavigationStack(path: $path) {
         TopicDetailView(topic: TrendTopicEntity(
             id: "preview-1",
             platform: .weibo,
@@ -395,6 +461,6 @@ private extension TopicDetailView {
             content: "据最新消息，该事件已引发社会各界广泛关注。多位业内专家表示，这一现象反映了当前社会发展的某些深层趋势。",
             imageURLs: ["https://picsum.photos/seed/1/800/600", "https://picsum.photos/seed/2/800/600"],
             comments: Comment.generateMockComments(count: 5)
-        ))
+        ), navigationPath: $path)
     }
 }

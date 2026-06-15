@@ -41,7 +41,7 @@ struct TrendsView: View {
                 case .trendDetail(let keyword):
                     TrendDetailView(keyword: keyword, viewModel: viewModel, navigationPath: $navigationPath)
                 case .topicDetail(let topic):
-                    TopicDetailView(topic: topic)
+                    TopicDetailView(topic: topic, navigationPath: $navigationPath)
                 }
             }
             .task {

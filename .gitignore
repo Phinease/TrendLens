@@ -30,7 +30,9 @@ Packages/
 backend/config/supabase.yaml
 backend/config/jina.yaml
 backend/config/secrets.yaml
+backend/config/google_cookies.txt
 TrendLens/Config/Secrets.xcconfig
+.claude/settings.local.json
 
 # Python backend
 backend/logs/

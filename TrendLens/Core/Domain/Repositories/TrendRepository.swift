@@ -12,4 +12,7 @@ protocol TrendRepository: Sendable {
 
     /// 获取关键词关联的话题列表
     func fetchLinkedTopics(for keywordId: String) async throws -> [TrendTopicEntity]
+
+    /// 获取话题关联的趋势关键词（含趋势数据）
+    func fetchLinkedKeywords(for topicKey: String) async throws -> [TrendKeywordEntity]
 }
